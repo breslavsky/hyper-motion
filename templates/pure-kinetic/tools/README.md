@@ -155,6 +155,11 @@ package manager as CI). Do not upgrade the vendor as a routine test repair.
 
 ## Frozen references and import tools
 
+> Kinetic's own engine and plans (`kinetic/reference/`), the comparison of the
+> compiler against them (`kinetic/plans.test.js`) and the tool that reads a new
+> upstream bundle (`kinetic/extract.py`) are not published: they are kept and
+> run where the library is developed. What follows describes them for that place.
+
 `kinetic/reference/` is historical test input. Its plan compiler and plans are
 used by `kinetic/plans.test.js`; its raw drawing files are used by
 `kinetic/frames.mjs`. `kinetic/templates.json` and `kinetic/samples.json` also

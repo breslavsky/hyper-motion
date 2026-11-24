@@ -79,5 +79,16 @@ each part.
 
 ## Licence
 
-No licence has been chosen for the library's own code yet. Third-party parts
-keep their own licences, named in the `SOURCE.json` files.
+The library's own code is under the [MIT License](LICENSE).
+
+Parts taken from elsewhere keep their own terms, and the MIT License does not
+replace them. Each is named, with its source and licence, in the `SOURCE.json`
+next to it. Most are MIT, Apache-2.0, ISC, CC0 or the OFL (the fonts). Three
+are not plain open-source licences:
+
+- **GSAP** is under the [Standard GreenSock License](https://gsap.com/community/standard-license/).
+- **The `comic` text scene** is a port of Pixel UI's Comic Glitch Text, whose
+  licence is MIT with the Commons Clause and an attribution condition; it is
+  here by its author's permission. Credit: [Pixel UI](https://pixelui.dev).
+- **The plan compiler and the scenes rewritten from Kinetic** (LaunchLoop) are
+  here by agreement with its author.

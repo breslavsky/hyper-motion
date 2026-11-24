@@ -125,7 +125,9 @@ async function imageRefraction(page) {
       }
       return {shift:best,correlation:high};
     };
-    return [shiftAt(.14,.34),shiftAt(.66,.86)];
+    // The traced slab is flat across its middle and bends what is behind it
+    // where its edge curves: read the two rims.
+    return [shiftAt(.02,.12),shiftAt(.88,.98)];
   });
 }
 
@@ -176,7 +178,9 @@ try {
   await page.select('.pk-background select','component'); await ready(page);
   console.log('local video upload, portable recipe and reset passed');
   for (const material of ['glass','dark-glass']) {
-    await page.goto(storyURL('glass-ask--preview',material)); await ready(page);
+    // With the camera at rest: an orbiting camera tilts the slab, which
+    // carries the whole picture to one side and hides the rims' own bend.
+    await page.goto(storyURL('glass-ask--variant-camera-static',material)); await ready(page);
     await uploadStripeChart(page);
     const [left,right] = await imageRefraction(page);
     assert.ok(left.shift*right.shift<0 && Math.min(left.correlation,right.correlation)>.7,
