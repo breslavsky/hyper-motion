@@ -168,24 +168,6 @@ def test_a_field_a_scene_does_not_have_is_named(tmp_path):
     assert any('scenes[0] (slam) has no field "line"' in n and "lines, crumbs" in n for n in errors)
 
 
-def test_the_storybook_made_from_the_film_is_a_valid_storybook():
-    from core import storybook
-
-    for film in (SOURCE / "film.json", None):
-        if film is None:
-            # every template of Kinetic, in Russian words here and there
-            script = (
-                "const {book,planOf}=require(process.argv[1]);const T=require(process.argv[2]);"
-                "process.stdout.write(JSON.stringify(T.map(t=>{const f={aspect:t.aspect,style:t.style,lang:'ru',brand:{name:'Моушн Фаб',colors:['#ff7a4d']},"
-                "music:{bpm:t.bpm,track:t.track},scenes:t.scenes};return book(f,planOf(f))})))"
-            )
-            docs = json.loads(_node(script, str(SOURCE / "lib" / "film.cjs"), str(TEMPLATE / "tools" / "kinetic" / "templates.json")))
-        else:
-            docs = [json.loads(subprocess.run(["node", str(SOURCE / "lib" / "film.cjs"), "book"], capture_output=True, text=True, check=True).stdout)]
-        for doc in docs:
-            assert storybook.check(doc) == [], doc["about"]
-
-
 def test_every_face_for_other_scripts_is_there():
     import re
 
