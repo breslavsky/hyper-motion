@@ -294,8 +294,8 @@ test('material stories compare Glass, Dark Glass and Metal on each shared 3D com
     const item = entry(theme.type);
     assert.equal(item.renderMode,'webgl');
     assert.ok(item.source.endsWith('/glass/components.mjs'));
-    assert.equal(theme.title,`Materials/${item.type}`);
-    const code = fs.readFileSync(path.join(tooling, 'generated', `theme-material-${theme.type}.stories.mjs`), 'utf8');
+    assert.equal(theme.title,`Glass/${item.type}`);
+    const code = fs.readFileSync(path.join(tooling, 'generated', `${theme.type}.stories.mjs`), 'utf8');
     assert.ok(code.includes(`title: ${JSON.stringify(theme.title)}`));
     assert.deepEqual(theme.variants.map(variant => variant.globals), MATERIALS.map(material => ({material})));
     if (MATERIALS.includes('dark-glass')) assert.deepEqual(theme.variants.find(variant => variant.globals.material === 'dark-glass'),
@@ -313,8 +313,7 @@ test('material stories compare Glass, Dark Glass and Metal on each shared 3D com
     }
   }
   const generatedComparisons=fs.readdirSync(path.join(tooling,'generated')).filter(name=>name.startsWith('theme-material-')).sort();
-  assert.deepEqual(generatedComparisons,MATERIAL_COMPONENTS.map(type=>`theme-material-${type}.stories.mjs`).sort(),
-    'Preparation must remove obsolete Typography and CTA comparisons');
+  assert.deepEqual(generatedComparisons,[],'The materials are examples of each scene, not stories of their own');
   assert.throws(() => makeFilm(entry('title'), {}, {material: 'bronze'}), /Unknown material/i);
 });
 

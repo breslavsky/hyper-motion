@@ -36,8 +36,8 @@ are read without modification; generated copies live only in this tool's
 ignored build directories. Rebuild when changing the selection.
 
 - The toolbar offers **format** (16:9, 9:16 or 1:1), an optional **brandbook**,
-  and **3D material** (As in the example, Glass, Dark Glass or Metal). On a
-  **Materials** page each named example starts on its own material and the
+  and **3D material** (As in the example, Glass, Dark Glass or Metal). A Glass
+  scene's examples **Glass**, **Dark Glass** and **Metal** start on their own material and the
   toolbar switches all of them; elsewhere "As in the example" is Glass. The material applies to the shared
   Liquid Glass components, currently `island`, `controls`, `ask`, `lens`, `glass-flow`, `send-prompt` and `search`.
   Ordinary DOM typography, buttons and cards keep their normal appearance.
@@ -113,7 +113,7 @@ ignored build directories. Rebuild when changing the selection.
   texture across its cards; the native timeline drives both rim and halo.
   The finish follows the same capsule/card morphs. Metal surfaces are opaque
   across cards, lenses and controls. Dark Glass adds a smoky tint to the
-  refracted background. Select **Materials → controls → Dark Glass** for the
+  refracted background. Select **Glass → controls → Dark Glass** for the
   switch and slider example. Glass traces every panel as a thick slab with a
   fully rounded edge; it shows best over a photo or a video background.
   The kit documents the shared spacing, camera and material rules in its

@@ -1,5 +1,5 @@
 export default {
-  title: 'Materials/References',
+  title: 'Glass/References',
   globals: {aspect: 'square', brandbook: '__default__', material: 'dark-glass'},
   parameters: {layout: 'fullscreen', controls: {disable: true}},
 };

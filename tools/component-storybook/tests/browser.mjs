@@ -71,9 +71,9 @@ assert.deepEqual([...variants.keys()].sort(), catalogue.flatMap(entry => [...ent
 for (const entry of catalogue) for (const variant of [...entry.variants, ...entry.examples]) {
   assert.equal(variants.get(`${entry.type}:${variant.exportName}`).name, variant.name, 'CSF index must preserve the named variant label');
 }
-const themeStories = new Map(Object.values(index.entries).filter(entry => entry.type === 'story' && entry.title.startsWith('Materials/'))
+const themeStories = new Map(Object.values(index.entries).filter(entry => entry.type === 'story' && (entry.title === 'Glass/References' || themes.some(theme => theme.title === entry.title && theme.variants.some(variant => variant.exportName === entry.exportName))))
   .map(entry => [`${entry.title}:${entry.exportName}`, entry]));
-const darkSpecimen = 'Materials/References:DarkButtonGlass';
+const darkSpecimen = 'Glass/References:DarkButtonGlass';
 const materialKeys = themes.flatMap(theme => theme.variants.map(variant => `${theme.title}:${variant.exportName}`));
 if (MATERIALS.includes('dark-glass')) materialKeys.push(darkSpecimen);
 assert.deepEqual([...themeStories.keys()].sort(), materialKeys.sort(), 'Material index must cover the native examples and reference specimens');
@@ -190,6 +190,29 @@ async function ready(page) {
   });
 }
 
+// How far apart two pictures of the player are: the largest difference of a
+// channel and how many pixels differ at all. Under load Chromium rounds an
+// antialiased edge one step differently, which is no difference to see.
+async function pictureDistance(page, one, other) {
+  return page.evaluate(async (one, other) => {
+    const read = async data => {
+      const bitmap = await createImageBitmap(new Blob([Uint8Array.from(atob(data), char => char.charCodeAt(0))], {type: 'image/png'}));
+      const context = new OffscreenCanvas(bitmap.width, bitmap.height).getContext('2d');
+      context.drawImage(bitmap, 0, 0);
+      return context.getImageData(0, 0, bitmap.width, bitmap.height);
+    };
+    const [a, b] = await Promise.all([read(one), read(other)]);
+    if (a.width !== b.width || a.height !== b.height) return {max: 255, pixels: a.width * a.height};
+    let max = 0, pixels = 0;
+    for (let i = 0; i < a.data.length; i += 4) {
+      const d = Math.max(Math.abs(a.data[i] - b.data[i]), Math.abs(a.data[i + 1] - b.data[i + 1]), Math.abs(a.data[i + 2] - b.data[i + 2]), Math.abs(a.data[i + 3] - b.data[i + 3]));
+      if (d) pixels++;
+      if (d > max) max = d;
+    }
+    return {max, pixels};
+  }, Buffer.from(one).toString('base64'), Buffer.from(other).toString('base64'));
+}
+
 async function seekSnapshot(page, fraction) {
   const requested = await page.evaluate(fraction => {
     const player = document.querySelector('hyperframes-player');
@@ -231,8 +254,8 @@ async function seekSnapshot(page, fraction) {
   assert.ok(state.paused, 'Native player must remain paused while seeking');
   assert.deepEqual(state.errors, [], 'Native component reported an error');
   const player = await page.$('hyperframes-player');
-  const pixelHash = hash(await player.screenshot());
-  return {time: state.time, domHash: hash(state.html), pixelHash, canvasHashes: state.canvases.map(canvas => ({width: canvas.width, height: canvas.height, sha256: hash(canvas.pixels), ...(canvas.metal ? {metal: canvas.metal, kind: canvas.kind} : {})})), text: state.text, textCount: state.textCount};
+  const picture = await player.screenshot(), pixelHash = hash(picture);
+  return {time: state.time, domHash: hash(state.html), pixelHash, picture, canvasHashes: state.canvases.map(canvas => ({width: canvas.width, height: canvas.height, sha256: hash(canvas.pixels), ...(canvas.metal ? {metal: canvas.metal, kind: canvas.kind} : {})})), text: state.text, textCount: state.textCount};
 }
 
 async function capture(page, filename) {
@@ -740,7 +763,8 @@ async function runCase(type, aspect, variant) {
     // story; require it for retype, the canary proving that pruning its hidden
     // selection layers does not hide a visible forward/reverse difference.
     if (type === 'retype') {
-      assert.equal(again.pixelHash, first.pixelHash, 'Retype hidden-layer history changed rendered pixels');
+      row.seekDistance = await pictureDistance(session.page, first.picture, again.picture);
+      assert.ok(row.seekDistance.max <= 1, `Retype hidden-layer history changed rendered pixels: ${JSON.stringify(row.seekDistance)}`);
       assert.notEqual(middle.pixelHash, first.pixelHash, 'Retype seek did not visibly change the frame');
     }
     assert.deepEqual(again.canvasHashes, first.canvasHashes, 'Seeking backwards changed canvas pixels');
@@ -1307,6 +1331,7 @@ async function glassControlsAndCleanup() {
           : type === 'ask' ? {text: 'Which day?', reply: 'Tuesday', camera: 'static'}
           : type === 'search' ? {query: 'Thursday workshops', timing: {search: 2.5, collapse: 4, collapsed: 5, checked: 5.65}}
           : type === 'send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
+          : type === 'glass-steps' ? {title: 'Three steps', items: ['Shoot it', 'Cut it', 'Share it'], camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');

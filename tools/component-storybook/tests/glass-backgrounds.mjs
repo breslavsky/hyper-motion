@@ -185,16 +185,16 @@ try {
   }
   // Storybook can recreate its preview iframe during navigation. The selected
   // file belongs to this example and remains available when it is reopened.
-  const managerURL=new URL(base);managerURL.searchParams.set('path','/story/materials-ask--glass');
+  const managerURL=new URL(base);managerURL.searchParams.set('path','/story/glass-ask--glass');
   await page.goto(managerURL.href);
   const preview=async ()=>(await page.waitForSelector('#storybook-preview-iframe')).contentFrame();
   let frame=await preview();await ready(frame);
   await (await frame.$('.pk-background input[type=file]')).uploadFile(mediaFile);
   await ready(frame,'video','assets/glass-street.mp4');
-  await page.click('#materials-ask--dark-glass');
+  await page.click('#glass-ask--dark-glass');
   frame=await preview();await frame.waitForFunction(()=>document.querySelector('hyperframes-player')?.iframeElement.contentWindow.__storybookComponent?.film.material==='dark-glass');
   await ready(frame);
-  await page.click('#materials-ask--glass');
+  await page.click('#glass-ask--glass');
   frame=await preview();await ready(frame,'video','assets/glass-street.mp4');
   assert.ok((await measure(frame,.7)).file.startsWith('blob:'));
   await frame.select('.pk-background select','component');await ready(frame);

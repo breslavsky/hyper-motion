@@ -9,7 +9,7 @@ const storyLinks = head => !renamed ? head : (head ?? '') + String.raw`<script>
     for (const key of ['path', 'id']) {
       const value = url.searchParams.get(key);
       if (!value) continue;
-      const next = value.replace(/^(\/?(?:story|docs)\/)?(pure-kinetic-glass-|glass-|materials-)glass-pullback--/, '$1$2send-prompt--');
+      const next = value.replace(/^(\/?(?:story|docs)\/)?(pure-kinetic-glass-|glass-)glass-pullback--/, '$1$2send-prompt--');
       if (next !== value) url.searchParams.set(key, next);
     }
     if (url.href !== location.href) history.replaceState(history.state, '', url.href);

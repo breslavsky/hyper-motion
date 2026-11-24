@@ -68,13 +68,21 @@ export function readCatalogOptions(catalog = read('source/lib/components/catalog
 }
 
 /** Material previews reuse production components, samples and field controls. */
+// The sidebar has three sections of scenes: Glass, the scenes drawn in depth
+// (Three.js and the wall under a lens) as 3D, and every other family as a
+// folder of Pure Kinetic.
+const SECTIONS = {glass: 'Glass', three: '3D', 'lens-wall': '3D'};
+export const storyTitle = entry => SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.family}/${entry.type}`;
+
+// The materials a 3D Glass scene is shown in: named examples of the scene's
+// own page (Glass, Dark Glass, Metal), not a section of their own.
 export function readThemePreviews(catalog = readCatalog(), settings = readCatalogOptions()) {
   return settings.materialComponents.map(type => {
     const entry = catalog.find(item => item.type === type);
     if (!entry) throw new Error(`Material preview needs canonical component ${type}`);
     if (entry.renderMode !== 'webgl') throw new Error(`Material preview needs the 3D implementation of ${type}`);
     return {
-      type, title: `Materials/${type}`,
+      type, title: storyTitle(entry),
       variants: settings.materials.map(material => {
         const words = material.split('-').map(word => word[0].toUpperCase() + word.slice(1));
         return {exportName: words.join(''), name: words.join(' '), globals: {material}};
