@@ -1,0 +1,81 @@
+{
+  "schema": "pk-hyperframes-v1",
+  "buildMark": "5989144785045da92d19add4e4590430efc44b551b63010d8b6504f3e3191384",
+  "width": 1080,
+  "height": 1920,
+  "duration": 15.234375,
+  "clips": [
+    {
+      "id": "s1",
+      "type": "slam",
+      "start": 0,
+      "duration": 2.0297
+    },
+    {
+      "id": "s2",
+      "type": "fullbleed",
+      "start": 1.7203,
+      "duration": 1.0922
+    },
+    {
+      "id": "s3",
+      "type": "scatter",
+      "start": 2.8125,
+      "duration": 2.8125
+    },
+    {
+      "id": "s4",
+      "type": "agent",
+      "start": 5.625,
+      "duration": 3.43595
+    },
+    {
+      "id": "s5",
+      "type": "marquee",
+      "start": 8.75155,
+      "duration": 2.2572
+    },
+    {
+      "id": "s6",
+      "type": "slam",
+      "start": 10.55375,
+      "duration": 2.1025
+    },
+    {
+      "id": "s7",
+      "type": "endcard",
+      "start": 12.65625,
+      "duration": 2.578125
+    }
+  ],
+  "definitions": {
+    "slam-2_0297.html": {
+      "type": "slam",
+      "duration": 2.0297
+    },
+    "fullbleed-1_0922.html": {
+      "type": "fullbleed",
+      "duration": 1.0922
+    },
+    "scatter-2_8125.html": {
+      "type": "scatter",
+      "duration": 2.8125
+    },
+    "agent-3_43595.html": {
+      "type": "agent",
+      "duration": 3.43595
+    },
+    "marquee-2_2572.html": {
+      "type": "marquee",
+      "duration": 2.2572
+    },
+    "slam-2_1025.html": {
+      "type": "slam",
+      "duration": 2.1025
+    },
+    "endcard-2_578125.html": {
+      "type": "endcard",
+      "duration": 2.578125
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "note": "Original proof-of-concept implementation of a switch, persistent ball actor and slider in one event-driven world. The public recipe informed the visual and interaction direction; its video and source code are not redistributed. Fonts are copied with their existing provenance manifest. Sound provenance is carried in assets/ui-world-audio/SOURCE.json in each generated project.",
+  "sources": [
+    {"name":"Looping UI Ball Ride Through an App Interface","url":"https://www.motionfab.app/en/prompts/looping-ui-ball-ride-through-an-app-interface","license":"Public reference; no media or code copied","taken":"followed","note":"Switch-to-slider choreography, near-black/pink palette, one white actor and a shared camera."},
+    {"name":"GSAP","url":"https://github.com/greensock/GSAP","version":"3.14.2","license":"Standard GreenSock License","taken":"vendored","note":"Generated projects copy the pinned, unmodified browser distribution from the sibling Pure Kinetic component package."}
+  ]
+}

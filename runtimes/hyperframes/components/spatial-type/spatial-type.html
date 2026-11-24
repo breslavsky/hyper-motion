@@ -1,0 +1,25 @@
+<!doctype html>
+<html data-composition-id="spatial-type" data-composition-duration="6" data-composition-variables='[{"id":"config","type":"string","label":"Recipe overrides (JSON)","default":""}]'>
+<body><template>
+<style>#root{position:absolute;inset:0}#spatial-type-mount{position:absolute;inset:0}#spatial-type-mount canvas{width:100%;height:100%;display:block}</style>
+<div id="root" data-composition-id="spatial-type" data-duration="6" data-width="1920" data-height="1080">
+  <div id="spatial-type-mount"><canvas aria-label="Spatial typography"></canvas></div>
+  <script>(function(){
+    const root=document.getElementById('spatial-type-mount');
+    const host=root.closest('[data-composition-src],[data-composition-file]');
+    const instanceId=host?.dataset.compositionId||'spatial-type';
+    const definition=host?.dataset.compositionSrc||host?.dataset.compositionFile||'./spatial-type.html';
+    const duration=Number(host?.dataset.duration||6);
+    const width=Number(host?.dataset.width||1920),height=Number(host?.dataset.height||1080);
+    root.parentElement.dataset.duration=String(duration);
+    root.parentElement.dataset.width=String(width);root.parentElement.dataset.height=String(height);
+    const runtime=new URL('./native.mjs',new URL(definition,document.baseURI));
+    const variables=window.__hyperframes?.getVariables?.()||{};
+    const setup=import(runtime.href).then(({mount})=>mount(root,{duration,width,height,start:Number(host?.dataset.start||0)},variables,window.gsap)).then(({timeline})=>{
+      window.__timelines=window.__timelines||{};window.__timelines['spatial-type']=timeline;
+    });
+    window.__hf=window.__hf||{};window.__hf.buildReady=window.__hf.buildReady||{};
+    window.__hf.buildReady['spatial-type:'+instanceId]=setup;
+    setup.catch(error=>console.error('Spatial Type failed:',error));
+  })();</script>
+</div></template></body></html>

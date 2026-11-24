@@ -1,0 +1,470 @@
+@font-face {
+	font-family: "Geist";
+	src: url("../fonts/Geist-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+}
+@font-face {
+	font-family: "Geist Mono";
+	src: url("../fonts/GeistMono-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+}
+@font-face {
+	font-family: "Archivo";
+	src: url("../fonts/Archivo-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-stretch: 62% 125%;
+}
+@font-face {
+	font-family: "Instrument Serif";
+	src: url("../fonts/InstrumentSerif-Regular.woff2") format("woff2");
+	font-weight: 400;
+}
+@font-face {
+	font-family: "Instrument Serif";
+	src: url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
+}
+
+.pk-stage {
+	position: relative;
+	flex: none;
+	overflow: hidden;
+	font-family: "Geist", system-ui, sans-serif;
+	font-feature-settings: "ss01", "tnum" 0;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: geometricPrecision;
+	background: transparent;
+}
+:where(.pk-stage) .scene {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	visibility: hidden;
+	will-change: transform, clip-path;
+}
+/* A scene out of sight hides everything in it: a part that sets `visibility: visible` on itself
+   (a chat bubble, a word's layer) shows through a hidden parent otherwise. */
+:where(.pk-stage) .scene:not(.on) * {
+	visibility: hidden !important;
+}
+:where(.pk-stage) .cam,
+:where(.pk-stage) .layer {
+	position: absolute;
+	inset: 0;
+	transform-origin: 0 0;
+}
+:where(.pk-stage) .center {
+	position: absolute;
+	inset: 0;
+	/* Content is centred in the frame's safe area (set by the engine from the plan). */
+	box-sizing: border-box;
+	padding: var(--safe-t, 0) var(--safe-r, 0) var(--safe-b, 0) var(--safe-l, 0);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+/* Type comes from the style (see STYLE_DEFS in shared/timeline.ts), set as variables on .pk-stage. */
+:where(.pk-stage) .display {
+	font-family: var(--fd, "Geist"), "Geist", sans-serif;
+	font-weight: var(--fw, 900);
+	font-stretch: var(--fst, 100%);
+	letter-spacing: var(--ft, -0.055em);
+	line-height: var(--flh, 0.9);
+	text-transform: var(--fcase, none);
+	text-wrap: balance;
+}
+:where(.pk-stage) .bold {
+	font-family: var(--fd, "Geist"), "Geist", sans-serif;
+	font-weight: var(--fb, 820);
+	font-stretch: var(--fst, 100%);
+	letter-spacing: calc(var(--ft, -0.045em) * 0.85);
+	line-height: 0.98;
+	text-transform: var(--fcase, none);
+	text-wrap: balance;
+}
+:where(.pk-stage) .serif {
+	font-family: "Instrument Serif", serif !important;
+	font-style: italic;
+	font-weight: 400 !important;
+	font-stretch: 100% !important;
+	letter-spacing: -0.015em !important;
+	text-transform: none !important;
+}
+:where(.pk-stage) .deco {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+:where(.pk-stage) .overlay-label {
+	position: absolute;
+	z-index: 950;
+	font-family: "Geist Mono", monospace;
+	font-weight: 560;
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+	white-space: nowrap;
+	pointer-events: none;
+}
+:where(.pk-stage) .phone {
+	position: absolute;
+	box-sizing: border-box;
+	background: #0b0b0d;
+	overflow: hidden;
+}
+:where(.pk-stage) .phone .screen {
+	position: absolute;
+	overflow: hidden;
+	background: #fff;
+}
+:where(.pk-stage) .ticket {
+	position: absolute;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+:where(.pk-stage) .stamp {
+	position: absolute;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	font-family: "Geist Mono", monospace;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+:where(.pk-stage) .word {
+	display: inline-block;
+	white-space: nowrap;
+	position: relative;
+}
+:where(.pk-stage) .glyph {
+	display: inline-block;
+	transform-origin: 30% 90%;
+	will-change: transform, opacity;
+}
+:where(.pk-stage) .mono {
+	font-family: "Geist Mono", ui-monospace, monospace;
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	font-weight: 520;
+}
+:where(.pk-stage) .ghost {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	white-space: nowrap;
+	font-family: var(--fd, "Geist"), "Geist", sans-serif;
+	font-weight: var(--fw, 900);
+	font-stretch: var(--fst, 100%);
+	text-transform: var(--fcase, none);
+	letter-spacing: -0.06em;
+	line-height: 1;
+	pointer-events: none;
+}
+
+/* Sky opener: a soft painted sky. */
+:where(.pk-stage) .sky {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, #5aa6ff 0%, #8cc3ff 38%, #cfe6ff 72%, #f3f8ff 100%);
+}
+:where(.pk-stage) .cloud {
+	position: absolute;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.85);
+	filter: blur(38px);
+}
+
+/* Marker swipe behind a word. */
+:where(.pk-stage) .mark {
+	position: absolute;
+	left: -0.08em;
+	right: -0.08em;
+	top: 0.06em;
+	bottom: -0.02em;
+	transform-origin: 0 50%;
+	border-radius: 0.06em;
+}
+:where(.pk-stage) .marktext {
+	position: relative;
+}
+:where(.pk-stage) .markword {
+	position: relative;
+	z-index: 0;
+	display: inline-block;
+}
+
+:where(.pk-stage) .pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	white-space: nowrap;
+}
+
+/* UI pieces. */
+:where(.pk-stage) .chat {
+	position: absolute;
+	background: #ffffff;
+	box-shadow:
+		0 2px 0 rgba(0, 0, 0, 0.04),
+		0 30px 80px rgba(20, 30, 60, 0.18),
+		0 8px 24px rgba(20, 30, 60, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-sizing: border-box;
+	color: #15161a;
+}
+:where(.pk-stage) .chat-text {
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	line-height: 1.25;
+	white-space: pre-wrap;
+	text-align: left;
+}
+:where(.pk-stage) .chat-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+:where(.pk-stage) .chat-tools {
+	display: flex;
+	align-items: center;
+}
+:where(.pk-stage) .chip {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 999px;
+	background: #f1f1f4;
+	color: #50525c;
+	font-weight: 560;
+	letter-spacing: -0.01em;
+}
+:where(.pk-stage) .send {
+	border-radius: 50%;
+	background: #15161a;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+:where(.pk-stage) .caret {
+	display: inline-block;
+	vertical-align: -0.12em;
+	background: currentColor;
+	border-radius: 2px;
+}
+:where(.pk-stage) .cursor {
+	position: absolute;
+	transform-origin: 0 0;
+	filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.28));
+	z-index: 50;
+}
+:where(.pk-stage) .ring {
+	position: absolute;
+	border-radius: 50%;
+	border-style: solid;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	z-index: 49;
+}
+:where(.pk-stage) .card {
+	position: absolute;
+	overflow: hidden;
+	box-sizing: border-box;
+	background: #fff;
+}
+:where(.pk-stage) .card img,
+:where(.pk-stage) img.fill {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top center;
+	display: block;
+}
+:where(.pk-stage) .mock {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	box-sizing: border-box;
+}
+:where(.pk-stage) .tile {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	box-sizing: border-box;
+	backface-visibility: hidden;
+}
+:where(.pk-stage) .tile .idx {
+	position: absolute;
+	font-family: "Geist Mono", monospace;
+	font-weight: 500;
+	opacity: 0.6;
+}
+:where(.pk-stage) .plane {
+	position: absolute;
+	left: 0;
+	top: 0;
+	transform-origin: 0 0;
+}
+:where(.pk-stage) .face {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	backface-visibility: hidden;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+:where(.pk-stage) .outline {
+	color: transparent !important;
+}
+.pk-grain {
+	position: absolute;
+	inset: -10%;
+	pointer-events: none;
+	mix-blend-mode: overlay;
+	z-index: 1000;
+}
+.pk-wipebar {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 900;
+	visibility: hidden;
+}
+/* Collage: everything looks cut out of paper and taped down. */
+:where(.pk-stage) .look-collage .display,
+:where(.pk-stage) .look-collage .bold {
+	filter: drop-shadow(0.06em 0.07em 0 rgba(0, 0, 0, 0.22));
+}
+:where(.pk-stage) .look-collage .card,
+:where(.pk-stage) .look-collage .phone {
+	outline: calc(10px * var(--s, 1)) solid #fffdf7;
+	box-shadow: 0.4em 0.6em 0 rgba(0, 0, 0, 0.18) !important;
+	rotate: -1.6deg;
+}
+:where(.pk-stage) .look-collage .card::after {
+	content: "";
+	position: absolute;
+	top: -0.9em;
+	left: 50%;
+	width: 7em;
+	height: 1.8em;
+	translate: -50% 0;
+	rotate: -4deg;
+	background: rgba(255, 244, 200, 0.7);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+	z-index: 5;
+}
+
+/* Sketch: ink outlines that boil, no soft shadows. */
+:where(.pk-stage) .look-sketch .cam {
+	filter: var(--pk-boil, none);
+}
+:where(.pk-stage) .look-sketch .card,
+:where(.pk-stage) .look-sketch .phone,
+:where(.pk-stage) .look-sketch .mock {
+	box-shadow: none !important;
+	border: 3px solid #1d1d1f;
+}
+:where(.pk-stage) .look-sketch .display,
+:where(.pk-stage) .look-sketch .bold {
+	-webkit-text-stroke: 0.012em #1d1d1f;
+}
+
+/* Post: bloom glows display type in the scene's colours (--glow-*, set per scene). */
+:where(.pk-stage) .fx-bloom :is(.display, .bold) {
+	text-shadow:
+		0 0 calc(0.04em * var(--bloom, 1)) var(--glow-fg),
+		0 0 calc(0.28em * var(--bloom, 1)) var(--glow),
+		0 0 calc(0.8em * var(--bloom, 1)) var(--glow-soft);
+}
+/* Post: chromatic aberration; --ab (px) kicks on every beat. */
+:where(.pk-stage) .fx-ab :is(.display, .bold) {
+	text-shadow:
+		calc(var(--pk-transition-ab, var(--ab, 0)) * -1px) 0 0 rgba(255, 32, 86, 0.78),
+		calc(var(--pk-transition-ab, var(--ab, 0)) * 1px) 0 0 rgba(0, 224, 255, 0.78);
+}
+:where(.pk-stage) .fx-bloom.fx-ab :is(.display, .bold) {
+	text-shadow:
+		calc(var(--pk-transition-ab, var(--ab, 0)) * -1px) 0 0 rgba(255, 32, 86, 0.78),
+		calc(var(--pk-transition-ab, var(--ab, 0)) * 1px) 0 0 rgba(0, 224, 255, 0.78),
+		0 0 calc(0.28em * var(--bloom, 1)) var(--glow),
+		0 0 calc(0.8em * var(--bloom, 1)) var(--glow-soft);
+}
+:where(.pk-stage) .fx-ab :is(.card, .mock, .phone) {
+	filter: drop-shadow(calc(var(--pk-transition-ab, var(--ab, 0)) * -1px) 0 0 rgba(255, 32, 86, 0.55)) drop-shadow(calc(var(--pk-transition-ab, var(--ab, 0)) * 1px) 0 0 rgba(0, 224, 255, 0.55));
+}
+
+/* Chrome: liquid-metal type, a sky reflection band across every letter, a cold glow. */
+:where(.pk-stage) .fx-chrome :is(.display, .bold) :is(.glyph, .word:not(:has(.glyph, .markword))) {
+	background: linear-gradient(180deg, #ffffff 0%, #dfe7ee 30%, #8d99a6 46%, #2c323a 52%, #6f7c8a 60%, #e9f3ff 78%, #9fb2c4 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+:where(.pk-stage) .fx-chrome :is(.display, .bold) {
+	filter: drop-shadow(0 0.015em 0 rgba(255, 255, 255, 0.35)) drop-shadow(0 0 0.18em rgba(90, 176, 255, 0.35));
+}
+
+/* Metal uses a shader texture at native timeline time. Browser text masks keep
+   glyph shaping and antialiasing at output resolution, even during entrances. */
+:where(.pk-stage) .pk-metal-fill {
+	background-color: currentColor !important;
+	/* Upstream MetalText uses metalOpacity .62 over the declared text colour.
+	   Preserve that base contribution so the dark reflection bands cannot
+	   erase a heading against a dark housing (or bleach it on a light one). */
+	background-image: linear-gradient(color-mix(in srgb, currentColor 38%, transparent), color-mix(in srgb, currentColor 38%, transparent)), var(--pk-metal-image) !important;
+	background-size: var(--pk-metal-text-size, 100% 100%) !important;
+	background-position: var(--pk-metal-text-position, 0 0) !important;
+	background-repeat: no-repeat !important;
+	-webkit-background-clip: text !important;
+	background-clip: text !important;
+	-webkit-text-fill-color: transparent;
+	-webkit-text-stroke: 0.3px rgba(255,255,255,0.24);
+}
+:where(.pk-stage) [data-metal-theme="light"] .pk-metal-fill {
+	-webkit-text-stroke-color: rgba(0,0,0,0.2);
+}
+:where(.pk-stage) .pk-metal-surface::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	padding: var(--pk-metal-rim);
+	box-sizing: border-box;
+	background: var(--pk-metal-image) center / 100% 100%;
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	pointer-events: none;
+	z-index: 2;
+}
+:where(.pk-stage) .pk-metal-panel {
+	background: linear-gradient(145deg, #303238, #181a20 56%, #25272e) !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+	border-color: rgba(255,255,255,0.12) !important;
+}
+:where(.pk-stage) .pk-metal-panel[data-metal-panel-theme="light"] {
+	background: linear-gradient(145deg, #fff, #dfe2e7 56%, #f5f6f8) !important;
+	border-color: rgba(0,0,0,0.12) !important;
+}
+
+/* Native scene hosts own size and visibility; the film root owns grade and overlays. */
+.pk-stage {position:absolute;inset:0;isolation:isolate;}
+.pk-film {position:absolute;inset:0;overflow:hidden;isolation:isolate;background:#f4f0e6;}
+.pk-film-overlays {position:absolute;inset:0;pointer-events:none;isolation:auto;z-index:auto;}
+.pk-filter-defs {position:absolute;width:0;height:0;overflow:visible;pointer-events:none;}
+.pk-stage[data-brand-font], .pk-stage[data-brand-font] * {font-family:var(--pk-role-font,var(--fd))!important;}

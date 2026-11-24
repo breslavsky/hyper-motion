@@ -1,0 +1,27 @@
+{
+  "id": "idea-to-action",
+  "name": "From Idea to Action",
+  "description": "A title, typed text, an expanding card and a finale — four scenes on one timeline. Use the toolbar to switch formats; this example uses a fixed visual style.",
+  "labels": ["Idea", "Typing", "Card", "Finale"],
+  "globals": {"brandbook": null, "material": null},
+  "film": {
+    "aspect": "16:9",
+    "lang": "en",
+    "style": "editorial",
+    "pace": "normal",
+    "grain": false,
+    "sparks": false,
+    "brand": {
+      "name": "Pure Kinetic",
+      "font": "Geist",
+      "tokens": {"background": "#101419", "foreground": "#f3f5ef", "accent": "#b9f24a", "accent2": "#83d5ff"}
+    },
+    "music": {"bpm": 108, "track": "none"},
+    "scenes": [
+      {"type": "title", "beats": 4, "text": "Start with an *idea*", "sub": "From thought to action", "plain": true},
+      {"type": "typewriter", "beats": 6, "text": "Capture a thought. Give it shape.", "in": "glide", "plain": true},
+      {"type": "modal-morph", "beats": 8, "eyebrow": "Next step", "title": "An idea takes shape", "body": "Words become a card. Motion connects the story.", "cta": "Continue", "register": "calm", "in": "open", "plain": true},
+      {"type": "endcard", "beats": 6, "tagline": "Four scenes. One rhythm.", "cta": "Create your own story", "in": "circle", "plain": true}
+    ]
+  }
+}

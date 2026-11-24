@@ -1,0 +1,54 @@
+{
+  "repository": "https://github.com/heygen-com/hyperframes",
+  "commit": "29a5003eebdd1a1a01e4d1a4e3f375da93b078ab",
+  "retrieved": "2026-11-21",
+  "cliVersion": "0.9.19",
+  "license": "Apache-2.0",
+  "licenseSource": "https://raw.githubusercontent.com/heygen-com/hyperframes/29a5003eebdd1a1a01e4d1a4e3f375da93b078ab/LICENSE",
+  "licenseSha256": "4259155fb06f127687ee7b0a8a3682d45132db0f2da26cbc0b7a2d1e796436b8",
+  "notice": "No NOTICE file exists in the pinned repository tree or component directories. Original HTML, README files and manifests are archived under tools/upstream, outside renderable source so Studio cannot discover them as extra compositions. This provenance receipt and license accompany the adapted runtime.",
+  "modifications": "Modified for Pure Kinetic: instance-local draw functions, typed content, measured responsive layout, brand tokens, deterministic reverse seeks and declarative shared visual/audio clocks. Upstream rendering mechanics and easing retained where applicable; no upstream runtime, variable globals, remote scripts or sample media executed.",
+  "items": [
+    {
+      "name": "before-after-wipe",
+      "path": "registry/components/before-after-wipe/before-after-wipe.html",
+      "source": "https://raw.githubusercontent.com/heygen-com/hyperframes/29a5003eebdd1a1a01e4d1a4e3f375da93b078ab/registry/components/before-after-wipe/before-after-wipe.html",
+      "sha256": "c04e8bf1bfbcec71d0921a03a786cc09e660732428aa04bf79036a30b7755e09",
+      "manifestSha256": "bf3fa4f66d284c41c06f52190dd7e7e79dba1f41a67e46795b0d3c61a50e374f",
+      "adaptedTo": "../../scenes/registry-content.mjs"
+    },
+    {
+      "name": "screen-flow-carousel",
+      "path": "registry/components/screen-flow-carousel/screen-flow-carousel.html",
+      "source": "https://raw.githubusercontent.com/heygen-com/hyperframes/29a5003eebdd1a1a01e4d1a4e3f375da93b078ab/registry/components/screen-flow-carousel/screen-flow-carousel.html",
+      "sha256": "db49f679a66fb4505e07d395bff8188ae568fbfac36a50c94f1e58fcd925e11a",
+      "manifestSha256": "7ec4ea40e901cd0840ba5d6b189154fc7be0ff36121fab02af3300a53e129d33",
+      "adaptedTo": "../../scenes/registry-motion.mjs"
+    },
+    {
+      "name": "chart-story",
+      "path": "registry/components/chart-story/chart-story.html",
+      "source": "https://raw.githubusercontent.com/heygen-com/hyperframes/29a5003eebdd1a1a01e4d1a4e3f375da93b078ab/registry/components/chart-story/chart-story.html",
+      "sha256": "d65180b77637521ea98676c9af1d59395f1e70ce0d0d5e1f604d02bee2821310",
+      "manifestSha256": "62ebc6f7586075177bba9b44f36d4c9a08864b00a01931187e6d5618cba036fb",
+      "adaptedTo": "../../scenes/registry-data.mjs"
+    },
+    {
+      "name": "testimonial-proof-card",
+      "path": "registry/components/testimonial-proof-card/testimonial-proof-card.html",
+      "source": "https://raw.githubusercontent.com/heygen-com/hyperframes/29a5003eebdd1a1a01e4d1a4e3f375da93b078ab/registry/components/testimonial-proof-card/testimonial-proof-card.html",
+      "sha256": "b22d6ef8a02fefcccc8a48d67f6fe1bc5cc9349789733ca383d08bbf7c172ea5",
+      "manifestSha256": "c8faacebee02e331fb9a9f080b0a6f8c016140aadd7643d95088f46074700135",
+      "adaptedTo": "../../scenes/registry-content.mjs"
+    },
+    {
+      "name": "modal-morph",
+      "path": "registry/components/modal-morph/modal-morph.html",
+      "source": "https://raw.githubusercontent.com/heygen-com/hyperframes/29a5003eebdd1a1a01e4d1a4e3f375da93b078ab/registry/components/modal-morph/modal-morph.html",
+      "sha256": "a932a8deece4bbe231f99010e01800e35564a4d59ca4d59bbce09b1f0be942b4",
+      "manifestSha256": "a0b1a87b24fbd21e8f19863da00ce91cb5861b3c3df77e3703bba7401fb9a6b4",
+      "adaptedTo": "../../scenes/registry-motion.mjs"
+    }
+  ],
+  "archiveRoot": "../../../../../tools/upstream/hyperframes-registry-01"
+}

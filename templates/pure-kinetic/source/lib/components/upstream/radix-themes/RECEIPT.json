@@ -1,0 +1,15 @@
+{
+  "package": "@radix-ui/themes",
+  "version": "3.3.0",
+  "license": "MIT",
+  "tarball": "https://registry.npmjs.org/@radix-ui/themes/-/themes-3.3.0.tgz",
+  "integrity": "sha512-I0/h2CRNTpYNB7Mi3xFIvSsQq5a108d7kK8dTO5zp5b9HR5QJXKag6B8tjpz2ITkVYkFdkGk45doNkSr7OxwNw==",
+  "archiveRoot": "../../../../../tools/upstream/radix-themes-3.3.0",
+  "files": {
+    "tokens/base.css": "8e1671e82366e57f6c3c584164325d81d0d7d963afc6ec59c7080fbe15d1dd25",
+    "src/components/_internal/base-button.css": "b1d99aafad784cb0e02b42890fd5bcab0ee09bbd734e965d59ed8e3c293f2400",
+    "src/components/button.css": "e5a1fe958585311767f760c6d2f7fd17ab7edbb4818549e1c8d0d079c65406a3",
+    "LICENSE": "89e4ae7d91c640c6e8a3ca90ba578d799eb2491b766ed65e0725ba36499d56ba"
+  },
+  "adaptation": "Exact numeric type, spacing and radius tokens; project-owned semantic roles, responsive video scale and deterministic text fitting. No React runtime dependency."
+}

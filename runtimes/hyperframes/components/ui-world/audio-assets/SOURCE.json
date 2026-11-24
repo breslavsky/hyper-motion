@@ -1,0 +1,7 @@
+{
+  "note": "Five small redistributable CC0 effects selected from the repository's pinned sound library. prepare.mjs verifies each original SHA-256, decodes offline to mono PCM16 WAV, trims silence, adds sub-millisecond attack and 4ms tail ramps, and limits each source peak to -3dBFS. catalog.json records source and derived hashes and exact frame counts. No paid service, upload or network request is involved.",
+  "sources": [
+    {"name":"Kenney Interface Sounds","url":"https://kenney.nl/assets/interface-sounds","version":"1.0","license":"CC0-1.0","taken":"adapted","note":"switch.wav from toggle-4, pop.wav from drop-4, tick.wav from tick-1. Original archive SHA-256 f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232. Per-file original and derived hashes in catalog.json."},
+    {"name":"Kenney Impact Sounds","url":"https://kenney.nl/assets/impact-sounds","version":"1.0","license":"CC0-1.0","taken":"adapted","note":"wood.wav from impact-wood-medium-1, ding.wav from impact-bell-heavy-0. Original archive SHA-256 029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8. Per-file original and derived hashes in catalog.json."}
+  ]
+}

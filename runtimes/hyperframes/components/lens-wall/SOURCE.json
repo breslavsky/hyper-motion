@@ -1,0 +1,4 @@
+{
+  "note": "Original Motion Fab component, written from scratch: a wall of tiles under a radial lens (reach(u) = u + (m - 1) * r * sqrt(pi)/2 * erf(u / r), each tile drawn by the lens's Jacobian at its centre), a camera route laid out from the recipe, and opened pictures as plain DOM elements. No third-party code, assets or text. The idea of browsing a poster wall under a bulge is common to several interface libraries; none of their source was read or used. The seven example videos (in the public share bucket, not in the repository) were supplied by the product owner on 2026-11-24 and re-encoded here to 720 px, six seconds, H.264 without sound. Their origin is not recorded.",
+  "sources": []
+}

@@ -1,0 +1,156 @@
+{
+  "schema": "pure-kinetic.surface-motion-delivery.v1",
+  "beforeRevision": "18fe62204dc880afca705a93730183bc2ce9d3ba",
+  "afterRevision": "259d8cca4643eaf24a3d89f6e52a901d1fa3a18e",
+  "hyperframes": "0.9.19",
+  "sourceHashes": {
+    "before": "42d04f682db6bf3e2f3bd06ae13e950f73f688596ef9842aae2eb434cce2dfa1",
+    "after": "43fa1fa491bbbce451a3bf63165b44af615628f8462144c6e80db2fda6151707"
+  },
+  "sourceModified": false,
+  "scope": {
+    "scenes": 8,
+    "nativeExports": 6,
+    "comparisonExports": 3,
+    "authoredDuration": 39.6875,
+    "framesPerVideo": 1191,
+    "fps": 30,
+    "encodedDuration": 39.7
+  },
+  "verification": {
+    "nativeChecksPassed": 6,
+    "nativeSampleTimesPerProject": 24,
+    "nativeStrictRendersPassed": 6,
+    "nativeReviewFrames": 153,
+    "phoneReviewSheets": 3,
+    "decodedSceneFrames": 48,
+    "fullVideoDecodesPassed": 9,
+    "audioIdenticalWithinPairs": true,
+    "surfaceUnitTestsPassed": 13,
+    "sourceReceiptFilesUnchanged": true,
+    "browser": {
+      "realMedia": true,
+      "formats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "singlePlayer": true,
+      "deepLinkPaused": true,
+      "chapterFrameAlignment": true,
+      "halfSpeed": true,
+      "pausedTimeAndRatePreserved": true,
+      "playingStatePreservedOnSwitch": true,
+      "originalBeforeAfterViews": true,
+      "mediaErrors": 0,
+      "horizontalOverflow": false,
+      "syntheticEdgeCaseViewports": [
+        389,
+        1440
+      ]
+    }
+  },
+  "artifactDirectory": "",
+  "galleryUrl": "http://localhost:8776/surfaces/motion/",
+  "files": {
+    "before-9x16.mp4": {
+      "sha256": "719e8cdfb9c0b04f7fd42e6ba59f472712d77e1bde42a303513fdce850e45fd0",
+      "bytes": 19301406,
+      "width": 1080,
+      "height": 1920,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "after-9x16.mp4": {
+      "sha256": "f31d60e94eceace4291bd16247de8d3729f3ebc670c2b1b1c6d4163fafe0abc2",
+      "bytes": 19020650,
+      "width": 1080,
+      "height": 1920,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "before-1x1.mp4": {
+      "sha256": "b798e9c4f4417ba4bf47114c0181e48b36a06202cb1eda64c88ddcbc7acc5f0a",
+      "bytes": 14614036,
+      "width": 1080,
+      "height": 1080,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "after-1x1.mp4": {
+      "sha256": "a8eb299682e2fda5aa27f55b408a2881dc05fad894d74b266b572a19e12eac58",
+      "bytes": 14468922,
+      "width": 1080,
+      "height": 1080,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "before-16x9.mp4": {
+      "sha256": "20eb867177a56e0cfc176ca2faa99002f79e6d4861130a3b9d2e5256f7cf92cd",
+      "bytes": 19503401,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "after-16x9.mp4": {
+      "sha256": "cc1acfc4107da0bcd5b7cde92bb7e7d48760610597ba8c305362bdf94baeb11b",
+      "bytes": 19688330,
+      "width": 1920,
+      "height": 1080,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "compare-9x16.mp4": {
+      "sha256": "33810d493c4f311f51f660427dc5d7d78c168e013ea52c43b48fb68a20dca0f7",
+      "bytes": 7446141,
+      "width": 1080,
+      "height": 1016,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "poster-9x16.jpg": {
+      "sha256": "1adf8d448e8eac665970f9c5ab416095d47466a9fe1564a6384ed3c310b89648"
+    },
+    "compare-1x1.mp4": {
+      "sha256": "5dc1a6666b9adb9ca48b2ae9fbc4e2a084b9fc87ae6d5bf97b73c5156aca4a0d",
+      "bytes": 8062867,
+      "width": 1440,
+      "height": 776,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "poster-1x1.jpg": {
+      "sha256": "551d690cd1e24b2a2f1eb10ff7f44ba5a45a48c9664875428be161afe18cc770"
+    },
+    "compare-16x9.mp4": {
+      "sha256": "667dc4fd4c6b3db46f7f9f5b022880632136e0fce0cc60721d626cc440dc1cc1",
+      "bytes": 10752964,
+      "width": 1280,
+      "height": 1552,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "poster-16x9.jpg": {
+      "sha256": "ad9d1e36f4e84a5ac1d7a8ec327a5fca6e99c9c272b1084d42bcca05dabcb27c"
+    },
+    "manifest.json": {
+      "sha256": "b5aa221a5b1128f3b09efd73bb1065a46f75a5c3145523f8dcd649fea57b1809"
+    },
+    "media-integrity.json": {
+      "sha256": "d74dfe259a6516d8bac663b076560b74b932265cd0f09c8f5ddb9e67e5b69b89"
+    },
+    "index.html": {
+      "sha256": "6084d0d64d937a786645a139ec1c2ac04de91e6bea405bad9b79158eecc5b8e8"
+    },
+    "REVIEW.md": {
+      "sha256": "01a6e2fdfb77587d2797688c4ca3acd4a88755781e1a9d8952a12e4814f5ee74"
+    }
+  },
+  "knownLimitations": [
+    "Shared baseline square drag filename crowding",
+    "Shared scan status crossfade overlap",
+    "Craft first_frame_empty, line_unread and miniature text_below_floor warnings retained",
+    "Sampled visual review; audio measured, not assessed by ear"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "name": "three.js",
+      "url": "https://github.com/mrdoob/three.js",
+      "ref": "r170",
+      "license": "MIT",
+      "taken": "vendored",
+      "package": "three",
+      "files": [
+        "three.module.min.js",
+        "RoomEnvironment.js",
+        "RoundedBoxGeometry.js"
+      ],
+      "note": "As Kinetic ships it: the minified module with RoomEnvironment and RoundedBoxGeometry of its examples, for the 3D scenes (`../../components/scenes/three.mjs`)."
+    }
+  ]
+}

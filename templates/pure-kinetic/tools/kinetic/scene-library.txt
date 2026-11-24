@@ -1,0 +1,115 @@
+SCENE LIBRARY (pick from these only; "beats" = length in beats, 1 beat = 0.5s at 120 bpm):
+- prompt {text, placeholder?}: a chat box typing the request, cursor clicks send. Great opener. 4-6 beats.
+- title {text, sub?}: giant display words, per-letter spring. sub = tiny mono label above ("INTRODUCING"). 2-3 beats. text <= 4 words.
+- highlight {text, mark?, sub?}: a line of words; wrap ONE word in *asterisks* to get a marker swipe behind it. 3-4 beats. text <= 7 words.
+- swap {lead, from, to, pill?}: "Not just" + from -> from slides out, a coloured pill with "to" springs in. 3-4 beats.
+- fullbleed {text, variant?}: ONE word filling the frame on a flat colour. variant "repeat" = rows of outline type. 1-2 beats. text <= 10 chars, often CAPS.
+- grid {words[3-6]}: typographic tiles popping on half-beats, reads as one sentence ("THE","FUTURE","IS","HERE"). 3-4 beats.
+- wall {images?, words?}: zoom out from one card to a tilted 3D wall of many cards. Use when there are screenshots, or to show "everything you can make". 4-5 beats.
+- ui-macro {image?, target?, typeText?, click?}: extreme crop on a screenshot region with typing + giant cursor click. target = {x,y,w,h} as 0-1 fractions of the image. 4-5 beats.
+- ui-float {image?, caption?}: screenshot as a floating tilted card over its own blurred copy, caption above. 3-4 beats.
+- counter {value, prefix?, suffix?, label}: a number counting up. ONLY with a real number the user gave. 3 beats.
+- toggle {label, kind?}: a giant switch/checkbox/slider flipping on, cursor clicks it. kind: switch|checkbox|slider. 3 beats.
+- logo3d {text?}: the logo as a spinning cube landing flat, name beside it. 3-4 beats.
+- endcard {cta, tagline?}: logo + name assembling + a CTA pill (the URL). Always last. 4-6 beats.
+- slam {lines[1-4], crumbs?[]}: poster stack, each line (<= 3 words) slams in on its own beat; the last line echoes. crumbs = tiny mono fragments (<= 18 chars) that decode around it. 1 beat per line + 1.
+- morph {states[2-10], label?, text?}: ONE UI shape morphing through states, one per beat, a cursor clicking each change. states from: button, loader, check, toggle, slider, player, tabs, search, toast. label = the button's word, text = the toast/search text. beats = number of states (or 2x for calmer).
+- steps {title?, steps[2-4]}: a progress ring filling as numbered steps land. "How it works". 5-7 beats.
+- ticket {title, rows[[label, value] x1-4], stamp}: a ticket card types its rows, then a stamp (1-2 words: SHIPPED, APPROVED, LIVE) presses down. 4-5 beats.
+- marquee {words[2-8]}: three ticker bands of big type sliding across the frame. A call to action or a list of what it does. 3-4 beats.
+- phones {images?[], caption?}: three phones fanning out showing screens. For mobile apps or "on every feed". 4 beats.
+- caption {text, sub?, image?}: a sentence with ONE inline chip in [square brackets] ("Your rival just hit [$100,412] in MRR."); a number in the chip rolls up. Hook opener. 4 beats.
+- typewriter {text, erase?, then?}: typed on a blank page with a human rhythm. erase = characters to delete from the end, then = what gets typed next. 4-6 beats.
+- sentence {text}: a big sentence (<= 8 words) landing word by word, every other word in a colour. 3-4 beats.
+- append {base, words[1-6]}: a fixed word, the next one cycling on the beat ("Zero" + alignment / momentum / busywork). 1 beat per word + 1.
+- countdown {from, label?}: 3, 2, 1 then the label (LIVE, NOW). 1 beat per number + 1.
+- stat {value, prefix?, suffix?, label, trend?}: rolling digits with a trend line drawing under them. ONLY a real number from the brief. 3-4 beats.
+- chart {kind, values[2-12], labels?, title?, unit?}: kind line|bar|pie|ring drawing in. ONLY real numbers. 4 beats.
+- timeline {title?, items[2-6]}: a roadmap line with milestones landing in turn. 4-5 beats.
+- pricing {name, price, period?, features[1-5], cta?}: a pricing card springs up, features tick in, the cursor clicks the button. Only a real price. 4-5 beats.
+- globe {label?}: a dotted globe turning with arcs between points. "Used everywhere", "works offline anywhere". 4 beats.
+- code {title?, lines[1-14]}: a code editor typing real-looking code (<= 70 chars per line). For developer tools or APIs. 5-6 beats.
+- chat {messages[{me, text} x1-6]}: a chat thread, bubbles popping in with typing dots. A tiny story in 2-4 messages. 5-6 beats.
+- notify {items[{app, title, body?} x1-5]}: notifications stacking on a dark lock screen. 4 beats.
+- dock {apps[3-9], open?, caption?}: a macOS dock (emoji icons), cursor sweeps and magnifies them, clicks one and dives in. "Too many tools". 4-5 beats.
+- chaos {text}: browser windows piling up around a phrase ("Twelve tabs later..."). The problem, before the product. 3-4 beats.
+- laptop {image?, caption?}: a laptop with the screenshot; the camera dives into the screen. 4-5 beats.
+- browser {url, image?}: a browser window, the URL types in, the page loads. 4 beats.
+- callouts {image?, title?, notes[1-4]}: a screenshot with labelled callout pills popping out of it. 4-5 beats.
+- compare {before, after, beforeLabel?, afterLabel?}: a before/after wipe dragged by the cursor ("Two weeks in After Effects" -> "Forty seconds"). 4-5 beats.
+- inline {text, images?[], items?[]}: a sentence with [ ] where pictures open between the words and stack up ("Inspiration [ ] everywhere?"); with screenshots it ends by zooming into the last one until it fills the frame. items = up to 6 short words or emoji shown on the cards when there are no screenshots. 4-6 beats.
+- bubbles {questions[3-8], answer?}: chat-input pills with the questions people keep asking float in depth over soft light, then fly away as the answer is typed in the middle. The problem, told as questions. 6-9 beats.
+- retype {label?, from, to[1-3]}: one big value typed, then selected and typed over, like an editor ("Hourly rate": "$160" -> "$500"). Contrasts, prices, "edit anything". Only real numbers. 5-7 beats.
+- orbit {text}: a calm sentence (<= 8 words) landing word by word inside thin line-art orbits with travelling dots. A big idea, a belief. 4-5 beats.
+- checklist {title?, items[2-5]}: a to-do list types in and the cursor ticks every item. "How it works", or the busywork it removes. 5-7 beats.
+- tiles {text}: a short word (<= 12 chars) on letter tiles that tumble from above and land in a row. A punchy name or a call ("SHIP IT"). 3-4 beats.
+- mosaic {text, images?[], notes?[]}: the frame splits into panels of screenshots and product screens with crosshairs, one big italic word over it all. "Everything in one place". 4-6 beats.
+- cards3d {titles?[], images?[]}: REAL 3D: thick glossy cards cascade in one by one, tilted in depth, lit like a product render. titles = 2-5 short labels (the pains, the features) when there are no screenshots. props? = one 3D object per card from the props3d list (lock for security, coin for payments, key for access...): the cards then carry real objects, like a product render. 4-6 beats.
+- icon3d {text?}: REAL 3D: the brand's app icon as a glassy tile spinning in, glossy shapes orbiting it, the name landing below. A hero reveal or an ending before the endcard. 3-4 beats.
+- phone3d {images?[], caption?}: REAL 3D: 1-3 phones swing round from the side to face you, screenshots on their screens. For mobile apps. 4-5 beats.
+- props3d {props[1-6], text?}: REAL 3D modelled props burst out around a line and keep spinning: coin, coin-silver, star, heart, gem, key, lock, chest, flag, bomb, mascot, gift, box, snowflake, coffee, cake, donut, rocket, satellite, astronaut, meteor. Pick props that mean something for the product (coins for payments, gifts for rewards, rocket for launch). 3-4 beats.
+- roll {lead, words[2-6]}: a fixed lead and a last word that rolls vertically like a slot machine with selection handles ("Still answering" + tickets / emails / chats / DMs). The pile of small jobs. 4-6 beats.
+- stream {text, images?[], items?[]}: a river of screenshots or picture cards pouring diagonally past one word in the middle ("Inspirations"). Abundance, "everything you make". 4-5 beats.
+- photo {text, image?}: a full-bleed screenshot or photo slowly pushing in, captions word by word in the lower third; *word* goes bold italic. Only with an image. 4-7 beats.
+- journey {text, wheel?[]}: the camera TRAVELS along one sentence as its words arrive, with motion blur, and the last word is a wheel that rolls through options ("You're still answering" + tickets / emails / chats / DMs), then pulls back to show the whole line. The most cinematic opener. *word* is accent. 6-8 beats.
+- faces {text, images?[]}: real people floating at different depths (some out of focus) around a short line ("Ending up in just one inbox"). Use stock portraits ("stock:smiling woman portrait") for the people the product serves. 4-5 beats.
+- shuffle {from, to}: a sentence breaks apart and its words fly in arcs to form the next one; shared words travel, others blur away or arrive ("Your launch video takes weeks" -> "Your launch takes one prompt"). Before/after in one move. 5-6 beats.
+- trail {text, warm?}: black frame, glowing neon light streaks sweeping round an input pill that types a short line ("Pay in one tap"). warm=false for cool streaks in the accent colour. A striking 2-second hook or a feature beat. 3-4 beats.
+- dot {word, lead?, ring?[]}: ONE ball carries the whole scene, like a motion designer's film: the lead word's letters tumble away ("Reduce" Motion), a ball drops and bounces into place as the dot on the i (or a full stop), then rolls off, floods the frame in the accent, morphs circle -> square -> diamond -> pill and ends as a dot with ring[] words orbiting it in 3D. A signature moment, at most once per film. 7-8 beats.
+- flip {lead, words[2-5], icons?[2-5]}: "Explore [card] history" (lead + each word must read as a natural phrase): a card in the gap of the sentence flips to a new face (an emoji or a picture) as the last word rolls to the next one, with doodle sparkles; then the cards fan out and swing together into a pinwheel mark. The range of what it does. 6-8 beats.
+- pullback {text, chips?[]}: GIANT typing that fills the frame (an "@Name" gets a dropdown and turns into a coloured mention), then the camera pulls back to reveal it was typed inside the product's input box, chips[] land on top and the cursor clicks send. The best "how you use it" opener for AI products. 6-8 beats.
+- between {lead, words[1-3], cta?, images?[], ground?}: "Book [phone] a table": lead + each of words[] must read aloud as a natural phrase ("Book a table", "Book a ride", "Book it all"), never lead "Open" + "a table". A phone lands in the gap of the sentence, the words slide out from behind it, a finger taps through the app (each tap pushes a new screen and rolls the last word: "a table" -> "a ride"), and the last tap folds the cta button into a check with a burst. For mobile apps. ground:true paints a soft gouache backdrop. 6-8 beats.
+- drag {text, label?, button?, files?[3], images?[], ground?}: hands-on: files lie on the desk (names like "brief.pdf", "demo.mp4"; images = real photos), the cursor drags each into the product's drop zone, quicker each time, they upload and get checks, the cursor clicks the button and the line lands where the files were. For anything you feed files to. 7-8 beats.
+- clip {video?, caption?, start?, zoom?{x,y}}: the user's own screen recording playing inside an app window that floats in, with an optional push-in to zoom (0-1 fractions). ONLY when the user gave a recording (video ids "rec1"...); never invent one. 6-10 beats.
+- pack {word}: circles of every size pop in and pack the frame round one word in the biggest circle, then scatter outward. Abundance, "everything", a category word. 4-5 beats.
+- swarm {text?, images?[]}: dozens of pictures (images = stock photos or screenshots) hang in 3D at every depth while the camera pushes through, then fly out past the lens and the text lands in the clearing. Scale, "every idea", a community, a library. 5-7 beats.
+- split {words[2-5], images?[], items?[]}: a coloured panel holds one big word that swaps ("Posters." "Covers." "Merch." "Motion."), beside it a grid of tiles reshuffles with each word (images = stock photos or screenshots; items = emoji when there are none). Use cases, outputs, "everything you can make". 6-8 beats.
+- montage {lines[1-5], images[]}: a brand film's rhythm: full-bleed photos (stock:..., 2 per line) cut fast with a slow push on each, and between them each line set small on a plain card ("The charts keep moving." / "Which one are you *backing*?"). Emotional, cinematic, about people and the world. 7-10 beats.
+- web {words[4-16], keys?[<=4]}: the product's mark in the middle, the words that describe it on rings around it, each joined by a hairline; the camera turns slowly in 3D and the keys light up in turn. "Everything it connects", features, an ecosystem. 6-8 beats.
+- picker {items?[6-24 emoji], pick?, text?}: a big grid of icon tiles, close up; a selection ring hops tile to tile while the grid slides, then the pick lifts out, the rest dim and text lands under it. Choice, variety, "pick anything", emoji, templates, themes. 4-6 beats.
+- palette {query, results[2-6], pick?}: a command bar (Raycast/Spotlight style): the query types into a big search bar, the results under it ("📋 Clipboard History", emoji + 2-4 words) filter live as letters arrive, the selection slides to the match, Enter opens it. For productivity tools, launchers, search and anything with commands. 6-7 beats.
+- agent {name?, steps[1-5], done, result?}: the product at work: "<name> working..." with a spinner, the tasks (<= 6 words each, real things the product does: "Categorizing transactions", "Reconciling accounts") arrive one under another and check off, then the header becomes the done line ("Financial statements ready.") and an optional result card slides up. THE scene for AI agents and automation. 6-8 beats.
+- particles {text}: a constellation of drifting dots joined by faint lines flies in and settles into the line, then tightens into solid type. A big claim, an AI or "intelligence" moment. 5-7 beats.
+- wave {text, label?}: a voice player: a live waveform in a pill, the transcript (text = what the voice says, <= 12 words) appears under it word by word, karaoke-lit; label = a small line above ("80+ voices, one tap"). Voice, audio, calls, assistants. 5-7 beats.
+- arc {text, words?[≤3], images?[]}: a short line set small and high ("Your business is *different*", the *word* rolls through words[]), under it a strip of photos rides an arc, biggest in the middle, drifting sideways. images = stock photos of the people the product serves ("stock:baker in kitchen"). Calm, human. 5-7 beats.
+- orb {lines[≤3]}: a glowing sphere of the brand's colours, the colours turning inside it, breathing; short calm lines take turns under it ("It listens." / "It remembers."). The product as a presence: AI, voice, assistants. 5-6 beats.
+- scatter {text, icons?[≤5]}: a sentence spread loose over the frame in small type, words arriving in reading order with little objects (emoji tiles) dropping into the gaps; then everything flies out except the *key* word, which glides to the centre and grows. Mark the key word with *stars*. 5-7 beats.
+- knockout {word, text?, image?}: the AE zoom-through: the frame is the background with one giant word CUT OUT of it, the product (image = a real screenshot) shows through the letters, then the camera dives into a stroke until the product fills the frame and settles into a card with text above. A strong opener or reveal. 5-7 beats.
+- assemble {word, text?, italic?}: a ransom-note word: each letter lands on its own paper scrap in a different typeface, flickers through two more, then the scraps drop and the letters glide into one quiet serif word ("Intelligence."). An editorial, crafted moment for a single big idea. 5-6 beats.
+- hive {icons?[≤12], labels?[≤3], word?}: a honeycomb of empty slots opens around the logo, the product's tools (emoji icons) fly in and land in their slots, labels name a couple, then the hive pulls into the mark and the name lands beside it. "All your tools, one place." 6-7 beats.
+- field {text, values?[]}: REAL 3D: a floor of rounded tiles to the horizon; a glowing bar sweeps across, the tiles ripple, a row rises into accent bars (values = real numbers, or leave out) and the camera cranes up over the whole field; the line sits lower left. A world, not a slide. 6-7 beats.
+- overlay {image?, text?, cards[1-3]: {label, value, prefix?, suffix?}}: a full-bleed photo with 1-3 glass cards floating over it, each number rolling up ("Training cost", 1083, "$"). ONLY real numbers from the brief. Pair with a stock photo of the people or place. 5-6 beats.
+
+- freestyle {html, css, keys}: YOUR OWN motion design, for one moment no scene above can show. At most ONE per film, only when it adds something special. html <= 1500 chars: divs/spans/h1/p and simple inline svg with classes (no images, links or scripts), laid out for a 1920x1080 frame (absolute or flex positioning, px font sizes, font-family Geist). css <= 1500 chars styles them; colours must read on the scene background. keys animate it: [{"sel": ".word", "at": 0-1 of the scene, "dur": 0-1, "stagger": 0-0.5 per matched element, "from": {opacity, x, y, scale, rotate, blur, clip 0-100}, "to": {...}, "ease": "out"|"inOut"|"spring"|"linear"}], 3-10 keys. 4-6 beats.
+
+BRIEFS BEYOND A PRODUCT LAUNCH (serve them, never refuse):
+- A story, cartoon or video for kids: tell a small tale in scenes (chat, sentence, typewriter, props3d with the mascot/astronaut/rocket, cards3d, tiles, countdown), bright and bouncy, short happy lines, a character named in the copy.
+- An educational or explainer video, even a long one: one idea per scene, in order (title as the question, steps, timeline, checklist, code, chart only with real numbers, sentence, highlight), with a recap near the end. Long films have more scenes and hold each one longer.
+- A cinematic, realistic or "footage" request (a person, a city, an action shot): build it from real photography with montage, photo, faces, arc and overlay using "stock:<what the shot shows>", in a cinematic rhythm; describe the shots the brief asks for.
+- A manifesto or "typography only" request: type scenes only (slam, sentence, append, fullbleed, marquee, tiles, assemble).
+- A requested length is a hard target: match it with the number of scenes.
+
+COMMON FIELDS on every scene: type, beats (1-32), bg? (palette name or a hex colour like "#ffffff"), fg? (text colour, palette name or hex), plain? (true = no style decoration behind it: a clean background), in? (transition into this scene), look? (a style id for this one scene; only when the DIRECTION asks for it).
+Usually OMIT bg and in: the chosen style already sets a colour per beat and its own transitions. Set bg only for a deliberate emphasis.
+PALETTE names for bg/mark/pill: paper, ink, lime, sage, peach, electric, coral, sky, lilac, butter, brand, brand2.
+TRANSITIONS: cut, whip (fast sideways blur), circle (reveal from centre), zoom (zoom through), wipe (diagonal bar), push (vertical), glide (carousel slide), scan (scan line), iris (camera aperture), flood (liquid colour fill), halftone (dot dissolve), glitch (torn signal bands), shutter (slats opening), flip (3D card flip), flash (lens flash to white), dots (particle sweep), pixels (the frame breaks into square blocks that switch to the next shot, accent blocks on the seam), open (the next shot opens out of the old one like an app from its icon).
+
+3D HALFTONE: the real-3D scenes (cards3d, icon3d, phone3d, props3d, field) take halftone: true, which prints the 3D object as a one-colour dot screen (a duotone print). Use it in graphic, poster-like or retro films, never in every 3D scene.
+
+RHYTHM RULES:
+- Hit the target length at the given bpm. Fast: most scenes 2-4 beats; something new every 1-2 seconds.
+- Open with a hook in the first second (prompt, title or slam). End with endcard (logo3d before it is optional).
+- Alternate type-led scenes with UI scenes. Use every screenshot you are given at least once.
+- Give the film ONE or TWO signature moments, the scenes a motion designer would remember (pullback, dot, knockout, hive, orb, between, drag, field, flip, assemble, scatter, arc), placed where the story turns. Never more than three: the big ones need simple scenes around them to land.
+- Never the same scene type twice in a row, and no type more than twice in a film (fullbleed punches excepted).
+- At most 60% of scenes may be type alone on a colour (title, highlight, slam, sentence, append, fullbleed, grid, marquee...). The rest show an object, the product, people or a world.
+
+COPY RULES:
+- Every line a complete thought. Display lines <= 6 words. One idea per scene.
+- Plain, concrete words about what the product does. No buzzwords (revolutionary, seamless, leverage, unlock, supercharge, game-changer).
+- Never invent numbers, users, customers or awards. No counter scene unless the brief has a real number.
+- Never mention writing, editing, exporting or rendering videos, templates or scenes unless the product itself is a video tool. The film is about THEIR product.
+- Show the product early (by the second or third scene) and keep story beats to at most two scenes; when the brief says "just show the app/product", it is mostly UI scenes with tiny captions.
+- Write the copy in the language of the brief (Spanish brief, Spanish film; Arabic brief, Arabic film).
+- A thin brief (a name and a few words) stays thin: write about what it says and how it feels, never invent features, integrations or prices to fill the film.
+- Talk to one person ("you"), present tense, confident, short.

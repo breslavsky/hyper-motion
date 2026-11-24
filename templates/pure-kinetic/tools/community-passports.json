@@ -1,0 +1,657 @@
+{
+  "schema": "pure-kinetic.community-passports.v1",
+  "batch": "community-01",
+  "catalogueCount": 100,
+  "communityCount": 17,
+  "components": [
+    {
+      "id": "polar",
+      "from": "87cedc30-8f77-450e-a6cb-633a1934d9b0-1-3",
+      "recipe": "https://www.motionfab.app/en/prompts/seamless-15-second-app-showreel-in-pure-motion-graphics",
+      "implementation": "Independent native HyperFrames component",
+      "renderMode": "DOM/SVG",
+      "fields": {
+        "shapes": {
+          "kind": "array",
+          "of": {
+            "kind": "enum",
+            "values": [
+              "circle",
+              "triangle",
+              "star",
+              "square"
+            ]
+          },
+          "min": 2,
+          "max": 5,
+          "optional": true
+        },
+        "label": {
+          "kind": "string",
+          "min": 1,
+          "max": 28,
+          "optional": true
+        },
+        "satellites": {
+          "kind": "bool",
+          "optional": true
+        }
+      },
+      "sample": {
+        "type": "polar",
+        "beats": 4,
+        "shapes": [
+          "circle",
+          "triangle",
+          "star",
+          "square"
+        ],
+        "label": "Made to adapt"
+      },
+      "guide": "polar {shapes?[circle|triangle|star|square x2-5], label?, satellites?}: one springy shape morphs through a sequence with turning echo outlines and smaller orbiting copies. A change of state or an abstract product identity. Optional label is the user's message; satellites defaults to true. 3-5 beats.",
+      "formats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "responsiveBehavior": "The diagram and caption reserve separate safe regions in all formats.",
+      "brand": "Central brand.font and palette, with per-instance overrides. Bundled or local font assets load before fitting.",
+      "fit": {
+        "minimumLabelPixelsAt1080": {
+          "landscape": 36,
+          "square": 36,
+          "portrait": 39.6
+        },
+        "policy": "Measure and wrap within declared field bounds. Reject invalid structure or excessive content before build. Reading time also needs validation."
+      },
+      "sound": {
+        "scheduleOwner": "metadata.times",
+        "controls": [
+          "mute",
+          "gain",
+          "kit",
+          "mapping"
+        ],
+        "example": {
+          "bpm": 120,
+          "logicalDurationSeconds": 2,
+          "events": [
+            {
+              "atSeconds": 0.05,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 0.44,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 0.7,
+              "kind": "tick",
+              "strength": 0.75
+            },
+            {
+              "atSeconds": 0.9199999999999999,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 1.18,
+              "kind": "tick",
+              "strength": 0.75
+            },
+            {
+              "atSeconds": 1.4,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 1.66,
+              "kind": "tick",
+              "strength": 0.75
+            }
+          ]
+        }
+      },
+      "clock": "The native child timeline alone drives visual time. Backward seeking restores state. The film presentation never advances a child clock."
+    },
+    {
+      "id": "letterflip",
+      "from": "6491e897-ac71-41b4-b464-51f6113078d6-1-3",
+      "recipe": "https://www.motionfab.app/en/prompts/self-demonstrating-motion-principles-showreel",
+      "implementation": "Independent native HyperFrames component",
+      "renderMode": "DOM/SVG",
+      "fields": {
+        "text": {
+          "kind": "string",
+          "min": 1,
+          "max": 36
+        }
+      },
+      "sample": {
+        "type": "letterflip",
+        "beats": 4,
+        "text": "A fresh turn"
+      },
+      "guide": "letterflip {text}: a short headline reveals letter by letter, each turning 450 degrees in perspective and flashing the accent on its back before landing flat. The brand font is preserved; joined scripts turn as whole words. A punchy opener or feature name. 3-4 beats.",
+      "formats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "responsiveBehavior": "Words wrap and measured type fits the safe frame; joined scripts animate as whole words.",
+      "brand": "Central brand.font and palette, with per-instance overrides. Bundled or local font assets load before fitting.",
+      "fit": {
+        "minimumLabelPixelsAt1080": {
+          "landscape": 36,
+          "square": 36,
+          "portrait": 39.6
+        },
+        "policy": "Measure and wrap within declared field bounds. Reject invalid structure or excessive content before build. Reading time also needs validation."
+      },
+      "sound": {
+        "scheduleOwner": "metadata.times",
+        "controls": [
+          "mute",
+          "gain",
+          "kit",
+          "mapping"
+        ],
+        "example": {
+          "bpm": 120,
+          "logicalDurationSeconds": 2,
+          "events": [
+            {
+              "atSeconds": 0.39,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.44277777777777777,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.4955555555555555,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.5483333333333333,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.6011111111111112,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.653888888888889,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.7066666666666666,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.7594444444444444,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.8122222222222222,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.865,
+              "kind": "tick",
+              "strength": 0.42
+            },
+            {
+              "atSeconds": 0.865,
+              "kind": "chime",
+              "strength": 0.7
+            }
+          ]
+        }
+      },
+      "clock": "The native child timeline alone drives visual time. Backward seeking restores state. The film presentation never advances a child clock."
+    },
+    {
+      "id": "accordion",
+      "from": "dc2072ce-3dab-4322-bb56-56b13ffea542-1-3",
+      "recipe": "https://www.motionfab.app/en/prompts/living-specimen-product-reel-with-logo-morph",
+      "implementation": "Independent native HyperFrames component",
+      "renderMode": "DOM/SVG",
+      "fields": {
+        "items": {
+          "kind": "array",
+          "of": {
+            "kind": "string",
+            "min": 1,
+            "max": 24
+          },
+          "min": 3,
+          "max": 5
+        },
+        "images": {
+          "kind": "array",
+          "of": {
+            "kind": "string",
+            "min": 1
+          },
+          "min": 3,
+          "max": 5,
+          "optional": true
+        }
+      },
+      "sample": {
+        "type": "accordion",
+        "beats": 6,
+        "items": [
+          "Discover",
+          "Arrange",
+          "Create",
+          "Review",
+          "Release"
+        ]
+      },
+      "guide": "accordion {items, images?}: 3-5 named picture cards breathe like an accordion: a travelling focus enlarges each card, then a staggered wave moves the stack. Dashed bounds and curved tethers follow the real card handles. items: short feature or process names, up to 24 characters; optional local images replace the abstract artwork in order. A horizontal row in landscape, a vertical stack with side labels in square and portrait. 5-7 beats.",
+      "formats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "responsiveBehavior": "Horizontal travelling focus in landscape; vertical stack and a separate label column in square and portrait.",
+      "brand": "Central brand.font and palette, with per-instance overrides. Bundled or local font assets load before fitting.",
+      "fit": {
+        "minimumLabelPixelsAt1080": {
+          "landscape": 36,
+          "square": 36,
+          "portrait": 39.6
+        },
+        "policy": "Measure and wrap within declared field bounds. Reject invalid structure or excessive content before build. Reading time also needs validation."
+      },
+      "sound": {
+        "scheduleOwner": "metadata.times",
+        "controls": [
+          "mute",
+          "gain",
+          "kit",
+          "mapping"
+        ],
+        "example": {
+          "bpm": 120,
+          "logicalDurationSeconds": 3,
+          "events": [
+            {
+              "atSeconds": 0.37333333333333335,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 0.5316666666666667,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 0.6900000000000002,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 0.8483333333333333,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.0066666666666668,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.26,
+              "kind": "whoosh",
+              "strength": 0.6
+            },
+            {
+              "atSeconds": 2.88,
+              "kind": "chime",
+              "strength": 0.65
+            }
+          ]
+        }
+      },
+      "clock": "The native child timeline alone drives visual time. Backward seeking restores state. The film presentation never advances a child clock."
+    },
+    {
+      "id": "explode",
+      "from": "7dede976-cde5-4f3d-a8e0-83a125a9967b-1-5",
+      "recipe": "https://www.motionfab.app/en/prompts/3d-app-wall-dive-into-a-three-step-product-demo",
+      "implementation": "Independent native HyperFrames component",
+      "renderMode": "DOM/SVG",
+      "fields": {
+        "layers": {
+          "kind": "array",
+          "of": {
+            "kind": "string",
+            "min": 1,
+            "max": 24
+          },
+          "min": 3,
+          "max": 5
+        },
+        "title": {
+          "kind": "string",
+          "min": 1,
+          "max": 36,
+          "optional": true
+        }
+      },
+      "sample": {
+        "type": "explode",
+        "beats": 6,
+        "title": "Built in layers",
+        "layers": [
+          "Foundation",
+          "Structure",
+          "Content",
+          "Interaction",
+          "Finish"
+        ]
+      },
+      "guide": "explode {layers, title?}: one flat card tilts into depth and separates into 3-5 named planes, turns slowly while held apart, then closes into one card again. Flat labels and fine leaders explain each plane without tilting the words. layers: short names of actual parts or stages, up to 24 characters; title: optional heading. 5-7 beats.",
+      "formats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "responsiveBehavior": "Projected depth fits a reserved envelope. Labels sit beside it in landscape and below it in square/portrait.",
+      "brand": "Central brand.font and palette, with per-instance overrides. Bundled or local font assets load before fitting.",
+      "fit": {
+        "minimumLabelPixelsAt1080": {
+          "landscape": 36,
+          "square": 36,
+          "portrait": 39.6
+        },
+        "policy": "Measure and wrap within declared field bounds. Reject invalid structure or excessive content before build. Reading time also needs validation."
+      },
+      "sound": {
+        "scheduleOwner": "metadata.times",
+        "controls": [
+          "mute",
+          "gain",
+          "kit",
+          "mapping"
+        ],
+        "example": {
+          "bpm": 120,
+          "logicalDurationSeconds": 3,
+          "events": [
+            {
+              "atSeconds": 0.375,
+              "kind": "whoosh",
+              "strength": 0.65
+            },
+            {
+              "atSeconds": 0.7275,
+              "kind": "tick",
+              "strength": 0.65
+            },
+            {
+              "atSeconds": 2.0999999999999996,
+              "kind": "whoosh",
+              "strength": 0.6
+            },
+            {
+              "atSeconds": 2.8499999999999996,
+              "kind": "pop",
+              "strength": 0.75
+            }
+          ]
+        }
+      },
+      "clock": "The native child timeline alone drives visual time. Backward seeking restores state. The film presentation never advances a child clock."
+    },
+    {
+      "id": "scan",
+      "from": "c8af3fb3-c765-49e9-b5d4-bd52713c3629-1-6",
+      "recipe": "https://www.motionfab.app/en/prompts/soft-tech-app-promo-icon-wall-phone-and-3d-studio",
+      "implementation": "Independent native HyperFrames component",
+      "renderMode": "DOM/SVG",
+      "fields": {
+        "items": {
+          "kind": "array",
+          "min": 3,
+          "max": 6,
+          "of": {
+            "kind": "object",
+            "fields": {
+              "label": {
+                "kind": "string",
+                "min": 1,
+                "max": 18
+              },
+              "category": {
+                "kind": "number",
+                "int": true,
+                "min": 1,
+                "max": 4,
+                "optional": true
+              }
+            }
+          }
+        },
+        "categories": {
+          "kind": "array",
+          "min": 2,
+          "max": 4,
+          "of": {
+            "kind": "string",
+            "min": 1,
+            "max": 24
+          }
+        },
+        "image": {
+          "kind": "string",
+          "min": 1,
+          "max": 300,
+          "optional": true
+        },
+        "title": {
+          "kind": "string",
+          "min": 1,
+          "max": 48,
+          "optional": true
+        },
+        "scanning": {
+          "kind": "string",
+          "min": 1,
+          "max": 32,
+          "optional": true
+        },
+        "complete": {
+          "kind": "string",
+          "min": 1,
+          "max": 32,
+          "optional": true
+        }
+      },
+      "sample": {
+        "type": "scan",
+        "beats": 7,
+        "title": "Everything in its place",
+        "categories": [
+          "Ideas",
+          "Tasks",
+          "Files"
+        ],
+        "items": [
+          {
+            "label": "Launch notes",
+            "category": 1
+          },
+          {
+            "label": "Follow up",
+            "category": 2
+          },
+          {
+            "label": "Moodboard",
+            "category": 1
+          },
+          {
+            "label": "Brand assets",
+            "category": 3
+          },
+          {
+            "label": "Schedule",
+            "category": 2
+          },
+          {
+            "label": "References",
+            "category": 3
+          }
+        ],
+        "scanning": "Reading the board",
+        "complete": "Ready to use"
+      },
+      "guide": "scan {items[{label, category?} x3-6], categories[2-4], image?, title?, scanning?, complete?}: a luminous band scans a sheet of objects; a label and corner brackets appear exactly when the band crosses each object, then the crops lift and fly into category cards, filling their badges. category is a 1-based index into categories; omit it to distribute objects in order. image is an optional supplied sheet/photo divided into the same object crops; without it, the objects are brand-coloured geometry. scanning and complete are optional user-written status lines. Use short 1-2-word item labels. At normal pace, allow more time for longer labels, longer status lines or faster music, and check readability after changing the timing. 7-9 beats.",
+      "formats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "responsiveBehavior": "Board beside categories in landscape, above them in portrait/square. A supplied image is cropped into fixed cells, not object-detected.",
+      "brand": "Central brand.font and palette, with per-instance overrides. Bundled or local font assets load before fitting.",
+      "fit": {
+        "minimumLabelPixelsAt1080": {
+          "landscape": 36,
+          "square": 36,
+          "portrait": 39.6
+        },
+        "policy": "Measure and wrap within declared field bounds. Reject invalid structure or excessive content before build. Reading time also needs validation."
+      },
+      "sound": {
+        "scheduleOwner": "metadata.times",
+        "controls": [
+          "mute",
+          "gain",
+          "kit",
+          "mapping"
+        ],
+        "example": {
+          "bpm": 120,
+          "logicalDurationSeconds": 3.5,
+          "events": [
+            {
+              "atSeconds": 0.42,
+              "kind": "whoosh",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 0.604625,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.33,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 1.5925,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 0.622475,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.449,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 1.7115,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 0.905625,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.568,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 1.8305,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 0.923475,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.6869999999999998,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 1.9494999999999998,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 1.206625,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.806,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 2.0685000000000002,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 1.2244750000000002,
+              "kind": "tick",
+              "strength": 0.55
+            },
+            {
+              "atSeconds": 1.9250000000000003,
+              "kind": "whoosh",
+              "strength": 0.45
+            },
+            {
+              "atSeconds": 2.1875000000000004,
+              "kind": "pop",
+              "strength": 0.7
+            },
+            {
+              "atSeconds": 2.2750000000000004,
+              "kind": "chime",
+              "strength": 0.85
+            }
+          ]
+        }
+      },
+      "clock": "The native child timeline alone drives visual time. Backward seeking restores state. The film presentation never advances a child clock."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "aspect": "16:9",
+  "style": "noir",
+  "pace": "normal",
+  "palette": "brand",
+  "brand": {
+    "name": "Motion Fab",
+    "font": "Geist",
+    "colors": [
+      "#fa4b9d",
+      "#b9f24a"
+    ],
+    "url": "motionfab.app"
+  },
+  "music": {
+    "track": "air",
+    "bpm": 108,
+    "volume": 0.65,
+    "kit": "tech"
+  },
+  "grain": false,
+  "sparks": false,
+  "scenes": [
+    {
+      "type": "letterflip",
+      "beats": 4,
+      "text": "Make every move count",
+      "in": "glide",
+      "plain": true,
+      "bg": "#101523",
+      "fg": "#f4f6fa"
+    },
+    {
+      "type": "polar",
+      "beats": 4,
+      "shapes": [
+        "circle",
+        "triangle",
+        "star",
+        "square"
+      ],
+      "label": "Shape the next idea",
+      "in": "glide",
+      "plain": true,
+      "bg": "#101523",
+      "fg": "#f4f6fa"
+    },
+    {
+      "type": "accordion",
+      "beats": 6,
+      "items": [
+        "Explore",
+        "Shape",
+        "Build",
+        "Refine",
+        "Launch"
+      ],
+      "in": "glide",
+      "plain": true,
+      "bg": "#101523",
+      "fg": "#f4f6fa"
+    },
+    {
+      "type": "explode",
+      "beats": 6,
+      "title": "One idea. Many layers.",
+      "layers": [
+        "Foundation",
+        "Structure",
+        "Content",
+        "Interaction",
+        "Finish"
+      ],
+      "in": "glide",
+      "plain": true,
+      "bg": "#101523",
+      "fg": "#f4f6fa"
+    },
+    {
+      "type": "scan",
+      "beats": 7,
+      "title": "Everything in its place",
+      "categories": [
+        "Ideas",
+        "Tasks",
+        "Files"
+      ],
+      "items": [
+        {
+          "label": "Launch notes",
+          "category": 1
+        },
+        {
+          "label": "Follow up",
+          "category": 2
+        },
+        {
+          "label": "Moodboard",
+          "category": 1
+        },
+        {
+          "label": "Brand assets",
+          "category": 3
+        },
+        {
+          "label": "Schedule",
+          "category": 2
+        },
+        {
+          "label": "References",
+          "category": 3
+        }
+      ],
+      "scanning": "Reading the board",
+      "complete": "Ready to use",
+      "in": "glide",
+      "plain": true,
+      "bg": "#101523",
+      "fg": "#f4f6fa"
+    },
+    {
+      "type": "endcard",
+      "beats": 5,
+      "cta": "Build your next idea",
+      "tagline": "motionfab.app",
+      "in": "glide",
+      "plain": true,
+      "bg": "#101523",
+      "fg": "#f4f6fa"
+    }
+  ]
+}

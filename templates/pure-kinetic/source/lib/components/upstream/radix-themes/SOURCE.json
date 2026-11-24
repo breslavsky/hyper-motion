@@ -1,0 +1,13 @@
+{
+  "sources": [
+    {
+      "name": "Radix Themes design tokens",
+      "url": "https://github.com/radix-ui/themes",
+      "version": "3.3.0",
+      "license": "MIT",
+      "taken": "adapted",
+      "date": "2026-11-21",
+      "note": "Pinned source CSS, integrity, file hashes and adaptation scope are recorded in RECEIPT.json. The MIT license accompanies the adaptation; no React runtime is shipped."
+    }
+  ]
+}

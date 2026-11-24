@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dark Button Glass</title>
+  <link rel="stylesheet" href="lib/fonts.css">
+  <style>
+    * {box-sizing: border-box}
+    html, body {margin: 0; width: 100%; height: 100%; background: #000}
+    body {--toolbar-height: 68px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: auto; font-family: Geist, Arial, sans-serif; color-scheme: dark}
+    #viewport {position: relative; width: min(100vw, calc(100dvh - var(--toolbar-height)), 900px); aspect-ratio: 1; flex: none; overflow: hidden}
+    #stage {position: absolute; top: 0; left: 0; transform-origin: 0 0; isolation: isolate}
+    .copy {position: absolute; z-index: 1; font-size: calc(54 * var(--u)); font-weight: 400; letter-spacing: .022em}
+    .choices {padding: calc(190 * var(--u)) 0 0 calc(169 * var(--u)); color: #454545}
+    .choices div {line-height: calc(76 * var(--u)); margin-bottom: calc(56 * var(--u))}
+    .choices div:last-child {color: #242424}
+    .selection {display: flex; align-items: center; gap: calc(44 * var(--u)); padding-left: calc(43 * var(--u)); color: #c8c8c8}
+    .toolbar, .option-group, .phase-control {display: flex; align-items: center; justify-content: center; gap: 10px}
+    .toolbar {height: var(--toolbar-height); gap: 18px; flex-wrap: wrap; align-content: center; padding: 8px 12px;
+      font-size: 14px; color: #bcbfc5}
+    .toolbar label {cursor: pointer; display: inline-flex; gap: 5px; align-items: center}
+    .toolbar input {accent-color: #ddd; margin: 0}
+    .toolbar input[type=range] {width: 100px}
+    .phase-control[hidden] {display: none}
+    @media (max-width: 460px) {body {--toolbar-height: 88px} .toolbar {row-gap: 9px}}
+  </style>
+</head>
+<body>
+  <main id="viewport" aria-label="Dark Button Glass"><div id="stage"></div></main>
+  <div class="toolbar">
+    <div class="option-group" role="radiogroup" aria-labelledby="background-label">
+      <span id="background-label">Background</span>
+      <label><input type="radio" name="backdrop" value="black" checked>Black</label>
+      <label><input type="radio" name="backdrop" value="stripes">Stripes</label>
+    </div>
+    <label class="phase-control" hidden>Stripe offset
+      <input type="range" id="stripe-phase" min="0" max="100" value="0" step="1">
+    </label>
+  </div>
+  <script type="module" src="dark-button-glass.mjs"></script>
+</body>
+</html>

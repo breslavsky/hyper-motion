@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "name": "Fluent Emoji",
+      "url": "https://github.com/microsoft/fluentui-emoji",
+      "version": "@iconify-json/fluent-emoji-flat 1.2.6",
+      "license": "MIT",
+      "taken": "vendored",
+      "package": "@iconify-json/fluent-emoji-flat",
+      "files": [
+        "emoji.json.gz"
+      ],
+      "note": "Every emoji of the flat set as the SVG that draws it, by the characters it is written with, packed by `tools/emoji.py` from the illustration library's pinned package (illustrations/). A film's emoji are drawn with these."
+    }
+  ]
+}

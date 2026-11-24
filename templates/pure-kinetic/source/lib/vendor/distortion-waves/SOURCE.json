@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "name": "distortion-waves",
+      "url": "https://github.com/Jakubantalik/Libraries.dev",
+      "ref": "14ae9d2dad18fcee251f4b06333b492a2a41d2ed",
+      "path": "packages/distortion-waves/src",
+      "version": "0.1.0",
+      "license": "MIT",
+      "taken": "adapted",
+      "package": "distortion-waves",
+      "files": [
+        "renderer.mjs",
+        "model.mjs"
+      ],
+      "note": "The six upstream GLSL programs are preserved. RECEIPT.json records the npm archive integrity, individual shader hashes and local JavaScript adaptations."
+    }
+  ]
+}

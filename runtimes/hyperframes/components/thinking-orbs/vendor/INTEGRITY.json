@@ -1,0 +1,35 @@
+{
+  "name": "thinking-orbs",
+  "version": "0.3.2",
+  "license": "MIT",
+  "upstream": "https://github.com/Jakubantalik/Libraries.dev",
+  "referenceCommit": "14ae9d2dad18fcee251f4b06333b492a2a41d2ed",
+  "registryMetadata": "https://registry.npmjs.org/thinking-orbs/0.3.2",
+  "tarball": "https://registry.npmjs.org/thinking-orbs/-/thinking-orbs-0.3.2.tgz",
+  "integrity": "sha512-QZFeBaPEzqhjiZoXy961EvDgaXk2WgXacF3Rbz+Sj5IfzDzBvTC86vdREUHniBffYibJFKSwbfllxLUdI/Xv6g==",
+  "files": {
+    "engine.es.js": {
+      "source": "dist/engine.es.js",
+      "sha256": "e7dc939abf68eb2890f1a3ed49f129185e04ca690dee905b05820ed27adbf209",
+      "bytes": 273
+    },
+    "index-B8WsUNf5.js": {
+      "source": "dist/index-B8WsUNf5.js",
+      "sha256": "4b43963f6409d310b9d80e592d4fb0f1435884a59d0c252f6f1b75926c09b949",
+      "bytes": 26541
+    },
+    "LICENSE": {
+      "source": "LICENSE",
+      "sha256": "915a283980628a0ca9e7b423ebafc6f3a0fa1e630ff17d34e59034808d92011c",
+      "bytes": 1070
+    },
+    "orbs-golden.json": {
+      "source": "packages/thinking-orbs/spec/orbs-golden.json",
+      "sha256": "70bfaa2bbf1390b63f6ec02f16d7a4329fee67b3b290e671fe1d205328165e20",
+      "bytes": 625283,
+      "note": "Upstream golden vectors declare 0.3.1; retained verbatim and verified against 0.3.2."
+    }
+  },
+  "modifications": "None. Published ESM engine and its single local chunk are byte-for-byte copies. React wrapper, gravity, build tools, Pro assets, and platform ports are excluded.",
+  "packageGitHead": "5e7afad5fc8f3661e0bf0b4cd3f87de482ffcf16"
+}

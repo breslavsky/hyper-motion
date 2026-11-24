@@ -1,0 +1,2733 @@
+[
+ {
+  "id": "saas-launch",
+  "poster": 4,
+  "name": "SaaS launch",
+  "category": "Launch",
+  "hint": "Pain, product, proof, CTA. The classic YC-style launch",
+  "style": "editorial",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 122,
+  "credit": {
+   "author": "moritzkremb",
+   "url": "https://x.com/moritzkremb/status/2103066071838466494"
+  },
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "Your team just lost [6 hours] to busywork.",
+    "sub": "Again.",
+    "beats": 4
+   },
+   {
+    "type": "chaos",
+    "text": "Twelve tabs later…",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "Meet *{name}*.",
+    "sub": "Introducing",
+    "beats": 3
+   },
+   {
+    "type": "browser",
+    "url": "{url}",
+    "image": "shot1",
+    "beats": 4
+   },
+   {
+    "type": "callouts",
+    "image": "shot1",
+    "title": "Everything in one place",
+    "notes": [
+     "Plans itself",
+     "Syncs everywhere",
+     "Ships on time"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "toggle",
+    "label": "Autopilot",
+    "kind": "switch",
+    "beats": 3
+   },
+   {
+    "type": "compare",
+    "before": "Monday status meetings",
+    "after": "One live dashboard",
+    "beats": 5
+   },
+   {
+    "type": "marquee",
+    "words": [
+     "FASTER",
+     "CALMER",
+     "{NAME}"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Try it free today",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "nine-beats",
+  "name": "Nine-beat launch",
+  "category": "Launch",
+  "hint": "Pain, reframe, name, how, objection, range, numbers, offer, CTA",
+  "style": "swiss",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 120,
+  "credit": {
+   "author": "ArchiveExplorer",
+   "url": "https://x.com/ArchiveExplorer/status/2106732275685560622"
+  },
+  "scenes": [
+   {
+    "type": "typewriter",
+    "text": "Launch day. Nothing is ready.",
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "It's not you. It's the tooling",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "This is *{name}*.",
+    "beats": 3
+   },
+   {
+    "type": "steps",
+    "title": "How it works",
+    "steps": [
+     "Describe it",
+     "Review it",
+     "Ship it"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "swap",
+    "lead": "Not another",
+    "from": "dashboard",
+    "to": "a teammate",
+    "beats": 4
+   },
+   {
+    "type": "grid",
+    "words": [
+     "FOR",
+     "SOLO",
+     "AND",
+     "TEAMS"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "stat",
+    "value": 3,
+    "suffix": "x",
+    "label": "faster first drafts",
+    "trend": "up",
+    "beats": 4
+   },
+   {
+    "type": "pricing",
+    "name": "Launch",
+    "price": 0,
+    "period": "first month",
+    "features": [
+     "Every feature",
+     "Cancel anytime",
+     "Bring your team"
+    ],
+    "cta": "Start free",
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Ship the thing",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "keynote-reveal",
+  "name": "Keynote reveal",
+  "category": "Launch",
+  "hint": "Liquid glass, iris blades, one continuous reveal",
+  "style": "glass",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 110,
+  "credit": {
+   "author": "thejohnnyhuy",
+   "url": "https://x.com/thejohnnyhuy/status/2104149060588282154"
+  },
+  "scenes": [
+   {
+    "type": "sentence",
+    "text": "We started over",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "*{name}*",
+    "sub": "Today",
+    "beats": 4,
+    "in": "iris"
+   },
+   {
+    "type": "laptop",
+    "image": "shot1",
+    "caption": "Faster than anything before it",
+    "beats": 6,
+    "in": "flood"
+   },
+   {
+    "type": "highlight",
+    "text": "Built around *you*",
+    "beats": 4,
+    "in": "iris"
+   },
+   {
+    "type": "phones",
+    "images": [
+     "shot1",
+     "shot2"
+    ],
+    "caption": "And in your pocket",
+    "beats": 5
+   },
+   {
+    "type": "logo3d",
+    "beats": 4,
+    "in": "iris"
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Available now",
+    "beats": 5,
+    "in": "flood"
+   }
+  ]
+ },
+ {
+  "id": "apple-film",
+  "name": "Apple-style product film",
+  "category": "Launch",
+  "hint": "Calm, luminous, one idea per scene",
+  "style": "keynote",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 108,
+  "pace": "chill",
+  "credit": {
+   "author": "GabZoFar",
+   "url": "https://x.com/GabZoFar/status/2105657821475852359"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "Record once.",
+    "beats": 3
+   },
+   {
+    "type": "title",
+    "text": "Use it *everywhere*.",
+    "beats": 3
+   },
+   {
+    "type": "ui-float",
+    "image": "shot1",
+    "caption": "Meet {name}",
+    "beats": 5
+   },
+   {
+    "type": "laptop",
+    "image": "shot1",
+    "caption": "Made for your Mac",
+    "beats": 5
+   },
+   {
+    "type": "append",
+    "base": "Built for",
+    "words": [
+     "demos",
+     "docs",
+     "launches"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "logo3d",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Download free",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "agency-grade",
+  "name": "The $3,000 launch",
+  "category": "Launch",
+  "hint": "Hook on the price you didn't pay, then the product",
+  "style": "editorial",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 124,
+  "credit": {
+   "author": "ik_builds",
+   "url": "https://x.com/ik_builds/status/2103890476885585923"
+  },
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "This launch video was quoted at [$3,000].",
+    "beats": 4
+   },
+   {
+    "type": "compare",
+    "before": "Two weeks with an agency",
+    "after": "One afternoon",
+    "beats": 5
+   },
+   {
+    "type": "fullbleed",
+    "text": "{NAME}",
+    "beats": 2
+   },
+   {
+    "type": "ui-macro",
+    "image": "shot1",
+    "typeText": "Make it punchier",
+    "click": true,
+    "beats": 5
+   },
+   {
+    "type": "grid",
+    "words": [
+     "EVERY",
+     "WORD",
+     "EVERY",
+     "BEAT"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "wall",
+    "images": [
+     "shot1",
+     "shot2"
+    ],
+    "words": [
+     "LAUNCH",
+     "DEMO",
+     "TEASER",
+     "AD"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Keep the $3,000",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "one-shape-launch",
+  "poster": 2,
+  "name": "One-shape launch",
+  "category": "Launch",
+  "hint": "A prompt bar becomes a button, a ring, a toast. No cuts",
+  "style": "mono",
+  "aspect": "1:1",
+  "track": "air",
+  "bpm": 120,
+  "credit": {
+   "author": "0xnicc0",
+   "url": "https://x.com/0xnicc0/status/2107217691505516612"
+  },
+  "scenes": [
+   {
+    "type": "prompt",
+    "text": "Make a launch film for {name}",
+    "beats": 5
+   },
+   {
+    "type": "morph",
+    "states": [
+     "button",
+     "loader",
+     "check",
+     "player",
+     "slider",
+     "toast"
+    ],
+    "label": "Generate",
+    "text": "Your film is ready",
+    "beats": 12,
+    "in": "zoom"
+   },
+   {
+    "type": "title",
+    "text": "{name}",
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "brand-film",
+  "poster": 4,
+  "name": "Brand film",
+  "category": "Launch",
+  "hint": "One feeling, one idea, never features. The name comes last",
+  "style": "minimal",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 104,
+  "pace": "chill",
+  "credit": {
+   "author": "notdwd",
+   "url": "https://x.com/notdwd/status/2103995183255998633"
+  },
+  "scenes": [
+   {
+    "type": "typewriter",
+    "text": "In 2000, you asked a search box.",
+    "beats": 5
+   },
+   {
+    "type": "typewriter",
+    "text": "Today you ask an agent.",
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "Tomorrow, things just happen",
+    "beats": 4
+   },
+   {
+    "type": "append",
+    "base": "Every",
+    "words": [
+     "question",
+     "errand",
+     "workflow"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "*{name}*",
+    "sub": "Five years from now",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "product-demo",
+  "poster": 3,
+  "name": "Product demo",
+  "category": "SaaS",
+  "hint": "The real screens, in the order a user meets them",
+  "style": "mono",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 118,
+  "credit": {
+   "author": "thegreatola",
+   "url": "https://x.com/thegreatola/status/2107802366363738411"
+  },
+  "scenes": [
+   {
+    "type": "prompt",
+    "text": "Show me what {name} can do",
+    "beats": 5
+   },
+   {
+    "type": "browser",
+    "url": "{url}",
+    "image": "shot1",
+    "beats": 4
+   },
+   {
+    "type": "ui-macro",
+    "image": "shot1",
+    "typeText": "New project",
+    "click": true,
+    "beats": 5
+   },
+   {
+    "type": "callouts",
+    "image": "shot2",
+    "title": "Everything you need, nothing you don't",
+    "notes": [
+     "Live preview",
+     "One-click share",
+     "Undo anything"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "toggle",
+    "label": "Share with team",
+    "kind": "switch",
+    "beats": 3
+   },
+   {
+    "type": "notify",
+    "items": [
+     {
+      "app": "{name}",
+      "title": "Project shipped",
+      "body": "Your team has it now"
+     }
+    ],
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Start in a minute",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "use-case-blitz",
+  "name": "Use-case blitz",
+  "category": "SaaS",
+  "hint": "Every use case you can imagine, fast and modern",
+  "style": "editorial",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 128,
+  "pace": "hyper",
+  "credit": {
+   "author": "KmAsiff",
+   "url": "https://x.com/KmAsiff/status/2103810247131549880"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "One tool.",
+    "beats": 2
+   },
+   {
+    "type": "append",
+    "base": "For",
+    "words": [
+     "sales",
+     "support",
+     "founders",
+     "recruiters",
+     "marketers"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "fullbleed",
+    "text": "CLEAN",
+    "beats": 2
+   },
+   {
+    "type": "ticket",
+    "title": "CHECK #2048",
+    "rows": [
+     [
+      "Input",
+      "4,000 rows"
+     ],
+     [
+      "Bad",
+      "312 removed"
+     ],
+     [
+      "Time",
+      "9 seconds"
+     ]
+    ],
+    "stamp": "VERIFIED",
+    "beats": 5
+   },
+   {
+    "type": "toggle",
+    "label": "Check on signup",
+    "kind": "switch",
+    "beats": 3
+   },
+   {
+    "type": "chart",
+    "kind": "ring",
+    "values": [
+     92,
+     8
+    ],
+    "labels": [
+     "Delivered",
+     "Bounced"
+    ],
+    "title": "After {name}",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Every email, delivered",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "business-explainer",
+  "name": "Business explainer",
+  "category": "SaaS",
+  "hint": "30 seconds: problem, how it works, proof, price",
+  "style": "editorial",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 118,
+  "credit": {
+   "author": "alex_prompter",
+   "url": "https://x.com/alex_prompter/status/2103499977632997524"
+  },
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "Most small teams spend [40%] of the week on admin.",
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "That's two days you never get back",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "*{name}* fixes that.",
+    "beats": 3
+   },
+   {
+    "type": "steps",
+    "title": "How it works",
+    "steps": [
+     "Connect your tools",
+     "Pick what to automate",
+     "Get your week back"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "callouts",
+    "image": "shot1",
+    "title": "One calm dashboard",
+    "notes": [
+     "Invoices sent",
+     "Reminders handled",
+     "Reports done"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "pricing",
+    "name": "Team",
+    "price": 19,
+    "period": "/mo",
+    "features": [
+     "Unlimited automations",
+     "Five seats",
+     "Priority support"
+    ],
+    "cta": "Try it free",
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Get your week back",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "agentic-analytics",
+  "name": "Ask your data",
+  "category": "SaaS",
+  "hint": "Slick and punchy: a question, an agent, a chart",
+  "style": "glass",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 124,
+  "credit": {
+   "author": "zigapoto",
+   "url": "https://x.com/zigapoto/status/2103746698660942208"
+  },
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "Your data already has the [answers].",
+    "beats": 4
+   },
+   {
+    "type": "chat",
+    "messages": [
+     {
+      "me": true,
+      "text": "why did signups jump on Tuesday?"
+     },
+     {
+      "me": false,
+      "text": "A post about your free plan went viral. 62% came from it."
+     }
+    ],
+    "beats": 6
+   },
+   {
+    "type": "chart",
+    "kind": "bar",
+    "values": [
+     3,
+     4,
+     12,
+     6,
+     5
+    ],
+    "labels": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "title": "Signups",
+    "beats": 4
+   },
+   {
+    "type": "callouts",
+    "image": "shot1",
+    "title": "It shows its work",
+    "notes": [
+     "Every query",
+     "Every source",
+     "Every number"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "highlight",
+    "text": "Analytics that *answers*",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Ask your data anything",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "feature-drop-ui",
+  "name": "Feature drop",
+  "category": "SaaS",
+  "hint": "One new feature on the real UI: close-up, click, done",
+  "style": "mono",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 120,
+  "credit": {
+   "author": "wustep",
+   "url": "https://x.com/wustep/status/2104610435571884086"
+  },
+  "scenes": [
+   {
+    "type": "highlight",
+    "text": "Not everyone should see *everything*",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "New in {name}",
+    "sub": "Permissions",
+    "beats": 3
+   },
+   {
+    "type": "ui-macro",
+    "image": "shot1",
+    "typeText": "Only finance can see this",
+    "click": true,
+    "beats": 5
+   },
+   {
+    "type": "toggle",
+    "label": "Restrict this column",
+    "kind": "checkbox",
+    "beats": 3
+   },
+   {
+    "type": "callouts",
+    "image": "shot1",
+    "title": "Share the table, not the secrets",
+    "notes": [
+     "Per column",
+     "Per person",
+     "Per team"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Out now for everyone",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "dev-tool-launch",
+  "poster": 2,
+  "name": "Developer tool launch",
+  "category": "Developer",
+  "hint": "Premium dev-tool film: install, code, numbers",
+  "style": "terminal",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 126,
+  "credit": {
+   "author": "HowDevelop",
+   "url": "https://x.com/HowDevelop/status/2103840883812733090"
+  },
+  "scenes": [
+   {
+    "type": "typewriter",
+    "text": "npm install {name}",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "*{name}*",
+    "sub": "v1.0",
+    "beats": 3
+   },
+   {
+    "type": "code",
+    "title": "app.ts",
+    "lines": [
+     "import { chat } from \"{name}\";",
+     "",
+     "const stream = chat({",
+     "  model: \"any\",",
+     "  tools: [search, fetch],",
+     "});",
+     "for await (const part of stream) render(part);"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "append",
+    "base": "Works with",
+    "words": [
+     "React",
+     "Vue",
+     "Solid",
+     "Svelte"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "stat",
+    "value": 4,
+    "suffix": "kb",
+    "label": "gzipped, zero dependencies",
+    "trend": "none",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Type-safe from the first token",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "neon-launch",
+  "name": "Black + neon",
+  "category": "Developer",
+  "hint": "No rockets, no purple gradients. Black, neon green, type",
+  "style": "terminal",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 128,
+  "credit": {
+   "author": "CharuMitraDubey",
+   "url": "https://x.com/CharuMitraDubey/status/2103956360803328233"
+  },
+  "scenes": [
+   {
+    "type": "slam",
+    "lines": [
+     "NO ROCKETS",
+     "NO GRADIENTS"
+    ],
+    "crumbs": [
+     "$ launch --prod",
+     "BUILD 0412"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "Just a launch that works",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "*{name}*",
+    "beats": 3
+   },
+   {
+    "type": "steps",
+    "title": "Launch in three moves",
+    "steps": [
+     "Connect repo",
+     "Pick a date",
+     "Press go"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "countdown",
+    "from": 3,
+    "label": "LIVE",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Launch like you mean it",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "release-hype",
+  "name": "Release hype reel",
+  "category": "Developer",
+  "hint": "A new version, counted down and slammed in",
+  "style": "terminal",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 132,
+  "pace": "hyper",
+  "credit": {
+   "author": "Subraiz24",
+   "url": "https://x.com/Subraiz24/status/2104089866996994209"
+  },
+  "scenes": [
+   {
+    "type": "countdown",
+    "from": 3,
+    "label": "v2.0",
+    "beats": 4
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "FASTER",
+     "SMALLER",
+     "SHARPER"
+    ],
+    "crumbs": [
+     "CHANGELOG",
+     "142 FIXES"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "stat",
+    "value": 2.4,
+    "suffix": "x",
+    "label": "faster cold starts",
+    "trend": "up",
+    "beats": 4
+   },
+   {
+    "type": "code",
+    "title": "upgrade.sh",
+    "lines": [
+     "$ npm i {name}@latest",
+     "+ {name}@2.0.0",
+     "added 1 package in 0.8s"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "marquee",
+    "words": [
+     "UPGRADE",
+     "TODAY",
+     "{NAME}"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Read the changelog",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "agent-explainer",
+  "name": "How an agent works",
+  "category": "Developer",
+  "hint": "40 seconds on what happens after you press enter",
+  "style": "blueprint",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 112,
+  "credit": {
+   "author": "arthurkatcher",
+   "url": "https://x.com/arthurkatcher/status/2104198927549604161"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "How *{name}* works",
+    "beats": 3
+   },
+   {
+    "type": "prompt",
+    "text": "Fix the failing login test",
+    "beats": 4
+   },
+   {
+    "type": "steps",
+    "title": "The loop",
+    "steps": [
+     "Read the code",
+     "Make a plan",
+     "Edit and run",
+     "Check the result"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "code",
+    "title": "auth.test.ts",
+    "lines": [
+     "- expect(user).toBe(null)",
+     "+ expect(user?.id).toBeDefined()",
+     "",
+     "✓ 48 tests passed"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "ticket",
+    "title": "TASK #318",
+    "rows": [
+     [
+      "Task",
+      "Fix login test"
+     ],
+     [
+      "Files",
+      "2 changed"
+     ],
+     [
+      "Tests",
+      "48 passing"
+     ]
+    ],
+    "stamp": "PASSED",
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Hand it the boring part",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "identity-bumper",
+  "name": "Street-poster bumper",
+  "category": "Bumper",
+  "hint": "A 15-second identity hit: slams, crumbs, misprints",
+  "style": "poster",
+  "aspect": "1:1",
+  "track": "drive",
+  "bpm": 128,
+  "credit": {
+   "author": "techhalla",
+   "url": "https://x.com/techhalla/status/2103411244468498547"
+  },
+  "scenes": [
+   {
+    "type": "slam",
+    "lines": [
+     "STEAL",
+     "THE",
+     "WORKFLOW"
+    ],
+    "crumbs": [
+     "PROMPT_01",
+     "00:00:04",
+     "NO VIBES"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "fullbleed",
+    "text": "{NAME}",
+    "beats": 2
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "NOT",
+     "VIBES"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "marquee",
+    "words": [
+     "SHIP",
+     "DAILY",
+     "{NAME}"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "MADE TO",
+     "BE STOLEN"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "beat-square",
+  "name": "Beat-synced square",
+  "category": "Bumper",
+  "hint": "Every cut on the beat, comic-print pop",
+  "style": "halftone",
+  "aspect": "1:1",
+  "track": "bounce",
+  "bpm": 118,
+  "credit": {
+   "author": "diamai_",
+   "url": "https://x.com/diamai_/status/2104195085508157697"
+  },
+  "scenes": [
+   {
+    "type": "fullbleed",
+    "text": "LOUD",
+    "beats": 2
+   },
+   {
+    "type": "grid",
+    "words": [
+     "MAKE",
+     "IT",
+     "MOVE"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "ON",
+     "EVERY",
+     "BEAT"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "countdown",
+    "from": 3,
+    "label": "GO",
+    "beats": 4
+   },
+   {
+    "type": "fullbleed",
+    "text": "{NAME}",
+    "variant": "repeat",
+    "beats": 2
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "studio-reel",
+  "name": "Studio résumé reel",
+  "category": "Bumper",
+  "hint": "Hook in a second, a run of techniques, a clean last frame",
+  "style": "halftone",
+  "aspect": "16:9",
+  "track": "bounce",
+  "bpm": 120,
+  "credit": {
+   "author": "reflex_cloud",
+   "url": "https://x.com/reflex_cloud/status/2103552840027304046"
+  },
+  "scenes": [
+   {
+    "type": "fullbleed",
+    "text": "HELLO",
+    "beats": 2
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "WE MAKE",
+     "THINGS MOVE"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "morph",
+    "states": [
+     "button",
+     "loader",
+     "check",
+     "toggle"
+    ],
+    "label": "Hire us",
+    "text": "Booked",
+    "beats": 8
+   },
+   {
+    "type": "chart",
+    "kind": "ring",
+    "values": [
+     96,
+     4
+    ],
+    "labels": [
+     "On time",
+     "Late"
+    ],
+    "title": "Projects shipped on time",
+    "unit": "%",
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "Type, shape, camera, colour",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "{name}, a motion studio",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "designer-showreel",
+  "name": "Looping showreel",
+  "category": "Bumper",
+  "hint": "Loud and playful, ends where it started",
+  "style": "loud",
+  "aspect": "16:9",
+  "track": "bounce",
+  "bpm": 104,
+  "credit": {
+   "author": "heyiamnick",
+   "url": "https://x.com/heyiamnick/status/2109174851412119558"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "{name}",
+    "sub": "Showreel 2026",
+    "beats": 3
+   },
+   {
+    "type": "fullbleed",
+    "text": "TYPE",
+    "beats": 2
+   },
+   {
+    "type": "fullbleed",
+    "text": "SHAPE",
+    "beats": 2
+   },
+   {
+    "type": "fullbleed",
+    "text": "MOTION",
+    "beats": 2
+   },
+   {
+    "type": "phones",
+    "images": [
+     "shot1",
+     "shot2"
+    ],
+    "caption": "Made for every feed",
+    "beats": 4
+   },
+   {
+    "type": "marquee",
+    "words": [
+     "AVAILABLE",
+     "FOR",
+     "WORK"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "ui-morph-reel",
+  "poster": 0,
+  "name": "UI morph reel",
+  "category": "UI motion",
+  "hint": "Nine UI states, one shape, a cursor on every beat",
+  "style": "mono",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 120,
+  "credit": {
+   "author": "twoclipping",
+   "url": "https://x.com/twoclipping/status/2103273003555402193"
+  },
+  "scenes": [
+   {
+    "type": "morph",
+    "states": [
+     "button",
+     "loader",
+     "check",
+     "toggle",
+     "slider",
+     "player",
+     "tabs",
+     "search",
+     "toast"
+    ],
+    "label": "Start",
+    "text": "{name} saved",
+    "beats": 18
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "dark-ui-reel",
+  "poster": 0,
+  "name": "Dark-mode UI motion",
+  "category": "UI motion",
+  "hint": "Pitch black, snappy camera, punchy type",
+  "style": "keynote",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 120,
+  "credit": {
+   "author": "noah_z_zhang",
+   "url": "https://x.com/noah_z_zhang/status/2104408692816765393"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "Dark mode.",
+    "beats": 2
+   },
+   {
+    "type": "morph",
+    "states": [
+     "search",
+     "loader",
+     "player",
+     "slider",
+     "toast"
+    ],
+    "label": "Play",
+    "text": "Now playing",
+    "beats": 10
+   },
+   {
+    "type": "notify",
+    "items": [
+     {
+      "app": "{name}",
+      "title": "Focus mode on",
+      "body": "Notifications paused until 5 pm"
+     },
+     {
+      "app": "{name}",
+      "title": "Back online"
+     }
+    ],
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "music-app",
+  "name": "Music app drop",
+  "category": "UI motion",
+  "hint": "A premium music-product film on a dark stage",
+  "style": "glass",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 120,
+  "credit": {
+   "author": "brainextends",
+   "url": "https://x.com/brainextends/status/2103801834930606193"
+  },
+  "scenes": [
+   {
+    "type": "sentence",
+    "text": "Your year, in sound",
+    "beats": 4
+   },
+   {
+    "type": "stat",
+    "value": 48210,
+    "label": "minutes listened",
+    "trend": "up",
+    "beats": 4
+   },
+   {
+    "type": "morph",
+    "states": [
+     "player",
+     "slider",
+     "tabs",
+     "toast"
+    ],
+    "label": "Play",
+    "text": "Added to your mix",
+    "beats": 8
+   },
+   {
+    "type": "marquee",
+    "words": [
+     "INDIE",
+     "JAZZ",
+     "LO-FI",
+     "HOUSE"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "phones",
+    "images": [
+     "shot1",
+     "shot2"
+    ],
+    "caption": "Share your mix",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "proof-in-motion",
+  "name": "Proof in motion",
+  "category": "Explainer",
+  "hint": "Euclid's no-last-prime, staged as type and numbers",
+  "style": "blueprint",
+  "aspect": "1:1",
+  "track": "air",
+  "bpm": 100,
+  "credit": {
+   "author": "Gdgtify",
+   "url": "https://x.com/Gdgtify/status/2107054188836393073"
+  },
+  "scenes": [
+   {
+    "type": "sentence",
+    "text": "Suppose the list of primes ends",
+    "beats": 4
+   },
+   {
+    "type": "caption",
+    "text": "2 × 3 × 5 × 7 × 11 × 13 = [30030]",
+    "beats": 4
+   },
+   {
+    "type": "caption",
+    "text": "Add one: [30031]",
+    "beats": 3
+   },
+   {
+    "type": "highlight",
+    "text": "Every listed prime leaves *remainder 1*",
+    "beats": 4
+   },
+   {
+    "type": "caption",
+    "text": "30031 = [59] × [509]",
+    "sub": "Neither was on the list.",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "No last *prime*.",
+    "beats": 4
+   },
+   {
+    "type": "fullbleed",
+    "text": "QED",
+    "beats": 2
+   }
+  ]
+ },
+ {
+  "id": "science-explainer",
+  "poster": 2,
+  "name": "Science explainer",
+  "category": "Explainer",
+  "hint": "One question, three steps, one answer",
+  "style": "blueprint",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 108,
+  "credit": {
+   "author": "Cryptoxorz",
+   "url": "https://x.com/Cryptoxorz/status/2106632900049359201"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "Why is the sky *blue*?",
+    "beats": 3
+   },
+   {
+    "type": "steps",
+    "title": "What happens",
+    "steps": [
+     "Sunlight has all colours",
+     "Air scatters blue most",
+     "Blue reaches your eye"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "chart",
+    "kind": "bar",
+    "values": [
+     1,
+     1.6,
+     2.6,
+     4.4
+    ],
+    "labels": [
+     "Red",
+     "Yellow",
+     "Green",
+     "Blue"
+    ],
+    "title": "How much each colour scatters",
+    "beats": 5
+   },
+   {
+    "type": "highlight",
+    "text": "Short waves bounce *more*",
+    "beats": 4
+   },
+   {
+    "type": "globe",
+    "label": "Same sky, everywhere on Earth",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "One question a week",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "kinetic-text",
+  "name": "Kinetic text explainer",
+  "category": "Explainer",
+  "hint": "After Effects-style type doing all the talking",
+  "style": "editorial",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 120,
+  "credit": {
+   "author": "IncognitoPrince",
+   "url": "https://x.com/IncognitoPrince/status/2107664651760849212"
+  },
+  "scenes": [
+   {
+    "type": "sentence",
+    "text": "Here's the thing nobody tells you",
+    "beats": 4
+   },
+   {
+    "type": "highlight",
+    "text": "Most of the work is *invisible*",
+    "beats": 4
+   },
+   {
+    "type": "swap",
+    "lead": "It's not",
+    "from": "talent",
+    "to": "repetition",
+    "beats": 4
+   },
+   {
+    "type": "grid",
+    "words": [
+     "DO",
+     "IT",
+     "AGAIN"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "fullbleed",
+    "text": "DAILY",
+    "beats": 2
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "{name}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "how-to",
+  "name": "Step-by-step how-to",
+  "category": "Explainer",
+  "hint": "Submit, review, approved: a process anyone can follow",
+  "style": "riso",
+  "aspect": "16:9",
+  "track": "bounce",
+  "bpm": 108,
+  "credit": {
+   "author": "mattbean",
+   "url": "https://x.com/mattbean/status/2103146389412917572"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "How to list on {name}",
+    "beats": 3
+   },
+   {
+    "type": "steps",
+    "title": "Three steps",
+    "steps": [
+     "Tell us your product",
+     "We draft the listing",
+     "You approve it"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "browser",
+    "url": "{url}/submit",
+    "image": "shot1",
+    "beats": 4
+   },
+   {
+    "type": "ticket",
+    "title": "LISTING #77",
+    "rows": [
+     [
+      "Product",
+      "Your app"
+     ],
+     [
+      "Status",
+      "Reviewed"
+     ],
+     [
+      "Live",
+      "Monday"
+     ]
+    ],
+    "stamp": "APPROVED",
+    "beats": 5
+   },
+   {
+    "type": "notify",
+    "items": [
+     {
+      "app": "{name}",
+      "title": "Your listing is live",
+      "body": "First sale in 14 minutes"
+     }
+    ],
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Submit yours today",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "recipe-card",
+  "name": "Recipe film",
+  "category": "Explainer",
+  "hint": "Ingredients and measures going into the glass",
+  "style": "riso",
+  "aspect": "9:16",
+  "track": "bounce",
+  "bpm": 100,
+  "credit": {
+   "author": "Ror_Fly",
+   "url": "https://x.com/Ror_Fly/status/2102853258582880547"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "*Paloma*",
+    "sub": "Recipe 01",
+    "beats": 3
+   },
+   {
+    "type": "steps",
+    "title": "Into the glass",
+    "steps": [
+     "60 ml tequila",
+     "15 ml lime juice",
+     "A pinch of salt",
+     "Top with grapefruit soda"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "ticket",
+    "title": "PALOMA",
+    "rows": [
+     [
+      "Glass",
+      "Highball"
+     ],
+     [
+      "Ice",
+      "Lots"
+     ],
+     [
+      "Garnish",
+      "Lime wheel"
+     ]
+    ],
+    "stamp": "CHEERS",
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "A new recipe every Friday",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "spoken-word",
+  "poster": 2,
+  "name": "Spoken-word film",
+  "category": "Story",
+  "hint": "A short speech staged entirely in type",
+  "style": "riso",
+  "aspect": "1:1",
+  "track": "air",
+  "bpm": 96,
+  "pace": "chill",
+  "credit": {
+   "author": "Gdgtify",
+   "url": "https://x.com/Gdgtify/status/2103458245213929495"
+  },
+  "scenes": [
+   {
+    "type": "sentence",
+    "text": "We were told to wait",
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "So we learned the weight of waiting",
+    "beats": 5
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "THEN ONE VOICE",
+     "MADE ROOM"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "typewriter",
+    "text": "Then another.",
+    "beats": 3
+   },
+   {
+    "type": "title",
+    "text": "Now the floor is *ours*.",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "tiny-story",
+  "name": "Tiny story",
+  "category": "Story",
+  "hint": "Twelve seconds of story, then the product",
+  "style": "minimal",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 110,
+  "credit": {
+   "author": "adrianduta96",
+   "url": "https://x.com/adrianduta96/status/2109187815195992248"
+  },
+  "scenes": [
+   {
+    "type": "typewriter",
+    "text": "11:58 pm. The demo is at 9.",
+    "beats": 4
+   },
+   {
+    "type": "chat",
+    "messages": [
+     {
+      "me": false,
+      "text": "is the deck ready?"
+     },
+     {
+      "me": true,
+      "text": "almost"
+     },
+     {
+      "me": false,
+      "text": "…the video too?"
+     }
+    ],
+    "beats": 5
+   },
+   {
+    "type": "dock",
+    "apps": [
+     "🎬",
+     "🎨",
+     "📝",
+     "📁",
+     "★"
+    ],
+    "open": 4,
+    "caption": "Open one app",
+    "beats": 5
+   },
+   {
+    "type": "notify",
+    "items": [
+     {
+      "app": "{name}",
+      "title": "Your video is ready",
+      "body": "Rendered in 40 seconds"
+     }
+    ],
+    "beats": 4
+   },
+   {
+    "type": "sentence",
+    "text": "Asleep by midnight",
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "company-history",
+  "poster": 2,
+  "name": "Company history",
+  "category": "Story",
+  "hint": "From a garage to today, one year at a time",
+  "style": "keynote",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 112,
+  "credit": {
+   "author": "aiRobertDaily",
+   "url": "https://x.com/aiRobertDaily/status/2108596616756416945"
+  },
+  "scenes": [
+   {
+    "type": "fullbleed",
+    "text": "2019",
+    "beats": 2
+   },
+   {
+    "type": "sentence",
+    "text": "Two people, one spare room",
+    "beats": 4
+   },
+   {
+    "type": "timeline",
+    "title": "How we got here",
+    "items": [
+     "First user",
+     "First hire",
+     "Version 2",
+     "1M people",
+     "Today"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "phones",
+    "images": [
+     "shot1",
+     "shot2"
+    ],
+    "caption": "In millions of pockets",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "Still *{name}*.",
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "history-timeline",
+  "name": "History timeline",
+  "category": "Story",
+  "hint": "Years slammed in one after another, ending on a line",
+  "style": "swiss",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 124,
+  "credit": {
+   "author": "rpa_dake",
+   "url": "https://x.com/rpa_dake/status/2104466394859593915"
+  },
+  "scenes": [
+   {
+    "type": "fullbleed",
+    "text": "1996",
+    "beats": 2
+   },
+   {
+    "type": "fullbleed",
+    "text": "2004",
+    "beats": 2
+   },
+   {
+    "type": "fullbleed",
+    "text": "2015",
+    "beats": 2
+   },
+   {
+    "type": "timeline",
+    "title": "A short history of search",
+    "items": [
+     "A dorm project",
+     "Going public",
+     "Mobile first",
+     "Answers, not links"
+    ],
+    "beats": 6
+   },
+   {
+    "type": "title",
+    "text": "From search to *everything*.",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "progress-montage",
+  "name": "Progress montage",
+  "category": "Story",
+  "hint": "Bang, bang, boom: a year of progress in 20 seconds",
+  "style": "halftone",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 128,
+  "pace": "hyper",
+  "credit": {
+   "author": "nummanali",
+   "url": "https://x.com/nummanali/status/2103565570310340931"
+  },
+  "scenes": [
+   {
+    "type": "countdown",
+    "from": 3,
+    "label": "2026",
+    "beats": 4
+   },
+   {
+    "type": "chart",
+    "kind": "line",
+    "values": [
+     12,
+     18,
+     21,
+     34,
+     41,
+     58,
+     72,
+     91
+    ],
+    "title": "What models can do",
+    "beats": 4
+   },
+   {
+    "type": "append",
+    "base": "Now it can",
+    "words": [
+     "code",
+     "see",
+     "plan",
+     "ship"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "AND THIS",
+     "IS JUNE"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Follow along",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "waitlist-trailer",
+  "poster": 1,
+  "name": "Waitlist trailer",
+  "category": "Social",
+  "hint": "Loud square trailer: a brief, a ticket, phones, a date",
+  "style": "loud",
+  "aspect": "1:1",
+  "track": "bounce",
+  "bpm": 104,
+  "credit": {
+   "author": "twoclipping",
+   "url": "https://x.com/twoclipping/status/2106101258834551116"
+  },
+  "scenes": [
+   {
+    "type": "title",
+    "text": "{name}",
+    "sub": "Coming soon",
+    "beats": 3
+   },
+   {
+    "type": "slam",
+    "lines": [
+     "WRITE A",
+     "BRIEF"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "ticket",
+    "title": "CASTING #001",
+    "rows": [
+     [
+      "Brief",
+      "Skincare launch"
+     ],
+     [
+      "Scanned",
+      "1,000 creators"
+     ],
+     [
+      "Cast",
+      "4"
+     ]
+    ],
+    "stamp": "CAST",
+    "beats": 5
+   },
+   {
+    "type": "phones",
+    "images": [
+     "shot1",
+     "shot2",
+     "shot3"
+    ],
+    "caption": "Ads that look like posts",
+    "beats": 4
+   },
+   {
+    "type": "marquee",
+    "words": [
+     "JOIN",
+     "THE",
+     "WAITLIST"
+    ],
+    "beats": 3
+   },
+   {
+    "type": "countdown",
+    "from": 3,
+    "label": "SOON",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Join the waitlist",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "social-cut",
+  "name": "Vertical launch cut",
+  "category": "Social",
+  "hint": "9:16, quick cuts, a hook in the first second",
+  "style": "editorial",
+  "aspect": "9:16",
+  "track": "pulse",
+  "bpm": 124,
+  "pace": "hyper",
+  "credit": {
+   "author": "jhylee95",
+   "url": "https://x.com/jhylee95/status/2103604431627452427"
+  },
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "Your demo has [0 views]?",
+    "beats": 3
+   },
+   {
+    "type": "swap",
+    "lead": "Stop",
+    "from": "recording",
+    "to": "generating",
+    "beats": 4
+   },
+   {
+    "type": "ui-macro",
+    "image": "shot1",
+    "typeText": "Turn this into a demo",
+    "click": true,
+    "beats": 5
+   },
+   {
+    "type": "phones",
+    "images": [
+     "shot1",
+     "shot2"
+    ],
+    "caption": "Interactive in one click",
+    "beats": 4
+   },
+   {
+    "type": "toggle",
+    "label": "AI voiceover",
+    "kind": "switch",
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Demos that sell",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "fifteen-second-ad",
+  "poster": 0,
+  "name": "15-second ad",
+  "category": "Social",
+  "hint": "Make everyday users think: I want that",
+  "style": "loud",
+  "aspect": "9:16",
+  "track": "bounce",
+  "bpm": 110,
+  "pace": "hyper",
+  "credit": {
+   "author": "FedericoAltepo1",
+   "url": "https://x.com/FedericoAltepo1/status/2107883128610312496"
+  },
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "Your AI forgets [everything].",
+    "beats": 3
+   },
+   {
+    "type": "dock",
+    "apps": [
+     "📧",
+     "📅",
+     "📁",
+     "💬",
+     "📝"
+    ],
+    "open": 1,
+    "caption": "Your tools",
+    "beats": 4
+   },
+   {
+    "type": "toggle",
+    "label": "Connected",
+    "kind": "switch",
+    "beats": 3
+   },
+   {
+    "type": "compare",
+    "before": "Copy, paste, repeat",
+    "after": "It just knows",
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Connect your AI",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "hiring-film",
+  "name": "Hiring film",
+  "category": "Social",
+  "hint": "Calm, adult, reassuring: why people should join",
+  "style": "swiss",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 104,
+  "pace": "chill",
+  "credit": {
+   "author": "egawa_AI_design",
+   "url": "https://x.com/egawa_AI_design/status/2103760245764092323"
+  },
+  "scenes": [
+   {
+    "type": "sentence",
+    "text": "Out of the game for years? Good",
+    "beats": 4
+   },
+   {
+    "type": "append",
+    "base": "Home by",
+    "words": [
+     "5 pm",
+     "dinner",
+     "bedtime"
+    ],
+    "beats": 4
+   },
+   {
+    "type": "highlight",
+    "text": "We'll teach you the *rest*",
+    "beats": 4
+   },
+   {
+    "type": "title",
+    "text": "Join *{name}*.",
+    "sub": "We're hiring",
+    "beats": 3
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Apply in two minutes",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "year-in-review",
+  "poster": 2,
+  "name": "Year in review",
+  "category": "Data",
+  "hint": "Your numbers, charted and counted",
+  "style": "swiss",
+  "aspect": "16:9",
+  "track": "pulse",
+  "bpm": 120,
+  "scenes": [
+   {
+    "type": "title",
+    "text": "*{name}*, this year",
+    "beats": 3
+   },
+   {
+    "type": "stat",
+    "value": 128400,
+    "label": "people signed up",
+    "trend": "up",
+    "beats": 4
+   },
+   {
+    "type": "chart",
+    "kind": "bar",
+    "values": [
+     4,
+     6,
+     9,
+     15
+    ],
+    "labels": [
+     "Q1",
+     "Q2",
+     "Q3",
+     "Q4"
+    ],
+    "title": "Revenue by quarter",
+    "unit": "k",
+    "beats": 5
+   },
+   {
+    "type": "chart",
+    "kind": "pie",
+    "values": [
+     54,
+     28,
+     18
+    ],
+    "labels": [
+     "Web",
+     "iOS",
+     "Android"
+    ],
+    "title": "Where they use it",
+    "beats": 4
+   },
+   {
+    "type": "globe",
+    "label": "In 92 countries",
+    "beats": 4
+   },
+   {
+    "type": "timeline",
+    "title": "Next year",
+    "items": [
+     "Teams",
+     "API",
+     "Offline mode"
+    ],
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Thank you",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "metrics-flex",
+  "name": "Metrics flex",
+  "category": "Data",
+  "hint": "Hook on a real number, prove it with a chart",
+  "style": "editorial",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 126,
+  "scenes": [
+   {
+    "type": "caption",
+    "text": "We just crossed [$100,000] in revenue.",
+    "sub": "In 90 days.",
+    "beats": 4
+   },
+   {
+    "type": "chart",
+    "kind": "line",
+    "values": [
+     2,
+     3,
+     5,
+     8,
+     13,
+     21,
+     34
+    ],
+    "title": "Monthly revenue",
+    "beats": 4
+   },
+   {
+    "type": "stat",
+    "value": 4800,
+    "label": "paying customers",
+    "trend": "up",
+    "beats": 4
+   },
+   {
+    "type": "notify",
+    "items": [
+     {
+      "app": "Stripe",
+      "title": "New payment",
+      "body": "$49.00 from a new customer"
+     },
+     {
+      "app": "Stripe",
+      "title": "New payment",
+      "body": "$49.00 from a new customer"
+     }
+    ],
+    "beats": 4
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Built in public",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "pricing-launch",
+  "poster": 2,
+  "name": "Pricing announcement",
+  "category": "Data",
+  "hint": "New plans, one card, a click on the button",
+  "style": "minimal",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 118,
+  "scenes": [
+   {
+    "type": "title",
+    "text": "New *pricing*.",
+    "beats": 3
+   },
+   {
+    "type": "compare",
+    "before": "Per seat, per month",
+    "after": "One flat price",
+    "beats": 5
+   },
+   {
+    "type": "pricing",
+    "name": "{name} Pro",
+    "price": 12,
+    "period": "/mo",
+    "features": [
+     "Unlimited projects",
+     "Every feature",
+     "Cancel anytime"
+    ],
+    "cta": "Upgrade",
+    "beats": 5
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}/pricing",
+    "beats": 4
+   }
+  ]
+ },
+ {
+  "id": "agent-at-work",
+  "poster": 1,
+  "name": "Agent at work",
+  "category": "Launch",
+  "hint": "Typed request, the agent checks off its tasks, the product dives in",
+  "style": "glass",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 118,
+  "credit": {
+   "author": "marleen_swift",
+   "url": "https://x.com/marleen_swift/status/2110350640400801840"
+  },
+  "scenes": [
+   {
+    "type": "pullback",
+    "text": "@{name} do the boring part for me",
+    "chips": [
+     "My files",
+     "My calendar"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "agent",
+    "steps": [
+     "Reading what you sent",
+     "Sorting the busywork",
+     "Checking every detail"
+    ],
+    "done": "All done.",
+    "result": "Ready for you to review",
+    "beats": 9
+   },
+   {
+    "type": "knockout",
+    "word": "{name}",
+    "text": "Your work, *handled*",
+    "image": "shot1",
+    "beats": 7
+   },
+   {
+    "type": "particles",
+    "text": "Less busywork. More *you*.",
+    "beats": 6
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Try it free today",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "voice-ai",
+  "poster": 1,
+  "name": "Voice AI",
+  "category": "Launch",
+  "hint": "A living orb, a voice and its words, everything it can do",
+  "style": "studio",
+  "aspect": "16:9",
+  "track": "air",
+  "bpm": 116,
+  "credit": {
+   "author": "benjitaylor",
+   "url": "https://x.com/benjitaylor/status/2082515001949221152"
+  },
+  "scenes": [
+   {
+    "type": "orb",
+    "lines": [
+     "Meet {name}.",
+     "It listens.",
+     "It gets it done."
+    ],
+    "beats": 7
+   },
+   {
+    "type": "wave",
+    "text": "Done. I booked it and sent the *invite*.",
+    "label": "Just say what you need",
+    "beats": 7
+   },
+   {
+    "type": "hive",
+    "icons": [
+     "📅",
+     "✉️",
+     "📞",
+     "🧾",
+     "🗂️",
+     "🛒",
+     "🎧",
+     "⚡"
+    ],
+    "labels": [
+     "Calendar",
+     "Email"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "particles",
+    "text": "One voice for *everything*",
+    "beats": 6
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Talk to it today",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "phone-in-the-sentence",
+  "poster": 0,
+  "name": "Phone in the sentence",
+  "category": "Story",
+  "hint": "A phone sits between the words and gets tapped until it is done",
+  "style": "daylight",
+  "aspect": "9:16",
+  "track": "bounce",
+  "bpm": 120,
+  "credit": {
+   "author": "mokshLNQ",
+   "url": "https://x.com/mokshLNQ/status/2118744271989919950"
+  },
+  "scenes": [
+   {
+    "type": "between",
+    "lead": "Book",
+    "words": [
+     "a table",
+     "a ride",
+     "it all"
+    ],
+    "cta": "Confirm",
+    "ground": true,
+    "beats": 8
+   },
+   {
+    "type": "arc",
+    "text": "Made for people who *go out*",
+    "words": [
+     "travel",
+     "explore"
+    ],
+    "images": [
+     "stock:friends at dinner",
+     "stock:city street at night",
+     "stock:runner at sunrise",
+     "stock:coffee shop window",
+     "stock:concert crowd"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "dot",
+    "word": "{name}",
+    "ring": [
+     "One tap",
+     "No waiting",
+     "Always on"
+    ],
+    "beats": 8
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "Get the app",
+    "beats": 5
+   }
+  ]
+ },
+ {
+  "id": "crafted-reel",
+  "poster": 2,
+  "name": "Crafted reel",
+  "category": "Bumper",
+  "hint": "A scattered sentence, a ransom-note word, a dive through the type",
+  "style": "minimal",
+  "aspect": "16:9",
+  "track": "drive",
+  "bpm": 124,
+  "credit": {
+   "author": "motionimo",
+   "url": "https://x.com/motionimo/status/2117281249010045284"
+  },
+  "scenes": [
+   {
+    "type": "scatter",
+    "text": "Good work used to take a whole *studio*.",
+    "icons": [
+     "🎬",
+     "✏️",
+     "📅",
+     "☕"
+    ],
+    "beats": 7
+   },
+   {
+    "type": "assemble",
+    "word": "Not anymore.",
+    "beats": 6
+   },
+   {
+    "type": "knockout",
+    "word": "{name}",
+    "text": "Made with *care*",
+    "image": "shot1",
+    "beats": 7
+   },
+   {
+    "type": "endcard",
+    "cta": "{url}",
+    "tagline": "See what it can do",
+    "beats": 5
+   }
+  ]
+ }
+]

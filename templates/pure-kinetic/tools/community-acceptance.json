@@ -1,0 +1,248 @@
+{
+  "schema": "pure-kinetic.community-acceptance.v1",
+  "createdAt": "2026-11-21T03:10:31.634Z",
+  "batch": "community-01",
+  "templateVersion": "0.3.0",
+  "baseCommit": "4b35bd97de06b3cbd77965e634d13a806f0e4a8a",
+  "scope": {
+    "added": [
+      "polar",
+      "letterflip",
+      "accordion",
+      "explode",
+      "scan"
+    ],
+    "catalogueBefore": 95,
+    "catalogueAfter": 100,
+    "communityBefore": 12,
+    "communityAfter": 17,
+    "wholeRemoteLibraryConverted": false,
+    "deployed": false
+  },
+  "runtime": {
+    "hyperframes": "0.9.19",
+    "gsap": "3.14.2"
+  },
+  "sourceReceipt": {
+    "algorithm": "sha256",
+    "aggregate": "1e0e4f4dd29b1e97d60bfc55c5e9a7a5d39fa6354bac5cdb2e690c6b273b961f",
+    "files": {
+      "lib/build.cjs": "cd2416f57ea2306949c8998097cfa296e2b030bc51b893ff57299648337200be",
+      "lib/compiler/definitions.cjs": "f94bdaa2f653040abd91af76e2ed0b6fbdc0d9b2561f64f5b9dcaccf38a6de32",
+      "lib/compiler/fields.cjs": "600b63d666efd68221502a43ba408df60237532ef2d38ff76c1593670cb2b77c",
+      "lib/compiler/looks-own.cjs": "93a57e87dad1191b9fe6b9aed660fd056d8c2f40a6022ea57918de5adeb4ebd9",
+      "lib/compiler/looks.cjs": "c8b4890c5b844e923cd115e8f7222f3b6a2b20d1c124b21eae361ca27599c4cf",
+      "lib/compiler/plan.cjs": "67b4007ebf390a925f0f44e6bc112106dfd90b76e2e74978b39da28062ed6351",
+      "lib/components/builtin.mjs": "b35373b766c58a57f0c067d3d1ec5b636f00f59978d49126696a7d09f82d9494",
+      "lib/components/catalog.mjs": "2082c7ef2fa8fa8ba29f210d2c3121e5a85feef2d0d7a49a5333ec9060fb5da2",
+      "lib/components/context.mjs": "ab788a2cd5cd11ef77372d035ce6be9c6ab6960d295f20dba927365d68d34045",
+      "lib/components/decor.mjs": "9447ecdf7d8af2980549e3c943be1a59355fdc006764f2219c553a4a715c3c75",
+      "lib/components/dom.mjs": "91a2177bed1168e876eb4b8e6218e4f51f90effd87af74146faecc357167608a",
+      "lib/components/fit.mjs": "cdaa20d283be4c546f1165c85b19aab75f88bfc14e19e26c534798d850d99cb1",
+      "lib/components/index.mjs": "0521d2bda481f691cf01851d8067bba173a1a75754f960a0c8244788e9c064f6",
+      "lib/components/layers.mjs": "d36ef452c5de892a99a2809955b2c79592ca089f2aa4af05aa9583d6a86b62a9",
+      "lib/components/maths.mjs": "e733c804d9d649b90c466dc236ac5dc9ee23352c87e5567dc63aeb06ccfc55d2",
+      "lib/components/metadata.cjs": "166c4c77d030bad5c3d55f5552dc95f019d018e37b1cfefe7d571b46e265f68f",
+      "lib/components/metadata.mjs": "2333403a6e091c61588036f83864b051d2f4ba79b8fc8b1dee63b76e697ee1cf",
+      "lib/components/motion.mjs": "7fdc2237a23f82b52fc4508b0d6338ddd985f5893e9cec0e97d0686d708848cd",
+      "lib/components/moves.mjs": "aef3238b9099ae61e493c6e5d8ba44699166166e7b3fa23085c68944b5409db8",
+      "lib/components/own-kit.mjs": "615ed7eedd480daae7195b4e3f3b942c9fe4c0e987602e1d184d4d4dc0af6cb7",
+      "lib/components/presentation.css": "ae7474c5c7831f420b92f1c4f58a440fc534f38283d88972d0837c0774dbd03c",
+      "lib/components/presentation.mjs": "d7baf9922f91bc9687e6edf23f60dac616b81c0cf9bfcacbad23d853c3c744ac",
+      "lib/components/registry.mjs": "d71ce8835a0bf62aa8d43f61e928938fb72777253878cf259d684590a0eaa441",
+      "lib/components/runtime.mjs": "d6f38b5f3413bd97e6da20ed3775ed499fc70f343b6b9a85a3cc8aa696ff5f1c",
+      "lib/components/scenes/bursts.mjs": "a4349bb2a304fe355c4e5b6ec7dd0fe13585a9a7f34a7c257390006852f5081b",
+      "lib/components/scenes/cards.mjs": "7bec42a763f8bcf636cc8c6a68b88d6f8775855b7ebb9c12bd200e091fa78ac3",
+      "lib/components/scenes/community-depth.mjs": "e6ec963709b445e83a5b27405fd4de6473b514ae37980fea3eb330b8ae22142e",
+      "lib/components/scenes/community-scan.mjs": "ac7cd35d5593ef58d4483d2aca8fa95780ac4c2e558340b5b472e3a04c4d2e61",
+      "lib/components/scenes/community-shapes.mjs": "d67896e837a6fb9c3732e190a6644066b57b95a473fb679e61615a3eaa4b4f71",
+      "lib/components/scenes/data.mjs": "ed133d77803bd910a38320916d5a5d07c86ae6871951a77892ce3dcd138b225d",
+      "lib/components/scenes/flow.mjs": "6ca94b49a0539012bae6d1e0391399b9c75b0c9af47bf1c5afe42a5f0eb1c2c3",
+      "lib/components/scenes/glass.mjs": "1ecaad8be1f016bfeedc15fb09f71839ef58ad2c4acdce192767726640d9926b",
+      "lib/components/scenes/hands.mjs": "398389b140e965db6c7ea9ab0064e6cf2a6b5ae864f9373117f71bbf09832063",
+      "lib/components/scenes/reel.mjs": "1dc1e7c939f312db70ce2471e4b45dc35ef11158386fe0e512b1d10ae2f93708",
+      "lib/components/scenes/studio.mjs": "c887814f77abebee87402241c43fdbd6b6f5a076c50a8fd53ca451e06d1e2015",
+      "lib/components/scenes/text.mjs": "22713dc9ad4cd9e7af8d19d5da8c5fee8714ebb4e9e030781851779333d25840",
+      "lib/components/scenes/three.mjs": "3ac678b2bbdfea3adaf39d5ab7a77c1061005b137b119a17fbb5c573dc82a901",
+      "lib/components/scenes/ui.mjs": "a546f169ab28b39250e805272f9092cc00ad779ab1e6bc3cde6a129625c3913f",
+      "lib/components/scenes/words.mjs": "298fa2ce702722cd68c68d2fb61754464903e9b534e883e29b99c32a14655493",
+      "lib/components/timing.mjs": "b0a308705cbd3fb6de6c7fd96555ab4b3338761aa8e6410a279e413de0d7a062",
+      "lib/components/transitions.mjs": "3ac75202b4a2ccaeb2de8e6b040d8733ce5074f62a58c9e0d80adebbd03cafcf",
+      "lib/components/type.mjs": "8327b7c7afc880c46637d25d72e89643823f788925d83636021bc445b2891d07",
+      "lib/components/typewriter-timing.cjs": "9658fdd16fa71df5f0aa0533e659abdb72baa8c54e5c8747a590a4d5c31a927b",
+      "lib/components/typewriter-timing.mjs": "fa009ec4a097e6b0fff17adf055582c86f6ce4ad052c906884b92cb37a959cca",
+      "lib/components/ui.mjs": "ad77a430bfbeca12bb7ab3a0a357ab4c83bb9b45273e4a0ff067ac2db49575cf",
+      "lib/film.cjs": "45f7e9f08089e6389506664da8af608e707ea840a12ad41d1d10a8dd9e413ffe",
+      "lib/fonts.css": "73d19a90b99b04d74fa0e4e80ee8a2760a94c59f7b9d5770bf491c6c68329d81",
+      "lib/vendor/gsap/gsap.min.js": "7b2c91e3bff9022bef50054413b365a945c93f87285dcf8bdfb92076c4c56304",
+      "lib/vendor/three/RoomEnvironment.js": "85869bdd22f7cf0b22e68dcefe6cb710480af0f5c901a76f7a7764fd07fc8014",
+      "lib/vendor/three/RoundedBoxGeometry.js": "d20aeaf7077c459a8d952d215738d7b44fba028440bb862d84b622a34f0c80bb",
+      "lib/vendor/three/three.module.min.js": "08fd7545d13d2c7fb65ab691530a802dafefd638596501854f267d0fb13c39e7"
+    }
+  },
+  "postCheckDocumentationOnlyChange": {
+    "reason": "Restore the established guide convention: duration is the final sentence. Only scan.guide wording/order changed; all other metadata, fields, sample values and function source text are identical.",
+    "before": {
+      "lib/components/metadata.cjs": "9e828f5aefa848d6b79bbaf50781b16fa05fe8ec0a1851458544d80b0fc657ba",
+      "lib/components/metadata.mjs": "73ed163034bac846f7ca25ea73862905096fc829d2ee0d33a6f64cfa78b0f4b3"
+    },
+    "after": {
+      "lib/components/metadata.cjs": "166c4c77d030bad5c3d55f5552dc95f019d018e37b1cfefe7d571b46e265f68f",
+      "lib/components/metadata.mjs": "2333403a6e091c61588036f83864b051d2f4ba79b8fc8b1dee63b76e697ee1cf"
+    },
+    "nonGuideMetadataSha256": "718a996421703145f83f93ebee51df7f71699e83f8bbd2926f9cdb2c33f29338"
+  },
+  "checks": [
+    {
+      "name": "native-brands",
+      "cases": 15,
+      "failures": 0,
+      "sourceAggregate": "1d5fd98c7dde68d586bfe8c46e1cbc23061510c6788f54107280d98d4c44146d",
+      "differencesFromFinal": [
+        "lib/components/metadata.cjs",
+        "lib/components/metadata.mjs"
+      ],
+      "report": "evidence/native-brands.json",
+      "reportSha256": "0d17d5f180a3a65aabe254be65f36cd9fa170072350208b57e6f333ef84aba24"
+    },
+    {
+      "name": "native-shapes",
+      "cases": 10,
+      "failures": 0,
+      "sourceAggregate": "95ac5361bac76a3598196a3026817cf302a024db85b42df8a9a4935e1f9a1af7",
+      "differencesFromFinal": [
+        "lib/components/metadata.cjs",
+        "lib/components/metadata.mjs",
+        "lib/components/scenes/community-depth.mjs",
+        "lib/components/scenes/community-scan.mjs"
+      ],
+      "report": "evidence/native-shapes.json",
+      "reportSha256": "af6b0980666e06c52cabd53b753064cad8684db692af68fbe6d3a03b7c998f73"
+    },
+    {
+      "name": "native-depth",
+      "cases": 24,
+      "failures": 0,
+      "sourceAggregate": "1d5fd98c7dde68d586bfe8c46e1cbc23061510c6788f54107280d98d4c44146d",
+      "differencesFromFinal": [
+        "lib/components/metadata.cjs",
+        "lib/components/metadata.mjs"
+      ],
+      "report": "evidence/native-depth.json",
+      "reportSha256": "2977280c9740f401eccb7a5c928ccd2763c8b8436ab5773b58612866f98c9027"
+    },
+    {
+      "name": "native-scan",
+      "cases": 18,
+      "failures": 0,
+      "sourceAggregate": "e9c11209ae382091717ab656fbb733513ac4bbb40e70d9463c39d944ff255700",
+      "differencesFromFinal": [
+        "lib/components/metadata.cjs",
+        "lib/components/metadata.mjs",
+        "lib/components/scenes/community-depth.mjs"
+      ],
+      "report": "evidence/native-scan.json",
+      "reportSha256": "2518fa6289011619be3141282714973d48b4c22753123a6b87e48b8719f5f00d"
+    },
+    {
+      "name": "five-looks",
+      "cases": 75,
+      "failures": 0,
+      "report": "evidence/five-looks.json",
+      "sources": "evidence/five-looks-sources.json",
+      "sourceAggregate": "1d5fd98c7dde68d586bfe8c46e1cbc23061510c6788f54107280d98d4c44146d",
+      "nonVisualGuideOnlyChange": "evidence/guide-only-change.json",
+      "reportSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "name": "long-russian-mono",
+      "cases": 30,
+      "failures": 0,
+      "report": "evidence/long-russian-mono.json",
+      "sources": "evidence/long-russian-mono-sources.json",
+      "sourceAggregate": "1d5fd98c7dde68d586bfe8c46e1cbc23061510c6788f54107280d98d4c44146d",
+      "nonVisualGuideOnlyChange": "evidence/guide-only-change.json",
+      "reportSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  ],
+  "unit": {
+    "node": 24,
+    "failures": 0,
+    "pythonPassed": 147,
+    "pythonSkipped": 4,
+    "note": "The 15-case browser CI gate ran separately; the remaining browser gates belong to the prior migration. These counts do not represent a full application suite rerun."
+  },
+  "renders": [
+    {
+      "aspect": "9:16",
+      "file": "demo-9x16.mp4",
+      "width": 1080,
+      "height": 1920,
+      "fps": "30/1",
+      "seconds": 18.066667,
+      "audio": "aac",
+      "bytes": 9882991,
+      "sha256": "a57e27b71b22e4c1f4eb88aac83f1ad6103a6663c72a7b7ae62483befc441513",
+      "check": "evidence/check-9x16.json",
+      "warnings": [
+        {
+          "code": "first_frame_empty",
+          "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md."
+        }
+      ]
+    },
+    {
+      "aspect": "1:1",
+      "file": "demo-1x1.mp4",
+      "width": 1080,
+      "height": 1080,
+      "fps": "30/1",
+      "seconds": 18.066667,
+      "audio": "aac",
+      "bytes": 7503350,
+      "sha256": "ead94ead1085f4d5e997334aba5e8df0a324d4eebedc94757172a6330def4126",
+      "check": "evidence/check-1x1.json",
+      "warnings": [
+        {
+          "code": "first_frame_empty",
+          "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md."
+        }
+      ]
+    },
+    {
+      "aspect": "16:9",
+      "file": "demo-16x9.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "30/1",
+      "seconds": 18.066667,
+      "audio": "aac",
+      "bytes": 10287813,
+      "sha256": "ac14e8cb44b778c3b5f40017433651c7b2b54c8eca374e9afe260d567568abfe",
+      "check": "evidence/check-16x9.json",
+      "warnings": [
+        {
+          "code": "first_frame_empty",
+          "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md."
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "The opening letter-flip intentionally enters from an empty first frame; checks report first_frame_empty. Posters use the readable 1.3-second frame.",
+    "Minimum font size does not guarantee reading time at arbitrary BPM/pace. Short scan labels and its 3-word completion were checked at 108 and 128 BPM; longer copy needs more time and final film checking.",
+    "The scan image branch uses fixed crops, not object detection.",
+    "The five techniques did not exist in the frozen original engine; there is no claimed pixel parity with that engine.",
+    "Family probe snapshots remain explicitly separate. Later changes outside the family under test are listed; final five-look, long-text and multi-instance gates use the final rendering code. A subsequent guide-sentence reorder is explicitly proved to leave all non-guide metadata and function source unchanged."
+  ],
+  "cost": {
+    "usd": null,
+    "status": "not_metered",
+    "reason": "This local Codex run exposes no authoritative model billing total. No price is inferred from elapsed time."
+  },
+  "registryConsulted": {
+    "component": "exploded-stack",
+    "sourceUsed": false
+  },
+  "delivery": "Local files and local commit; no deployment, push or saved-project rewrite."
+}

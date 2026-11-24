@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "assets": {
+    "switch": {
+      "file": "switch.wav",
+      "sha256": "f0a82a5e63afaf77c7a41c95609568b33064b419dc83c505d1e8b91a1c80c23d",
+      "bytes": 6118,
+      "sampleRate": 48000,
+      "channels": 1,
+      "frames": 3037,
+      "duration": 0.06327083333333333,
+      "onsetSeconds": 0.000041666666666666665,
+      "peakDbFS": -3.0003622493859567,
+      "rmsDbFS": -13.143382553269635,
+      "source": {
+        "id": "toggle-4",
+        "file": "ui/toggle-4.ogg",
+        "sha256": "d7bf2236fc95a0fe1e3b278259392bcb062644e2d4ec5f9c96f7c09a9928262f",
+        "library": "Kenney Interface Sounds 1.0",
+        "url": "https://kenney.nl/assets/interface-sounds",
+        "version": "1.0",
+        "archiveSha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://kenney.nl/assets/interface-sounds"
+      },
+      "processing": {
+        "format": "mono PCM16 WAV, 48000 Hz",
+        "trimStartSeconds": 0,
+        "trimEndSeconds": 0,
+        "silenceThresholdDb": -55,
+        "peakTargetDbFS": -3,
+        "fadeInSeconds": 0.0002916666666666667,
+        "fadeOutSeconds": 0.004
+      }
+    },
+    "pop": {
+      "file": "pop.wav",
+      "sha256": "f05e1bb18c6164636a2a27a0237e5436a13775783708b40f1cc58a790b1c4f6b",
+      "bytes": 27288,
+      "sampleRate": 48000,
+      "channels": 1,
+      "frames": 13622,
+      "duration": 0.28379166666666666,
+      "onsetSeconds": 0.0000625,
+      "peakDbFS": -3.0003622493859567,
+      "rmsDbFS": -22.805627739059897,
+      "source": {
+        "id": "drop-4",
+        "file": "ui/drop-4.ogg",
+        "sha256": "10738707f9300f9b963ceba46d5da2ed4a221faf7d39484a643c2d3bc151c5f2",
+        "library": "Kenney Interface Sounds 1.0",
+        "url": "https://kenney.nl/assets/interface-sounds",
+        "version": "1.0",
+        "archiveSha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://kenney.nl/assets/interface-sounds"
+      },
+      "processing": {
+        "format": "mono PCM16 WAV, 48000 Hz",
+        "trimStartSeconds": 0,
+        "trimEndSeconds": 0,
+        "silenceThresholdDb": -55,
+        "peakTargetDbFS": -3,
+        "fadeInSeconds": 0.0002916666666666667,
+        "fadeOutSeconds": 0.004
+      }
+    },
+    "wood": {
+      "file": "wood.wav",
+      "sha256": "02c5367b2a1c30509f78d4dd4ea3bdb843834bde8de94aad94dfb950ebc96b3d",
+      "bytes": 31704,
+      "sampleRate": 48000,
+      "channels": 1,
+      "frames": 15830,
+      "duration": 0.32979166666666665,
+      "onsetSeconds": 0.0000625,
+      "peakDbFS": -3.0003622493859567,
+      "rmsDbFS": -24.471810630601244,
+      "source": {
+        "id": "impact-wood-medium-1",
+        "file": "impact/impact-wood-medium-1.ogg",
+        "sha256": "15271dbe8e2872dbb0ff1aeb7b12b2d2b92b7c1951c88532b9ab9158c36dfc73",
+        "library": "Kenney Impact Sounds 1.0",
+        "url": "https://kenney.nl/assets/impact-sounds",
+        "version": "1.0",
+        "archiveSha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://kenney.nl/assets/impact-sounds"
+      },
+      "processing": {
+        "format": "mono PCM16 WAV, 48000 Hz",
+        "trimStartSeconds": 0,
+        "trimEndSeconds": 0,
+        "silenceThresholdDb": -55,
+        "peakTargetDbFS": -3,
+        "fadeInSeconds": 0.0002916666666666667,
+        "fadeOutSeconds": 0.004
+      }
+    },
+    "tick": {
+      "file": "tick.wav",
+      "sha256": "666aa4edf659ad362b625d30447988e048da2735ed9f9828a5d77910cc66e971",
+      "bytes": 1622,
+      "sampleRate": 48000,
+      "channels": 1,
+      "frames": 789,
+      "duration": 0.0164375,
+      "onsetSeconds": 0.000020833333333333333,
+      "peakDbFS": -3.0003622493859567,
+      "rmsDbFS": -21.877576187786957,
+      "source": {
+        "id": "tick-1",
+        "file": "ui/tick-1.ogg",
+        "sha256": "9d057b918024c787bbe6c00beed13a7ef72a3fa0c259add3cef36582792f4230",
+        "library": "Kenney Interface Sounds 1.0",
+        "url": "https://kenney.nl/assets/interface-sounds",
+        "version": "1.0",
+        "archiveSha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://kenney.nl/assets/interface-sounds"
+      },
+      "processing": {
+        "format": "mono PCM16 WAV, 48000 Hz",
+        "trimStartSeconds": 0,
+        "trimEndSeconds": 0.0285625,
+        "silenceThresholdDb": -55,
+        "peakTargetDbFS": -3,
+        "fadeInSeconds": 0.0002916666666666667,
+        "fadeOutSeconds": 0.004
+      }
+    },
+    "ding": {
+      "file": "ding.wav",
+      "sha256": "203264d75f7f1de06114e82463051faf3fbfb625abd68ac7d9e5b029b116d669",
+      "bytes": 139040,
+      "sampleRate": 48000,
+      "channels": 1,
+      "frames": 69498,
+      "duration": 1.447875,
+      "onsetSeconds": 0.000041666666666666665,
+      "peakDbFS": -3.0003622493859567,
+      "rmsDbFS": -28.042006360775076,
+      "source": {
+        "id": "impact-bell-heavy-0",
+        "file": "impact/impact-bell-heavy-0.ogg",
+        "sha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+        "library": "Kenney Impact Sounds 1.0",
+        "url": "https://kenney.nl/assets/impact-sounds",
+        "version": "1.0",
+        "archiveSha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://kenney.nl/assets/impact-sounds"
+      },
+      "processing": {
+        "format": "mono PCM16 WAV, 48000 Hz",
+        "trimStartSeconds": 0,
+        "trimEndSeconds": 0.0323125,
+        "silenceThresholdDb": -55,
+        "peakTargetDbFS": -3,
+        "fadeInSeconds": 0.0002916666666666667,
+        "fadeOutSeconds": 0.004
+      }
+    }
+  }
+}

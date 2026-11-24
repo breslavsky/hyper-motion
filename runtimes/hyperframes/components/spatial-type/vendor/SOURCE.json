@@ -1,0 +1,4 @@
+{
+  "note": "GSAP is only the native paused duration sentinel and generated demo root timeline. Spatial rendering is driven by hf-seek. Its upstream copyright and license URL are retained in the unmodified browser file header.",
+  "sources": [{"name": "GSAP", "url": "https://github.com/greensock/GSAP", "version": "3.14.2", "license": "Standard GreenSock License", "taken": "vendored", "package": "gsap", "files": ["gsap-3.14.2.min.js"]}]
+}

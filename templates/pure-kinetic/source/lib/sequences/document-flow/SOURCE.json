@@ -1,0 +1,4 @@
+{
+  "note": "Original Motion Fab document-flow sequence. The source keeps its semantic action model separate from native HyperFrames rendering. Build output carries the existing font/GSAP provenance and the pinned CC0 effects; the music-only bed reuses Pure Kinetic's original pulse arrangement. No competitor code, footage or generated provider media is included.",
+  "sources": []
+}

@@ -1,0 +1,32 @@
+// Editable neutral six-second example. The engine does not know these words or times.
+export default {
+  duration: 6, width: 1920, height: 1080, fps: 30, seed: 241,
+  look: {background: '#06111b', fog: 0.028, envRotation: -0.1, exposure: 1},
+  materials: {face: {color: '#b3d9ef', roughness: 0.12, pillow: 0.55}, side: {color: '#48647e', roughness: 0.23}},
+  words: [
+    {id: 'entry', text: 'FORM', position: [0, 0, 0], visible: [0, 2.8]},
+    {id: 'arrival', text: 'IDEAS', position: [0, 0, -19], visible: [1.8, 6],
+      assembly: {start: 2.4, duration: 0.55, stagger: 0.06, offset: [3.5, 0.3, -1]},
+      slices: [{normal: [0.9, 0.42, 0], offset: 0.02}],
+      fracture: {start: 4.25, duration: 0.7, separation: 0.08, shear: 0.18, depth: 0.15, rotation: 0.05},
+      emissive: [{time: 4.2, value: 0}, {time: 4.95, value: 0.4, ease: 'in'}, {time: 5.5, value: 0}]},
+  ],
+  camera: {keys: [
+    {time: 0, position: [0, 0.1, 9], target: [0, 0, 0], fov: 30},
+    {time: 1.4, position: [0, 0.1, 9], target: [0, 0, 0], fov: 30},
+    {time: 2.25, position: [-0.45, 0, 0.3], target: [-0.45, 0, -19], fov: 30, ease: 'in'},
+    {time: 2.7, position: [0.8, -0.2, -8], target: [0, 0, -19], fov: 32, ease: 'linear'},
+    {time: 3.4, position: [0, 0, -12], target: [0, 0, -19], fov: 30, ease: 'out'},
+    {time: 6, position: [0.35, 0.1, -13], target: [0, 0, -19], fov: 30},
+  ]},
+  fields: [{count: 260, seed: 112, bounds: [[-7, 7], [-3, 3], [-23, -1]], start: 0.55, spread: 0.3, fade: 0.4,
+    scale: [0.025, 0.14], stretch: [1, 2.5, 0.23], material: {color: '#7897ab', roughness: 0.2}},
+    {count: 26, seed: 223, alphabet: 'AEIO', bounds: [[-6, 6], [-2.7, 2.7], [-20, -2]], start: 0.8,
+      scale: [0.1, 0.3], stretch: [1, 1, 1], spin: 0.55}],
+  glints: [{position: [-1.8, 0.8, -4], peak: 2.4, width: 0.12, size: 0.8, intensity: 2},
+    {position: [1.2, 0.6, -17], peak: 4.5, width: 0.18, size: 0.6, intensity: 3}],
+  lights: [{position: [1, 2, -16], color: '#a7dcff', intensity: 3, distance: 12}],
+  post: {bloom: 0.22, radius: 0.35, threshold: 1.4, grain: 0.008, aberration: 0.001},
+  motionBlur: {samples: 3, shutter: 0.35},
+  transition: {start: 5.1, color: '#70ddff', durations: {bloom: 0.18, hold: 0.06, collapse: 0.12, line: 0.08, reveal: 0.3}},
+};

@@ -1,0 +1,6 @@
+node_modules/
+generated/
+public/
+storybook-static/
+test-results/
+*.log

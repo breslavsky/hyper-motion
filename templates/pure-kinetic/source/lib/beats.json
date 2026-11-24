@@ -1,0 +1,438 @@
+{
+ "prompt": [
+  4,
+  6
+ ],
+ "title": [
+  2,
+  3
+ ],
+ "highlight": [
+  3,
+  4
+ ],
+ "swap": [
+  3,
+  4
+ ],
+ "fullbleed": [
+  1,
+  2
+ ],
+ "grid": [
+  3,
+  4
+ ],
+ "wall": [
+  4,
+  5
+ ],
+ "ui-macro": [
+  4,
+  5
+ ],
+ "ui-float": [
+  3,
+  4
+ ],
+ "counter": [
+  3,
+  3
+ ],
+ "toggle": [
+  3,
+  3
+ ],
+ "logo3d": [
+  3,
+  4
+ ],
+ "endcard": [
+  4,
+  6
+ ],
+ "steps": [
+  5,
+  7
+ ],
+ "ticket": [
+  4,
+  5
+ ],
+ "marquee": [
+  3,
+  4
+ ],
+ "phones": [
+  4,
+  4
+ ],
+ "caption": [
+  4,
+  4
+ ],
+ "typewriter": [
+  4,
+  6
+ ],
+ "sentence": [
+  3,
+  4
+ ],
+ "stat": [
+  3,
+  4
+ ],
+ "chart": [
+  4,
+  4
+ ],
+ "timeline": [
+  4,
+  5
+ ],
+ "pricing": [
+  4,
+  5
+ ],
+ "globe": [
+  4,
+  4
+ ],
+ "code": [
+  5,
+  6
+ ],
+ "chat": [
+  5,
+  6
+ ],
+ "notify": [
+  4,
+  4
+ ],
+ "dock": [
+  4,
+  5
+ ],
+ "chaos": [
+  3,
+  4
+ ],
+ "laptop": [
+  4,
+  5
+ ],
+ "browser": [
+  4,
+  4
+ ],
+ "callouts": [
+  4,
+  5
+ ],
+ "compare": [
+  4,
+  5
+ ],
+ "inline": [
+  4,
+  6
+ ],
+ "bubbles": [
+  6,
+  9
+ ],
+ "retype": [
+  5,
+  7
+ ],
+ "orbit": [
+  4,
+  5
+ ],
+ "checklist": [
+  5,
+  7
+ ],
+ "tiles": [
+  3,
+  4
+ ],
+ "mosaic": [
+  4,
+  6
+ ],
+ "cards3d": [
+  4,
+  6
+ ],
+ "icon3d": [
+  3,
+  4
+ ],
+ "phone3d": [
+  4,
+  5
+ ],
+ "roll": [
+  4,
+  6
+ ],
+ "stream": [
+  4,
+  5
+ ],
+ "photo": [
+  4,
+  7
+ ],
+ "journey": [
+  6,
+  8
+ ],
+ "faces": [
+  4,
+  5
+ ],
+ "shuffle": [
+  5,
+  6
+ ],
+ "trail": [
+  3,
+  4
+ ],
+ "dot": [
+  7,
+  8
+ ],
+ "flip": [
+  6,
+  8
+ ],
+ "pullback": [
+  6,
+  8
+ ],
+ "between": [
+  6,
+  8
+ ],
+ "drag": [
+  7,
+  8
+ ],
+ "pack": [
+  4,
+  5
+ ],
+ "swarm": [
+  5,
+  7
+ ],
+ "split": [
+  6,
+  8
+ ],
+ "montage": [
+  7,
+  10
+ ],
+ "web": [
+  6,
+  8
+ ],
+ "picker": [
+  4,
+  6
+ ],
+ "palette": [
+  6,
+  7
+ ],
+ "agent": [
+  6,
+  8
+ ],
+ "particles": [
+  5,
+  7
+ ],
+ "wave": [
+  5,
+  7
+ ],
+ "arc": [
+  5,
+  7
+ ],
+ "orb": [
+  5,
+  6
+ ],
+ "scatter": [
+  5,
+  7
+ ],
+ "knockout": [
+  5,
+  7
+ ],
+ "assemble": [
+  5,
+  6
+ ],
+ "hive": [
+  6,
+  7
+ ],
+ "field": [
+  6,
+  7
+ ],
+ "overlay": [
+  5,
+  6
+ ],
+ "thinking-orb": [
+  4,
+  6
+ ],
+ "island": [
+  3,
+  4
+ ],
+ "glass-steps": [
+  6,
+  12
+ ],
+ "widgets": [
+  4,
+  4
+ ],
+ "controls": [
+  4,
+  4
+ ],
+ "sheet": [
+  4,
+  5
+ ],
+ "ask": [
+  5,
+  6
+ ],
+ "lens": [
+  3,
+  4
+ ],
+ "search": [
+  4,
+  8
+ ],
+ "send-prompt": [
+  6,
+  14
+ ],
+ "glass-flow": [
+  14,
+  20
+ ],
+ "stack": [
+  3,
+  4
+ ],
+ "beatwords": [
+  3,
+  6
+ ],
+ "underline": [
+  2,
+  3
+ ],
+ "rundown": [
+  4,
+  6
+ ],
+ "winner": [
+  5,
+  5
+ ],
+ "connect": [
+  4,
+  5
+ ],
+ "chips": [
+  4,
+  5
+ ],
+ "tabs": [
+  5,
+  6
+ ],
+ "dial": [
+  3,
+  4
+ ],
+ "gather": [
+  4,
+  5
+ ],
+ "impact": [
+  3,
+  4
+ ],
+ "polar": [
+  3,
+  5
+ ],
+ "letterflip": [
+  3,
+  4
+ ],
+ "accordion": [
+  5,
+  7
+ ],
+ "explode": [
+  5,
+  7
+ ],
+ "scan": [
+  7,
+  9
+ ],
+ "before-after-wipe": [
+  5,
+  7
+ ],
+ "screen-flow-carousel": [
+  7,
+  12
+ ],
+ "chart-story": [
+  7,
+  10
+ ],
+ "testimonial-proof-card": [
+  8,
+  12
+ ],
+ "modal-morph": [
+  6,
+  9
+ ],
+ "ride": [
+  8,
+  24
+ ],
+ "lens-wall": [
+  4,
+  12
+ ],
+ "comic": [
+  4,
+  10
+ ]
+}

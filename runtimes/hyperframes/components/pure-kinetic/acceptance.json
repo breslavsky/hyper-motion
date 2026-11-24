@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-21T00:27:55.414Z",
+  "status": "passed",
+  "hyperframes": "0.9.19",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "captureGpuModeRequested": "hardware",
+    "scope": "Local render host only; other workers and GPU drivers are not certified."
+  },
+  "sourceHash": "6c94354deeae721712b78d9ae4f0f3826e60972de058de6d759d2b8f9ff80992",
+  "sourceFiles": {
+    "build.mjs": "74c1f68e1bf7386ce638e182799efe936160ee94cd7b02c9f8121574770c0e65",
+    "catalog.mjs": "807e997dcc2403ae509e3c4a465f22b2805a282204794b81cf20385d488f3d0b",
+    "runtime.mjs": "2ac9eed010f55bdce5888b0115dd133f0dee9a1737b5ece074205ae5058871ed",
+    "scenes/title.mjs": "8bc505550306dfc0f1e50fb8c811e8c1b6f91c0f7e63d96e4b5c7f0d840c10b1",
+    "scenes/stack.mjs": "54c6f9a024be85e6496db8c0c79f107a02ff5f787282f5749bf54a9fd99a51a2",
+    "scenes/chart.mjs": "3ac90fcf8ab1ed5b447b038b442d00371f2cdb0c6627abd4fca21867ee145d48",
+    "scenes/controls.mjs": "4d2f4896657bae5bceebe663388d6c48d3520e6e9d443594d8133720bb450266",
+    "scenes/phone3d.mjs": "beeb2deea2beb6f6523aead6cb2330e3c48ca3892cca4ce12c0ab3c5fef8ac34"
+  },
+  "auditSha256": "7193c54f5ed18e2742483ba0e7dec1da3d20a93daee2baca3d06aa5c26d88f5a",
+  "matrix": {
+    "formats": [
+      "9:16",
+      "1:1",
+      "16:9"
+    ],
+    "variants": [
+      "4s Editorial EN",
+      "4s Loud EN",
+      "2s Editorial EN",
+      "8s Editorial EN",
+      "4s Editorial longer RU"
+    ],
+    "singleInstanceCases": 75,
+    "sharedDefinitionCases": 5,
+    "mixedFilmCases": 1
+  },
+  "native": {
+    "passed": 81,
+    "total": 81,
+    "sampledFrames": 715,
+    "exactPixelRepeats": 76,
+    "equivalentRepeats": 81,
+    "maxAllowedChannelDelta": 1,
+    "externalRequests": 0,
+    "rasterRounding": [
+      {
+        "id": "chart-9x16-base",
+        "maxChannelDelta": 1,
+        "changedPixels": 1051
+      },
+      {
+        "id": "chart-9x16-loud",
+        "maxChannelDelta": 1,
+        "changedPixels": 1020
+      },
+      {
+        "id": "chart-9x16-short",
+        "maxChannelDelta": 1,
+        "changedPixels": 346
+      },
+      {
+        "id": "chart-9x16-long",
+        "maxChannelDelta": 1,
+        "changedPixels": 325
+      },
+      {
+        "id": "chart-9x16-ru",
+        "maxChannelDelta": 1,
+        "changedPixels": 1051
+      }
+    ],
+    "contentAndOverlapAudit": "passed"
+  },
+  "cli": {
+    "lintPassed": 15,
+    "fullCheckPassed": 15,
+    "samplesPerCase": 9,
+    "warnings": {
+      "craft:warning:first_frame_empty": 9,
+      "audio:info:audio_none": 15,
+      "runtime:warning:console_warning": 4
+    }
+  },
+  "components": {
+    "title": {
+      "description": "A headline rises letter by letter; *marked words* use the accent.",
+      "fields": {
+        "text": {
+          "type": "string",
+          "role": "content",
+          "label": "Headline",
+          "maxLength": 70,
+          "default": "Meet *Nook*."
+        },
+        "sub": {
+          "type": "string",
+          "role": "content",
+          "label": "Subtitle",
+          "maxLength": 48,
+          "default": "A calmer way to work"
+        }
+      },
+      "declaredDuration": {
+        "minimum": 2,
+        "maximum": 8
+      },
+      "testedFormats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "testedDurationSamples": [
+        2,
+        4,
+        8
+      ],
+      "testedLooks": [
+        "editorial",
+        "loud"
+      ],
+      "nativeCases": 16,
+      "requiresWebGL2": false,
+      "maxObservedSeekMs": 140.21783299999515,
+      "limitations": []
+    },
+    "stack": {
+      "description": "Two to four words arrive in sequence; earlier lines dim.",
+      "fields": {
+        "words": {
+          "type": "array",
+          "role": "content",
+          "label": "Words",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "maxLength": 24
+          },
+          "default": [
+            "Less",
+            "noise.",
+            "More",
+            "focus."
+          ]
+        }
+      },
+      "declaredDuration": {
+        "minimum": 2,
+        "maximum": 8
+      },
+      "testedFormats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "testedDurationSamples": [
+        2,
+        4,
+        8
+      ],
+      "testedLooks": [
+        "editorial",
+        "loud"
+      ],
+      "nativeCases": 16,
+      "requiresWebGL2": false,
+      "maxObservedSeekMs": 141.50820799999929,
+      "limitations": []
+    },
+    "chart": {
+      "description": "Two to six rising bars; long labels switch to horizontal rows.",
+      "fields": {
+        "title": {
+          "type": "string",
+          "role": "content",
+          "label": "Title",
+          "maxLength": 52,
+          "default": "Room to grow"
+        },
+        "labels": {
+          "type": "array",
+          "role": "content",
+          "label": "Labels",
+          "minItems": 2,
+          "maxItems": 6,
+          "items": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "default": [
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu"
+          ]
+        },
+        "values": {
+          "type": "array",
+          "role": "content",
+          "label": "Values",
+          "minItems": 2,
+          "maxItems": 6,
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000
+          },
+          "default": [
+            24,
+            48,
+            62,
+            90
+          ]
+        },
+        "suffix": {
+          "type": "string",
+          "role": "content",
+          "label": "Value suffix",
+          "maxLength": 6,
+          "default": "%"
+        }
+      },
+      "declaredDuration": {
+        "minimum": 2,
+        "maximum": 8
+      },
+      "testedFormats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "testedDurationSamples": [
+        2,
+        4,
+        8
+      ],
+      "testedLooks": [
+        "editorial",
+        "loud"
+      ],
+      "nativeCases": 16,
+      "requiresWebGL2": false,
+      "maxObservedSeekMs": 111.1571249999979,
+      "limitations": [
+        "Nonnegative bars only; no line/pie/ring."
+      ]
+    },
+    "controls": {
+      "description": "A glass panel of spring switches and one optional slider.",
+      "fields": {
+        "title": {
+          "type": "string",
+          "role": "content",
+          "label": "Title",
+          "maxLength": 42,
+          "default": "Make it yours"
+        },
+        "toggles": {
+          "type": "array",
+          "role": "content",
+          "label": "Toggle labels",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "default": [
+            "Focus mode",
+            "Smart reminders",
+            "Quiet hours"
+          ]
+        },
+        "slider": {
+          "type": "string",
+          "role": "content",
+          "label": "Slider label",
+          "maxLength": 32,
+          "default": "Intensity"
+        }
+      },
+      "declaredDuration": {
+        "minimum": 2,
+        "maximum": 8
+      },
+      "testedFormats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "testedDurationSamples": [
+        2,
+        4,
+        8
+      ],
+      "testedLooks": [
+        "editorial",
+        "loud"
+      ],
+      "nativeCases": 16,
+      "requiresWebGL2": false,
+      "maxObservedSeekMs": 306.6281250000029,
+      "limitations": []
+    },
+    "phone3d": {
+      "description": "A real Three.js device rotates beside a caption and a fitted app name.",
+      "fields": {
+        "caption": {
+          "type": "string",
+          "role": "content",
+          "label": "Caption",
+          "maxLength": 65,
+          "default": "Your day.\nIn one place."
+        },
+        "appName": {
+          "type": "string",
+          "role": "content",
+          "label": "App name",
+          "maxLength": 32,
+          "default": "Nook"
+        }
+      },
+      "declaredDuration": {
+        "minimum": 2,
+        "maximum": 8
+      },
+      "testedFormats": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "testedDurationSamples": [
+        2,
+        4,
+        8
+      ],
+      "testedLooks": [
+        "editorial",
+        "loud"
+      ],
+      "nativeCases": 16,
+      "requiresWebGL2": true,
+      "maxObservedSeekMs": 130.4305000000022,
+      "limitations": [
+        "Generated screen UI only; arbitrary screen images need annotations."
+      ]
+    }
+  },
+  "limitations": [
+    "Character counts are input guards, not exhaustive fitted-text certificates.",
+    "Seek timings include capture-API overhead on a shared host, not a GPU benchmark.",
+    "Intentional entry frames and absent audio remain CLI warnings/information."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "name": "Lucide static icons",
+      "url": "https://lucide.dev",
+      "version": "lucide-static 1.77.0",
+      "license": "ISC; upstream LICENSE also includes the Feather MIT notice",
+      "taken": "vendored",
+      "date": "2026-11-22",
+      "note": "The original SVGs and license are preserved alongside the generated JavaScript map. RECEIPT.json pins the npm release and individual file hashes.",
+      "package": "lucide-static",
+      "files": [
+        "icons/",
+        "icons.mjs"
+      ]
+    }
+  ]
+}

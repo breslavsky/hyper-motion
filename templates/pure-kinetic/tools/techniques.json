@@ -1,0 +1,90 @@
+{
+ "note": "Where each scene of ours came from: the technique of the community library it was written from, and the page of the video that technique was taken out of. Written by tools/technique.py (accept, record).",
+ "scenes": {
+  "accordion": {
+   "technique": "dc2072ce-3dab-4322-bb56-56b13ffea542-1-3",
+   "name": "Accordion card stack with tethers",
+   "recipe": "https://www.motionfab.app/en/prompts/living-specimen-product-reel-with-logo-morph"
+  },
+  "ask": {
+   "technique": "0670c6b0-25b8-4082-b7e3-15910602e1af-1-3",
+   "name": "Glass prompt springs out of a menu-bar icon and types",
+   "recipe": "https://www.motionfab.app/en/prompts/split-screen-app-sting-at-two-frame-rates"
+  },
+  "beatwords": {
+   "technique": "47117432-873c-4435-a2f1-674ea1498bd2-1-0",
+   "name": "Beat-cut word flashes with four entrances",
+   "recipe": "https://www.motionfab.app/en/prompts/bouncing-ball-manifesto-brand-reel"
+  },
+  "chips": {
+   "technique": "d9ab24e8-49da-47b9-9647-b56bdfd79d0f-1-6",
+   "name": "Chip cloud in depth with a warp fly-through",
+   "recipe": "https://www.motionfab.app/en/prompts/kinetic-type-app-promo-reel-on-a-128-bpm-beat"
+  },
+  "connect": {
+   "technique": "c8af3fb3-c765-49e9-b5d4-bd52713c3629-1-4",
+   "name": "Dotted connectors with running pulses",
+   "recipe": "https://www.motionfab.app/en/prompts/soft-tech-app-promo-icon-wall-phone-and-3d-studio"
+  },
+  "dial": {
+   "technique": "6492ce46-c249-4634-887e-1ae334031c57-1-2",
+   "name": "Slider driven by its knob, with a ticking value bubble",
+   "recipe": "https://www.motionfab.app/en/prompts/looping-ui-ball-ride-through-an-app-interface"
+  },
+  "explode": {
+   "technique": "7dede976-cde5-4f3d-a8e0-83a125a9967b-1-5",
+   "name": "Card that tilts back and splits into a stack of layers",
+   "recipe": "https://www.motionfab.app/en/prompts/3d-app-wall-dive-into-a-three-step-product-demo"
+  },
+  "gather": {
+   "technique": "c1dceba4-2b0f-49a5-8372-960b5f30bfff-1-4",
+   "name": "Particle word: gather, hold, burst",
+   "recipe": "https://www.motionfab.app/en/prompts/eight-technique-motion-design-showreel"
+  },
+  "impact": {
+   "technique": "7130241b-163d-4b81-8f55-a4d3bb3f9e33-1-5",
+   "name": "Speed-line burst and spring slam",
+   "recipe": "https://www.motionfab.app/en/prompts/kinetic-type-product-launch-on-a-120-bpm-beat"
+  },
+  "letterflip": {
+   "technique": "6491e897-ac71-41b4-b464-51f6113078d6-1-3",
+   "name": "Letters flip 450 degrees with a coloured back face",
+   "recipe": "https://www.motionfab.app/en/prompts/self-demonstrating-motion-principles-showreel"
+  },
+  "polar": {
+   "technique": "87cedc30-8f77-450e-a6cb-633a1934d9b0-1-3",
+   "name": "Polar shape morph with spring and echo outlines",
+   "recipe": "https://www.motionfab.app/en/prompts/seamless-15-second-app-showreel-in-pure-motion-graphics"
+  },
+  "rundown": {
+   "technique": "ace667de-e7cf-4888-93b6-d40efe86f74d-1-5",
+   "name": "List build that hands the highlight down, then a punch line",
+   "recipe": "https://www.motionfab.app/en/prompts/swiss-kinetic-type-product-promo-on-the-beat"
+  },
+  "scan": {
+   "technique": "c8af3fb3-c765-49e9-b5d4-bd52713c3629-1-6",
+   "name": "Scan, tag and sort into cards",
+   "recipe": "https://www.motionfab.app/en/prompts/soft-tech-app-promo-icon-wall-phone-and-3d-studio"
+  },
+  "stack": {
+   "technique": "ace667de-e7cf-4888-93b6-d40efe86f74d-1-1",
+   "name": "Stacked punch words that hand over the highlight",
+   "recipe": "https://www.motionfab.app/en/prompts/swiss-kinetic-type-product-promo-on-the-beat"
+  },
+  "tabs": {
+   "technique": "014039e9-ee0a-4ddb-a89c-12f506467809-1-4",
+   "name": "Stat tabs with a hopping panel and a morphing line chart",
+   "recipe": "https://www.motionfab.app/en/prompts/glossy-app-launch-film-on-a-120-bpm-beat"
+  },
+  "underline": {
+   "technique": "ef29a917-1518-4e1f-9df5-5fe7b6cf5052-1-0",
+   "name": "Letters rise from behind a baseline, underline draws on",
+   "recipe": "https://www.motionfab.app/en/prompts/two-part-kinetic-type-showreel-on-the-beat"
+  },
+  "winner": {
+   "technique": "6b3f5087-1c64-4c05-869b-e87f8c4fe873-1-5",
+   "name": "Dashboard card that counts, draws its curve and picks a winner",
+   "recipe": "https://www.motionfab.app/en/prompts/landing-page-promo-with-object-driven-transitions"
+  }
+ }
+}

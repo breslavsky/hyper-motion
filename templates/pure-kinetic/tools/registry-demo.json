@@ -1,0 +1,20 @@
+{
+  "aspect": "9:16",
+  "style": "noir",
+  "pace": "normal",
+  "grain": false,
+  "sparks": false,
+  "brand": {
+    "name": "Component studies",
+    "font": "Geist",
+    "tokens": {"background": "#101820", "foreground": "#f6f6ef", "accent": "#b9f24a", "accent2": "#8ec7ff"}
+  },
+  "music": {"bpm": 108, "track": "none", "kit": "soft"},
+  "scenes": [
+    {"type": "before-after-wipe", "beats": 6, "title": "Один экран — два состояния", "before": "До", "after": "После", "split": 55, "in": "glide"},
+    {"type": "screen-flow-carousel", "beats": 9, "title": "Три шага. Одна история.", "screens": [{"label": "Собрать идеи"}, {"label": "Выстроить историю"}, {"label": "Поделиться результатом"}], "in": "glide"},
+    {"type": "chart-story", "chart": "line", "beats": 8, "title": "Демонстрационные данные", "items": [{"label": "Этап 1", "value": 12}, {"label": "Этап 2", "value": 28}, {"label": "Этап 3", "value": 45}, {"label": "Этап 4", "value": 64}], "unit": "%", "emphasize": 4, "in": "glide"},
+    {"type": "testimonial-proof-card", "beats": 9, "quote": "Сначала смысл. Затем движение. Каждая деталь поддерживает общую историю.", "name": "Демонстрационный текст", "role": "Пример карточки цитаты", "emphasis": "общую историю", "in": "glide"},
+    {"type": "modal-morph", "beats": 8, "title": "Место для целой идеи", "body": "Карточка раскрывается, сохраняя заголовок и контекст. Следующий шаг появляется внутри той же формы.", "cta": "Продолжить историю", "eyebrow": "Общее пространство", "register": "calm", "in": "glide"}
+  ]
+}

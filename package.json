@@ -1,0 +1,11 @@
+{
+  "name": "hyper-motion",
+  "private": true,
+  "description": "Motion-design scenes and components for HyperFrames.",
+  "engines": {"node": ">=22.12"},
+  "scripts": {
+    "storybook": "cd tools/component-storybook && npm ci && npm run dev",
+    "build:storybook": "cd tools/component-storybook && npm ci && npm run build",
+    "test": "cd templates/pure-kinetic && node --test tools/*.test.mjs"
+  }
+}

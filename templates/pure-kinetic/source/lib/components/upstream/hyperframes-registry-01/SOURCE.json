@@ -1,0 +1,13 @@
+{
+  "sources": [
+    {
+      "name": "HyperFrames registry, first adapted batch",
+      "url": "https://github.com/heygen-com/hyperframes",
+      "ref": "29a5003eebdd1a1a01e4d1a4e3f375da93b078ab",
+      "license": "Apache-2.0",
+      "taken": "adapted",
+      "date": "2026-11-21",
+      "note": "Five adapted components. Detailed file hashes, original paths, modification notice and license provenance are preserved in RECEIPT.json."
+    }
+  ]
+}

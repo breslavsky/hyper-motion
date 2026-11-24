@@ -1,0 +1,516 @@
+{
+	"note": "The sounds of the picture, by kit: for each kind of cue of the plan (lib/compiler/plan.cjs) the library sounds that play it, taken in turn, each levelled to `lufs` at strength 1, optionally repitched (`semitones`) and cut (`trim`, seconds, faded). `logo` plays as the end card lands. `looks` names the kit of each look; a film may name another (`music.kit`). Read by ../music.py and lib/film.cjs.",
+	"looks": {
+		"keynote": "soft",
+		"blueprint": "soft",
+		"mono": "soft",
+		"glass": "soft",
+		"metal": "soft",
+		"minimal": "soft",
+		"studio": "soft",
+		"daylight": "soft",
+		"haze": "soft",
+		"soft": "soft",
+		"explainer": "soft",
+		"editorial": "punch",
+		"poster": "punch",
+		"loud": "punch",
+		"swiss": "punch",
+		"onetake": "punch",
+		"sting": "punch",
+		"toy": "punch",
+		"chrome": "punch",
+		"terminal": "tech",
+		"neon": "tech",
+		"glitch": "tech",
+		"halftone": "play",
+		"riso": "play",
+		"collage": "play",
+		"sketch": "play",
+		"play": "play",
+		"cinema": "cinema",
+		"scifi": "cinema",
+		"liquid": "soft",
+		"frost": "soft",
+		"ocean": "soft",
+		"sunset": "soft",
+		"ice": "soft",
+		"mint": "soft",
+		"grape": "punch",
+		"ember": "punch",
+		"lava": "punch",
+		"noir": "punch",
+		"candy": "play",
+		"clay": "play",
+		"sand": "play",
+		"royal": "cinema",
+		"forest": "cinema"
+	},
+	"kits": {
+		"soft": {
+			"about": "glass and soft taps: a calm product film",
+			"tick": [
+				{
+					"id": "soft-snap-2",
+					"lufs": -32
+				},
+				{
+					"id": "soft-snap-5",
+					"lufs": -32
+				}
+			],
+			"type": [
+				{
+					"id": "soft-snap-5",
+					"lufs": -36
+				}
+			],
+			"click": [
+				{
+					"id": "percussive-element",
+					"lufs": -25
+				}
+			],
+			"pop": [
+				{
+					"id": "foley-snap-2",
+					"lufs": -28
+				}
+			],
+			"ping": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -28,
+					"trim": 1.4
+				}
+			],
+			"chime": [
+				{
+					"id": "shimmery-bell-single-note-c4",
+					"lufs": -27,
+					"trim": 1.8
+				}
+			],
+			"sparkle": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -30,
+					"semitones": 7,
+					"trim": 1.2
+				}
+			],
+			"glitch": [
+				{
+					"id": "glitch-1",
+					"lufs": -28
+				}
+			],
+			"stamp": [
+				{
+					"id": "rumble-impact",
+					"lufs": -21
+				}
+			],
+			"hit": [
+				{
+					"id": "sub-impact",
+					"lufs": -19
+				}
+			],
+			"whoosh": [
+				{
+					"id": "organic-whoosh",
+					"lufs": -24
+				},
+				{
+					"id": "simple-light-whoosh",
+					"lufs": -24,
+					"trim": 2.2
+				}
+			],
+			"riser": [
+				{
+					"id": "glassy-bubbles-suction",
+					"lufs": -25
+				}
+			],
+			"logo": [
+				{
+					"id": "lush-pluck-cmaj",
+					"lufs": -22
+				}
+			]
+		},
+		"punch": {
+			"about": "tight snaps and deep hits: an ad that lands on the beat",
+			"tick": [
+				{
+					"id": "percussive-sequence-2",
+					"lufs": -29
+				},
+				{
+					"id": "soft-snap-2",
+					"lufs": -29
+				}
+			],
+			"type": [
+				{
+					"id": "soft-snap-5",
+					"lufs": -34
+				}
+			],
+			"click": [
+				{
+					"id": "percussive-sequence-1",
+					"lufs": -23
+				}
+			],
+			"pop": [
+				{
+					"id": "foley-snap-2",
+					"lufs": -25
+				}
+			],
+			"ping": [
+				{
+					"id": "percussive-element",
+					"lufs": -25
+				}
+			],
+			"chime": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -26,
+					"trim": 1.4
+				}
+			],
+			"sparkle": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -28,
+					"semitones": 7,
+					"trim": 1.2
+				}
+			],
+			"glitch": [
+				{
+					"id": "glitch-1",
+					"lufs": -25
+				}
+			],
+			"stamp": [
+				{
+					"id": "rumble-impact",
+					"lufs": -18
+				}
+			],
+			"hit": [
+				{
+					"id": "deep-dark-impact",
+					"lufs": -17
+				}
+			],
+			"whoosh": [
+				{
+					"id": "digital-bubbles-whoosh",
+					"lufs": -22
+				},
+				{
+					"id": "water-movement-fast",
+					"lufs": -23
+				},
+				{
+					"id": "airy-whoosh-fast",
+					"lufs": -23
+				}
+			],
+			"riser": [
+				{
+					"id": "reverse-metallic-riser",
+					"lufs": -24
+				}
+			],
+			"logo": [
+				{
+					"id": "tongue-drum-single-note-c3",
+					"lufs": -21,
+					"trim": 2.4
+				}
+			]
+		},
+		"tech": {
+			"about": "interface clicks, glitches and a sub drop: a developer tool, a night scene",
+			"tick": [
+				{
+					"id": "tick-1",
+					"lufs": -30
+				}
+			],
+			"type": [
+				{
+					"id": "click-2",
+					"lufs": -33
+				}
+			],
+			"click": [
+				{
+					"id": "click-1",
+					"lufs": -23
+				}
+			],
+			"pop": [
+				{
+					"id": "elec-pop",
+					"lufs": -26
+				}
+			],
+			"ping": [
+				{
+					"id": "click-4",
+					"lufs": -25
+				}
+			],
+			"chime": [
+				{
+					"id": "elec-chime",
+					"lufs": -27
+				}
+			],
+			"sparkle": [
+				{
+					"id": "elec-chime",
+					"lufs": -29,
+					"semitones": 7
+				}
+			],
+			"glitch": [
+				{
+					"id": "glitch-1",
+					"lufs": -24
+				}
+			],
+			"stamp": [
+				{
+					"id": "impact-metal-1",
+					"lufs": -21
+				}
+			],
+			"hit": [
+				{
+					"id": "fm-sub-down-impact",
+					"lufs": -18,
+					"trim": 2.4
+				}
+			],
+			"whoosh": [
+				{
+					"id": "water-movement-fast",
+					"lufs": -23
+				},
+				{
+					"id": "digital-bubbles-whoosh",
+					"lufs": -23
+				}
+			],
+			"riser": [
+				{
+					"id": "glitchy-suction",
+					"lufs": -24
+				}
+			],
+			"logo": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -24,
+					"trim": 1.6
+				}
+			]
+		},
+		"play": {
+			"about": "wooden taps and a mallet: a playful, hand-made film",
+			"tick": [
+				{
+					"id": "soft-snap-5",
+					"lufs": -29
+				},
+				{
+					"id": "foley-snap-2",
+					"lufs": -30
+				}
+			],
+			"type": [
+				{
+					"id": "soft-snap-2",
+					"lufs": -34
+				}
+			],
+			"click": [
+				{
+					"id": "percussive-element",
+					"lufs": -24
+				}
+			],
+			"pop": [
+				{
+					"id": "foley-snap-2",
+					"lufs": -25
+				}
+			],
+			"ping": [
+				{
+					"id": "tongue-drum-single-note-c3",
+					"lufs": -26,
+					"semitones": 12,
+					"trim": 1.2
+				}
+			],
+			"chime": [
+				{
+					"id": "tongue-drum-single-note-c3",
+					"lufs": -25,
+					"semitones": 12,
+					"trim": 1.6
+				}
+			],
+			"sparkle": [
+				{
+					"id": "tongue-drum-single-note-c3",
+					"lufs": -27,
+					"semitones": 19,
+					"trim": 1.2
+				}
+			],
+			"glitch": [
+				{
+					"id": "percussive-sequence-2",
+					"lufs": -25
+				}
+			],
+			"stamp": [
+				{
+					"id": "rumble-impact",
+					"lufs": -20
+				}
+			],
+			"hit": [
+				{
+					"id": "rumble-impact",
+					"lufs": -18
+				}
+			],
+			"whoosh": [
+				{
+					"id": "wooden-whoosh",
+					"lufs": -24
+				},
+				{
+					"id": "organic-whoosh",
+					"lufs": -24
+				}
+			],
+			"riser": [
+				{
+					"id": "digital-bubbles-suction",
+					"lufs": -25
+				}
+			],
+			"logo": [
+				{
+					"id": "lush-pluck-cmaj",
+					"lufs": -21
+				}
+			]
+		},
+		"cinema": {
+			"about": "long whooshes and a hit with a tail: a trailer",
+			"tick": [
+				{
+					"id": "soft-snap-2",
+					"lufs": -35
+				}
+			],
+			"type": [
+				{
+					"id": "soft-snap-5",
+					"lufs": -37
+				}
+			],
+			"click": [
+				{
+					"id": "percussive-element",
+					"lufs": -27
+				}
+			],
+			"pop": [
+				{
+					"id": "foley-snap-2",
+					"lufs": -30
+				}
+			],
+			"ping": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -29,
+					"trim": 1.8
+				}
+			],
+			"chime": [
+				{
+					"id": "shimmery-bell-single-note-c4",
+					"lufs": -27,
+					"trim": 2.4
+				}
+			],
+			"sparkle": [
+				{
+					"id": "bell-single-note-c5",
+					"lufs": -30,
+					"semitones": 7,
+					"trim": 1.6
+				}
+			],
+			"glitch": [
+				{
+					"id": "glitch-1",
+					"lufs": -28
+				}
+			],
+			"stamp": [
+				{
+					"id": "sub-impact-reverb",
+					"lufs": -19
+				}
+			],
+			"hit": [
+				{
+					"id": "deep-reverb-impact",
+					"lufs": -17
+				}
+			],
+			"whoosh": [
+				{
+					"id": "big-whoosh-long-tail-2",
+					"lufs": -23,
+					"trim": 2.6
+				},
+				{
+					"id": "simple-light-whoosh",
+					"lufs": -24,
+					"trim": 2.2
+				}
+			],
+			"riser": [
+				{
+					"id": "reversed-shimmer",
+					"lufs": -24
+				}
+			],
+			"logo": [
+				{
+					"id": "shimmery-bell-single-note-c4",
+					"lufs": -22
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+  "name": "motion-fab-component-storybook",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22.12"},
+  "scripts": {
+    "prepare:catalog": "node scripts/prepare.mjs",
+    "dev": "npm run prepare:catalog && storybook dev -p 6006 --host 127.0.0.1 --no-open --disable-telemetry",
+    "build": "npm run prepare:catalog && storybook build --disable-telemetry",
+    "preview": "vite preview --outDir storybook-static --host 127.0.0.1 --port 6006 --strictPort",
+    "test": "npm run prepare:catalog && node --test tests/*.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "test:sequences": "node tests/sequence-browser.mjs",
+    "test:folio": "node tests/folio-browser.mjs && node tests/folio-manager-browser.mjs"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "10.6.8",
+    "@storybook/html-vite": "10.6.8",
+    "esbuild": "0.28.2",
+    "hyperframes": "0.9.19",
+    "puppeteer-core": "25.10.0",
+    "storybook": "10.6.8",
+    "vite": "8.3.8"
+  }
+}

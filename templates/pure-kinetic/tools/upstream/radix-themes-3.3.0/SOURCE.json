@@ -1,0 +1,13 @@
+{
+  "sources": [
+    {
+      "name": "Radix Themes pinned token and button CSS",
+      "url": "https://github.com/radix-ui/themes",
+      "version": "3.3.0",
+      "license": "MIT",
+      "taken": "copied",
+      "date": "2026-11-21",
+      "note": "Unmodified token/base-button/button CSS and license archived for provenance tests. Detailed integrity and hashes are in source/lib/components/upstream/radix-themes/RECEIPT.json. This archive is outside renderable source."
+    }
+  ]
+}

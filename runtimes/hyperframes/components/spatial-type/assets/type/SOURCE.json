@@ -1,0 +1,14 @@
+{
+  "note": "Anybody WOFF2 latin and latin-ext from Motion Fab font catalogue dated2025-09-16, exact r8 inputs. Local derived geometry contains all Unicode glyphs of these bundled subsets at weight800 and widths130/150; no content-specific letter subset. Generator and per-file SHA256 receipt are included.",
+  "sources": [
+    {
+      "name": "Anybody by Tyler Finck",
+      "url": "https://github.com/google/fonts",
+      "path": "ofl/anybody",
+      "version": "2025-09-16",
+      "license": "OFL-1.1",
+      "taken": "adapted",
+      "note": "Commercial-use OFL font. Unmodified WOFF2 sources and OFL notice accompany generated geometry; see provenance.json for exact input hashes and instances."
+    }
+  ]
+}

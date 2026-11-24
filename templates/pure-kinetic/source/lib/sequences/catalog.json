@@ -1,0 +1,17 @@
+{
+  "schema": "pure-kinetic.sequences.v1",
+  "sequences": [
+    {
+      "id": "document-flow",
+      "schema": "document-flow.v1",
+      "status": "prototype",
+      "name": "Document Flow",
+      "description": "Folio 02: six persistent documents are collected, dealt into three categories and resolved into one draft-artwork payoff through a shared camera.",
+      "example": "document-flow/examples/folio.json",
+      "entry": "sequence.mjs",
+      "aspects": ["9:16", "1:1", "16:9"],
+      "beats": 32,
+      "runtime": "hyperframes"
+    }
+  ]
+}

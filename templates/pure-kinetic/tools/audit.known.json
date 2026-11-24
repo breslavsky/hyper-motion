@@ -1,0 +1,4 @@
+{
+ "note": "The faults tools/audit.mjs finds in each scene today: the debt, to be paid scene by scene. A scene not here has none. `node tools/audit.mjs --known` fails on a fault that is not here; take a fault out when it is fixed, never put one in.",
+ "scenes": {}
+}

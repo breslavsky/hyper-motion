@@ -1,0 +1,20 @@
+{
+  "note": "Pinned local modules from verified r8; example bare three imports resolve to local build.",
+  "sources": [
+    {
+      "name": "Three.js",
+      "url": "https://github.com/mrdoob/three.js",
+      "ref": "r170",
+      "version": "0.170.0",
+      "license": "MIT",
+      "taken": "vendored",
+      "package": "three",
+      "files": [
+        "build",
+        "examples",
+        "LICENSE",
+        "package.json"
+      ]
+    }
+  ]
+}

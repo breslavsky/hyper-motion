@@ -1,0 +1,28 @@
+<!doctype html>
+<html data-composition-id="thinking-orbs" data-composition-duration="6" data-composition-variables='[{"id":"state","type":"enum","label":"State","default":"searching","options":[{"value":"working","label":"Working"},{"value":"searching","label":"Searching"},{"value":"solving","label":"Solving"},{"value":"listening","label":"Listening"},{"value":"connecting","label":"Connecting"},{"value":"weaving","label":"Weaving"},{"value":"composing","label":"Composing"},{"value":"breathing","label":"Breathing"},{"value":"shaping","label":"Shaping"}]},{"id":"size","type":"number","label":"Size","default":240,"min":20,"max":1000,"step":1},{"id":"presetSize","type":"enum","label":"Original density","default":"64","options":[{"value":"20","label":"20px preset"},{"value":"32","label":"32px preset"},{"value":"64","label":"64px preset"}]},{"id":"speed","type":"number","label":"Speed","default":1,"min":0,"max":10,"step":0.1},{"id":"dark","type":"boolean","label":"Light ink on dark background","default":true},{"id":"color","type":"string","label":"Tint (blank = monochrome)","default":""},{"id":"x","type":"number","label":"Left","default":0,"min":-3840,"max":3840,"step":1},{"id":"y","type":"number","label":"Top","default":0,"min":-3840,"max":3840,"step":1},{"id":"label","type":"string","label":"Caption","default":""},{"id":"labelSize","type":"number","label":"Caption size","default":28,"min":12,"max":120,"step":1}]'>
+<body><template>
+<style>#root{position:absolute;inset:0}#root *{box-sizing:border-box}canvas{display:block}[data-orb-label]{font-family:inherit!important}</style>
+<div id="root" data-composition-id="thinking-orbs" data-duration="6">
+  <div id="thinking-orbs-mount" data-orb-mount style="position:absolute;inset:0">
+    <div data-orb-placement><canvas aria-label="Animated thinking orb"></canvas><div data-orb-label></div></div>
+  </div>
+  <script>(function(){
+    const root=document.getElementById('thinking-orbs-mount');
+    const host=root.closest('[data-composition-src],[data-composition-file]');
+    const instanceId=host?.dataset.compositionId||'thinking-orbs';
+    const definition=host?.dataset.compositionSrc||host?.dataset.compositionFile;
+    const variables=window.__hyperframes?.getVariables?.()||{};
+    const duration=Number(host?.dataset.duration||6);
+    // The host owns the visible interval. A second, fixed-duration inner clip
+    // would hide the Canvas after six seconds even while its clock kept drawing.
+    if(root.parentElement.hasAttribute('data-duration'))root.parentElement.dataset.duration=String(duration);
+    const runtime=new URL('./native.mjs',new URL(definition,document.baseURI));
+    root.dataset.orbEngine=new URL('./vendor/engine.es.js',runtime).href;
+    const setup=import(runtime.href).then(({mount})=>mount(root,{duration,start:Number(host?.dataset.start||0)},variables,window.gsap)).then(({timeline})=>{
+      window.__timelines=window.__timelines||{};window.__timelines['thinking-orbs']=timeline;
+    });
+    window.__hf=window.__hf||{};window.__hf.buildReady=window.__hf.buildReady||{};
+    window.__hf.buildReady['orbs:'+instanceId]=setup;
+    setup.catch(error=>console.error('Thinking Orbs failed:',error));
+  })();</script>
+</div></template></body></html>

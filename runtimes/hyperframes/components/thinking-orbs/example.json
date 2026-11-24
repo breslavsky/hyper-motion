@@ -1,0 +1,8 @@
+{
+  "layout": "gallery",
+  "aspect": "16:9",
+  "duration": 8,
+  "dark": true,
+  "speed": 1,
+  "presetSize": 64
+}

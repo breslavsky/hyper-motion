@@ -1,0 +1,11 @@
+{
+  "aspect": "9:16",
+  "look": "editorial",
+  "scenes": [
+    {"id":"intro","kind":"title","duration":4,"content":{"text":"Meet *Nook*.","sub":"A calmer way to work"}},
+    {"id":"words","kind":"stack","duration":4,"content":{"words":["Less","noise.","More","focus."]}},
+    {"id":"growth","kind":"chart","duration":4,"content":{"title":"Room to grow","labels":["Mon","Tue","Wed","Thu"],"values":[24,48,62,90],"suffix":"%"}},
+    {"id":"settings","kind":"controls","duration":4,"content":{"title":"Make it yours","toggles":["Focus mode","Smart reminders","Quiet hours"],"slider":"Intensity"}},
+    {"id":"product","kind":"phone3d","duration":4,"content":{"caption":"Your day. In one place.","appName":"Nook"}}
+  ]
+}

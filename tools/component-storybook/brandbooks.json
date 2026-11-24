@@ -1,0 +1,44 @@
+{
+  "nook": {
+    "label": "Indigo · demo",
+    "brand": {
+      "name": "Nook",
+      "url": "nook.app",
+      "font": "Geist",
+      "tokens": {
+        "background": "#f5f5fb",
+        "foreground": "#181830",
+        "accent": "#6554ef",
+        "accent2": "#ffa4ca"
+      }
+    }
+  },
+  "lime": {
+    "label": "Lime · demo",
+    "brand": {
+      "name": "Nook",
+      "url": "nook.app",
+      "font": "Geist",
+      "tokens": {
+        "background": "#101419",
+        "foreground": "#f3f5ef",
+        "accent": "#b9f24a",
+        "accent2": "#83d5ff"
+      }
+    }
+  },
+  "warm": {
+    "label": "Warm · demo",
+    "brand": {
+      "name": "Nook",
+      "url": "nook.app",
+      "font": "Geist",
+      "tokens": {
+        "background": "#fff8f0",
+        "foreground": "#2a1c17",
+        "accent": "#e85d3f",
+        "accent2": "#f2bf55"
+      }
+    }
+  }
+}

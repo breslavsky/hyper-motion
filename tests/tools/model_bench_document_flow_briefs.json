@@ -1,0 +1,48 @@
+{
+  "schema": "document-flow.bench-briefs.v1",
+  "note": "Fictional English brands. The expected recipe is trusted test data used only by the controller, never included in the initial writer request. These cases test recipe extraction, not visual authorship.",
+  "briefs": [
+    {
+      "id": "folio-default",
+      "text": "Create a document-flow.v1 recipe for Folio in 9:16 at 108 BPM. Use Geist Mono, background #0b0b0b, foreground #f4f4f0, coral accent #ff6a70 and pale blue accent2 #bbddff. Open with 'From scattered to sorted'. Keep these six documents in this order: id notes, label Notes, kind note, category ideas; id tasks, label Tasks, kind task, category tasks; id sketches, label Sketches, kind sketch, category ideas; id files, label Files, kind file, category files; id ideas, label Ideas, kind idea, category ideas; id drafts, label Drafts, kind draft, category files. The three categories, in order, are id ideas label Ideas, id tasks label Tasks, id files label Files. The three focus steps are exactly Collect, Arrange, Create. End with 'Find your next idea' and CTA 'Try Folio'. Preserve every supplied word, id, category assignment, color and order. Omit sound to use the preset. The fixed sequence supplies its own timing, camera and actions.",
+      "reference": {
+        "schema": "document-flow.v1", "aspect": "9:16", "bpm": 108,
+        "brand": {"name": "Folio", "font": "Geist Mono", "background": "#0b0b0b", "foreground": "#f4f4f0", "accent": "#ff6a70", "accent2": "#bbddff"},
+        "content": {
+          "opening": "From scattered to sorted",
+          "documents": [{"id":"notes","label":"Notes","category":"ideas","kind":"note"},{"id":"tasks","label":"Tasks","category":"tasks","kind":"task"},{"id":"sketches","label":"Sketches","category":"ideas","kind":"sketch"},{"id":"files","label":"Files","category":"files","kind":"file"},{"id":"ideas","label":"Ideas","category":"ideas","kind":"idea"},{"id":"drafts","label":"Drafts","category":"files","kind":"draft"}],
+          "categories": [{"id":"ideas","label":"Ideas"},{"id":"tasks","label":"Tasks"},{"id":"files","label":"Files"}],
+          "steps": ["Collect","Arrange","Create"], "closing": "Find your next idea", "cta": "Try Folio"
+        }
+      }
+    },
+    {
+      "id": "leaf-medium",
+      "text": "Use the document-flow.v1 sequence for the fictional Leaf brand. Format 1:1, tempo 108 BPM, font Geist. Exact brand colors: background #f1f5ed, foreground #143527, accent #207f46, accent2 #e8b94f. Opening: 'Make room for better ideas'. Six documents, in this exact order: notes / Meeting notes / note / concepts; tasks / Next steps / task / actions; sketches / Moodboard / sketch / concepts; files / References / file / library; ideas / New concepts / idea / concepts; drafts / First drafts / draft / library. Each entry is id / label / kind / category id. Categories in order: concepts / Concepts, actions / Actions, library / Library. Steps in order: Collect, Arrange, Create. Closing: 'Everything ready for your next idea'. CTA: 'Try Leaf'. Keep all words and mappings exact. Omit sound. Do not add scenes or timings; the preset owns the whole production.",
+      "reference": {
+        "schema": "document-flow.v1", "aspect": "1:1", "bpm": 108,
+        "brand": {"name": "Leaf", "font": "Geist", "background": "#f1f5ed", "foreground": "#143527", "accent": "#207f46", "accent2": "#e8b94f"},
+        "content": {
+          "opening": "Make room for better ideas",
+          "documents": [{"id":"notes","label":"Meeting notes","category":"concepts","kind":"note"},{"id":"tasks","label":"Next steps","category":"actions","kind":"task"},{"id":"sketches","label":"Moodboard","category":"concepts","kind":"sketch"},{"id":"files","label":"References","category":"library","kind":"file"},{"id":"ideas","label":"New concepts","category":"concepts","kind":"idea"},{"id":"drafts","label":"First drafts","category":"library","kind":"draft"}],
+          "categories": [{"id":"concepts","label":"Concepts"},{"id":"actions","label":"Actions"},{"id":"library","label":"Library"}],
+          "steps": ["Collect","Arrange","Create"], "closing": "Everything ready for your next idea", "cta": "Try Leaf"
+        }
+      }
+    },
+    {
+      "id": "index-long",
+      "text": "Prepare document-flow.v1 for the fictional Index brand, 16:9 at 108 BPM, using Archivo. Brand background is #101a31, foreground #f4f1e8, accent #edc45a, accent2 #9fc8e6. Opening must read 'Turn scattered thoughts into your next direction'. Preserve these six documents in order: notes / Workshop observations / note / inspiration; tasks / Production checklist / task / production; sketches / Storyboard explorations / sketch / inspiration; files / Reference photography / file / reference; ideas / Creative opportunities / idea / inspiration; drafts / Presentation drafts / draft / reference. Entries are id / label / kind / category id. Categories in order are inspiration / Inspiration, production / Production, reference / Reference. The focus steps stay Collect, Arrange, Create. Closing is 'Find a clear direction for your next project'; CTA is 'Start with Index'. Every word and category assignment is mandatory. Use the preset's own movement and duration; omit sound and do not invent optional fields or extra scenes.",
+      "reference": {
+        "schema": "document-flow.v1", "aspect": "16:9", "bpm": 108,
+        "brand": {"name": "Index", "font": "Archivo", "background": "#101a31", "foreground": "#f4f1e8", "accent": "#edc45a", "accent2": "#9fc8e6"},
+        "content": {
+          "opening": "Turn scattered thoughts into your next direction",
+          "documents": [{"id":"notes","label":"Workshop observations","category":"inspiration","kind":"note"},{"id":"tasks","label":"Production checklist","category":"production","kind":"task"},{"id":"sketches","label":"Storyboard explorations","category":"inspiration","kind":"sketch"},{"id":"files","label":"Reference photography","category":"reference","kind":"file"},{"id":"ideas","label":"Creative opportunities","category":"inspiration","kind":"idea"},{"id":"drafts","label":"Presentation drafts","category":"reference","kind":"draft"}],
+          "categories": [{"id":"inspiration","label":"Inspiration"},{"id":"production","label":"Production"},{"id":"reference","label":"Reference"}],
+          "steps": ["Collect","Arrange","Create"], "closing": "Find a clear direction for your next project", "cta": "Start with Index"
+        }
+      }
+    }
+  ]
+}

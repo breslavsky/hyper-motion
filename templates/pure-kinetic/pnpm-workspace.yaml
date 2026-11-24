@@ -1,0 +1,7 @@
+# pnpm settings for this template and the projects made from it.
+allowBuilds:
+  esbuild: true
+# Temporary: pnpm takes no release younger than a day, and 0.9.19 came out
+# on 2026-11-06 at 03:54 UTC. Remove after 2026-11-07 04:00 UTC (ROADMAP.md).
+minimumReleaseAgeExclude:
+  - hyperframes@0.9.19

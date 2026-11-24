@@ -1,0 +1,24 @@
+{
+  "name": "distortion-waves",
+  "version": "0.1.0",
+  "license": "MIT",
+  "copyright": "2026 Jakub Antalik",
+  "repository": "https://github.com/Jakubantalik/Libraries.dev",
+  "revision": "14ae9d2dad18fcee251f4b06333b492a2a41d2ed",
+  "sourceDirectory": "packages/distortion-waves/src",
+  "npmTarball": "https://registry.npmjs.org/distortion-waves/-/distortion-waves-0.1.0.tgz",
+  "npmIntegrity": "sha512-Y+UgvTq+KtvPOp26piB940ikKKWIf3MOMA8PoaFrSwOskbCDjNSwWW8vo0x6UvB2a9IjNGLBgu+f9+ORm0/sYg==",
+  "files": {
+    "renderer.mjs": "renderer.ts, transpiled to ES2022 with an explicit local .mjs import.",
+    "model.mjs": "model.ts, transpiled to ES2022.",
+    "LICENSE": "License distributed with the npm release."
+  },
+  "shaderSha256": {
+    "VERT": "d7668059732332f14e0ade24c843f519b94db151f15071ca9cdcfbbc713bffbb",
+    "BLUR_FRAG": "11fb21e5822476e91718e7d0f9b9804e2aac33e58ecb13138ac7f331f02eaf0c",
+    "COPY_FRAG": "60901297b4234348873f34ac2aa2a60a0011b71840c573175cdb5a4f7efe3684",
+    "MAIN_FRAG": "0e0e8e2d820e1e10ceebdf648dc7063c80f4b7f9fed17af65125fe9071d5d2e0",
+    "DOT_VERT": "b292143d919008938ad856ec8752f3dd372f88bea0c6c7d9cf817866904f2ffb",
+    "DOT_FRAG": "0b1ab50f321764728d80e5b176e30bf403adaa3f8b03d94b167d71c27ceb4cec"
+  }
+}

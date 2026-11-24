@@ -1,0 +1,1594 @@
+{
+  "schema": "pure-kinetic.ellipsis-scope.v1",
+  "rule": {
+    "domHelper": "K.design.truncateLine(node)",
+    "canvasHelper": "K.design.truncateCanvasLine(context, copy, maxWidth)",
+    "contract": "Only bounded, semantically single-line text uses ellipsis at its unchanged typography. DOM leaves retain complete source text in textContent; an optional title must match the full text. Raster receipts retain the full source separately from painted text.",
+    "preserved": "Animated hero and narrative copy, deliberate multiline messages, numeric values and genuine scrolling typing inputs keep their existing layout and timing."
+  },
+  "sharedHelpers": {
+    "mockUI": {
+      "file": "source/lib/components/ui.mjs",
+      "callers": [
+        "ui-macro",
+        "ui-float",
+        "phones",
+        "laptop",
+        "browser",
+        "callouts",
+        "between",
+        "knockout"
+      ],
+      "condition": "Only drawn mockUI fallback; supplied screenshots are unchanged.",
+      "singleLine": [
+        "brand.name sidebar label",
+        "app/ui.nav[*] sidebar labels",
+        "app/ui.title header",
+        "app/ui.cta header action",
+        "app/ui.stats[*][0] stat labels",
+        "app/ui.rows[*][0] list names",
+        "app/ui.rows[*][1] list/inbox details",
+        "app/ui.status[*] status badges",
+        "app/ui.rows[*][0] chat author metadata",
+        "app/ui.stats[0][0] chart label",
+        "app/ui.nav[*] phone tab labels"
+      ],
+      "preserved": {
+        "fields": [
+          "app/ui.stats[*][1] metric values",
+          "avatar/brand initials and arrow/icon artwork",
+          "chat row message bodies",
+          "editor title and prose",
+          "empty placeholder bars",
+          "blank search field"
+        ],
+        "reason": "Metric values, prose and artwork are meaningful content or nontext shapes; they do not inherit compact-label truncation."
+      }
+    },
+    "hud": {
+      "file": "source/lib/components/decor.mjs",
+      "scope": "all catalog types when look.deco.hud is enabled",
+      "condition": "The look enables HUD decoration and the scene does not suppress it with plain:true.",
+      "singleLine": [
+        "brand.name (uppercase HUD brand label)"
+      ],
+      "preserved": {
+        "fields": [
+          "sequence number",
+          "timecode",
+          "coordinates",
+          "signal percentage"
+        ],
+        "reason": "Numeric telemetry and sequence identifiers remain complete; the brand leaf flexes within the remaining bounded row."
+      }
+    }
+  },
+  "components": [
+    {
+      "type": "title",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text hero/glyphs",
+          "sub immutable typing"
+        ],
+        "reason": "Primary authored copy and typed supporting text remain complete."
+      }
+    },
+    {
+      "type": "highlight",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text word-highlight animation",
+          "sub multiline body"
+        ],
+        "reason": "Full phrases are the visual message."
+      }
+    },
+    {
+      "type": "swap",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "lead/from/to display words and transforming display badge"
+        ],
+        "reason": "The full before/after display words drive the animation; they are not UI metadata."
+      }
+    },
+    {
+      "type": "fullbleed",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text hero",
+          "repeated moving ribbons"
+        ],
+        "reason": "Intended full-frame typography and scrolling artwork."
+      }
+    },
+    {
+      "type": "grid",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "words[*] display headlines"
+        ],
+        "reason": "Words are the primary scene content; the tile supports deliberate reflow."
+      }
+    },
+    {
+      "type": "wall",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "words[*]",
+          "brand.name central hero card"
+        ],
+        "reason": "The whole moving world and its card sizes are measured from these display words."
+      }
+    },
+    {
+      "type": "prompt",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "placeholder",
+        "brand.name tool chip"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text immutable multiline typing"
+        ],
+        "reason": "Placeholder and brand tool chip are bounded UI labels; typing is unchanged."
+      }
+    },
+    {
+      "type": "ui-macro",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [
+        "prompt fallback brand chip/placeholder",
+        "mockUI labels when no screenshot"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "fields": [
+          "typeText genuine scrolling input"
+        ],
+        "reason": "Inherits shared prompt/mockUI changes only; real screenshots and scrolling input stay unchanged."
+      }
+    },
+    {
+      "type": "ui-float",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [
+        "mockUI labels when no screenshot"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "fields": [
+          "caption animated headline"
+        ],
+        "reason": "Only shared drawn UI metadata changes."
+      }
+    },
+    {
+      "type": "counter",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "value/prefix/suffix rolling digits",
+          "label multiline metric caption"
+        ],
+        "reason": "The full metric and explanatory caption must remain readable."
+      }
+    },
+    {
+      "type": "toggle",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "label animated sceneTitle glyphs"
+        ],
+        "reason": "The label is the scene headline, not an inline control caption."
+      }
+    },
+    {
+      "type": "logo3d",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text/brand.name animated display",
+          "logo-face initials/art"
+        ],
+        "reason": "Full brand lockup and logo artwork."
+      }
+    },
+    {
+      "type": "endcard",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "brand.name animated display",
+          "tagline multiline body",
+          "cta deliberate multiline action"
+        ],
+        "reason": "The existing CTA explicitly supports multiline copy."
+      }
+    },
+    {
+      "type": "slam",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "lines[*] animated poster text",
+          "crumbs[*] atomic-word multiline animation"
+        ],
+        "reason": "Poster phrases and animated crumbs reserve complete multiline layouts."
+      }
+    },
+    {
+      "type": "morph",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "label in button state",
+        "brand.name in player state",
+        "fixed Write/Edit/Export tab labels",
+        "text in toast state"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text immutable multiline search typing",
+          "keyboard shortcut and SVG/icon controls"
+        ],
+        "reason": "The four changed fields are bounded one-line UI captions; all state times and typing stay unchanged."
+      }
+    },
+    {
+      "type": "steps",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title animated headline",
+          "steps[*] deliberately reflowed prose",
+          "numbered markers and percentage odometer"
+        ],
+        "reason": "Step descriptions intentionally wrap at their readable body size."
+      }
+    },
+    {
+      "type": "ticket",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "rows[*][0] receipt keys",
+        "stamp"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title multiline cardTitle",
+          "rows[*][1] immutable multiline typing"
+        ],
+        "reason": "Receipt keys and the stamp are single-line metadata; values retain full typing."
+      }
+    },
+    {
+      "type": "marquee",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "bands[*].text moving ribbons"
+        ],
+        "reason": "Continuous scrolling text is intentional artwork."
+      }
+    },
+    {
+      "type": "phones",
+      "file": "source/lib/components/builtin.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [
+        "mockUI labels when no screenshot"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "fields": [
+          "caption animated headline",
+          "device/logo artwork"
+        ],
+        "reason": "Inherits shared drawn UI metadata only."
+      }
+    },
+    {
+      "type": "caption",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Inline chips are part of the authored kinetic sentence, including rolling numbers; supporting subtitle remains complete."
+      }
+    },
+    {
+      "type": "typewriter",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Deliberately multiline immutable typed display content."
+      }
+    },
+    {
+      "type": "sentence",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Full kinetic sentence."
+      }
+    },
+    {
+      "type": "append",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Full sentence and appended hero word."
+      }
+    },
+    {
+      "type": "countdown",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Numeric countdown."
+      }
+    },
+    {
+      "type": "stat",
+      "file": "source/lib/components/scenes/data.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Numeric value, prefix/suffix and plotted curve unchanged."
+      }
+    },
+    {
+      "type": "chart",
+      "file": "source/lib/components/scenes/data.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "labels[] (bar, line, pie/ring legend)"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Title and numeric values/unit unchanged; endpoint axis labels align inside plot bounds."
+      }
+    },
+    {
+      "type": "timeline",
+      "file": "source/lib/components/scenes/data.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Milestone body descriptions are deliberately multiline; preserve full text and dot alignment."
+      }
+    },
+    {
+      "type": "pricing",
+      "file": "source/lib/components/scenes/data.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "name",
+        "period",
+        "cta"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Price and feature descriptions remain complete, including intentional multiline features."
+      }
+    },
+    {
+      "type": "globe",
+      "file": "source/lib/components/scenes/data.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Scene-title label and geographic artwork remain complete."
+      }
+    },
+    {
+      "type": "code",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "title window/file label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "lines[*] wrapped/paged immutable code typing",
+          "line-number digits"
+        ],
+        "reason": "The window title is single-line chrome; code remains complete."
+      }
+    },
+    {
+      "type": "chat",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "messages[*].text full multiline conversation"
+        ],
+        "reason": "Message bodies must stay complete."
+      }
+    },
+    {
+      "type": "notify",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "items[*].app source label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "items[*].title",
+          "items[*].body",
+          "app icon initial"
+        ],
+        "reason": "The app source is metadata; notification title/body remain complete multiline messages."
+      }
+    },
+    {
+      "type": "dock",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "apps[*] text labels in dense grid (more than five apps)",
+        "brand.name dense-grid label for star app"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "apps[*] normal-dock icon artwork (up to five apps)",
+          "caption sceneTitle",
+          "dense-grid app icon initials"
+        ],
+        "reason": "Only actual app text labels ellipsize; icons and scene copy are preserved."
+      }
+    },
+    {
+      "type": "chaos",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text sceneTitle",
+          "window imagery/artwork"
+        ],
+        "reason": "No single-line text metadata in its window artwork."
+      }
+    },
+    {
+      "type": "laptop",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [
+        "mockUI labels when no screenshot"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "fields": [
+          "caption sceneTitle"
+        ],
+        "reason": "Only shared drawn UI metadata changes."
+      }
+    },
+    {
+      "type": "browser",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [
+        "mockUI labels when no screenshot"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "fields": [
+          "url genuine scrolling typed input"
+        ],
+        "reason": "URL typing keeps its own scroll viewport and caret contract."
+      }
+    },
+    {
+      "type": "callouts",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [
+        "mockUI labels when no screenshot"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "fields": [
+          "title sceneTitle",
+          "notes[*] measured multiline callouts"
+        ],
+        "reason": "Full callout copy uses measured rows/pages; only embedded mock UI changes."
+      }
+    },
+    {
+      "type": "compare",
+      "file": "source/lib/components/scenes/ui.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "beforeLabel",
+        "afterLabel"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "before/after display messages"
+        ],
+        "reason": "Side labels are metadata; comparison statements remain complete."
+      }
+    },
+    {
+      "type": "journey",
+      "file": "source/lib/components/scenes/flow.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Sentence camera choreography; full display copy."
+      }
+    },
+    {
+      "type": "faces",
+      "file": "source/lib/components/scenes/flow.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Main display sentence and avatar media/artwork."
+      }
+    },
+    {
+      "type": "shuffle",
+      "file": "source/lib/components/scenes/flow.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Full display sentence and replacement words."
+      }
+    },
+    {
+      "type": "overlay",
+      "file": "source/lib/components/scenes/flow.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "cards[].label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Caption and numeric values/prefix/suffix remain complete."
+      }
+    },
+    {
+      "type": "trail",
+      "file": "source/lib/components/scenes/flow.mjs",
+      "renderMode": "canvas",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Immutable typed input and caret remain complete; not a static compact label."
+      }
+    },
+    {
+      "type": "between",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "cta"
+      ],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "reason": "Surrounding sentence words remain kinetic display; embedded mockUI handled by shared renderer owner."
+      }
+    },
+    {
+      "type": "drag",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "existing",
+      "singleLine": [
+        "files[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "The existing single-line files[] policy remains in force. Panel title and supporting copy retain their measured multiline layout; icon art and choreography are unchanged."
+      }
+    },
+    {
+      "type": "knockout",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "inherited",
+      "singleLine": [],
+      "inherits": [
+        "mockUI"
+      ],
+      "preserved": {
+        "reason": "Stencil text and supporting scene title are authored display content. The embedded interface inherits mockUI label policy when no screenshot is supplied."
+      }
+    },
+    {
+      "type": "assemble",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Assembled glyphs and supporting caption are narrative content."
+      }
+    },
+    {
+      "type": "hive",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "labels[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Central brand name is display content; app icons remain artwork."
+      }
+    },
+    {
+      "type": "scatter",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Words form the authored kinetic sentence."
+      }
+    },
+    {
+      "type": "arc",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Title and word substitutions are authored scene content; product cards are media."
+      }
+    },
+    {
+      "type": "thinking-orb",
+      "file": "source/lib/components/scenes/thinking-orbs.mjs",
+      "renderMode": "canvas",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title",
+          "body"
+        ],
+        "reason": "Authored title and body use deliberate multiline copy; the particle canvas paints no labels."
+      }
+    },
+    {
+      "type": "orb",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Orb/particle artwork and authored text are not compact metadata."
+      }
+    },
+    {
+      "type": "particles",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "canvas",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Text forms particle/display artwork."
+      }
+    },
+    {
+      "type": "wave",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Spoken transcript remains complete; timecode is numeric/code."
+      }
+    },
+    {
+      "type": "agent",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "name",
+        "done",
+        "steps[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Result card remains deliberately multiline body/title content; glyph icons unchanged."
+      }
+    },
+    {
+      "type": "palette",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "items[].title (parsed result label)"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Typed query and selected detail content remain complete; empty kind node has no user copy."
+      }
+    },
+    {
+      "type": "picker",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Selected central words are scene-title content; icon artwork unchanged."
+      }
+    },
+    {
+      "type": "montage",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Word-led montage display copy. Shot layers contain supplied images or generated gradient plates, not mockUI. Conditional HUD brand text is covered by the global HUD helper."
+      }
+    },
+    {
+      "type": "web",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "words[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Graph label leaves changed; no numeric or narrative display truncation."
+      }
+    },
+    {
+      "type": "split",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Headline words and media-tile content are full authored content/artwork, not UI metadata."
+      }
+    },
+    {
+      "type": "pack",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Central display word and decorative packing objects."
+      }
+    },
+    {
+      "type": "swarm",
+      "file": "source/lib/components/scenes/hands.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Hero/display caption and media artwork."
+      }
+    },
+    {
+      "type": "inline",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Sentence display copy and inserted media/artwork."
+      }
+    },
+    {
+      "type": "bubbles",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Questions and answer are deliberately multiline prompt sentences; keep full copy and existing density/timing."
+      }
+    },
+    {
+      "type": "retype",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Main selected/typed values are authored hero content."
+      }
+    },
+    {
+      "type": "orbit",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Hero text and decorative orbiting artwork."
+      }
+    },
+    {
+      "type": "checklist",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Immutable typed task sentences and title are authored content; preserve complete script and timing."
+      }
+    },
+    {
+      "type": "tiles",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Media tiles/artwork without compact semantic text labels."
+      }
+    },
+    {
+      "type": "mosaic",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "notes[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Main headline is kinetic display; source images and text inside media placeholders remain intact."
+      }
+    },
+    {
+      "type": "photo",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Photo caption is a scene title, not compact metadata."
+      }
+    },
+    {
+      "type": "stream",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Selected card word is main authored scene content; media artwork remains intact."
+      }
+    },
+    {
+      "type": "roll",
+      "file": "source/lib/components/scenes/reel.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "The rolling word completes the main authored sentence."
+      }
+    },
+    {
+      "type": "dot",
+      "file": "source/lib/components/scenes/studio.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Glyph/dot choreography is authored display content."
+      }
+    },
+    {
+      "type": "flip",
+      "file": "source/lib/components/scenes/studio.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Sentence fragments around flipping media remain full display content."
+      }
+    },
+    {
+      "type": "pullback",
+      "file": "source/lib/components/scenes/studio.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "chips[]",
+        "mention dropdown options derived from text/chips"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Prompt text, typed mention, caret and icon-only controls remain unchanged."
+      }
+    },
+    {
+      "type": "island",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title multiline cardTitle",
+          "body multiline message",
+          "icon artwork"
+        ],
+        "reason": "The expanding card is measured from its full message."
+      }
+    },
+    {
+      "type": "widgets",
+      "file": "source/lib/components/scenes/glass.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "items[*].label in noncompact cards"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "items[*].label in deliberately two-line compact rows",
+          "items[*].value animated metric digits",
+          "title multiline sceneTitle"
+        ],
+        "reason": "Existing responsive compact rows intentionally allow two label lines; card labels are single-line."
+      }
+    },
+    {
+      "type": "controls",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title multiline cardTitle",
+          "toggles[*] deliberate two-line body captions",
+          "slider multiline body label",
+          "toggle/slider graphics"
+        ],
+        "reason": "The shared panel fits complete authored labels on its projected surface in every look; Metal changes the material without a separate text layout."
+      }
+    },
+    {
+      "type": "sheet",
+      "file": "source/lib/components/scenes/glass.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "cta fixed-height action label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title two-line cardTitle",
+          "rows[*] deliberate two/three-line checklist copy",
+          "checkmark icons"
+        ],
+        "reason": "The fixed-height button gets an inner ellipsis leaf; checklist messages keep their measured layouts."
+      }
+    },
+    {
+      "type": "ask",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text immutable multiline prompt typing",
+          "reply full word-reveal response"
+        ],
+        "reason": "Both are the scene’s full animated messages."
+      }
+    },
+    {
+      "type": "lens",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text display message in the transmitted text texture",
+          "sub supporting caption"
+        ],
+        "reason": "The lens follows complete authored copy; the supporting caption can wrap."
+      }
+    },
+    {
+      "type": "glass-flow",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title and nextTitle multiline cardTitle messages",
+          "body and nextBody supporting messages"
+        ],
+        "reason": "Both glass cards retain complete authored copy throughout the continuous camera move."
+      }
+    },
+    {
+      "type": "send-prompt",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "direct",
+      "singleLine": [
+        "mention dropdown options derived from text/chips"
+      ],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "editable multiline prompt",
+          "full context chip labels"
+        ],
+        "reason": "Each context chip fits its full label. Chips wrap onto new rows and an extra-wide label can wrap inside its chip."
+      }
+    },
+    {
+      "type": "search",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": ["query"],
+        "reason": "The input retains the complete query during typing and the loading hold before the field folds into the button."
+      }
+    },
+    {
+      "type": "stack",
+      "file": "source/lib/components/scenes/words.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Stacked authored hero words."
+      }
+    },
+    {
+      "type": "beatwords",
+      "file": "source/lib/components/scenes/words.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Authored hero words on beats."
+      }
+    },
+    {
+      "type": "underline",
+      "file": "source/lib/components/scenes/words.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "tag"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Main underlined word/letters remain full hero content."
+      }
+    },
+    {
+      "type": "rundown",
+      "file": "source/lib/components/scenes/words.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Narrative body steps and hero conclusion remain complete."
+      }
+    },
+    {
+      "type": "winner",
+      "file": "source/lib/components/scenes/cards.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "title",
+        "options[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Primary numeric/display value unchanged."
+      }
+    },
+    {
+      "type": "connect",
+      "file": "source/lib/components/scenes/cards.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "sources[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Target tile title remains deliberately multiline; graph artwork unchanged."
+      }
+    },
+    {
+      "type": "chips",
+      "file": "source/lib/components/scenes/cards.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "chips[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Central headline remains kinetic display."
+      }
+    },
+    {
+      "type": "tabs",
+      "file": "source/lib/components/scenes/cards.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "items[].label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Metric values and numeric animation unchanged."
+      }
+    },
+    {
+      "type": "dial",
+      "file": "source/lib/components/scenes/cards.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "label"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Numeric value/unit and slider timing unchanged."
+      }
+    },
+    {
+      "type": "gather",
+      "file": "source/lib/components/scenes/bursts.mjs",
+      "renderMode": "canvas",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Particle-assembled hero text."
+      }
+    },
+    {
+      "type": "impact",
+      "file": "source/lib/components/scenes/bursts.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Hero text and supporting scene-title lead."
+      }
+    },
+    {
+      "type": "cards3d",
+      "file": "source/lib/components/scenes/three.mjs",
+      "renderMode": "webgl",
+      "policy": "direct",
+      "singleLine": [
+        "titles[] (raster)"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Image textures and decorative app tiles are not textual labels."
+      }
+    },
+    {
+      "type": "icon3d",
+      "file": "source/lib/components/scenes/three.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "text/brand.name is a hero lockup; brand monogram is glyph artwork."
+      }
+    },
+    {
+      "type": "phone3d",
+      "file": "source/lib/components/scenes/three.mjs",
+      "renderMode": "webgl",
+      "policy": "direct",
+      "singleLine": [
+        "brand.name (raster screen header)"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "caption stays animated multiline copy; illustrated app rows are geometric placeholders."
+      }
+    },
+    {
+      "type": "field",
+      "file": "source/lib/components/scenes/three.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "text is an animated multiline scene-title word sequence."
+      }
+    },
+    {
+      "type": "polar",
+      "file": "source/lib/components/scenes/community-shapes.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "label is a scene heading, with authored multiline capacity."
+      }
+    },
+    {
+      "type": "letterflip",
+      "file": "source/lib/components/scenes/community-shapes.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "text consists of animated hero words/glyphs, not compact UI labels."
+      }
+    },
+    {
+      "type": "accordion",
+      "file": "source/lib/components/scenes/community-depth.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "items[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "Media, guides and artwork contain no additional text."
+      }
+    },
+    {
+      "type": "explode",
+      "file": "source/lib/components/scenes/community-depth.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "layers[]"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "title stays multiline; exploded plane artwork contains no text."
+      }
+    },
+    {
+      "type": "scan",
+      "file": "source/lib/components/scenes/community-scan.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "categories[]",
+        "items[].label",
+        "scanning",
+        "complete"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "title stays multiline; icons/artwork and count dots are not textual labels; status handoff timing unchanged."
+      }
+    },
+    {
+      "type": "before-after-wipe",
+      "file": "source/lib/components/scenes/registry-content.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Scene title and authored two-line before/after comparison captions stay multiline."
+      }
+    },
+    {
+      "type": "screen-flow-carousel",
+      "file": "source/lib/components/scenes/registry-motion.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "Scene title and authored three-line screens[].label caption band stay multiline; skeleton screens contain no text."
+      }
+    },
+    {
+      "type": "chart-story",
+      "file": "source/lib/components/scenes/registry-data.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "items[].label",
+        "items[emphasize].label (callout)"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "title stays multiline; all exact numeric values, units, numeric legend keys and axis ticks stay untruncated."
+      }
+    },
+    {
+      "type": "testimonial-proof-card",
+      "file": "source/lib/components/scenes/registry-content.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "name",
+        "role",
+        "company"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "quote/emphasis stay complete multiline copy; initials remain centered avatar glyphs."
+      }
+    },
+    {
+      "type": "modal-morph",
+      "file": "source/lib/components/scenes/registry-motion.mjs",
+      "renderMode": "dom",
+      "policy": "direct",
+      "singleLine": [
+        "eyebrow",
+        "cta"
+      ],
+      "inherits": [],
+      "preserved": {
+        "reason": "title/body keep authored multiline text; shared-element timeline and counter-scaling remain unchanged."
+      }
+    },
+    {
+      "type": "ride",
+      "file": "source/lib/components/scenes/ride.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "stops[].label",
+          "title"
+        ],
+        "reason": "A control's name is never cut: the number of controls in a row is the most whose widest name still fits, measured in the font. The title is fitted in its role; counts and slider values are numbers."
+      }
+    },
+    {
+      "type": "lens-wall",
+      "file": "source/lib/components/scenes/lens-wall.mjs",
+      "renderMode": "canvas",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "The wall holds pictures and videos and no words of the film: there is no text to cut."
+      }
+    },
+    {
+      "type": "comic",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text"
+        ],
+        "reason": "A whole paragraph, wrapped as written and fitted in its role: every word is read, none is cut."
+      }
+    },
+    {
+      "type": "glass-steps",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title multiline cardTitle",
+          "items[*] whole phrases, fitted to their column or row"
+        ],
+        "reason": "A step is read whole: each phrase is fitted to its own column or row on the projected surface in every look, and the numbers are drawn, not written."
+      }
+    }
+  ]
+}

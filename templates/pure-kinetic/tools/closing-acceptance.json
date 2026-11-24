@@ -1,0 +1,273 @@
+{
+  "schema": "pure-kinetic.closing-acceptance.v1",
+  "recordedAt": "2026-11-21T21:32:58.886202+00:00",
+  "testedCodeCommit": "9d249e6ff09ee3957e41a85e86429b7c39d51872",
+  "hyperframesVersion": "0.9.19",
+  "componentSource": {
+    "algorithm": "sha256",
+    "aggregate": "53b7b68a8f00876915404011760c5d8b944f69a52baf03cb3f59703f9b707e4a",
+    "files": {
+      "lib/build.cjs": "cd2416f57ea2306949c8998097cfa296e2b030bc51b893ff57299648337200be",
+      "lib/compiler/definitions.cjs": "f94bdaa2f653040abd91af76e2ed0b6fbdc0d9b2561f64f5b9dcaccf38a6de32",
+      "lib/compiler/fields.cjs": "600b63d666efd68221502a43ba408df60237532ef2d38ff76c1593670cb2b77c",
+      "lib/compiler/looks-own.cjs": "93a57e87dad1191b9fe6b9aed660fd056d8c2f40a6022ea57918de5adeb4ebd9",
+      "lib/compiler/looks.cjs": "c8b4890c5b844e923cd115e8f7222f3b6a2b20d1c124b21eae361ca27599c4cf",
+      "lib/compiler/plan.cjs": "3a66e72f9b56023fe9fa863bdfc430f87a977ddcc1021b1014abdbd284b328b7",
+      "lib/components/brand-tokens.cjs": "caeed4d8b8f974182140ef5d39009a5ace918f33bd5cff143170e1808c51312c",
+      "lib/components/brand-tokens.mjs": "e235895325c8371e8ec8b042a380d6cbe116faa0ffb8265651d2458e62399000",
+      "lib/components/builtin.mjs": "9b8c3dd15694978a0327936b201c5ff2125d1689be33898622e7d40c38053d4d",
+      "lib/components/catalog.mjs": "ba181536d93e39d72ed7fe9b9db6dfa786f3d4909319806fcd52ebb2837a2ca8",
+      "lib/components/context.mjs": "c10bf9658552200ab3e65392f19d501dc4d60fc007ab141656d5d323e0ba7e51",
+      "lib/components/decor.mjs": "b2ae0eeceb25fa8e8638f2bbf7f9f7d5edb3c00ede2aaff8d7ff3ca11d2dda5a",
+      "lib/components/design-system.mjs": "f065d1acf47b50edbe751ad58becf97fbe160e65de876b4255e31cd87cf1c1ed",
+      "lib/components/dom.mjs": "3fe646ff99ff8d4424573843e31eea8a3af0279efd272d431f0026b196755f2b",
+      "lib/components/fit.mjs": "fd6c695bde168dcd6a9a08b23bcb1a03f4e72a6ad9f363cbca934297b7c30e28",
+      "lib/components/index.mjs": "0521d2bda481f691cf01851d8067bba173a1a75754f960a0c8244788e9c064f6",
+      "lib/components/layers.mjs": "d36ef452c5de892a99a2809955b2c79592ca089f2aa4af05aa9583d6a86b62a9",
+      "lib/components/maths.mjs": "c6f28a9ea6ec79cd9dc0240618fecbe97dee9c4ce3a82fb6d61885c4b7a2c326",
+      "lib/components/metadata.cjs": "687418a5b0cb9056514cfd69715c7a7b17b7d47eac733ffc784187654dd70482",
+      "lib/components/metadata.mjs": "a24f54269c6c54cd98cda798ae28e243d43274ddb86fd089a9782cc0ddf6e5b1",
+      "lib/components/motion.mjs": "7fdc2237a23f82b52fc4508b0d6338ddd985f5893e9cec0e97d0686d708848cd",
+      "lib/components/moves.mjs": "d41dd6b87dbfea24becc555b38bde9fe9be611c93dab5f1248fbe5f2537db252",
+      "lib/components/own-kit.mjs": "893493907e55e283e110641a28485510a07f1cca55e9e2b08da6f29efdd3d1af",
+      "lib/components/presentation.css": "12896bcc2f54dd301029dc1f8aab3fa013c016aa113c78e326131b54ccbd8bc2",
+      "lib/components/presentation.mjs": "d7baf9922f91bc9687e6edf23f60dac616b81c0cf9bfcacbad23d853c3c744ac",
+      "lib/components/registry.mjs": "d71ce8835a0bf62aa8d43f61e928938fb72777253878cf259d684590a0eaa441",
+      "lib/components/runtime.mjs": "d66734f18e45e97faed8dd3f6005415adfd5f13fb9eb3036ad0f38f2ddb9bb12",
+      "lib/components/scenes/bursts.mjs": "173455c9ac638165b94f79c80ff15c0c482d82c9264cabbff66c9cac568b58e9",
+      "lib/components/scenes/cards.mjs": "625c929a8a75d56c841a4f48fc1896d6deaf519a12466cab8013bd22fe3074bb",
+      "lib/components/scenes/community-depth.mjs": "cacbf0cd10c040876e07a8e8ed2f13a610cfd615ebbb6ee89f842e64430c888f",
+      "lib/components/scenes/community-scan.mjs": "42a25882e0b71e2b3abf1f9f5b07c5e9c7f7707e329fdd55a6b8ba99071f2cff",
+      "lib/components/scenes/community-shapes.mjs": "6cdeabbfa4672032e366e715c6e38da8bbcb3f25df56d718329e1b3da430ff12",
+      "lib/components/scenes/data.mjs": "0b7b65ea36e63709aa6276d9a8718472d932a54b06f660810d97a792e0a39265",
+      "lib/components/scenes/flow.mjs": "99701ae5ead1aa563e97bcd57293baa0e161826ad5f17161e77a96c17973d8f3",
+      "lib/components/scenes/glass.mjs": "6afb5bc527e7069743bf15cbf96411a0ada98ec7ecb328f028627e61262d9993",
+      "lib/components/scenes/hands.mjs": "30362ba54b25d7686cea710c5b3c98d09f2d59c7af0164692d4100fb2bc99c5a",
+      "lib/components/scenes/reel.mjs": "47c45518561fa1296a7b9fd0710a31b0c76cf260033e17b654b0c0fc66ad3692",
+      "lib/components/scenes/registry-content.mjs": "6f7a09fb2202b4cd6c03c6712120694cb473ad3ed90374521fd97b100b14d691",
+      "lib/components/scenes/registry-data.mjs": "c40841ebfba42c22506327551bd64ef71a816ea61691e3ef52b2af60c2411b14",
+      "lib/components/scenes/registry-motion.mjs": "28cc4a8fa93a8f894b0c04dff13f43204332dc760381912827205eff67fae874",
+      "lib/components/scenes/studio.mjs": "5d8a8bf16917ffb76a7a18d1d6b92aac7727a43b0497367af43617b99b21769b",
+      "lib/components/scenes/text.mjs": "f1cec753421f03ace16e8dde66d69b5b3e4f578bf99d0fea88e7b102f49ea73d",
+      "lib/components/scenes/three.mjs": "68211486ac5887cf50db69a87e296a2c2689b0024b26fd172ae741651c9560b7",
+      "lib/components/scenes/ui.mjs": "c91f48afbb5152b1b138155f749b14a39993b22100114fc3b496829e897477e0",
+      "lib/components/scenes/words.mjs": "91e17189703953f6e3b3976e9fb4b2b0b647e6f6f7531d33536c324776c18776",
+      "lib/components/surface-system.mjs": "9413714e3f7ebeeb2fc61dc615682a4ef141dcc6a335607c413efb07c7ece42e",
+      "lib/components/timing.mjs": "b0a308705cbd3fb6de6c7fd96555ab4b3338761aa8e6410a279e413de0d7a062",
+      "lib/components/transitions.mjs": "3ac75202b4a2ccaeb2de8e6b040d8733ce5074f62a58c9e0d80adebbd03cafcf",
+      "lib/components/type.mjs": "8327b7c7afc880c46637d25d72e89643823f788925d83636021bc445b2891d07",
+      "lib/components/typewriter-timing.cjs": "9658fdd16fa71df5f0aa0533e659abdb72baa8c54e5c8747a590a4d5c31a927b",
+      "lib/components/typewriter-timing.mjs": "fa009ec4a097e6b0fff17adf055582c86f6ce4ad052c906884b92cb37a959cca",
+      "lib/components/typing.mjs": "dcccb9402bcce34a67d03b632f1bbb868f1e692b43d1b9567d495aa2d1bf9937",
+      "lib/components/ui.mjs": "31702c1ef005876a97c61ee1824944afa990f55fdbdf4693289203286824fb79",
+      "lib/film.cjs": "22ac529d70605747c8b0a5f4acb569e22ccc9a1cb4b1d0c726c81401d01e673f",
+      "lib/fonts.css": "53fc27bcf2cd489eaf62e76a80b153d377d0af2216b2c8404bb85c90a6b97ad4",
+      "lib/sequences/document-flow/audio-contract.mjs": "65b0e60b4366d6bfe43ee544391ff236a03c45971d9ccf416a5678efe5be4946",
+      "lib/sequences/document-flow/audio.mjs": "42044f603e5caeed7e3ccf005724737f46341127f2ff9f78ee0352980063f0e3",
+      "lib/sequences/document-flow/build.mjs": "2927b3c0569574584d806c4a985fe6e361ed9780ad57fecdcf755ba6fdb30ed5",
+      "lib/sequences/document-flow/model.mjs": "4a15959b3a4430af5a3e75b024f17ba82ed3be4b017c19968e50202e170b4d94",
+      "lib/sequences/document-flow/runtime.mjs": "0b2b188d7c73d8f218aad750a1cf82ecd4dd192c92fe495310ebe5ee38ff14df",
+      "lib/sequences/document-flow/sound-contract.mjs": "3e71cbb81562cc52f0c1d2366ef7ca1d8362e5fb5e5c167cc9a753c6fc64b356",
+      "lib/sequences/document-flow/view.mjs": "151cad4cc34880e330a24c6a39097f356cc76cfe627d758e275136cd6d30b95c",
+      "lib/vendor/gsap/gsap.min.js": "7b2c91e3bff9022bef50054413b365a945c93f87285dcf8bdfb92076c4c56304",
+      "lib/vendor/three/RoomEnvironment.js": "85869bdd22f7cf0b22e68dcefe6cb710480af0f5c901a76f7a7764fd07fc8014",
+      "lib/vendor/three/RoundedBoxGeometry.js": "d20aeaf7077c459a8d952d215738d7b44fba028440bb862d84b622a34f0c80bb",
+      "lib/vendor/three/three.module.min.js": "08fd7545d13d2c7fb65ab691530a802dafefd638596501854f267d0fb13c39e7"
+    }
+  },
+  "validationEnvironment": "Local native HyperFrames with pinned adapter; not a remote CI run.",
+  "nativeCases": 921,
+  "native": [
+    {
+      "name": "ellipsis",
+      "cases": 396,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/ellipsis/report.json",
+      "sha256": "878926053557a33bb76df2b6cc4769540efc9d299e406b0028e653cc6fbe551b",
+      "bytes": 17730
+    },
+    {
+      "name": "catalog-design",
+      "cases": 315,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/catalog-design/report.json",
+      "sha256": "8e352d2956085ea0a2f8379f391bd2435aa296c4918b13c28fe482204031bd64",
+      "bytes": 23513649
+    },
+    {
+      "name": "surfaces",
+      "cases": 6,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/surfaces/report.json",
+      "sha256": "e858560d9cda6cdaee5bf2f39e4d2c9b4b1dc14bef66b4b8e13c3525803efc97",
+      "bytes": 117286
+    },
+    {
+      "name": "visible-content",
+      "cases": 21,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/visible-content/report.json",
+      "sha256": "129e5b21f9244aa009fa176dd2e133b952084f30b50b29d41ef44688c7fc117b",
+      "bytes": 110679
+    },
+    {
+      "name": "typewriter-layout",
+      "cases": 84,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/typewriter-layout/report.json",
+      "sha256": "a200c87243c113f937674f0c1b8500bdc19c7a6eef3fb2c63c563414f1c25188",
+      "bytes": 67741
+    },
+    {
+      "name": "typing-builtin",
+      "cases": 27,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/typing-builtin/report.json",
+      "sha256": "f3da8657903fb1c1066b6fa845adb9a62d7e92affd69a9808bb5f7afe88b7ae9",
+      "bytes": 47841
+    },
+    {
+      "name": "typing-motion",
+      "cases": 18,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/typing-motion/report.json",
+      "sha256": "b6385b4592d7ea21fe96339655ce05e84f5a55a881cc9f2b78b9311c4f18a9ab",
+      "bytes": 4170873
+    },
+    {
+      "name": "typing-ui",
+      "cases": 42,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/typing-ui/report.json",
+      "sha256": "e73f989c2f12bd6fe7bc34a447ed0eabae819af05e37ed880780d8a32c1e96b5",
+      "bytes": 40221
+    },
+    {
+      "name": "typing-edges",
+      "cases": 12,
+      "passed": true,
+      "sourceStable": true,
+      "path": "final/typing-edges/report.json",
+      "sha256": "205e128fc98e9d32ebdfe27d6becd7358af6fe220677d4a06b3f28a5028e4599",
+      "bytes": 29380
+    }
+  ],
+  "postRunValidation": [
+    {
+      "path": "final/ellipsis-validation.json",
+      "sha256": "2bb4e00d0affeee1259301ff13d249c40ef0eb097eab612ebf1f2a03faebbb50",
+      "bytes": 1466
+    },
+    {
+      "path": "final/typing-edges-validation.json",
+      "sha256": "a1b31311845c6619716b07f9e6993ff4f7b4a2ec1f31150cc44bc3df8ecc21cb",
+      "bytes": 407
+    }
+  ],
+  "nodeContracts": {
+    "passed": 150,
+    "failed": 0,
+    "path": "fast-current/node-contracts/results.tap",
+    "sha256": "e636dcd6b32942852dc433cba55658b4ee3851923462eacdf7a4ebe45206f15b",
+    "bytes": 33377
+  },
+  "pytest": [
+    {
+      "path": "fast-current/pytest.xml",
+      "sha256": "69ce508042f38fcea20233a5ec6b80c2dcc4931dde65ffff458d93d47bf9a27e",
+      "bytes": 30228,
+      "passed": 92,
+      "skipped": 36,
+      "failed": 0
+    },
+    {
+      "path": "final/closing-native.xml",
+      "sha256": "ce343fd461a01ab50441b14f988b8b3334cafb8507a1082586ee24df5a864977",
+      "bytes": 530,
+      "passed": 2,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "path": "final/typography-native.xml",
+      "sha256": "2b6c3ea9a3cdb9fde6bb05e4e6d023a2467187607812ec4afc97e1161f7a1df8",
+      "bytes": 1713,
+      "passed": 10,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "path": "final/artifacts.xml",
+      "sha256": "f385d3490ac17f45b9fed3c1e3bef22e6109b07d59db9d5b008e686ec1a043ff",
+      "bytes": 1255,
+      "passed": 8,
+      "skipped": 0,
+      "failed": 0
+    }
+  ],
+  "expectedNegativeControl": {
+    "path": "final/typing-motion-negative-control/report.json",
+    "sha256": "2244751abe7b9229ee28d4c28b6e78db82d0b2ea3f2a62c66ed591c6fbe617d3",
+    "bytes": 138347,
+    "expectedFailedCases": 1,
+    "reason": "The test deliberately displaces a glyph and requires the native gate to reject it."
+  },
+  "hyperframesCheck": {
+    "path": "final/hyperframes-check/report.json",
+    "sha256": "78b76dcbc21024af96aadefc75e489d64416d8658dc773bb9115f1c513e96b23",
+    "bytes": 11950,
+    "scope": "Existing sample film",
+    "sections": {
+      "lint": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0
+      },
+      "runtime": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0
+      },
+      "layout": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0
+      },
+      "motion": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0
+      },
+      "contrast": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 4
+      },
+      "craft": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 6
+      },
+      "audio": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0
+      }
+    }
+  },
+  "limits": [
+    "Same-source compiler/build parity is not a before/after comparison.",
+    "The 12 bidi/newline fixtures do not establish all international typography.",
+    "The native QA adapter deliberately uses guarded private HyperFrames 0.9.19 chunks.",
+    "The existing demo has four emoji-contrast and six reading-time warnings; no check errors.",
+    "Storybook is deferred. Main-only CI and production deployment policy are unchanged."
+  ]
+}

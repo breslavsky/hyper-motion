@@ -1,0 +1,35 @@
+{
+  "generator": "tools/font_geometry.py",
+  "fontTools": "4.60.1",
+  "brotli": "1.1.0",
+  "inputs": [
+    {
+      "file": "anybody-latin-ext-normal.woff2",
+      "sha256": "b7866f20a9eabbe705406af07585d04b21a5e4d71ff685b897f2389e13f7d9eb"
+    },
+    {
+      "file": "anybody-latin-normal.woff2",
+      "sha256": "8dfc02ccf3330af0d00deaaf7a0f415bdbffd74eab80f944f6c4fcaf1948b1e5"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "anybody-w130-800.mjs",
+      "glyphCount": 528,
+      "sha256": "d3f5e9346b519d9bbe8c26a7e72a0e4afb9bd379970d0db90e9aa5b2d27b8dca",
+      "axes": {
+        "wdth": 130,
+        "wght": 800
+      }
+    },
+    {
+      "file": "anybody-w150-800.mjs",
+      "glyphCount": 528,
+      "sha256": "5d35335cc5a8571ca1e6c457eb11d817ff62e9083b4d52ceaa964539509f4914",
+      "axes": {
+        "wdth": 150,
+        "wght": 800
+      }
+    }
+  ]
+}

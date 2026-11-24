@@ -1,0 +1,32 @@
+{
+ "note": "Scenes of ours that no longer draw what Kinetic's draw, on purpose, with why. tools/kinetic/frames.mjs leaves them out of the compare; tools/audit.mjs is what holds them now.",
+ "scenes": {
+  "agent": "no \"working\" after the name and no made-up seconds beside a step: the kit writes no English of its own",
+  "between": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "browser": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "callouts": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "caption": "its sentence wraps inside the frame's safe area",
+  "chart": "a pie's or ring's names are a row under the disc, each beside its colour, not set round it where they ran into the title",
+  "checklist": "its items and title are steps of the scale, and step down it when they are too wide",
+  "code": "the window takes the frame's width in a square frame and for long lines, so the code is large enough to read",
+  "compare": "no \"Before\" and \"After\" unless the film gives its own labels",
+  "drag": "no \"New video\", \"Generate\" or \"Drop files here\" unless the film gives its own words; the drags keep pace with a short scene, so the line after them is read",
+  "endcard": "the line under the name and the button are steps of the scale and never run past the frame",
+  "highlight": "the faint word behind the line stays inside the frame",
+  "knockout": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "laptop": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "morph": "an arrow on a button and nothing on a toast when the film gives no words for them",
+  "mosaic": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "notify": "no \"now\" beside the app's name: the kit writes no English of its own",
+  "orb": "its lines are a step of the scale, one size for all, and a line that left is gone",
+  "overlay": "its caption stands in the foot of the safe area, not of the frame",
+  "palette": "no English placeholder in the search bar",
+  "phones": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "prompt": "the chip under the prompt is the film's name alone, not its name and the look's",
+  "slam": "the small notes round the lines are large enough to read",
+  "steps": "its type is steps of the scale (plan.js TYPE) and its list shares the title's column; a list too wide steps down the scale",
+  "title": "the faint copy behind the title stays inside the frame, and a title of several words has none",
+  "ui-float": "its drawn interface has bars where the film gives no words, not a made-up menu, people and figures",
+  "ui-macro": "the chip is the film's name alone, not its name and the look's"
+ }
+}

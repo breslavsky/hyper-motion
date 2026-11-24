@@ -1,0 +1,76 @@
+{
+  "schema": "document-flow.v1",
+  "aspect": "9:16",
+  "bpm": 108,
+  "brand": {
+    "name": "Folio",
+    "font": "Geist Mono",
+    "background": "#0b0b0b",
+    "foreground": "#f4f4f0",
+    "accent": "#ff6a70",
+    "accent2": "#bbddff"
+  },
+  "content": {
+    "opening": "From scattered to sorted",
+    "documents": [
+      {
+        "id": "notes",
+        "label": "Notes",
+        "category": "ideas",
+        "kind": "note"
+      },
+      {
+        "id": "tasks",
+        "label": "Tasks",
+        "category": "tasks",
+        "kind": "task"
+      },
+      {
+        "id": "sketches",
+        "label": "Sketches",
+        "category": "ideas",
+        "kind": "sketch"
+      },
+      {
+        "id": "files",
+        "label": "Files",
+        "category": "files",
+        "kind": "file"
+      },
+      {
+        "id": "ideas",
+        "label": "Ideas",
+        "category": "ideas",
+        "kind": "idea"
+      },
+      {
+        "id": "drafts",
+        "label": "Drafts",
+        "category": "files",
+        "kind": "draft"
+      }
+    ],
+    "categories": [
+      {
+        "id": "ideas",
+        "label": "Ideas"
+      },
+      {
+        "id": "tasks",
+        "label": "Tasks"
+      },
+      {
+        "id": "files",
+        "label": "Files"
+      }
+    ],
+    "steps": [
+      "Collect",
+      "Arrange",
+      "Create"
+    ],
+    "closing": "Find your next idea",
+    "cta": "Try Folio"
+  },
+  "sound": {}
+}

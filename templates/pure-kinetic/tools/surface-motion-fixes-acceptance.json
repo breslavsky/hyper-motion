@@ -1,0 +1,145 @@
+{
+  "schema": "pure-kinetic.surface-motion-fixes-delivery.v1",
+  "beforeRevision": "259d8cca4643eaf24a3d89f6e52a901d1fa3a18e",
+  "afterRevision": "b95b2db18ed3a7f14e92594b6065a549cdc172c8",
+  "verificationRevision": "27addca127252a4b907846527ef17a607cfe577b",
+  "hyperframes": "0.9.19",
+  "sourceHashes": {
+    "before": "43fa1fa491bbbce451a3bf63165b44af615628f8462144c6e80db2fda6151707",
+    "after": "07eb6a581d5b203d31595437a450a9fa5ac3e29612bfb1ff76ec90596f94dad2"
+  },
+  "scope": {
+    "scenes": 8,
+    "authoredDuration": 39.6875,
+    "encodedDuration": 39.7,
+    "fps": 30,
+    "framesPerVideo": 1191,
+    "newNativeExports": 3,
+    "previousNativeExports": 3,
+    "comparisonExports": 3
+  },
+  "verification": {
+    "acceptedRegressionCases": 42,
+    "sampledStates": 8190,
+    "reverseStates": 8190,
+    "catalogCases": 12,
+    "nativeFitterCanaries": 14,
+    "pixelControls": 2,
+    "nodeUnitTests": 125,
+    "pythonReceiptTests": 4,
+    "originalDefectsRejected": 6,
+    "nativeChecks": 3,
+    "checkTimesPerFormat": 30,
+    "nativeReviewedFrames": 21,
+    "decodedReviewedFrames": 39,
+    "baselineReviewedFrames": 9,
+    "fullVideoDecodes": 9,
+    "audioIdenticalWithinPairs": true,
+    "browser": {
+      "formatsPlayed": [
+        "1:1",
+        "9:16",
+        "16:9"
+      ],
+      "playbackRate": 0.5,
+      "readyState": 4,
+      "singlePlayer": true,
+      "chapterJumpTested": true,
+      "viewsRetainTime": true,
+      "horizontalOverflow": false,
+      "videoError": null,
+      "finalPausedFormat": "1:1",
+      "finalPausedTime": 19.05
+    }
+  },
+  "artifactDirectory": "",
+  "galleryUrl": "http://localhost:8776/surfaces/motion-fixes-ellipsis/?format=1:1&view=after&t=19.05",
+  "files": {
+    "before-9x16.mp4": {
+      "sha256": "f31d60e94eceace4291bd16247de8d3729f3ebc670c2b1b1c6d4163fafe0abc2",
+      "bytes": 19020650,
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "after-9x16.mp4": {
+      "sha256": "b7e56bb16f09369c577c10d81547fe9a60edfe9dd4e63ce481fe89cf663a004a",
+      "bytes": 18977284,
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "before-1x1.mp4": {
+      "sha256": "a8eb299682e2fda5aa27f55b408a2881dc05fad894d74b266b572a19e12eac58",
+      "bytes": 14468922,
+      "width": 1080,
+      "height": 1080,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "after-1x1.mp4": {
+      "sha256": "fc69776fa127d6d38ea16b7ddb1eb9c3f849569724addf3439718287ad1cfae4",
+      "bytes": 14436115,
+      "width": 1080,
+      "height": 1080,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "before-16x9.mp4": {
+      "sha256": "cc1acfc4107da0bcd5b7cde92bb7e7d48760610597ba8c305362bdf94baeb11b",
+      "bytes": 19688330,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "after-16x9.mp4": {
+      "sha256": "6e5d1c888ba9714c7ba88663c84899330b8963c0ccdc4c9e48b951d1ed0c4ee3",
+      "bytes": 19677509,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "compare-9x16.mp4": {
+      "sha256": "95e0c90acd18af3fd3adcc27fd751d431b46b8025870d3cbefce860b06cb160a",
+      "bytes": 7334108,
+      "width": 1080,
+      "height": 1016,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "compare-1x1.mp4": {
+      "sha256": "8f4cb7deb19242a28fa937d2ac37abe95f17d03e3ad7facc0783e73d6b3d20aa",
+      "bytes": 8003956,
+      "width": 1440,
+      "height": 776,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    },
+    "compare-16x9.mp4": {
+      "sha256": "294054edb2b8ee96905c3beefa08d85fe2434e78f7c6ea024bcbc67a91f845cb",
+      "bytes": 10869769,
+      "width": 1280,
+      "height": 1552,
+      "fps": 30,
+      "frames": 1191,
+      "duration": 39.7
+    }
+  },
+  "knownLimitations": [
+    "Targeted coverage, not a new full-catalog acceptance run.",
+    "Existing craft warnings retained in native check JSON.",
+    "Audio verified as data, not listened to."
+  ]
+}

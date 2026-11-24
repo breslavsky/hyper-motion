@@ -1,0 +1,54 @@
+{
+ "note": "The longest text each field holds with nothing cut, outside the safe area, too small or over another text: measured by tools/audit.mjs --limits with Russian words, in three frames and two looks, a tenth to spare. Only the fields whose measured limit is under the one in compiler/fields.cjs. lib/film.cjs holds a film to these.",
+ "looks": [
+  "editorial",
+  "grape"
+ ],
+ "aspects": [
+  "9:16",
+  "16:9",
+  "1:1"
+ ],
+ "limits": {
+  "callouts": {
+   "notes[]": 25
+  },
+  "pricing": {
+   "features[]": 21
+  },
+  "chat": {
+   "messages[].text": 63
+  },
+  "timeline": {
+   "items[]": 9
+  },
+  "agent": {
+   "steps[]": 22,
+   "done": 34
+  },
+  "dot": {
+   "ring[]": 16
+  },
+  "mosaic": {
+   "notes[]": 17
+  },
+  "trail": {
+   "text": 15
+  },
+  "web": {
+   "words[]": 15
+  },
+  "palette": {
+   "query": 16
+  },
+  "overlay": {
+   "text": 40
+  },
+  "sheet": {
+   "rows[]": 26
+  },
+  "chips": {
+   "chips[]": 9
+  }
+ }
+}

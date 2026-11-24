@@ -1,0 +1,33 @@
+{
+  "package": "lucide-static",
+  "version": "1.77.0",
+  "source": "https://lucide.dev",
+  "tarball": "https://registry.npmjs.org/lucide-static/-/lucide-static-1.77.0.tgz",
+  "integrity": "sha512-v+BzpQrjlwDRWPDzzAu5IFhOkI6jVKb91fsjw1ZSS7Tsb2YvRX5olRN0DXGW99LF2wV4fycuTf5aPOMC62ZW0g==",
+  "license": "ISC; Feather-derived icons also carry MIT notice in LICENSE",
+  "icons": {
+    "check": "icons/check.svg",
+    "info": "icons/info.svg",
+    "alert": "icons/triangle-alert.svg",
+    "close": "icons/x.svg",
+    "plus": "icons/plus.svg",
+    "star": "icons/star.svg",
+    "heart": "icons/heart.svg",
+    "bell": "icons/bell.svg",
+    "sparkles": "icons/sparkles.svg",
+    "arrow-right": "icons/arrow-right.svg"
+  },
+  "sha256": {
+    "LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "icons/check.svg": "ee6b88b8c5b91c3ddee5fec843b8e6ec12122cad557470fea382afb59ccbbc88",
+    "icons/info.svg": "1457d3113e678091e307b6678fac8576967c9e98e81fec7653a50267d2a2bd61",
+    "icons/triangle-alert.svg": "37ec7fcc226c0c2ea5cf1ce1b60b24b5d47000b99a5611a7fb3b7718f6500c0a",
+    "icons/x.svg": "5a403bf8f9dcc192492c51e00c0e872888dd90dfbc3f8793095a0c56f3c8c56e",
+    "icons/plus.svg": "21c8af18df9dfb49368aa88e6dd344566eb8218c95dde544cb076535e0d10db0",
+    "icons/star.svg": "9c7833798c6d5f9ddb9999a90ba16a2d66879be167b87cc70e435b9e57d90a3a",
+    "icons/heart.svg": "bafdc578da3dd5546cf1e9564b7e9af24f0b71b09f298602eda7f42345644af0",
+    "icons/bell.svg": "75670d30118ce3c5eec96c11bbc65f07ad7ece78f3cf32f5f1def7878fec8176",
+    "icons/sparkles.svg": "ec56e82a61174d92e35550428a041d070332bc56951f1cdbb317820fbe14a9f5",
+    "icons/arrow-right.svg": "272e765d0a808baebab26231a53cb1ffd7a46627bf14244a852bc1dddb8dc69f"
+  }
+}

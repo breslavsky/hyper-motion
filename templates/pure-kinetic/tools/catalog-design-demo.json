@@ -1,0 +1,24 @@
+{
+  "aspect": "9:16",
+  "style": "noir",
+  "pace": "normal",
+  "grain": false,
+  "sparks": false,
+  "brand": {
+    "name": "Каталог",
+    "font": "Geist",
+    "tokens": {"background": "#101820", "foreground": "#f6f6ef", "accent": "#b9f24a", "accent2": "#8ec7ff"}
+  },
+  "music": {"bpm": 108, "track": "air", "kit": "soft", "volume": 0.32},
+  "scenes": [
+    {"type": "title", "text": "Одна *система*", "sub": "Каталог компонентов", "beats": 3, "in": "glide"},
+    {"type": "controls", "title": "Общие настройки", "toggles": ["Типографика", "Отступы", "Цвета"], "slider": "Интенсивность", "beats": 5, "in": "glide"},
+    {"type": "sheet", "title": "Собрать историю", "rows": ["Выбрать идею", "Добавить детали", "Настроить акценты"], "cta": "Продолжить", "beats": 6, "in": "glide"},
+    {"type": "chart", "kind": "ring", "title": "Демонстрационные данные", "values": [72, 28], "labels": ["Содержание", "Акценты"], "beats": 5, "in": "glide"},
+    {"type": "timeline", "title": "От идеи к ролику", "items": ["Идея", "Сценарий", "Движение", "Результат"], "beats": 6, "in": "glide"},
+    {"type": "cards3d", "titles": ["Текст", "Графика", "Интерфейс"], "beats": 6, "in": "glide"},
+    {"type": "scan", "title": "У каждой детали своё место", "categories": ["Идеи", "Задачи", "Файлы"], "items": [{"label": "Набросок", "category": 1}, {"label": "Задача", "category": 2}, {"label": "Палитра", "category": 1}, {"label": "Иконки", "category": 3}, {"label": "План", "category": 2}, {"label": "Референсы", "category": 3}], "scanning": "Собираем по смыслу", "complete": "Всё на своём месте", "beats": 8, "in": "glide"},
+    {"type": "typewriter", "text": "Текст, ритм и ясные акценты.", "beats": 5, "in": "glide"},
+    {"type": "endcard", "cta": "Единый язык", "tagline": "Цвета и шрифты — из брендбука", "beats": 6, "in": "glide"}
+  ]
+}

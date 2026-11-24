@@ -1,0 +1,21 @@
+{
+  "note": "Pure build-time recipe compiler and catalogue data adapted from the original Pure Kinetic source. No browser player, scene clock or rendering engine is included. Component-owned definition metadata is imported from ../components/metadata.cjs.",
+  "sources": [
+    {
+      "name": "Kinetic (LaunchLoop)",
+      "url": "https://kinetic.launchloop.tech/",
+      "version": "0.7.0",
+      "license": "Proprietary, used by the product owner's agreement with its author",
+      "taken": "adapted",
+      "date": "2026-11-19",
+      "note": "Engine files from `/engine/`, app logic from `/app/assets/index-DM2MvfGd.js`. No open licence: taken on the product owner's word that he has the author's agreement (2026-11-19)."
+    },
+    {
+      "name": "motionmaxxing",
+      "url": "https://github.com/Tejashmakwana/motionmaxxing",
+      "license": "Apache-2.0",
+      "taken": "followed",
+      "note": "The eases of the engine (`cruise`, `glide`, `softLand`, `snapSettle`... in `maths.js`) are closed forms of the ones motionmaxxing measured on professional films, as Kinetic's own source says; nothing of its files is here."
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-21",
+  "hyperframes": "0.9.19",
+  "sourceHashes": {
+    "model.mjs": "88aa92adec9b421863f05d42c4afd0ec582daab5899d9d4d8e1925bc46cc92a9",
+    "view.mjs": "c4174403bba14cab79fe8aa3d09996b0c6edb681c164934e8e292e384aac0aa6",
+    "runtime.mjs": "59797299cfd549a5415fabdc78f882e29b1f183ea29a8619b4c889d5d25e4ab0",
+    "build.mjs": "e67aa4461084e31003f5e1af04c835395f2a0a5cede4eaddd0a487853f368dba",
+    "audio.mjs": "d047ba10eca57617a78b74f17586f14d1c60534b6ae5d50d7ca31ffd6e44eabd"
+  },
+  "checks": {
+    "nodeTests": 17,
+    "nativeCases": 4,
+    "nativePassed": 4,
+    "cliProjects": 3,
+    "cliPassed": 3,
+    "repeatFrames": 12,
+    "repeatPixelExact": 12,
+    "semanticEventsPerFormat": 13,
+    "sameEvents": true,
+    "externalRequests": 0,
+    "minActiveLabelPx": {
+      "9:16": 44.40000057220459,
+      "1:1": 46.80000114440918,
+      "16:9": 50.39999771118164
+    }
+  },
+  "retainedCliFindings": [
+    {
+      "id": "9x16",
+      "findings": [
+        {
+          "code": "container_overflow",
+          "severity": "warning",
+          "text": null
+        },
+        {
+          "code": "canvas_overflow",
+          "severity": "info",
+          "text": "INTENSITY"
+        }
+      ]
+    },
+    {
+      "id": "1x1",
+      "findings": [
+        {
+          "code": "container_overflow",
+          "severity": "warning",
+          "text": null
+        },
+        {
+          "code": "canvas_overflow",
+          "severity": "info",
+          "text": "INTENSITY"
+        }
+      ]
+    },
+    {
+      "id": "16x9",
+      "findings": [
+        {
+          "code": "container_overflow",
+          "severity": "warning",
+          "text": null
+        },
+        {
+          "code": "canvas_overflow",
+          "severity": "info",
+          "text": "INTENSITY"
+        },
+        {
+          "code": "text_box_overflow",
+          "severity": "info",
+          "text": "INTENSITY"
+        },
+        {
+          "code": "text_box_overflow",
+          "severity": "info",
+          "text": "FOCUS"
+        },
+        {
+          "code": "canvas_overflow",
+          "severity": "info",
+          "text": "FOCUS"
+        }
+      ]
+    }
+  ],
+  "audio": {
+    "passed": true,
+    "identicalDecodedPcmAcrossFormats": true,
+    "identicalAacAcrossFormats": true,
+    "maxReferenceGainErrorDb": 0.0859394,
+    "maxReferenceLagMs": 0,
+    "maxEventGainErrorDb": 0.908525,
+    "maxEventLagMs": 0.375,
+    "maxDetectedOnsetErrorMs": 0.4499294,
+    "maxPeakDbFS": -9.020146,
+    "clippedSamples": 0,
+    "truePeakDbFS": -9,
+    "integratedLufsStereo": -29.4
+  },
+  "videos": {
+    "16x9": {
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 360,
+      "duration": 6,
+      "audioCodec": "aac",
+      "audioSampleRate": "48000",
+      "sha256": "05ac60fd199d209ab437b27c77b80724e0576ab21909fe066c7241059c19e8a7",
+      "bytes": 1374361
+    },
+    "1x1": {
+      "width": 1080,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 360,
+      "duration": 6,
+      "audioCodec": "aac",
+      "audioSampleRate": "48000",
+      "sha256": "acb2f3676509fabd423a699d9f40a46bff32a691c820cbd55f7e1c3923a1deeb",
+      "bytes": 996667
+    },
+    "9x16": {
+      "width": 1080,
+      "height": 1920,
+      "fps": "60/1",
+      "frames": 360,
+      "duration": 6,
+      "audioCodec": "aac",
+      "audioSampleRate": "48000",
+      "sha256": "7147d0c07515a779e53f6ee3029e2892b05cfc361d2d9841568c700432a66eb4",
+      "bytes": 1379985
+    }
+  },
+  "limits": [
+    "Six-second family-specific recipe; arbitrary actions and durations are not implemented.",
+    "Camera poses are art-directed for three formats, not solved automatically.",
+    "Active actor and labels are audited; inactive world elements may be intentionally off-canvas.",
+    "Two widgets and one actor; no multi-actor physics, obstacle routing or complete language/font coverage."
+  ],
+  "evidence": {
+    "native": "qa/*.json",
+    "cli": "qa/cli-results.json",
+    "audio": "render-audio-verification.json",
+    "video": "video-verification.json"
+  }
+}

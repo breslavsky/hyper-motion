@@ -1,0 +1,59 @@
+{
+ "note": "The faults tools/audit.mjs --long finds today, with every text as long as its field allows and in Russian: scenes made for a short English line. The debt, to be paid scene by scene; a scene not here has none. `node tools/audit.mjs --long --known` fails on a fault that is not here; take a fault out when it is fixed, never put one in.",
+ "scenes": {
+  "agent": [
+   "cut",
+   "unsafe"
+  ],
+  "arc": [
+   "small"
+  ],
+  "between": [
+   "unsafe",
+   "cut"
+  ],
+  "callouts": [
+   "overlap",
+   "unsafe",
+   "cut"
+  ],
+  "code": [
+   "small"
+  ],
+  "connect": [
+   "small"
+  ],
+  "flip": [
+   "cut"
+  ],
+  "icon3d": [
+   "unsafe"
+  ],
+  "mosaic": [
+   "cut"
+  ],
+  "overlay": [
+   "small"
+  ],
+  "scatter": [
+   "overlap"
+  ],
+  "sheet": [
+   "small"
+  ],
+  "steps": [
+   "small",
+   "unsafe"
+  ],
+  "timeline": [
+   "unsafe",
+   "overlap"
+  ],
+  "trail": [
+   "cut"
+  ],
+  "winner": [
+   "small"
+  ]
+ }
+}

@@ -1,0 +1,7 @@
+{
+  "note": "Standalone, instance-local adaptations of five Pure Kinetic scenes. No PurePlan, PureDom, film engine or source template is shipped in a generated project. Fonts and Three.js are copied with their SOURCE manifests from the pinned repository source. The installer rewrites the Three.js examples' bare imports to local paths.",
+  "sources": [
+    {"name":"Kinetic (LaunchLoop)","url":"https://kinetic.launchloop.tech/","version":"0.7.0","license":"Proprietary, used by the product owner's agreement with its author","taken":"adapted","note":"Adapted from templates/pure-kinetic/source/lib/engine at repository commit 1ea04c946c3ad462de9128a920ab70f70c61f7c7. Scene motion and construction: builtin.title, words.stack, data.chart (bars), glass.controls, three.phone3d. Owner agreement recorded 2026-11-19 in the source manifest."},
+    {"name":"GSAP","url":"https://github.com/greensock/GSAP","version":"3.14.2","license":"Standard GreenSock License","taken":"vendored","package":"gsap","files":["vendor/gsap-3.14.2.min.js"],"note":"Pinned unmodified browser distribution, including upstream license header. Used to expose paused native HyperFrames timelines."}
+  ]
+}

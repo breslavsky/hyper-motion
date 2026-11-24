@@ -1,0 +1,49 @@
+{
+  "schema": "pure-kinetic.storybook.acceptance.v1",
+  "sourceMain": "cb8e3dd721688e0b576ae6a4ce42664685b26c2a",
+  "storybook": "10.6.8",
+  "hyperframes": "0.9.19",
+  "components": 105,
+  "formats": [
+    "16:9",
+    "9:16",
+    "1:1"
+  ],
+  "unitTests": 8,
+  "full": {
+    "cases": 315,
+    "integrationChecks": 1,
+    "passed": true,
+    "completedAt": "2026-11-21T23:04:28.723Z",
+    "reportSha256": "a6a562c85469635699d7456b58f082556083c804b274a25a537db4562a803df2"
+  },
+  "finalBuild": {
+    "digest": "5d735026c982d8b7b1e003fe7d8696828ba24143b5dc5db0ba7c01ea81f2b29d",
+    "nativeAssetFiles": 123,
+    "nativeAssetDigest": "abc6fd1a6e1c0efdb71e59d25de00130900b8a94f8a73bf0ac93b82f5f0ffe6f",
+    "nativeAssetsUnchangedSinceFullMatrix": true
+  },
+  "quick": {
+    "cases": 21,
+    "integrationChecks": 1,
+    "passed": true,
+    "completedAt": "2026-11-21T23:06:42.305Z",
+    "reportSha256": "4d4805ed7ff88e13f26f1606bc1c903aa1dbdf43c7f448d64268f5d02ab831bb"
+  },
+  "scope": [
+    "Every component loads through the real Storybook and pinned native HyperFrames player in three formats.",
+    "Visible DOM and canvas state match after forward/reverse seeks; display:none subtrees are excluded, visibility:hidden remains measured.",
+    "Raster hashes are recorded for all cases; exact equality is required only for the three retype hidden-layer canaries.",
+    "The final build adds provenance JSON. All 123 native asset files are byte-identical to the full-matrix build; final quick acceptance verifies the manifest.",
+    "Visual component preview only. Production audio is rebuilt when publishing the recipe."
+  ],
+  "evidenceDirectory": "data/qa/pure-kinetic/storybook-5d735026",
+  "prefix": {
+    "path": "/storybook-static/",
+    "cases": 21,
+    "integrationChecks": 1,
+    "passed": true,
+    "completedAt": "2026-11-21T23:08:26.711Z",
+    "reportSha256": "12054713648e68a924fa4a42deeb474217e2782331ef66286db97f17b4c4aa89"
+  }
+}

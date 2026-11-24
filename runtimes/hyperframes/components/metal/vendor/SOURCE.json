@@ -1,0 +1,31 @@
+{
+  "note": "Vendored shader strings and compiled preset values. Exact upstream source hashes, package integrity, versions and license-file hashes are preserved unchanged in INTEGRITY.json. Only packaging changed.",
+  "sources": [
+    {
+      "name": "metal-fx",
+      "url": "https://github.com/Jakubantalik/Libraries.dev",
+      "ref": "14ae9d2dad18fcee251f4b06333b492a2a41d2ed",
+      "path": "packages/metal-fx",
+      "version": "2.0.11",
+      "license": "MIT",
+      "taken": "vendored",
+      "package": "metal-fx",
+      "files": [
+        "presets.mjs"
+      ],
+      "note": "Compiled preset values; original source and license hashes are recorded in INTEGRITY.json. MIT license retained in METAL-LICENSE."
+    },
+    {
+      "name": "@paper-design/shaders",
+      "url": "https://registry.npmjs.org/@paper-design/shaders/-/shaders-0.0.80.tgz",
+      "version": "0.0.80",
+      "license": "Apache-2.0",
+      "taken": "vendored",
+      "package": "@paper-design/shaders",
+      "files": [
+        "shaders.mjs"
+      ],
+      "note": "Unchanged liquid-metal vertex and fragment shader strings; exact hashes and npm package integrity are recorded in INTEGRITY.json. Apache-2.0 license and upstream notice retained in PAPER-LICENSE and PAPER-NOTICE."
+    }
+  ]
+}

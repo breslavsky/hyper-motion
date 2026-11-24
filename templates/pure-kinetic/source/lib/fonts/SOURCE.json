@@ -1,0 +1,54 @@
+{
+  "note": "The components' four bundled families (`../components/presentation.css`), as Kinetic ships them, and faces of our font library (fonts/, whose catalogue names each family's source) copied for the letters those lack; `../fonts.css` maps them onto the components' families.",
+  "sources": [
+    {
+      "name": "Geist, Geist Mono",
+      "url": "https://github.com/vercel/geist-font",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`Geist-Variable.woff2`, `GeistMono-Variable.woff2`, as Kinetic ships them."
+    },
+    {
+      "name": "Archivo",
+      "url": "https://github.com/Omnibus-Type/Archivo",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`Archivo-Variable.woff2`, as Kinetic ships it."
+    },
+    {
+      "name": "Instrument Serif",
+      "url": "https://github.com/Instrument/instrument-serif",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`InstrumentSerif-Regular.woff2`, `InstrumentSerif-Italic.woff2`, as Kinetic ships them."
+    },
+    {
+      "name": "Onest",
+      "url": "https://github.com/simpals/onest",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`onest-cyrillic*.woff2`, from fonts/onest."
+    },
+    {
+      "name": "Lora",
+      "url": "https://github.com/cyrealtype/Lora-Cyrillic",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`lora-cyrillic*.woff2`, from fonts/lora."
+    },
+    {
+      "name": "Cairo",
+      "url": "https://github.com/Gue3bara/Cairo",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`cairo-arabic-normal.woff2`, from fonts/cairo."
+    },
+    {
+      "name": "Amiri",
+      "url": "https://github.com/aliftype/amiri",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`amiri-arabic-*.woff2`, from fonts/amiri."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "name": "GSAP",
+      "url": "https://github.com/greensock/GSAP",
+      "version": "3.14.2",
+      "license": "Standard GreenSock License",
+      "taken": "vendored",
+      "package": "gsap",
+      "files": [
+        "gsap.min.js"
+      ],
+      "note": "Pinned unmodified browser distribution. Exposes paused native HyperFrames timelines."
+    }
+  ]
+}

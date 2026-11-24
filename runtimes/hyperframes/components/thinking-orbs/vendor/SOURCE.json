@@ -1,0 +1,18 @@
+{
+  "note": "Unmodified published ESM engine and its local chunk. Exact npm integrity, package and reference commits, golden-vector provenance and per-file hashes are preserved unchanged in INTEGRITY.json. Golden vectors are development fixtures and are not shipped in generated projects.",
+  "sources": [
+    {
+      "name": "thinking-orbs",
+      "url": "https://registry.npmjs.org/thinking-orbs/0.3.2",
+      "version": "0.3.2",
+      "license": "MIT",
+      "taken": "vendored",
+      "package": "thinking-orbs",
+      "files": [
+        "engine.es.js",
+        "index-B8WsUNf5.js"
+      ],
+      "note": "None. Published ESM engine and its single local chunk are byte-for-byte copies. React wrapper, gravity, build tools, Pro assets, and platform ports are excluded. Original MIT license retained in LICENSE; full provenance and hash receipt: INTEGRITY.json."
+    }
+  ]
+}

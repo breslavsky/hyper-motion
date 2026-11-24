@@ -1,0 +1,2797 @@
+{
+  "schema": "pure-kinetic.ellipsis-acceptance.v1",
+  "baseRevision": "f6555275",
+  "hyperframes": "0.9.19",
+  "passed": true,
+  "finalSource": {
+    "algorithm": "sha256",
+    "aggregate": "aad1004e3206b379d6db8bb3d256834210c39d7aa2bf67ec09772c681c87c561",
+    "files": {
+      "lib/build.cjs": "cd2416f57ea2306949c8998097cfa296e2b030bc51b893ff57299648337200be",
+      "lib/compiler/definitions.cjs": "f94bdaa2f653040abd91af76e2ed0b6fbdc0d9b2561f64f5b9dcaccf38a6de32",
+      "lib/compiler/fields.cjs": "600b63d666efd68221502a43ba408df60237532ef2d38ff76c1593670cb2b77c",
+      "lib/compiler/looks-own.cjs": "93a57e87dad1191b9fe6b9aed660fd056d8c2f40a6022ea57918de5adeb4ebd9",
+      "lib/compiler/looks.cjs": "c8b4890c5b844e923cd115e8f7222f3b6a2b20d1c124b21eae361ca27599c4cf",
+      "lib/compiler/plan.cjs": "3a66e72f9b56023fe9fa863bdfc430f87a977ddcc1021b1014abdbd284b328b7",
+      "lib/components/brand-tokens.cjs": "caeed4d8b8f974182140ef5d39009a5ace918f33bd5cff143170e1808c51312c",
+      "lib/components/brand-tokens.mjs": "e235895325c8371e8ec8b042a380d6cbe116faa0ffb8265651d2458e62399000",
+      "lib/components/builtin.mjs": "9b8c3dd15694978a0327936b201c5ff2125d1689be33898622e7d40c38053d4d",
+      "lib/components/catalog.mjs": "ba181536d93e39d72ed7fe9b9db6dfa786f3d4909319806fcd52ebb2837a2ca8",
+      "lib/components/context.mjs": "c10bf9658552200ab3e65392f19d501dc4d60fc007ab141656d5d323e0ba7e51",
+      "lib/components/decor.mjs": "b2ae0eeceb25fa8e8638f2bbf7f9f7d5edb3c00ede2aaff8d7ff3ca11d2dda5a",
+      "lib/components/design-system.mjs": "f065d1acf47b50edbe751ad58becf97fbe160e65de876b4255e31cd87cf1c1ed",
+      "lib/components/dom.mjs": "3fe646ff99ff8d4424573843e31eea8a3af0279efd272d431f0026b196755f2b",
+      "lib/components/fit.mjs": "fd6c695bde168dcd6a9a08b23bcb1a03f4e72a6ad9f363cbca934297b7c30e28",
+      "lib/components/index.mjs": "0521d2bda481f691cf01851d8067bba173a1a75754f960a0c8244788e9c064f6",
+      "lib/components/layers.mjs": "d36ef452c5de892a99a2809955b2c79592ca089f2aa4af05aa9583d6a86b62a9",
+      "lib/components/maths.mjs": "c6f28a9ea6ec79cd9dc0240618fecbe97dee9c4ce3a82fb6d61885c4b7a2c326",
+      "lib/components/metadata.cjs": "687418a5b0cb9056514cfd69715c7a7b17b7d47eac733ffc784187654dd70482",
+      "lib/components/metadata.mjs": "a24f54269c6c54cd98cda798ae28e243d43274ddb86fd089a9782cc0ddf6e5b1",
+      "lib/components/motion.mjs": "7fdc2237a23f82b52fc4508b0d6338ddd985f5893e9cec0e97d0686d708848cd",
+      "lib/components/moves.mjs": "d41dd6b87dbfea24becc555b38bde9fe9be611c93dab5f1248fbe5f2537db252",
+      "lib/components/own-kit.mjs": "893493907e55e283e110641a28485510a07f1cca55e9e2b08da6f29efdd3d1af",
+      "lib/components/presentation.css": "12896bcc2f54dd301029dc1f8aab3fa013c016aa113c78e326131b54ccbd8bc2",
+      "lib/components/presentation.mjs": "d7baf9922f91bc9687e6edf23f60dac616b81c0cf9bfcacbad23d853c3c744ac",
+      "lib/components/registry.mjs": "d71ce8835a0bf62aa8d43f61e928938fb72777253878cf259d684590a0eaa441",
+      "lib/components/runtime.mjs": "d66734f18e45e97faed8dd3f6005415adfd5f13fb9eb3036ad0f38f2ddb9bb12",
+      "lib/components/scenes/bursts.mjs": "173455c9ac638165b94f79c80ff15c0c482d82c9264cabbff66c9cac568b58e9",
+      "lib/components/scenes/cards.mjs": "625c929a8a75d56c841a4f48fc1896d6deaf519a12466cab8013bd22fe3074bb",
+      "lib/components/scenes/community-depth.mjs": "cacbf0cd10c040876e07a8e8ed2f13a610cfd615ebbb6ee89f842e64430c888f",
+      "lib/components/scenes/community-scan.mjs": "42a25882e0b71e2b3abf1f9f5b07c5e9c7f7707e329fdd55a6b8ba99071f2cff",
+      "lib/components/scenes/community-shapes.mjs": "6cdeabbfa4672032e366e715c6e38da8bbcb3f25df56d718329e1b3da430ff12",
+      "lib/components/scenes/data.mjs": "0b7b65ea36e63709aa6276d9a8718472d932a54b06f660810d97a792e0a39265",
+      "lib/components/scenes/flow.mjs": "99701ae5ead1aa563e97bcd57293baa0e161826ad5f17161e77a96c17973d8f3",
+      "lib/components/scenes/glass.mjs": "6afb5bc527e7069743bf15cbf96411a0ada98ec7ecb328f028627e61262d9993",
+      "lib/components/scenes/hands.mjs": "30362ba54b25d7686cea710c5b3c98d09f2d59c7af0164692d4100fb2bc99c5a",
+      "lib/components/scenes/reel.mjs": "47c45518561fa1296a7b9fd0710a31b0c76cf260033e17b654b0c0fc66ad3692",
+      "lib/components/scenes/registry-content.mjs": "6f7a09fb2202b4cd6c03c6712120694cb473ad3ed90374521fd97b100b14d691",
+      "lib/components/scenes/registry-data.mjs": "c40841ebfba42c22506327551bd64ef71a816ea61691e3ef52b2af60c2411b14",
+      "lib/components/scenes/registry-motion.mjs": "28cc4a8fa93a8f894b0c04dff13f43204332dc760381912827205eff67fae874",
+      "lib/components/scenes/studio.mjs": "5d8a8bf16917ffb76a7a18d1d6b92aac7727a43b0497367af43617b99b21769b",
+      "lib/components/scenes/text.mjs": "f1cec753421f03ace16e8dde66d69b5b3e4f578bf99d0fea88e7b102f49ea73d",
+      "lib/components/scenes/three.mjs": "68211486ac5887cf50db69a87e296a2c2689b0024b26fd172ae741651c9560b7",
+      "lib/components/scenes/ui.mjs": "c91f48afbb5152b1b138155f749b14a39993b22100114fc3b496829e897477e0",
+      "lib/components/scenes/words.mjs": "91e17189703953f6e3b3976e9fb4b2b0b647e6f6f7531d33536c324776c18776",
+      "lib/components/surface-system.mjs": "9413714e3f7ebeeb2fc61dc615682a4ef141dcc6a335607c413efb07c7ece42e",
+      "lib/components/timing.mjs": "b0a308705cbd3fb6de6c7fd96555ab4b3338761aa8e6410a279e413de0d7a062",
+      "lib/components/transitions.mjs": "3ac75202b4a2ccaeb2de8e6b040d8733ce5074f62a58c9e0d80adebbd03cafcf",
+      "lib/components/type.mjs": "8327b7c7afc880c46637d25d72e89643823f788925d83636021bc445b2891d07",
+      "lib/components/typewriter-timing.cjs": "9658fdd16fa71df5f0aa0533e659abdb72baa8c54e5c8747a590a4d5c31a927b",
+      "lib/components/typewriter-timing.mjs": "fa009ec4a097e6b0fff17adf055582c86f6ce4ad052c906884b92cb37a959cca",
+      "lib/components/typing.mjs": "c08041597cc3f02028acf63d94f067564fd2e40b7e4607e4d9dd7af3049902b7",
+      "lib/components/ui.mjs": "31702c1ef005876a97c61ee1824944afa990f55fdbdf4693289203286824fb79",
+      "lib/film.cjs": "22ac529d70605747c8b0a5f4acb569e22ccc9a1cb4b1d0c726c81401d01e673f",
+      "lib/fonts.css": "53fc27bcf2cd489eaf62e76a80b153d377d0af2216b2c8404bb85c90a6b97ad4",
+      "lib/sequences/document-flow/audio-contract.mjs": "65b0e60b4366d6bfe43ee544391ff236a03c45971d9ccf416a5678efe5be4946",
+      "lib/sequences/document-flow/audio.mjs": "42044f603e5caeed7e3ccf005724737f46341127f2ff9f78ee0352980063f0e3",
+      "lib/sequences/document-flow/build.mjs": "2927b3c0569574584d806c4a985fe6e361ed9780ad57fecdcf755ba6fdb30ed5",
+      "lib/sequences/document-flow/model.mjs": "4a15959b3a4430af5a3e75b024f17ba82ed3be4b017c19968e50202e170b4d94",
+      "lib/sequences/document-flow/runtime.mjs": "0b2b188d7c73d8f218aad750a1cf82ecd4dd192c92fe495310ebe5ee38ff14df",
+      "lib/sequences/document-flow/sound-contract.mjs": "3e71cbb81562cc52f0c1d2366ef7ca1d8362e5fb5e5c167cc9a753c6fc64b356",
+      "lib/sequences/document-flow/view.mjs": "151cad4cc34880e330a24c6a39097f356cc76cfe627d758e275136cd6d30b95c",
+      "lib/vendor/gsap/gsap.min.js": "7b2c91e3bff9022bef50054413b365a945c93f87285dcf8bdfb92076c4c56304",
+      "lib/vendor/three/RoomEnvironment.js": "85869bdd22f7cf0b22e68dcefe6cb710480af0f5c901a76f7a7764fd07fc8014",
+      "lib/vendor/three/RoundedBoxGeometry.js": "d20aeaf7077c459a8d952d215738d7b44fba028440bb862d84b622a34f0c80bb",
+      "lib/vendor/three/three.module.min.js": "08fd7545d13d2c7fb65ab691530a802dafefd638596501854f267d0fb13c39e7"
+    }
+  },
+  "scope": {
+    "auditedTypes": 105,
+    "singleLineTypes": 45,
+    "newDirectTypes": 37,
+    "newInheritedTypes": 7,
+    "existingDrag": 1,
+    "preservedTypes": 60,
+    "aspects": [
+      "9:16",
+      "1:1",
+      "16:9"
+    ],
+    "fonts": [
+      "Geist",
+      "Archivo"
+    ]
+  },
+  "tests": {
+    "node": 134,
+    "python": 2,
+    "catalogGeometry": 270,
+    "ellipsisMotion": 270,
+    "ellipsisForwardStates": 7515,
+    "exactReverse": true,
+    "contentCases": 15,
+    "statusCases": 24,
+    "statusForwardStates": 5490,
+    "typingCases": 45,
+    "typingForwardStates": 7068,
+    "canvasCases": 10,
+    "fitterCases": 14,
+    "fitterPixelControls": 2,
+    "hudCases": 6,
+    "branchMotion": 27,
+    "branchGeometry": 27,
+    "pricingGeometry": 12,
+    "pricingMotion": 6,
+    "finalChartChecks": 12,
+    "hyperframesCheck": true
+  },
+  "reuseEvidence": {
+    "mainSource": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725",
+    "changedFiles": [
+      "lib/components/scenes/data.mjs"
+    ],
+    "unchangedFunctions": [
+      "common",
+      "stat",
+      "timeline",
+      "globe"
+    ],
+    "pricingIdenticalTo": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608",
+    "chartLabeledBranchIdenticalTo": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74",
+    "finalFunctions": {
+      "common": "c2a86911a3541133aeb1c8feae9a16d161d4bd25752d01f368f73d61aa5677a5",
+      "stat": "8122486dd2052f57e85822fe4a22f4eaafa1c8f96f40a429a4620a4d3a688be3",
+      "chart": "3aa0265d4e6bbfb8c739e2551e05a1139a245a5606879d5af69b1d1d7cc0ec6c",
+      "timeline": "d3e921c904fa3e5542c7c376962321006eb52bc03291e60df7a977b55ac09fc9",
+      "pricing": "3b17644ed1a9b766d10ec7d7482d629c1c2282ccf42048c6a64460b2908fa636",
+      "globe": "b8f32312be9e7cbf1753d7cef7c5400d60b524a8d1fcb52445561b3b9cd3bc52"
+    },
+    "note": "The broad frozen matrix was followed by scoped chart/pricing corrections. Unchanged files and functions are verified byte-for-byte; changed paths have fresh native receipts. A full repeat of all broad cases on the final aggregate is not claimed."
+  },
+  "matrices": {
+    "normal": {
+      "cases": 135,
+      "geometryReport": "geometry-normal",
+      "motionSamples": 3735,
+      "motion": [
+        {
+          "id": "prompt-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-macro-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-float-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "morph-9x16",
+          "report": "motion-normal",
+          "samples": 52,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ticket-9x16",
+          "report": "motion-normal",
+          "samples": 30,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phones-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 37,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "stat-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pricing-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "code-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "notify-9x16",
+          "report": "motion-normal",
+          "samples": 29,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dock-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "laptop-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "browser-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "callouts-9x16",
+          "report": "motion-normal",
+          "samples": 36,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "compare-9x16",
+          "report": "motion-normal-rechecks",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "overlay-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "between-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 38,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "drag-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "knockout-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 14,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "hive-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "wave-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "agent-9x16",
+          "report": "motion-normal-rechecks",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "palette-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "web-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "retype-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "mosaic-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 43,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pullback-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "widgets-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "controls-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "sheet-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "underline-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "winner-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "connect-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chips-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 8,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "tabs-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dial-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "cards3d-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 3,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phone3d-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 1,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "accordion-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "explode-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "scan-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 11,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-story-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "testimonial-proof-card-9x16",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "modal-morph-9x16",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "prompt-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-macro-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-float-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "morph-1x1",
+          "report": "motion-normal",
+          "samples": 52,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ticket-1x1",
+          "report": "motion-normal",
+          "samples": 30,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phones-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 37,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "stat-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pricing-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "code-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "notify-1x1",
+          "report": "motion-normal",
+          "samples": 29,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dock-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "laptop-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "browser-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "callouts-1x1",
+          "report": "motion-normal",
+          "samples": 36,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "compare-1x1",
+          "report": "motion-normal-rechecks",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "overlay-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "between-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 38,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "drag-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "knockout-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "hive-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "wave-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "agent-1x1",
+          "report": "motion-normal-rechecks",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "palette-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "web-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "retype-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "mosaic-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 39,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pullback-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "widgets-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "controls-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "sheet-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "underline-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "winner-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "connect-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chips-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 8,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "tabs-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dial-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "cards3d-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 3,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phone3d-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 1,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "accordion-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "explode-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "scan-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 11,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-story-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "testimonial-proof-card-1x1",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "modal-morph-1x1",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "prompt-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-macro-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-float-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "morph-16x9",
+          "report": "motion-normal",
+          "samples": 52,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ticket-16x9",
+          "report": "motion-normal",
+          "samples": 30,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phones-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 37,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "stat-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pricing-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "code-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "notify-16x9",
+          "report": "motion-normal",
+          "samples": 29,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dock-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "laptop-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "browser-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "callouts-16x9",
+          "report": "motion-normal",
+          "samples": 36,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "compare-16x9",
+          "report": "motion-normal-rechecks",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "overlay-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "between-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 38,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "drag-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "knockout-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "hive-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "wave-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "agent-16x9",
+          "report": "motion-normal-rechecks",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "palette-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "web-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "retype-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "mosaic-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 43,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pullback-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "widgets-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "controls-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "sheet-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "underline-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "winner-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "connect-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chips-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 8,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "tabs-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dial-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "cards3d-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 3,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phone3d-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 1,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "accordion-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "explode-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "scan-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 11,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-story-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "testimonial-proof-card-16x9",
+          "report": "motion-normal",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "modal-morph-16x9",
+          "report": "motion-normal",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        }
+      ],
+      "rerunReason": "Compare fixtures now explicitly supply optional labels; hive metadata stress keeps its separate hero brand within supported display bounds; agent additionally uses strict immutable-copy checking."
+    },
+    "max": {
+      "cases": 135,
+      "geometryReport": "geometry-max",
+      "motionSamples": 3780,
+      "motion": [
+        {
+          "id": "prompt-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-macro-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-float-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "morph-9x16",
+          "report": "motion-max",
+          "samples": 52,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ticket-9x16",
+          "report": "motion-max",
+          "samples": 30,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phones-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 37,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "stat-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pricing-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "code-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "notify-9x16",
+          "report": "motion-max",
+          "samples": 41,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dock-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 9,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "laptop-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "browser-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "callouts-9x16",
+          "report": "motion-max",
+          "samples": 39,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "compare-9x16",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "overlay-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "between-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 38,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "drag-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "knockout-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 14,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "hive-9x16",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "wave-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "agent-9x16",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 7,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "palette-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "web-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "retype-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "mosaic-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 44,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pullback-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "widgets-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "controls-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "sheet-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "underline-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "winner-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "connect-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chips-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "tabs-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dial-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "cards3d-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 5,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phone3d-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 1,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "accordion-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "explode-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "scan-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-story-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "testimonial-proof-card-9x16",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "modal-morph-9x16",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "prompt-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-macro-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-float-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "morph-1x1",
+          "report": "motion-max",
+          "samples": 52,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ticket-1x1",
+          "report": "motion-max",
+          "samples": 30,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phones-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 37,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "stat-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pricing-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "code-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "notify-1x1",
+          "report": "motion-max",
+          "samples": 41,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dock-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 9,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "laptop-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "browser-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "callouts-1x1",
+          "report": "motion-max",
+          "samples": 39,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "compare-1x1",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "overlay-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "between-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 38,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "drag-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "knockout-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "hive-1x1",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "wave-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "agent-1x1",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 7,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "palette-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "web-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "retype-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "mosaic-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 40,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pullback-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "widgets-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "controls-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "sheet-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "underline-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "winner-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "connect-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chips-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "tabs-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dial-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "cards3d-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 5,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phone3d-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 1,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "accordion-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "explode-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "scan-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-story-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "testimonial-proof-card-1x1",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "modal-morph-1x1",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "prompt-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-macro-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ui-float-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "morph-16x9",
+          "report": "motion-max",
+          "samples": 52,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "ticket-16x9",
+          "report": "motion-max",
+          "samples": 30,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phones-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 37,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "stat-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pricing-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "code-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "notify-16x9",
+          "report": "motion-max",
+          "samples": 41,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dock-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 9,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "laptop-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "browser-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "callouts-16x9",
+          "report": "motion-max",
+          "samples": 39,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "compare-16x9",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "overlay-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "between-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 38,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "drag-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "knockout-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 18,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "hive-16x9",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "wave-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "agent-16x9",
+          "report": "motion-max-rechecks",
+          "samples": 27,
+          "visibleLeaves": 7,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "palette-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 6,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "web-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 16,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "retype-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "mosaic-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 44,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "pullback-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "widgets-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "controls-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "sheet-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "underline-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "winner-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "connect-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 4,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chips-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "tabs-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 3,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "dial-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 1,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "cards3d-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 5,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "phone3d-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 0,
+          "rasterLeaves": 1,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "accordion-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "explode-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "scan-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 12,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "chart-story-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 5,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "testimonial-proof-card-16x9",
+          "report": "motion-max",
+          "samples": 27,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        },
+        {
+          "id": "modal-morph-16x9",
+          "report": "motion-max",
+          "samples": 26,
+          "visibleLeaves": 2,
+          "rasterLeaves": 0,
+          "reverseExact": true,
+          "planUnchanged": true
+        }
+      ],
+      "rerunReason": "Compare fixtures now explicitly supply optional labels; hive metadata stress keeps its separate hero brand within supported display bounds; agent additionally uses strict immutable-copy checking."
+    }
+  },
+  "files": {
+    "geometry-normal": {
+      "file": "geometry-normal.json",
+      "sha256": "183eaac584d590a61fdd0862172a2e50d38a927780df5e47579887b8bc065d72",
+      "bytes": 11959878,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "motion-normal": {
+      "file": "motion-normal.json",
+      "sha256": "89fa6ed4a0db6926f2d54c5c43870bd4ecc860622b5711807c045708a59c54ac",
+      "bytes": 74803,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "motion-normal-rechecks": {
+      "file": "motion-normal-rechecks.json",
+      "sha256": "8c49fcdf8d858f738ee96969264603bb8aa2f2992784dfaa1071daf038449894",
+      "bytes": 26094,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "geometry-max": {
+      "file": "geometry-max.json",
+      "sha256": "2faa5374f1422794699df5a670056cc396aabb512cfeba7f6d786e3adfb52945",
+      "bytes": 23017277,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "motion-max": {
+      "file": "motion-max.json",
+      "sha256": "a470f8edd4c30ba659f4632eff87f7ebd0f8b9a825a3f11bb2af2b61eab9ba48",
+      "bytes": 76946,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "motion-max-rechecks": {
+      "file": "motion-max-rechecks.json",
+      "sha256": "ddcfde2106a08ec986f205b1c1f1553a593d084e7c5ce991001070855d79e077",
+      "bytes": 29206,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "content": {
+      "file": "content.json",
+      "sha256": "c6f74a5b82c0f4e6c917c6b41abc0e0d19ede300d3b90e4f3f0c20b06c211ba8",
+      "bytes": 87981,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "scan-status": {
+      "file": "scan-status.json",
+      "sha256": "56b1022aff791ec9cec1bebe7f943f4252e8597b91cad3abad58dde7fcde4223",
+      "bytes": 31353,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "typing-motion": {
+      "file": "typing-motion.json",
+      "sha256": "2b2b182ff04347b3a0a2886a46c1ba542e42cfe76901bc682b689269de3ba70f",
+      "bytes": 2122287,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "typing-builtin": {
+      "file": "typing-builtin.json",
+      "sha256": "59654061e8f1406e12a25394173231f536b99dd3fb63d6495d3c53d94bef3047",
+      "bytes": 44801,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "typing-ui": {
+      "file": "typing-ui.json",
+      "sha256": "2f7ad62c0f0841751299fc1855461de3ecf094cba0a88f0dcec6874cb6a82c0a",
+      "bytes": 27515,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "canvas": {
+      "file": "canvas.json",
+      "sha256": "58e03f7662b65acd7e4687285fa9c011a8d2b418925e2265381a6b1d2c9e5bf8",
+      "bytes": 23921,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "fitter": {
+      "file": "fitter.json",
+      "sha256": "c30552cf2aa8ae4eb22bd6c45fb3b4e9f3c24d9591b8604f1f43c48268a23be4",
+      "bytes": 40512,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "hud": {
+      "file": "hud.json",
+      "sha256": "7da24633ef06af8245c362ebf304d47554d7fd81c89610f4057963d6690b546a",
+      "bytes": 8940,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "branches-accepted": {
+      "file": "branches-accepted.json",
+      "sha256": "09d50641add036309a7c9448b5baf3db257428ad1a3c6ddb2a056863ad7c05e1",
+      "bytes": 21808,
+      "source": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74"
+    },
+    "branches-motion": {
+      "file": "branches-motion.json",
+      "sha256": "b2804380dba12109c095f32acf2e422241b25e29e4cfba1d939a2fb98e40fa1a",
+      "bytes": 57129,
+      "source": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74"
+    },
+    "branches-progress": {
+      "file": "branches-progress.json",
+      "sha256": "c26e0cbb425dd21132ee3a0c68a1c5dc23fbfc5deadd19dbc5fd9ba7d23fac59",
+      "bytes": 20212,
+      "source": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74"
+    },
+    "branches-geometry": {
+      "file": "branches-geometry.json",
+      "sha256": "70742dc254c87b7d4d51a2a6303aaa08867c67a5d2d5fa29bf921839abebbce1",
+      "bytes": 5466524,
+      "source": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74"
+    },
+    "final-code-review": {
+      "file": "final-code-review.json",
+      "sha256": "30a3f9b14fd759fd5ccca35e6f242a06bcd838bc9bd1b105ce36979dece9fa82",
+      "bytes": 1180,
+      "source": null
+    },
+    "final-chart-0": {
+      "file": "final-chart-0.json",
+      "sha256": "4a6feb8bd318bec9d4a8a3ff07bd1ec971cd38e64eb28a9b2bacc933ae2bd2cc",
+      "bytes": 670506,
+      "source": "aad1004e3206b379d6db8bb3d256834210c39d7aa2bf67ec09772c681c87c561"
+    },
+    "final-chart-1": {
+      "file": "final-chart-1.json",
+      "sha256": "0eb084e6bc8f5ae6411ec482f8a62a3026cc5373e651572e7fd21711ffc5067e",
+      "bytes": 70135,
+      "source": "aad1004e3206b379d6db8bb3d256834210c39d7aa2bf67ec09772c681c87c561"
+    },
+    "final-chart-2": {
+      "file": "final-chart-2.json",
+      "sha256": "5d8ff2a46994812507a025ef1d1af822aab2d69830ef08abedbf6919df47141f",
+      "bytes": 25710,
+      "source": "aad1004e3206b379d6db8bb3d256834210c39d7aa2bf67ec09772c681c87c561"
+    },
+    "final-chart-3": {
+      "file": "final-chart-3.json",
+      "sha256": "3318ac5bf0753a35e5eee9ddd26e830aea50e9d8691c0d1f066d5d1058bee09d",
+      "bytes": 17516,
+      "source": "aad1004e3206b379d6db8bb3d256834210c39d7aa2bf67ec09772c681c87c561"
+    },
+    "pricing-Geist-normal": {
+      "file": "pricing-Geist-normal.json",
+      "sha256": "6a9262298d9dd75e00104473f7ae3bf80ef616c9be54810d19980b5ef8ca0daa",
+      "bytes": 280171,
+      "source": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608"
+    },
+    "pricing-Geist-max": {
+      "file": "pricing-Geist-max.json",
+      "sha256": "020bdf1b3c1154c8201ae50bce1f40431bf94a9c24679d1cb6c88f25422f8fa6",
+      "bytes": 589064,
+      "source": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608"
+    },
+    "pricing-motion-Geist": {
+      "file": "pricing-motion-Geist.json",
+      "sha256": "e376694a1afca05a498b9df12391e79a3d84283b9cb7f90a234b33f579e80356",
+      "bytes": 25009,
+      "source": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608"
+    },
+    "pricing-Archivo-normal": {
+      "file": "pricing-Archivo-normal.json",
+      "sha256": "dc3f9971c15791c5aa4bebfe3816ca630371a175102c05f6b588cd9a955b0ff7",
+      "bytes": 280417,
+      "source": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608"
+    },
+    "pricing-Archivo-max": {
+      "file": "pricing-Archivo-max.json",
+      "sha256": "0e63547078142367eef09b6b175d0950347c535d83b081a9f333c3838523da8c",
+      "bytes": 580144,
+      "source": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608"
+    },
+    "pricing-motion-Archivo": {
+      "file": "pricing-motion-Archivo.json",
+      "sha256": "71cdf0e5b563f032216eea69bfb0dd23c681a7d8de433f44134b2a39ac349aef",
+      "bytes": 25011,
+      "source": "d873a135dfee27f9555c6bbeb906787ed3d46eaf77b1453ead3db50e45e8b608"
+    },
+    "diagnostic-line-overlap": {
+      "file": "diagnostic-line-overlap.json",
+      "sha256": "7efa83b03eb387b629f31c9fa4fc088fa5dd409af4fe696af4efbb6ecb938ec0",
+      "bytes": 5064161,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "diagnostic-pricing-before": {
+      "file": "diagnostic-pricing-before.json",
+      "sha256": "3e0bd31bd10bdb633d719213820465c81003e086a4b77816c7cc89838de74d95",
+      "bytes": 17474,
+      "source": "07eb6a581d5b203d31595437a450a9fa5ac3e29612bfb1ff76ec90596f94dad2"
+    },
+    "diagnostic-pricing-main": {
+      "file": "diagnostic-pricing-main.json",
+      "sha256": "28cb53428cdfd9596ff4926f447e34460e3817a81be72dc42e8eba393a055bf3",
+      "bytes": 17474,
+      "source": "e2ab92269a572153bb568c102a6f842f298bb6096c6d5d4aef231ef9ccc4d725"
+    },
+    "data-normal": {
+      "file": "data-normal.json",
+      "sha256": "a7baed0b4c302132169add9168c609efd9f34283b72bbaaac0098c5038c1b2a6",
+      "bytes": 627147,
+      "source": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74"
+    },
+    "data-max-including-inherited-pricing-defect": {
+      "file": "data-max-including-inherited-pricing-defect.json",
+      "sha256": "87adef6867db01ed370ea1151d4d333a8943b6ee89b303efb42ac69808a97847",
+      "bytes": 1156117,
+      "source": "79c71bb394bdfc06bef83a42fbba31d0052eb4d04626e80ddd735ca3241b9b74"
+    }
+  },
+  "galleryUrl": "http://localhost:8776/ellipsis-catalog/?format=9:16&mode=max&component=testimonial-proof-card",
+  "artifactDirectory": ""
+}

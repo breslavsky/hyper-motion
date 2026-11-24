@@ -1,0 +1,49 @@
+{
+  "schema": "motion-fab.vendor-source.v1",
+  "library": {
+    "name": "metal-fx",
+    "version": "2.0.11",
+    "url": "https://github.com/Jakubantalik/Libraries.dev/tree/14ae9d2dad18fcee251f4b06333b492a2a41d2ed/packages/metal-fx",
+    "commit": "14ae9d2dad18fcee251f4b06333b492a2a41d2ed",
+    "license": "MIT",
+    "presetsSourceSha256": "fdb8d16827f08fbec88ff6d056b7336615b98d9625d5ed5ad2723e9dde2122ef",
+    "shadersSourceSha256": "89b513ac10a18621838c88469f247e5ac2c6a88b855a95a6db015a4cd962f383",
+    "rendererSourceSha256": "8a6ec1d09170ead34d406556dedb17f3ba8545aab862e18b3dfa613c460e251c",
+    "compositorSourceSha256": "a7d59a345deb85c42e5809178d355abbbc45f0b012f85279d5e4d8ca31343615"
+  },
+  "shader": {
+    "name": "@paper-design/shaders",
+    "version": "0.0.80",
+    "url": "https://registry.npmjs.org/@paper-design/shaders/-/shaders-0.0.80.tgz",
+    "integrity": "sha512-pcabvt5xDlFoEhpjUj4b1tGJMfqb0i5mXifWMNQf6z7FoOJYxYDo7F8R6k0JAh5D/7ouxjX5+N0cIq5WURyQ1Q==",
+    "license": "Apache-2.0",
+    "vertexSha256": "d6e27de82436a9b8b91e215f1191bb64b771c46a1c7bbbcaea4d28fc948c1731",
+    "fragmentSha256": "bfefe9d474e890f75302bddaacc00d7d04b98cb7147d059a365f97c9665f5463"
+  },
+  "files": {
+    "shaders.mjs": {
+      "sha256": "38a54acedc18e91e544d78c47cc34b0ab7dd966f97ac0d36002832aa6948af90",
+      "bytes": 17040
+    },
+    "presets.mjs": {
+      "sha256": "f10b073436ef97c66d09bbfc11e742d9de9594400ee8cb1dd213ab50a4db1330",
+      "bytes": 5215
+    },
+    "METAL-LICENSE": {
+      "sha256": "915a283980628a0ca9e7b423ebafc6f3a0fa1e630ff17d34e59034808d92011c",
+      "bytes": 1070
+    },
+    "PAPER-LICENSE": {
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    "NOTICE": {
+      "sha256": "6bc44b77f882cf5acebaedf67237ebce9cc6174a94284e168b5afb86329e4b42",
+      "bytes": 1018
+    },
+    "PAPER-NOTICE": {
+      "sha256": "06cf1515dc4628ae4a10f04f394ce746c6edba1ad0ed5d3f7df7ab1781dfe868",
+      "bytes": 91
+    }
+  }
+}

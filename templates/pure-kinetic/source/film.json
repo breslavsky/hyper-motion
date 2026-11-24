@@ -1,0 +1,83 @@
+{
+  "aspect": "9:16",
+  "style": "poster",
+  "brand": {
+    "name": "Motion Fab",
+    "colors": [],
+    "url": "motionfab.app"
+  },
+  "music": {
+    "track": "drive",
+    "bpm": 128,
+    "offset": 0,
+    "volume": 0.9
+  },
+  "grain": true,
+  "pace": "normal",
+  "scenes": [
+    {
+      "beats": 4,
+      "type": "slam",
+      "lines": [
+        "AN AI",
+        "MOTION DESIGNER"
+      ],
+      "crumbs": [
+        "MOTION",
+        "DESIGNER",
+        "DESCRIBE"
+      ]
+    },
+    {
+      "beats": 2,
+      "type": "fullbleed",
+      "text": "MOTION"
+    },
+    {
+      "beats": 6,
+      "type": "scatter",
+      "text": "Describe a *video* in chat"
+    },
+    {
+      "beats": 7,
+      "type": "agent",
+      "name": "Motion Fab",
+      "steps": [
+        "An AI agent animates it",
+        "3D effects",
+        "Live preview"
+      ],
+      "done": "Done. All yours."
+    },
+    {
+      "beats": 4,
+      "type": "marquee",
+      "words": [
+        "MOTION",
+        "DESIGNER",
+        "DESCRIBE",
+        "ANIMATES"
+      ]
+    },
+    {
+      "beats": 4,
+      "type": "slam",
+      "lines": [
+        "YOUR OWN",
+        "FOOTAGE"
+      ]
+    },
+    {
+      "beats": 5,
+      "type": "endcard",
+      "cta": "motionfab.app",
+      "tagline": "MP4 export"
+    }
+  ],
+  "motion": {
+    "snap": 0.75,
+    "bounce": 0.4,
+    "trLength": 1.3,
+    "text": "spring"
+  }
+}
