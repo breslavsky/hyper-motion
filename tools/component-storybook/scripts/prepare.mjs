@@ -53,12 +53,8 @@ fs.writeFileSync(path.join(generated, 'brandbooks.mjs'), 'export default '+JSON.
 fs.writeFileSync(path.join(generated, 'themes.json'), JSON.stringify(themes, null, 2)+'\n');
 const sequences = [...prepareSequences(output), await prepareFolio(output)];
 fs.writeFileSync(path.join(generated, 'sequences.json'), JSON.stringify(sequences, null, 2)+'\n');
-if (settings.materials.includes('dark-glass')) {
-  fs.copyFileSync(path.join(here, 'src/dark-button-glass.stories.mjs'), path.join(generated, 'dark-button-glass.stories.mjs'));
-  for (const file of ['dark-button-glass.html', 'dark-button-glass.mjs']) {
-    fs.copyFileSync(path.join(here, 'src', file), path.join(output, file));
-  }
-}
+// A specimen copied by an earlier build is not served any more.
+for (const file of ['dark-button-glass.html', 'dark-button-glass.mjs']) fs.rmSync(path.join(output, file), {force: true});
 for (const entry of catalog) {
   const code = `// Generated from the maintained Pure Kinetic catalogue. Do not edit.\nimport catalog from './catalog.json';\nimport {renderComponent} from '../src/render.mjs';\nimport {defaultArgs, argTypesFor} from '../src/model.mjs';\nconst entry = catalog.find(item => item.type === ${JSON.stringify(entry.type)});\nexport default {title: ${JSON.stringify(storyTitle(entry))}, tags: ['autodocs'], ${settings.materialComponents.includes(entry.type)?'':"globals: {material: 'glass'}, "}args: defaultArgs(entry), argTypes: argTypesFor(entry), parameters: {docs: {description: {component: entry.description}}}, render: (args, context) => renderComponent(entry, args, {...context.globals, exampleMaterial: context.parameters.material}, {viewMode: context.viewMode, storyId: context.id})};\nexport const Preview = {name: 'Component'};\n`;
   // CSF's static indexer reads identifier property keys for the display name.

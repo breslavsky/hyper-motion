@@ -71,12 +71,10 @@ assert.deepEqual([...variants.keys()].sort(), catalogue.flatMap(entry => [...ent
 for (const entry of catalogue) for (const variant of [...entry.variants, ...entry.examples]) {
   assert.equal(variants.get(`${entry.type}:${variant.exportName}`).name, variant.name, 'CSF index must preserve the named variant label');
 }
-const themeStories = new Map(Object.values(index.entries).filter(entry => entry.type === 'story' && (entry.title === 'Glass/References' || themes.some(theme => theme.title === entry.title && theme.variants.some(variant => variant.exportName === entry.exportName))))
+const themeStories = new Map(Object.values(index.entries).filter(entry => entry.type === 'story' && themes.some(theme => theme.title === entry.title && theme.variants.some(variant => variant.exportName === entry.exportName)))
   .map(entry => [`${entry.title}:${entry.exportName}`, entry]));
-const darkSpecimen = 'Glass/References:DarkButtonGlass';
 const materialKeys = themes.flatMap(theme => theme.variants.map(variant => `${theme.title}:${variant.exportName}`));
-if (MATERIALS.includes('dark-glass')) materialKeys.push(darkSpecimen);
-assert.deepEqual([...themeStories.keys()].sort(), materialKeys.sort(), 'Material index must cover the native examples and reference specimens');
+assert.deepEqual([...themeStories.keys()].sort(), materialKeys.sort(), 'Material index must cover the native examples');
 const buildResponse = await fetch(new URL('pk/catalog-build.json', BASE.endsWith('/') ? BASE : `${BASE}/`));
 assert.ok(buildResponse.ok, `Storybook build manifest returned HTTP ${buildResponse.status}`);
 const buildManifest = await buildResponse.json();
@@ -1076,81 +1074,6 @@ async function metalToolbar() {
   finally { if (session) await session.close(); report.checks.push(row); }
 }
 
-// Read the phase of the moving stripe at each sample. Its phase gives a lateral
-// displacement even when smoke and highlights also change the pixel brightness.
-async function measureDarkRefraction() {
-  const {world} = await import('./dark-button-glass.mjs');
-  const {canvas,scene} = world, ctx = canvas.getContext('2d'), canvasRect = canvas.getBoundingClientRect();
-  const scale = canvas.width / canvasRect.width, period = canvas.width / 10;
-  const phase = document.querySelector('#stripe-phase'), savedPhase = phase.value;
-  const savedChoice = document.querySelector('input[name="backdrop"]:checked');
-  const before = canvas.toDataURL(), steps = 20;
-  const plates = ['sample-panel','sample-selection'].map((name,i) => {
-    const group = scene.getObjectByName(name);
-    const rect = document.querySelector('[data-glass-surface="'+i+'"]').getBoundingClientRect();
-    // The rear scanline is below the inset, so each scan crosses just the edge being tested.
-    return {name,group,visible:group.visible,clear:[],glass:[],
-      y:Math.round((rect.y - canvasRect.y + rect.height*(i ? .50 : .70)) * scale),
-      left:(rect.x-canvasRect.x)*scale,width:rect.width*scale,short:Math.min(rect.width,rect.height)*scale};
-  });
-  function read(plate, key) {
-    const row = ctx.getImageData(0,plate.y,canvas.width,1).data;
-    plate[key].push(Uint8Array.from({length:canvas.width},(_,x)=>row[4*x+1]));
-  }
-  try {
-    document.querySelector('input[value="stripes"]').click();
-    for (let step = 0; step < steps; step++) {
-      phase.value = String(100 * step / steps);
-      phase.dispatchEvent(new Event('input', {bubbles:true}));
-      for (const plate of plates) read(plate,'glass');
-      // Traced glass has no flat twin to compare with: the stripes it shows
-      // are measured against the same stripes with no glass over them.
-      for (const plate of plates) plate.group.visible=false;
-      world.render(0);
-      for (const plate of plates) {
-        read(plate,'clear');
-        plate.group.visible = true;
-      }
-    }
-  } finally {
-    for (const plate of plates) {
-      plate.group.visible = plate.visible;
-    }
-    phase.value = savedPhase;
-    phase.dispatchEvent(new Event('input', {bubbles:true}));
-    savedChoice.click();
-    world.render(0);
-  }
-  function signal(frames, x) {
-    let cosine = 0, sine = 0;
-    for (let i = 0; i < steps; i++) {
-      const angle = 2 * Math.PI * i / steps, level = frames[i][x];
-      cosine += level * Math.cos(angle);
-      sine += level * Math.sin(angle);
-    }
-    return {angle:Math.atan2(sine,cosine), strength:Math.hypot(cosine,sine)*2/steps};
-  }
-  const median = a => a.sort((p,q)=>p-q)[Math.floor(a.length/2)];
-  const layers = plates.map(plate => {
-    const shifts = [], centreShifts = [], transmitted = [], outside = [];
-    for (let x = 0; x < canvas.width; x++) {
-      const normal = signal(plate.glass,x), clear = signal(plate.clear,x);
-      const angle = normal.angle - clear.angle;
-      const pixels = Math.abs(Math.atan2(Math.sin(angle),Math.cos(angle))) * period / (2*Math.PI);
-      const inset = x - plate.left;
-      if (inset > .025 * plate.short && inset < .095 * plate.short) shifts.push(pixels);
-      if (inset > .48 * plate.width && inset < .52 * plate.width) {
-        centreShifts.push(pixels);
-        transmitted.push(normal.strength / clear.strength);
-      }
-      if (x > .02 * canvas.width && x < .05 * canvas.width) outside.push(pixels);
-    }
-    return {name:plate.name, rimShift:median(shifts), centreShift:median(centreShifts),
-      centreSignal:median(transmitted), outsideShift:Math.max(...outside)};
-  });
-  return {layers, restored:before===canvas.toDataURL()};
-}
-
 async function metalShell() {
   if (!themes.length) return;
   const row = {name: 'material-sidebar-variants-and-live-preview', passed: false};
@@ -1171,38 +1094,6 @@ async function metalShell() {
     await page.waitForFunction(names => names.every(name => document.body.innerText.includes(name)), {}, theme.variants.map(variant => variant.name));
     row.screenshot = variant.globals.material+'-storybook-shell.png';
     await page.screenshot({path: path.join(OUT, row.screenshot), fullPage: true});
-    if (themeStories.has(darkSpecimen)) {
-      await page.goto(storyURL(undefined, {}, {}, themeStories.get(darkSpecimen)), {waitUntil: 'domcontentloaded'});
-      const specimen = await (await page.waitForSelector('iframe[title="Dark Button Glass"]')).contentFrame();
-      await specimen.waitForSelector('canvas[data-glass-time]');
-      await specimen.click('input[name="backdrop"][value="black"]');
-      row.darkButton = await specimen.evaluate(() => {
-        const canvas = document.querySelector('canvas[data-glass-time]'), ctx = canvas.getContext('2d');
-        // The reference is a fixed square. Scan across the outer crest and
-        // the underside of the inset button on the actual rendered canvas.
-        const crest = (x, y) => {
-          const n = canvas.width, half = Math.ceil(n * .012);
-          const pixels = ctx.getImageData(Math.round(n*x), Math.round(n*y)-half, 1, 2*half+1).data;
-          let value = 0;
-          for (let i=0;i<pixels.length;i+=4) value = Math.max(value, Math.min(pixels[i],pixels[i+1],pixels[i+2]));
-          return value;
-        };
-        return {kind:JSON.parse(canvas.dataset.surfaceFinish).kind, layers:document.querySelectorAll('[data-glass-surface]').length,
-          outer:crest(.28,.175), button:crest(.32,.40), field:crest(.05,.80)};
-      });
-      row.darkRefraction = await specimen.evaluate(measureDarkRefraction);
-      assert.ok(row.darkRefraction.restored, 'Switching back from stripes must restore the black specimen');
-      for (const layer of row.darkRefraction.layers) {
-        assert.ok(layer.centreSignal > .25, `${layer.name} must visibly transmit the moving stripes: ${layer.centreSignal}`);
-        assert.ok(layer.rimShift > 3 && layer.rimShift > 1.5 * layer.centreShift,
-          `${layer.name} must bend the stripes more at its curved edge: ${JSON.stringify(layer)}`);
-        assert.equal(layer.outsideShift, 0, 'Refraction must stay within the glass silhouette');
-      }
-      assert.equal(row.darkButton.kind, 'dark-glass');
-      assert.equal(row.darkButton.layers, 2);
-      assert.ok(row.darkButton.outer > 160 && row.darkButton.button > 160 && row.darkButton.field < 15,
-        'The reference must show two distinct illuminated glass contours over black: ' + JSON.stringify(row.darkButton));
-    }
     row.variants = theme.variants.map(variant => variant.name); row.passed = true;
   } catch (error) { row.error = String(error.stack ?? error); failures.push(row); console.error(`FAIL Metal shell: ${error.message}`); }
   finally { await page.close(); report.checks.push(row); }
