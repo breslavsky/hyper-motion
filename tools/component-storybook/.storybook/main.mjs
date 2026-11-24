@@ -24,4 +24,6 @@ export default {
   managerHead: storyLinks,
   previewHead: storyLinks,
   core: {disableTelemetry: true},
+  // No "Level up" checklist in the sidebar: it is Storybook's own onboarding.
+  features: {sidebarOnboardingChecklist: false},
 };
