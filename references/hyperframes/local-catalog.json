@@ -194,7 +194,7 @@
         "assets/type/anybody-w130-800.mjs": "d3f5e9346b519d9bbe8c26a7e72a0e4afb9bd379970d0db90e9aa5b2d27b8dca",
         "assets/type/anybody-w150-800.mjs": "5d35335cc5a8571ca1e6c457eb11d817ff62e9083b4d52ceaa964539509f4914",
         "assets/type/provenance.json": "c83c6edd5a000e244e2d7a52d87663509559bb442ff0617990a1122d6ea4d35b",
-        "build.mjs": "b70bfbb2a275705c9a6880d0b4713717ce2f2e15dbf89c88a61c17fdecefe849",
+        "build.mjs": "519d54a5c620cccbee2475aeff1962beb012c438fbb5d1ca2f5ceb1305dd5e9c",
         "lib/geometry.mjs": "8140efcf862117adb82450c9c164b43a4571ad831b6c5e5d397abf59110f5524",
         "lib/materials.mjs": "7d1f0c21c7c01fc446375779d04240cc35b3054056ba987b7ed76815e685f68b",
         "lib/model.mjs": "50d0e3b80805020c5ea90d4978f0f063b8fb4febabd4b5c1785afc9f621ed49c",
@@ -351,7 +351,7 @@
       "note": "A kit, not one composition: write a recipe (USAGE.md says what it holds: the media, the stops, the lens) and run the returned command with it in the project's source folder; it writes the wall's composition and prints the host element, when each stop opens and the moments for sound. Media are the project's own files; a video needs ffmpeg for its still or a poster. All files are local; no npm install is needed.",
       "files": {
         "wall.mjs": "b1cad92ee8584c707b37c3795993de9210199802811cd0554d0b2593df8e1bb7",
-        "build.mjs": "903985e26ce3eb3c55bef92ec71d952654e9454ed1e14c9cef139a1c9fb5f6f9",
+        "build.mjs": "3d5a4e36e28e242dfb04f08eea1a1849b2792c3c33ca0c9b5f330d0689803c98",
         "USAGE.md": "8690566ba6974696436ccc65ea6420ec3b73a02d34e7c91693e5185606247d4f",
         "SOURCE.json": "6f047ed8b03facc1f587ecdcc9f2c2feb67e69ce90bad820e1cb1599c0095e91"
       }
