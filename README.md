@@ -9,6 +9,8 @@ moved here to live on its own. **This is the first cut**: the folders still
 mirror the repository it came from, so that every tool and test works as it
 did. They will be reshaped step by step.
 
+**Storybook:** https://breslavsky.github.io/hyper-motion/ (every scene type with live controls; press Preview on a component).
+
 ## What is here
 
 | Path | What |
