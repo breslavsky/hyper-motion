@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `send-prompt`, `search` and `lens`.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `send-prompt`, `search` and `lens`.
 Catalog membership in the broader `glass` family also covers DOM scenes such as
 `widgets` and `sheet`. Apply these rules to the optical group.
 
@@ -329,7 +329,7 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`. The others have
+`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`. The others have
 neither (`placed:false` in their metadata), each for its reason: `widgets`
 and `sheet` are laid out by the page; in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
@@ -748,6 +748,23 @@ name of 18 characters, a time of 8 and a message of 60 keep the message in
 the first step of its role, three lines at most, in every frame shape. With
 `exit: collapse` the panel folds away. Over footage it is a notification, placed by `place` and `size`
 (`tools/glass-message.test.mjs`).
+
+## Glass follow
+
+`glass-follow` (`glass/components.mjs`) says where to follow somebody: the
+panel grows out of a pill with the mark of a network on a disc of its own
+colour, a handle and a button; a pointer comes up and presses the button,
+which takes the family's active colour. `network` is one of eighteen marks
+vendored from Simple Icons (`upstream/simple-icons`: the files as they
+came, a receipt with each mark's colour and its owner's brand guidelines,
+upstream's disclaimer; `tools/sync-social-icons.cjs` writes the map). The
+collection is CC0 and every mark is its owner's trademark: the scene shows
+one unaltered, in white or black on its own colour, to name the service,
+and the guide tells the writer to use only a network and a handle the user
+gave. The word on the button is the network's own where it has one
+(Subscribe, Join, Message), else Follow. In a wide frame the panel is as
+wide as what it holds; a handle is twenty characters at most
+(`tools/glass-follow.test.mjs`).
 
 ## Comic
 

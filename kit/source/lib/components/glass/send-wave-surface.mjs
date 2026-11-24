@@ -59,14 +59,14 @@ export function createSendWaveSurface({card, unit, renderer, source, ink, previe
   let progress = 0;
 
   function captureScreen(scene, camera) {
-    const button = card.sendButton.group;
-    const visible = button.visible;
-    button.visible = false;
+    const button = card.sendButton?.group;
+    const visible = button?.visible;
+    if (button) button.visible = false;
     try {
       renderer.render(scene, camera);
       renderer.copyFramebufferToTexture(frame);
     } finally {
-      button.visible = visible;
+      if (button) button.visible = visible;
     }
     toClip.copy(camera.projectionMatrix).multiply(camera.matrixWorldInverse).multiply(card.group.matrixWorld).multiply(offset);
     renderer.setViewport(0, 0, sampleW, sampleH);

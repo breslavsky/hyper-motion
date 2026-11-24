@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "name": "Simple Icons",
+      "url": "https://github.com/simple-icons/simple-icons",
+      "version": "simple-icons 16.38.1",
+      "license": "CC0-1.0 for the collection; each mark is a trademark of its owner and is used only to name that service",
+      "taken": "vendored",
+      "date": "2026-11-24",
+      "note": "Eighteen marks of social networks, each file as it came, for the follow scene of the Glass family (a button that says where to follow somebody). RECEIPT.json pins the npm release, the files' hashes, each mark's colour and its owner's brand guidelines; DISCLAIMER.md is upstream's on trademarks. LinkedIn is not in the collection.",
+      "package": "simple-icons",
+      "files": [
+        "icons/",
+        "icons.mjs"
+      ]
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import {portraitGlassWidth} from './layout.mjs';
 import {magnifyingGlassBold} from '../upstream/phosphor-icons/search-icons.mjs';
 import {createLettering} from './lettering.mjs';
 import {glassGrid} from './grid.mjs';
+import {socialIcons} from '../upstream/simple-icons/icons.mjs';
 
 function island(args){
   const {K,p}=args,s=p.scene;
@@ -955,6 +956,123 @@ function glassMessage(args){
   };
 }
 
+// The word on the button where a network has its own for it.
+const FOLLOW_WORD=Object.freeze({youtube:'Subscribe',substack:'Subscribe',telegram:'Join',discord:'Join',patreon:'Join',whatsapp:'Message'});
+// Whether a colour is light enough to carry dark ink (its relative luminance).
+function lightColor(hex){
+  const [r,g,b]=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));
+  return .2126*r+.7152*g+.0722*b>.5;
+}
+
+// A glass panel that says where to follow somebody: it grows out of a pill
+// with the mark of a network on its own colour, a handle and a button, and a
+// pointer comes up and presses the button, which takes the family's active
+// colour. After the look of "TikTok Liquid Glass Follow Notification"
+// (SOURCE.json); the marks are Simple Icons' (upstream/simple-icons), each
+// its owner's trademark, used to name the service. Every measure is the
+// family's grid (grid.mjs).
+function glassFollow(args){
+  const {K,p,fg}=args,{el,set,px}=K,s=p.scene;
+  const cameraMode=cameraOf(s,'glass-follow');
+  const exit=enumValue(s.exit,['hold','collapse'],'hold','glass-follow.exit');
+  const network=enumValue(s.network,Object.keys(socialIcons),'tiktok','glass-follow.network'),mark=socialIcons[network];
+  const word=s.text??FOLLOW_WORD[network]??'Follow';
+  const {host,world}=makeWorld(args,'glass-follow');
+  const {surface,width:panel,recipe}=cardSurface(K,host,[s.handle,word]);
+  surface.classList.add('pk-glass-follow');
+  surface.dataset.followNetwork=network;
+  const G=glassGrid(K);
+  set(surface,{alignItems:'center',textAlign:'center'});
+  // The mark on a disc of its owner's colour, in the ink that reads on it.
+  const badge=el('div','pk-glass-follow-badge',surface);
+  badge.setAttribute('role','img');badge.setAttribute('aria-label',mark.title);
+  set(badge,{flex:'none',width:px(G.avatar.size),height:px(G.avatar.size),borderRadius:'50%',background:mark.hex,display:'grid',placeItems:'center',opacity:'0'});
+  const glyph=el('span','',badge);glyph.setAttribute('aria-hidden','true');
+  const markInk=lightColor(mark.hex)?'#000000':'#ffffff',markSource=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(mark.svg)}`;
+  set(glyph,{display:'block',width:px(G.icon),height:px(G.icon),backgroundColor:markInk,
+    maskImage:`url("${markSource}")`,maskMode:'alpha',maskSize:'100% 100%',maskRepeat:'no-repeat'});
+  const handle=el('div','pk-glass-follow-handle',surface,s.handle);
+  K.design.apply(handle,G.type.name.role,{step:G.type.name.step});
+  set(handle,{maxWidth:px(G.content),overflowWrap:'anywhere',opacity:'0'});
+  // The button: a pill of the text's ink, faint, that takes the active colour when pressed.
+  const button=el('div','pk-glass-follow-button',surface);
+  button.setAttribute('role','button');
+  set(button,{position:'relative',flex:'none',padding:`${px(G.gap.item)} ${px(G.gap.section)}`,borderRadius:px(G.row),background:K.alpha(fg,.18),opacity:'0'});
+  const fill=el('span','pk-glass-follow-fill',button);fill.setAttribute('aria-hidden','true');
+  set(fill,{position:'absolute',inset:'0',borderRadius:px(G.row),background:activeColor(args),opacity:'0'});
+  const label=el('div','pk-glass-follow-label',button,word);
+  K.design.apply(label,'button');
+  set(label,{position:'relative',whiteSpace:'nowrap'});
+  // In a wide frame the panel is as wide as what it holds (as the rating is);
+  // a tall or square frame keeps the family's panel width.
+  let width=panel;
+  if(G.wide){
+    set(handle,{width:'max-content'});
+    width=Math.min(panel,Math.ceil(Math.max(badge.offsetWidth,handle.offsetWidth,button.offsetWidth))+2*recipe.paddingX);
+    set(surface,{width:px(width)});
+  }
+  K.design.surfaceGap(surface,G.density('dense').sectionStep);
+  const copy=finishCard(K,surface,width);
+  // Measured before the panel is projected into 3D: the press sends the wave
+  // of send-prompt across the panel from the button, and the wave carries a
+  // picture of what is written on it.
+  const letters=createLettering(K,surface);
+  const inkHandle=letters.text(handle),inkLabel=letters.text(label);
+  const inkButton=letters.box(button,{fill:activeColor(args),radius:'pill'});
+  letters.measure();
+  // The mark is drawn the way the page shows it: a disc of its colour and the
+  // artwork as a mask filled with its ink.
+  const doc=host.ownerDocument,logo=new doc.defaultView.Image();
+  logo.src=markSource;K.defer(logo.decode());
+  let tinted=null;
+  const inkBadge=ctx=>{
+    const cx=badge.offsetLeft+badge.offsetWidth/2,cy=badge.offsetTop+badge.offsetHeight/2;
+    ctx.save();ctx.fillStyle=mark.hex;ctx.beginPath();ctx.arc(cx,cy,badge.offsetWidth/2,0,2*Math.PI);ctx.fill();
+    if(logo.complete&&logo.naturalWidth){
+      if(!tinted){
+        tinted=doc.createElement('canvas');tinted.width=tinted.height=256;
+        const pen=tinted.getContext('2d');
+        pen.fillStyle=markInk;pen.fillRect(0,0,256,256);
+        pen.globalCompositeOperation='destination-in';pen.drawImage(logo,0,0,256,256);
+      }
+      ctx.drawImage(tinted,cx-G.icon/2,cy-G.icon/2,G.icon,G.icon);
+    }
+    ctx.restore();
+  };
+  const ink=ctx=>{inkBadge(ctx);inkHandle(ctx);inkButton(ctx);inkLabel(ctx);};
+  const card=world.addCard({width,height:copy.height,element:surface,backdropOnly:true});
+  card.group.scale.setScalar(fitToFrame(K,copy.height));
+  const drawWave=world.addSendWave(card,{ink,source:{x:button.offsetLeft,y:button.offsetTop,w:button.offsetWidth,h:button.offsetHeight}});
+  world.prepare();
+  const {pointer,cursor}=pointerOf(K,surface,'pk-glass-follow-pointer',G.icon,2);
+  const at=middleOf(button),T=G.time;
+  return (time,duration=p.dur,backdropTime=time)=>{
+    const live=metadata['glass-follow'].anchors(s,duration);
+    const n=clamp(time/duration),enter=phase(time,live.open,live.open+T.open);
+    const close=exit==='collapse'?smoother(phase(time,live.collapse,duration*.98)):0;
+    updateCard(card,world,width,copy.height,outBack(enter)*(1-close),outBack(phase(time,live.open+.04,live.open+T.open+.04))*(1-close),smooth(enter)*(1-close));
+    card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
+    const shown=smooth(phase(time,live.open+.16,live.open+T.open))*(1-smooth(phase(close,.05,.55)));
+    card.opacity=shown;
+    set(badge,{opacity:smooth(phase(time,live.handle-.08,live.handle+.08)).toFixed(4),transform:`scale(${(.6+.4*outBack(phase(time,live.handle-.08,live.handle-.08+T.pop))).toFixed(4)})`});
+    const named=smooth(phase(time,live.handle,live.handle+T.fade));
+    set(handle,{opacity:named.toFixed(4),transform:`translateY(${px((1-named)*G.move.settle)})`});
+    const offered=smooth(phase(time,live.handle+.12,live.handle+.12+T.fade));
+    const pressed=smooth(phase(time,live.click,live.click+.16)),press=Math.sin(Math.PI*phase(time,live.click,live.click+.22));
+    set(button,{opacity:offered.toFixed(4),transform:`scale(${(1-.06*press).toFixed(4)})`});
+    set(fill,{opacity:pressed.toFixed(4)});
+    button.setAttribute('aria-pressed',String(time>=live.click));
+    // The wave leaves the button at the press and has crossed the panel a second later.
+    drawWave(phase(time,live.click,live.click+Math.min(1,Math.max(.4,(exit==='collapse'?live.collapse:duration)-live.click))));
+    // The pointer comes up from under the panel, presses the button and goes.
+    const coming={fx:at.x+G.icon*2,fy:copy.height+G.icon*2,x:at.x,y:at.y,start:live.reach,arrive:live.click-.1,click:live.click};
+    const going={fx:at.x,fy:at.y,x:at.x+G.icon*2.4,y:copy.height+G.icon*2.4,start:live.click+.34,arrive:live.click+.9,click:Infinity};
+    cursor(time,time>=going.start?going:coming);
+    pointer.style.opacity=String(shown*(1-smooth(phase(time,live.click+.55,live.click+.9))));
+    orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
+  };
+}
+
 const LIKE_ICONS=Object.freeze(['like','heart','star','bell','save','plus','check']);
 
 // A glass button somebody presses: a pill grows out of a round seed with an
@@ -1062,4 +1180,4 @@ function glassLike(args){
   };
 }
 
-export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage});
+export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow});

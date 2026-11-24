@@ -1647,6 +1647,21 @@
         ],
         "reason": "A message is read whole: its text is fitted to the width beside the picture in its role, and a name too long for its line wraps rather than being cut."
       }
+    },
+    {
+      "type": "glass-follow",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "handle whole, wrapped if it must",
+          "text one word of a button, never cut"
+        ],
+        "reason": "A handle is an address: it is twenty characters at most and wraps rather than being cut, and the button's word is never shortened."
+      }
     }
   ]
 }

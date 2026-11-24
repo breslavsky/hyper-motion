@@ -356,6 +356,11 @@ export const catalog={
     "renderMode": "webgl",
     "owned": true
   },
+  "glass-follow": {
+    "family": "glass",
+    "renderMode": "webgl",
+    "owned": true
+  },
   "send-prompt": {
     "family": "glass",
     "renderMode": "webgl",

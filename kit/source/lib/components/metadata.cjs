@@ -465,6 +465,49 @@ validate(s){
       if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
     }
 }),
+"glass-follow":glassComponent({
+// A glass panel that says where to follow somebody (glass/components.mjs).
+anchors(s,len){
+  const open=.05,handle=Math.min(.42,len*.14),reach=Math.min(.8,len*.24);
+  // The pointer needs half a second to come up; the press is before the scene's middle.
+  const click=Math.max(reach+.5,Math.min(len*.48,1.8));
+  const collapse=Math.min(len*.95,Math.max(click+1,len*.84));
+  return {open,handle,reach,click,collapse};
+},
+// The pressed button is seen for eight tenths of a second before the scene
+// ends (or the panel folds). In beats at 120 bpm.
+needs(s){
+  const folds=(s.exit??'hold')==='collapse';
+  for(let beats=3;beats<=16;beats++){
+    const len=beats*.5,marks=this.anchors(s,len);
+    if(marks.click+.8<=(folds?marks.collapse:len))return beats;
+  }
+  return 16;
+},
+validate(s){
+  const needs=this.needs(s);
+  return Number.isFinite(s.beats)&&s.beats<needs?[`beats: the button needs at least ${needs} beats to be pressed and seen`]:[];
+},
+"signature":true,
+"copyFields":["handle","text"],
+"fields":{
+  "network":{"kind":"enum","values":["tiktok","youtube","instagram","x","facebook","threads","twitch","snapchat","pinterest","telegram","whatsapp","discord","reddit","vk","bluesky","spotify","patreon","substack"]},
+  "handle":{"kind":"string","min":1,"max":20},
+  "text":{"kind":"string","min":1,"max":12,"optional":true},
+  "camera":{"kind":"enum","values":["orbit","static"],"optional":true},
+  "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
+},
+"previewVariants":["network","exit"],
+"guide":"glass-follow {network, handle, text?, camera?, exit?, background?}: an optical glass panel says where to follow somebody: it grows out of a pill with the mark of a network on its own colour, a handle and a button, and a pointer comes up and presses the button. network = tiktok, youtube, instagram, x, facebook, threads, twitch, snapchat, pinterest, telegram, whatsapp, discord, reddit, vk, bluesky, spotify, patreon or substack: only one the user named, never a guess. handle = their name there as they gave it, up to 20 characters (\"@nookstudio\"); never make one up. text = the word on the button, up to 12 characters (default: Follow, or the network's own word: Subscribe on YouTube and Substack, Join on Telegram, Discord and Patreon, Message on WhatsApp). camera = orbit (default) or static. exit = hold (default) or collapse (the panel folds away). One scene names one network; for several, use one scene each. Over a video of the user's it is the call to follow laid on the footage: say where it stands with place and size. 5-8 beats.",
+"sample":{"type":"glass-follow","beats":7,"network":"tiktok","handle":"@nookstudio","camera":"orbit","exit":"hold"},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len);
+      cue(marks.open,"pop",.8);
+      cue(marks.click,"click",.9);
+      cue(marks.click+.14,"chime",.55);
+      if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+    }
+}),
 "widgets":glassComponent({
 placed:false,
 anchors(s,len){

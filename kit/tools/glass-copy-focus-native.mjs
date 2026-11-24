@@ -20,6 +20,8 @@ const fixtures = [
     probes: [[.48, '.pk-glass-heading'], [.9, '.pk-glass-rating-caption']]},
   {scene: {type: 'glass-message', name: 'Maya Chen', text: 'The cut looks great.', time: 'now', beats: 6},
     probes: [[.5, '.pk-glass-message-name'], [.8, '.pk-glass-message-text']]},
+  {scene: {type: 'glass-follow', network: 'tiktok', handle: '@nookstudio', beats: 6},
+    probes: [[.3, '.pk-glass-follow-handle']]},
   {scene: {type: 'ask', text: 'Find my next class', reply: 'Tuesday is confirmed.', beats: 6},
     probes: [[.35, '.pk-glass-ask-prompt'], [.85, '.pk-glass-ask-reply']]},
   {scene: {type: 'search', query: 'Thursday workshops', beats: 6, timing: {focus: .5, type: 1, typed: 3, search: 4, collapse: 5, collapsed: 5.7, checked: 5.9}},

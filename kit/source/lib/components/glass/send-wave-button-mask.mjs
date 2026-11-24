@@ -9,6 +9,8 @@ const outline=Array.from({length:48},(_,i)=>{
 });
 
 export function createSendWaveButtonMask(card,unit){
+  // A card whose button is part of its page (a follow button, a like) has no 3D one to leave alone.
+  if(!card.sendButton)return ()=>{};
   const button=card.sendButton.group,face=button.children.find(part=>part.name.endsWith('-face'));
   const worldToCard=new THREE.Matrix4(),faceToCard=new THREE.Matrix4(),eye=new THREE.Vector3(),point=new THREE.Vector3();
   face.geometry.computeBoundingSphere();

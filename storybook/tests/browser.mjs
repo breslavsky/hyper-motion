@@ -1231,6 +1231,7 @@ async function glassControlsAndCleanup() {
           : type === 'glass-like' ? {text: 'Follow', icon: 'heart'}
           : type === 'glass-rating' ? {title: 'Rate the class', stars: 4, caption: 'Four of five', camera: 'static'}
           : type === 'glass-message' ? {name: 'Sam Rivera', text: 'See you at six.', time: '2m ago'}
+          : type === 'glass-follow' ? {network: 'instagram', handle: '@samrivera'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');
