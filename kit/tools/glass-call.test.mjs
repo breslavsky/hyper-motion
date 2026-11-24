@@ -29,6 +29,13 @@ test('the call rings before the pointer comes, is taken, and a folding panel lea
     const marks = scene.anchors(scene.sample, len);
     assert.ok(marks.open < marks.name && marks.name < marks.reach && marks.reach + .4 < marks.answer);
     assert.ok(marks.answer + 1.2 <= marks.collapse + 1e-9 && marks.collapse < len);
+    // It rings after the name is up, 0.6 s apart, and stops before it is taken.
+    assert.ok(marks.rings.length >= 1 && marks.rings[0] > marks.name && marks.rings.at(-1) < marks.answer);
+    marks.rings.slice(1).forEach((at, i) => assert.ok(Math.abs(at - marks.rings[i] - .6) < 1e-9));
+    // Nobody takes it: it rings to the end of the scene, or until the panel folds.
+    const unanswered = scene.anchors({...scene.sample, answer: false}, len);
+    assert.ok(unanswered.rings.length > marks.rings.length && unanswered.rings.at(-1) < len);
+    assert.ok(scene.anchors({...scene.sample, answer: false, exit: 'collapse'}, len).rings.at(-1) < unanswered.collapse);
   }
 });
 
@@ -40,11 +47,14 @@ test('a scene has the beats the call needs: fewer when it only rings', () => {
   assert.match(problems({beats: rings - 1, answer: false}).join(), new RegExp(`needs at least ${rings} beats to ring$`));
 });
 
-test('a pop for the panel, two rings and a click when it is taken; it goes on ringing when it is not', () => {
-  const cues = extra => { const out = []; scene.sounds({...scene.sample, ...extra}, 5, (at, kind) => out.push(kind)); return out; };
-  assert.deepEqual(cues({}), ['pop', 'chime', 'chime', 'click']);
-  assert.deepEqual(cues({answer: false}), ['pop', 'chime', 'chime']);
-  assert.deepEqual(cues({exit: 'collapse'}), ['pop', 'chime', 'chime', 'click', 'whoosh']);
+test('a pop for the panel, a chime on every ring mark and a click when it is taken', () => {
+  const cues = extra => { const out = []; scene.sounds({...scene.sample, ...extra}, 5, (at, kind) => out.push([kind, at])); return out; };
+  const rings = extra => scene.anchors({...scene.sample, ...extra}, 5).rings;
+  const taken = cues({});
+  assert.deepEqual(taken.map(([kind]) => kind), ['pop', ...rings({}).map(() => 'chime'), 'click']);
+  assert.deepEqual(taken.filter(([kind]) => kind === 'chime').map(([, at]) => at), rings({}), 'the sound is on the mark the halo leaves on');
+  assert.deepEqual(cues({answer: false}).map(([kind]) => kind), ['pop', ...rings({answer: false}).map(() => 'chime')]);
+  assert.equal(cues({exit: 'collapse'}).at(-1)[0], 'whoosh');
 });
 
 test('it is placed over footage like the other panels, at both sizes', () => {

@@ -771,11 +771,18 @@ wide as what it holds; a handle is twenty characters at most
 `glass-call` (`glass/components.mjs`) is a call coming in: the panel grows
 out of a pill with the picture of who calls (the film's `image`, or a
 figure), their name and a line under it ("Incoming call"), a button to
-decline and one to accept. The accept button swells twice a second as the
-call rings. A pointer comes up and accepts: the accept button goes, the
+decline and one to accept. The call rings on the scene's `rings` marks, 0.6
+s apart until it is taken (or to the end, if it is not): on each a halo of
+the accept button's colour leaves it and fades, the receiver shakes once,
+and the ring's sound is cued on the same mark. A pointer comes up and accepts: the accept button goes, the
 other moves to the end of the panel, and the line counts the call's seconds
-from the moment it is taken (a pure function of the scene's time). With
-`answer: false` the call only rings. Accept takes the family's active
+from the moment it is taken (a pure function of the scene's time), and a
+soft glow along the panel's lower edge rises and falls as a voice does:
+three travelling sines under a loudness of about three syllables a second,
+drawn on a canvas under the panel's content from the scene's time alone, in
+the colours of a spectrum or the brand's accent. Ours from scratch, after
+the idea of a voice glow under an input. With `answer: false` the call
+only rings. Accept takes the family's active
 colour; decline is the family's one red (`DANGER`). The picture is the
 grid's `avatar`, the buttons its `mark`, their glyphs the vendored Lucide
 phone and hang-up. In a wide frame the buttons stand at the end of the row;

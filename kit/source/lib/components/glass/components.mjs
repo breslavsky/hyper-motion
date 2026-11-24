@@ -1017,13 +1017,52 @@ function glassCall(args){
     const node=el('div',name,buttons);node.setAttribute('role','button');
     set(node,{flex:'none',width:px(round),height:px(round),borderRadius:'50%',background:color,display:'grid',placeItems:'center'});
     const art=el('span','',node);art.setAttribute('aria-hidden','true');
-    mask(art,islandIconFilledSource(icon),'#ffffff');set(art,{width:px(G.check.glyph),height:px(G.check.glyph)});
+    mask(art,islandIconFilledSource(icon),'#ffffff');set(art,{position:'relative',width:px(G.check.glyph),height:px(G.check.glyph)});
     return node;
   };
   const decline=button('pk-glass-call-decline','phone-off',DANGER),accept=button('pk-glass-call-accept','phone',activeColor(args));
   decline.setAttribute('aria-label','Decline');accept.setAttribute('aria-label','Accept');
+  // A ring of the call: a halo of the button's colour leaves it and fades,
+  // and the receiver shakes once. Each is one of the scene's `rings` marks,
+  // which its sound is cued on too.
+  const halo=el('span','pk-glass-call-ring',accept);halo.setAttribute('aria-hidden','true');
+  accept.insertBefore(halo,accept.firstChild);
+  set(accept,{position:'relative'});
+  set(halo,{position:'absolute',inset:'0',borderRadius:'50%',background:activeColor(args),opacity:'0'});
+  const receiver=accept.lastElementChild;
   surface.dataset.callAvatar=picture?'picture':'figure';
   const copy=finishCard(K,surface,width);
+  // The voice of a call that is taken: a soft glow along the panel's lower
+  // edge whose height follows somebody speaking. It lies under the panel's
+  // content, inside its corners, and is drawn from the scene's time alone.
+  const glow=el('div','pk-glass-call-voice',surface);glow.setAttribute('aria-hidden','true');
+  set(glow,{position:'absolute',inset:'0',zIndex:'-1',overflow:'hidden',borderRadius:px(G.card.radius),pointerEvents:'none',opacity:'0'});
+  const voice=host.ownerDocument.createElement('canvas');
+  const voiceH=G.row+G.gap.group;
+  voice.width=Math.max(1,Math.round(width));voice.height=Math.max(1,Math.round(voiceH));
+  glow.append(voice);
+  set(voice,{position:'absolute',left:'0',bottom:'0',width:px(width),height:px(voiceH),filter:`blur(${px(G.gap.item)})`});
+  const pen=voice.getContext('2d');
+  // The brand's accent when the film has one; else the colours of a spectrum.
+  const tinted=K.plan.brand?.tokens?.accent!==undefined||K.plan.brand?.colors?.length||p.explicitAccent;
+  const spectrum=tinted?[args.accent,args.accent]:['#ff5f6d','#ffc371','#47e891','#3fa9ff','#a66bff'];
+  const paint=pen.createLinearGradient(0,0,voice.width,0);
+  spectrum.forEach((color,k)=>paint.addColorStop(k/(spectrum.length-1),color));
+  const TAU=2*Math.PI;
+  function drawVoice(since,level){
+    pen.clearRect(0,0,voice.width,voice.height);
+    if(!(level>0))return;
+    // How loud the voice is now: syllables, about three a second, of uneven weight.
+    const loud=level*(.3+.7*Math.abs(Math.sin(2.3*since))*(.55+.45*Math.pow(Math.sin(7.1*since+1.3),2)));
+    pen.fillStyle=paint;pen.beginPath();pen.moveTo(0,voice.height);
+    for(let x=0;x<=voice.width;x+=Math.max(2,voice.width/160)){
+      const u=x/voice.width;
+      // Three waves that travel at their own speeds, low at the panel's ends.
+      const wave=.5+.5*(.5*Math.sin(TAU*(1.5*u-.9*since))+.3*Math.sin(TAU*(3.2*u+1.3*since)+1)+.2*Math.sin(TAU*(5.1*u-2.1*since)+2));
+      pen.lineTo(x,voice.height*(1-loud*(.2+.8*Math.sin(Math.PI*u))*wave));
+    }
+    pen.lineTo(voice.width,voice.height);pen.closePath();pen.fill();
+  }
   const card=world.addCard({width,height:copy.height,element:surface,backdropOnly:true});
   card.group.scale.setScalar(fitToFrame(K,copy.height));
   world.prepare();
@@ -1045,14 +1084,18 @@ function glassCall(args){
     set(name,{opacity:named.toFixed(4)});
     set(buttons,{opacity:smooth(phase(time,live.name+.1,live.name+.1+T.fade)).toFixed(4)});
     const taken=answers?smooth(phase(time,live.answer,live.answer+.2)):0;
+    set(glow,{opacity:(taken*shown).toFixed(4)});
+    drawVoice(time-live.answer,taken);
     set(state,{opacity:(.68*named*(1-taken)).toFixed(4)});
     set(clock,{opacity:(.68*taken).toFixed(4)});
     const seconds=answers?Math.max(0,Math.floor(time-live.answer)):0;
     if(seconds!==shownSeconds){shownSeconds=seconds;clock.textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;}
-    // The call rings: the accept button swells twice a second until it is pressed.
-    const ringing=time>=live.name&&!(answers&&time>=live.answer)?Math.max(0,Math.sin(4*Math.PI*(time-live.name))):0;
+    // The ring that is sounding now, if any: how far it has run.
+    const rung=live.rings.findLast(at=>at<=time),ring=rung===undefined?1:phase(time,rung,rung+T.between+T.fade);
+    set(halo,{opacity:(.5*(1-ring)*(1-taken)).toFixed(4),transform:`scale(${(1+.9*smooth(ring)).toFixed(4)})`});
+    set(receiver,{transform:`rotate(${(14*Math.sin(6*Math.PI*ring)*(1-ring)).toFixed(3)}deg)`});
     const press=answers?Math.sin(Math.PI*phase(time,live.answer,live.answer+.22)):0;
-    set(accept,{opacity:(1-taken).toFixed(4),transform:`scale(${((1+.08*ringing)*(1-.1*press)*(1-.4*taken)).toFixed(4)})`});
+    set(accept,{opacity:(1-taken).toFixed(4),transform:`scale(${((1-.1*press)*(1-.4*taken)).toFixed(4)})`});
     // Taken, the call has one button: it moves to the end of the row beside
     // the words, or to the middle of a row of its own.
     set(decline,{transform:`translateX(${px((round+spread)*(side?1:.5)*taken)})`});
