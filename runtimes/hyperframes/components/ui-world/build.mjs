@@ -42,7 +42,7 @@ ${clips}
   return {project:dest,width,height,duration,plan,audio};
 }
 
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+if(process.argv[1]&&fs.realpathSync(process.argv[1])===fileURLToPath(import.meta.url)){
   const [input,dest]=process.argv.slice(2);if(!input||!dest)throw new Error('Usage: node build.mjs recipe.json output-directory');
   const result=await buildProject(dest,JSON.parse(fs.readFileSync(input,'utf8')));
   console.log(JSON.stringify({project:result.project,width:result.width,height:result.height,duration:result.duration,audioClips:result.audio.clips.length}));

@@ -60,7 +60,7 @@ import('./assets/pk/runtime.mjs').then(({mount})=>mount(root,${json(s)},variable
   fs.writeFileSync(path.join(dest,'component-project.json'),JSON.stringify({schemaVersion:1,aspect,width,height,duration:cursor,scenes:scenes.map(({norms,...s})=>s)},null,2));
   return {project:dest,width,height,duration:cursor,scenes};
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+if(process.argv[1]&&fs.realpathSync(process.argv[1])===fileURLToPath(import.meta.url)){
   const [input,dest]=process.argv.slice(2);if(!input||!dest)throw new Error('Usage: node build.mjs spec.json output-directory');
   const result=buildProject(dest,JSON.parse(fs.readFileSync(input,'utf8')));console.log(JSON.stringify({project:result.project,width:result.width,height:result.height,duration:result.duration}));
 }

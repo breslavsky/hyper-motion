@@ -147,7 +147,7 @@ export function auditDirectory(directory) {
   return summaries;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     if (!process.argv[2]) throw new Error('Usage: node audit.mjs <native-results-directory>');
     const summaries = auditDirectory(path.resolve(process.argv[2]));

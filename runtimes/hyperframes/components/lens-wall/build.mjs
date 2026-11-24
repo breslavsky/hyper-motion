@@ -124,7 +124,7 @@ setup.catch(error=>{console.error('Lens Wall failed:',error);});})();</script>
   };
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const file = process.argv[2];
   if (!file) { process.stderr.write('usage: node build.mjs <recipe.json | ->\n'); process.exit(2); }
   let recipe;

@@ -26,7 +26,7 @@ html,body{margin:0;width:${config.width}px;height:${config.height}px;overflow:hi
   fs.writeFileSync(path.join(dest, 'component-project.json'), JSON.stringify(result, null, 2) + '\n');
   return result;
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2), destination = args[args.indexOf('--out') + 1];
   if (!args.includes('--out') || !destination) throw new Error('Usage: node build.mjs --out /empty/directory [--config recipe.mjs|recipe.json]');
   let config = recipe;

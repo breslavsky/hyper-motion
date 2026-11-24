@@ -139,7 +139,7 @@ ${hosts}
   return {project:out,...receipt};
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [destination, specPath] = process.argv.slice(2);
   if (!destination) throw new Error('Usage: node build.mjs <fresh-output-directory> [spec.json]');
   const result = buildProject(destination,specPath ? JSON.parse(fs.readFileSync(specPath,'utf8')) : {});

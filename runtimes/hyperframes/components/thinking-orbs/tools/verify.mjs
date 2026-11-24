@@ -230,7 +230,7 @@ export async function verifyProject(projectDirectory, outputDirectory) {
   return result;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [project, output] = process.argv.slice(2);
   if (!project || !output) throw new Error('Usage: node tools/verify.mjs <project-directory> <output-directory>');
   const result = await verifyProject(project, output);

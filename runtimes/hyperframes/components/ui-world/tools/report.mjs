@@ -128,7 +128,7 @@ window.__gallery = {media:media,get synchronized(){return synchronized;},get rea
   return { gallery: path.join(output, 'gallery.html'), media };
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   if (!process.argv[2]) throw new Error('Usage: node report.mjs <render-output-directory>');
   console.log(JSON.stringify(buildGallery(process.argv[2])));
 }
