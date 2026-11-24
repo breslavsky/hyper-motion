@@ -789,7 +789,8 @@ async function runCase(type, aspect, variant) {
       assert.ok(textGap > 0, 'The query must have its own space before the action button');
       row.collapse = await checkSearchCollapse(session.page);
     }
-    if (!variant && aspect === '9:16' && glassFamily.includes(type)) {
+    // A button is a pill as wide as its icon and word, not a sheet of the panel's width.
+    if (!variant && aspect === '9:16' && glassFamily.includes(type) && type !== 'glass-like') {
       row.gutters = await portraitGlassGutters(session.page, type);
       for (const {fraction, layout, left, right} of row.gutters) {
         // The DOM grid, both sheets of the transition and the lens text column
@@ -1227,6 +1228,7 @@ async function glassControlsAndCleanup() {
           : type === 'send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
           : type === 'glass-steps' ? {title: 'Three steps', items: ['Shoot it', 'Cut it', 'Share it'], camera: 'static'}
           : type === 'glass-checklist' ? {title: 'Ready to post', items: ['Shot', 'Cut', 'Captioned'], camera: 'static'}
+          : type === 'glass-like' ? {text: 'Follow', after: 'Following', icon: 'heart'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');

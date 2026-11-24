@@ -11,6 +11,10 @@ export function islandIconName(value){
 export function islandIconSource(name){
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(symbols[name])}`;
 }
+// The same artwork with its outline filled in: the pressed state of a button's icon.
+export function islandIconFilledSource(name){
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(symbols[name].replace('fill="none"','fill="currentColor"'))}`;
+}
 
 export function createIslandIcon(K,parent,value,size){
   const name=islandIconName(value);

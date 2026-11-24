@@ -15,7 +15,9 @@
     "heart": "icons/heart.svg",
     "bell": "icons/bell.svg",
     "sparkles": "icons/sparkles.svg",
-    "arrow-right": "icons/arrow-right.svg"
+    "arrow-right": "icons/arrow-right.svg",
+    "like": "icons/thumbs-up.svg",
+    "save": "icons/bookmark.svg"
   },
   "sha256": {
     "LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
@@ -28,6 +30,8 @@
     "icons/heart.svg": "bafdc578da3dd5546cf1e9564b7e9af24f0b71b09f298602eda7f42345644af0",
     "icons/bell.svg": "75670d30118ce3c5eec96c11bbc65f07ad7ece78f3cf32f5f1def7878fec8176",
     "icons/sparkles.svg": "ec56e82a61174d92e35550428a041d070332bc56951f1cdbb317820fbe14a9f5",
-    "icons/arrow-right.svg": "272e765d0a808baebab26231a53cb1ffd7a46627bf14244a852bc1dddb8dc69f"
+    "icons/arrow-right.svg": "272e765d0a808baebab26231a53cb1ffd7a46627bf14244a852bc1dddb8dc69f",
+    "icons/thumbs-up.svg": "818ad1167be8b94f12e929ad9541fe1571bed91ca90c9876ca0b633c580bddcd",
+    "icons/bookmark.svg": "9242b2c2a7cfdee03d4e3d7cfcf5a9b9c734e1ec9f6ad4576673df20662d4338"
   }
 }

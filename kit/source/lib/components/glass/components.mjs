@@ -1,6 +1,6 @@
 import metadata from '../metadata.mjs';
 import {timedGlassFactories} from '../timing.mjs';
-import {createIslandIcon,islandIconSource} from '../island-icon.mjs';
+import {createIslandIcon,islandIconSource,islandIconFilledSource} from '../island-icon.mjs';
 import {createTyping} from '../typing.mjs';
 import {clamp,phase,smooth,smoother,mix,outBack} from './world.mjs';
 import {enumValue,cameraMode as cameraOf,makeWorld,panelWidth,cardSurface,cardHeading,finishCard,cardCopy,updateCard,REST_TILT,fitToFrame,
@@ -783,4 +783,122 @@ function glassChecklist(args){
   };
 }
 
-export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist});
+// The colour a pressed icon takes when the film has no accent of its own.
+const LIKE_TINT=Object.freeze({like:'#4a9dff',heart:'#ff4d6d',star:'#ffc93c',bell:'#ffc93c',save:'#4a9dff',plus:'#08cd08',check:'#08cd08'});
+
+// A glass button somebody presses: a pill grows out of a round seed with an
+// icon and a word, a pointer comes up to the icon and clicks, the icon fills
+// with colour and the word changes ("Like" to "Liked"). After the look of
+// "Liquid Glass Like Button" (SOURCE.json); the pill is the design system's
+// field, the icon the grid's, the word a title.
+function glassLike(args){
+  const {K,p,fg,accent}=args,{el,set,px,design}=K,s=p.scene;
+  const cameraMode=cameraOf(s,'glass-like','static');
+  const exit=enumValue(s.exit,['hold','collapse'],'hold','glass-like.exit');
+  const iconName=enumValue(s.icon,Object.keys(LIKE_TINT),'like','glass-like.icon');
+  const {host,world}=makeWorld(args,'glass-like');
+  const G=glassGrid(K),before=s.text,after=s.after??s.text;
+  const field=el('div','pk-glass-like',host);
+  field.dataset.glassCopy=[...new Set([before,after])].join('\n');
+  const recipe=design.surface(field,'field',{shape:'pill',density:'comfortable'});
+  set(field,{position:'absolute',left:'0',top:'0',display:'flex',alignItems:'center',color:fg,whiteSpace:'nowrap'});
+  field.setAttribute('role','button');
+  // The two words stand in one place, as wide as the wider of them, so the
+  // pill keeps its size when the word changes. Both are set in one step of
+  // their role, the largest at which the pill is no wider than the safe area.
+  const words=el('div','pk-glass-like-words',field);
+  set(words,{position:'relative',flex:'none'});
+  const word=text=>el('div','pk-glass-like-label',words,text);
+  const off=word(before),on=word(after),role=G.type.action.role;
+  const room=K.safe.w*.9-2*recipe.paddingX-recipe.gap;
+  let type=design.type(role,design.steps(role).at(-1).step);
+  for(const step of design.steps(role)){
+    for(const node of [off,on]){design.apply(node,role,{step:step.step});set(node,{position:'absolute',left:'0',top:'0',whiteSpace:'nowrap'});}
+    type=step;
+    if(Math.max(off.offsetWidth,on.offsetWidth)+step.size<=room)break;
+  }
+  const height=type.lineHeight+2*recipe.paddingY,iconSize=type.size;
+  set(field,{height:px(height)});
+  // The icon twice, one over the other: its outline in the text's ink, and
+  // filled in with colour for when it is pressed. Both are alpha masks.
+  const icon=el('div','pk-glass-like-icon',field);
+  field.insertBefore(icon,words);
+  set(icon,{position:'relative',flex:'none',width:px(iconSize),height:px(iconSize)});
+  const layer=(name,source,color,fill)=>{
+    const badge=el('div',name,icon);badge.setAttribute('aria-hidden','true');
+    badge.dataset.icon=iconName;if(fill)badge.dataset.iconFill='true';
+    set(badge,{position:'absolute',inset:'0',color});
+    set(el('span','',badge),{display:'block',width:'100%',height:'100%',backgroundColor:'currentColor',maskImage:`url("${source}")`,maskMode:'alpha',maskSize:'100% 100%',maskRepeat:'no-repeat'});
+    return badge;
+  };
+  const tinted=K.plan.brand?.tokens?.accent!==undefined||K.plan.brand?.colors?.length||p.explicitAccent;
+  const outline=layer('pk-glass-like-outline',islandIconSource(iconName),'inherit',false);
+  const filled=layer('pk-glass-like-filled',islandIconFilledSource(iconName),tinted?accent:LIKE_TINT[iconName],true);
+  const wordW=Math.ceil(Math.max(off.offsetWidth,on.offsetWidth));
+  set(words,{width:px(wordW),height:px(type.lineHeight)});
+  const width=2*recipe.paddingX+iconSize+recipe.gap+wordW;
+  set(field,{width:px(width)});
+  // A pill wider than the frame's safe width is scaled as a whole.
+  const scale=Math.min(1,K.safe.w*.9/width);
+  // Measured before the pill is projected into 3D: the click sends a ripple
+  // through the glass that carries a picture of the icon and the word.
+  const letters=createLettering(K,field);
+  const inkOutline=letters.icon(outline),inkFilled=letters.icon(filled),inkOff=letters.text(off),inkOn=letters.text(on);
+  letters.measure();
+  const card=world.addCard({width,height,element:field,backdropOnly:true,fixedOptics:true});
+  const {pointer,cursor}=pointerOf(K,field,'pk-glass-like-pointer',iconSize,2);
+  const at=middleOf(icon),T=G.time;
+  const state={liked:0,pop:1,shown:1};
+  function ink(ctx){
+    if(!(state.shown>0))return;
+    inkOutline(ctx,state.shown*(1-state.liked));
+    // The filled icon pops about its own middle.
+    ctx.save();ctx.translate(at.x,at.y);ctx.scale(state.pop,state.pop);ctx.translate(-at.x,-at.y);inkFilled(ctx,state.shown*state.liked);ctx.restore();
+    ctx.save();ctx.translate(0,-G.move.settle*state.liked);inkOff(ctx,state.shown*(1-state.liked));ctx.restore();
+    ctx.save();ctx.translate(0,G.move.settle*(1-state.liked));inkOn(ctx,state.shown*state.liked);ctx.restore();
+  }
+  // Traced glass ripples itself; a polygon pill (smoked glass, metal) gets the wave laid over it.
+  const clickBox={x:at.x-iconSize/2,y:at.y-iconSize/2,w:iconSize,h:iconSize};
+  const ripple=card.slab?world.addRipple(card,{ink}):null;
+  const drawWave=ripple?null:world.addSendWave(card,{ink,source:clickBox,tune:lightClickWave});
+  world.prepare();
+  return (time,duration=p.dur,backdropTime=time)=>{
+    const live=metadata['glass-like'].anchors(s,duration);
+    const n=clamp(time/duration),enter=phase(time,live.open,live.open+T.open);
+    const close=exit==='collapse'?smoother(phase(time,live.collapse,duration*.98)):0;
+    // It grows from a round seed to its width and folds back into one.
+    const w=mix(height,width,Math.min(1.04,outBack(enter))*(1-smoother(phase(close,0,.7))));
+    card.geometry.update(w*world.U,height*world.U,height*world.U/2,.24*K.S,.05*K.S);
+    const press=Math.sin(Math.PI*phase(time,live.click,live.click+.22));
+    card.group.scale.setScalar(Math.max(1e-4,scale*smooth(phase(time,live.open,live.open+.14))*(1-.04*press)*(1-smooth(phase(close,.6,1)))));
+    card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
+    const shown=smooth(phase(time,live.open+.16,live.open+T.open))*(1-smooth(phase(close,0,.35)));
+    card.opacity=shown;
+    set(field,{clipPath:w<width?`inset(0 ${px((width-w)/2)} round ${px(height/2)})`:'none'});
+    const liked=smooth(phase(time,live.click,live.click+.16)),pop=.6+.4*outBack(phase(time,live.click,live.click+T.pop));
+    Object.assign(state,{liked,pop,shown});
+    // One ring leaves the click and runs the pill: for RIPPLE seconds, or for
+    // less in a scene that ends or folds sooner.
+    const until=exit==='collapse'?live.collapse:duration;
+    const wave=phase(time-live.click,0,Math.max(RIPPLE_SHORTEST,Math.min(RIPPLE,until-live.click)));
+    if(ripple){
+      const ring=clickRing(wave,width,height*.2);
+      // While the glass carries the picture, the page's own copy is unseen.
+      const unseen=ripple(ring&&{x:at.x,y:at.y,...ring})?'opacity(0)':'none';
+      icon.style.filter=unseen;words.style.filter=unseen;
+    }else drawWave(wave,clickBox);
+    set(outline,{opacity:(1-liked).toFixed(4)});
+    set(filled,{opacity:liked.toFixed(4),transform:`scale(${pop.toFixed(4)})`});
+    set(off,{opacity:(1-liked).toFixed(4),transform:`translateY(${px(-G.move.settle*liked)})`});
+    set(on,{opacity:liked.toFixed(4),transform:`translateY(${px(G.move.settle*(1-liked))})`});
+    field.setAttribute('aria-pressed',String(time>=live.click));
+    // The pointer comes up from under the pill, clicks the icon and goes.
+    const coming={fx:at.x+iconSize*2,fy:height*2.6,x:at.x,y:at.y,start:live.reach,arrive:live.click-.1,click:live.click};
+    const going={fx:at.x,fy:at.y,x:at.x+iconSize*2.4,y:height*2.8,start:live.click+.34,arrive:live.click+.9,click:Infinity};
+    cursor(time,time>=going.start?going:coming);
+    pointer.style.opacity=String(shown*(1-smooth(phase(time,live.click+.55,live.click+.9))));
+    orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
+  };
+}
+
+export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike});

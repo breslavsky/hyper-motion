@@ -35,6 +35,8 @@ export const GLASS_TYPE = Object.freeze({
   body: Object.freeze({role: 'body', lines: 5}),
   item: Object.freeze({role: 'body', lines: 3}),
   label: Object.freeze({role: 'body', lines: 2}),
+  // The one word of a button that is the whole scene.
+  action: Object.freeze({role: 'sceneTitle', lines: 1}),
   // A mark's figure is a title at its smallest step: five eighths of the mark.
   mark: Object.freeze({role: 'cardTitle', lines: 1, step: 'smallest'}),
 });

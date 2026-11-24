@@ -5,7 +5,7 @@
 // card's own logical pixels, at the place and in the ink the page gives it.
 // What stands still is measured once, before the card is projected into 3D;
 // typed glyphs are placed by the page's layout each time they are drawn.
-import {islandIconSource} from '../island-icon.mjs';
+import {islandIconSource,islandIconFilledSource} from '../island-icon.mjs';
 import {fontOf,svgPicture} from './scene-parts.mjs';
 
 export function createLettering(K,root){
@@ -115,10 +115,11 @@ export function createLettering(K,root){
     };
   }
 
-  // An icon of the island set, in the ink of the text beside it.
+  // An icon of the island set, in the ink of the text beside it; filled in
+  // when the badge says so (`data-icon-fill`), in the badge's own colour.
   function icon(badge){
     const image=new view.Image(),art=badge.firstElementChild;
-    image.src=islandIconSource(badge.dataset.icon);K.defer(image.decode());
+    image.src=(badge.dataset.iconFill?islandIconFilledSource:islandIconSource)(badge.dataset.icon);K.defer(image.decode());
     let place=null,tinted=null;
     measures.push(()=>{place=local(art.getBoundingClientRect());});
     return (ctx,alpha=1)=>{

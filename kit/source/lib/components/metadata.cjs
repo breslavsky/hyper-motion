@@ -330,6 +330,49 @@ validate(s){
       else if(done===s.items.length)cue(marks.ticks.at(-1)+.3,"chime",.6);
     }
 }),
+"glass-like":glassComponent({
+// A glass button somebody presses: Like to Liked (glass/components.mjs).
+anchors(s,len){
+  const open=.05,reach=Math.min(.7,len*.2);
+  // The pointer needs half a second to come up; the click is before the scene's middle.
+  const click=Math.max(reach+.5,Math.min(len*.45,1.7));
+  const collapse=Math.min(len*.95,Math.max(click+1,len*.84));
+  return {open,reach,click,collapse};
+},
+// The pressed button is seen for eight tenths of a second before the scene
+// ends (or the pill folds). In beats at 120 bpm.
+needs(s){
+  const folds=(s.exit??'hold')==='collapse';
+  for(let beats=3;beats<=16;beats++){
+    const len=beats*.5,marks=this.anchors(s,len);
+    if(marks.click+.8<=(folds?marks.collapse:len))return beats;
+  }
+  return 16;
+},
+validate(s){
+  const needs=this.needs(s);
+  return Number.isFinite(s.beats)&&s.beats<needs?[`beats: the button needs at least ${needs} beats to be pressed and seen`]:[];
+},
+"signature":true,
+"copyFields":["text","after"],
+"fields":{
+  "text":{"kind":"string","min":1,"max":12},
+  "after":{"kind":"string","min":1,"max":12,"optional":true},
+  "icon":{"kind":"enum","values":["like","heart","star","bell","save","plus","check"],"optional":true},
+  "camera":{"kind":"enum","values":["static","orbit"],"optional":true},
+  "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
+},
+"previewVariants":["icon","exit"],
+"guide":"glass-like {text, after?, icon?, camera?, exit?, background?}: an optical glass button is pressed: a pill grows out of a round seed with an icon and a word, a pointer comes up and clicks the icon, the icon fills with colour and the word changes (\"Like\" to \"Liked\"). text = the word before the click and after = the word after it (default: the same word), each up to 12 characters: \"Like\"/\"Liked\", \"Follow\"/\"Following\", \"Subscribe\"/\"Subscribed\", \"Save\"/\"Saved\". icon = like (default: a thumb), heart, star, bell, save (a bookmark), plus or check; pressed, it takes the brand's accent, or its own colour without one. camera = static (default) or orbit. exit = hold (default) or collapse (the pill folds back into its seed and goes). Over a video of the user's it is the call to like, follow or subscribe laid on the footage: say where it stands with place and size. 4-8 beats.",
+"sample":{"type":"glass-like","beats":6,"text":"Like","after":"Liked","icon":"like","camera":"static","exit":"hold"},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len);
+      cue(marks.open,"pop",.8);
+      cue(marks.click,"click",.9);
+      cue(marks.click+.14,"chime",.55);
+      if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+    }
+}),
 "widgets":glassComponent({
 placed:false,
 anchors(s,len){

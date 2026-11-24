@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `send-prompt`, `search` and `lens`.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `send-prompt`, `search` and `lens`.
 Catalog membership in the broader `glass` family also covers DOM scenes such as
 `widgets` and `sheet`. Apply these rules to the optical group.
 
@@ -329,7 +329,7 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`. The others have
+`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`. The others have
 neither (`placed:false` in their metadata), each for its reason: `widgets`
 and `sheet` are laid out by the page; in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
@@ -699,6 +699,23 @@ most; in a small panel four items of 28 characters and a title of 24 do. An
 item is seven words at most. The scene needs its last tick and six tenths of
 a second after it, and a film that gives it fewer beats is refused
 (`tools/glass-checklist.test.mjs`).
+
+## Glass like
+
+`glass-like` (`glass/components.mjs`) is a button somebody presses: a glass
+pill grows out of a round seed with an icon and a word, a pointer comes up
+and clicks the icon, a ripple runs the pill from the click as in `search`,
+the icon fills with colour and the word changes ("Like" to "Liked",
+"Follow" to "Following"). The pill is the design system's field in its pill
+shape, the word a scene title (the grid's `action`), the icon the word's
+size; the two words stand in one place as wide as the wider, so the pill
+keeps its size when the word changes. A word is twelve characters at most
+and is set a step smaller only when the pill would be wider than the safe
+area. Icons: `like`, `heart`, `star`, `bell`, `save`, `plus`, `check`, from
+the vendored Lucide set, outlined before the click and filled after, in the
+brand's accent or a colour of the icon's own. With `exit: collapse` the pill
+folds back into its seed. Over footage it is the call to like, follow or
+subscribe, placed by `place` and `size` (`tools/glass-like.test.mjs`).
 
 ## Comic
 

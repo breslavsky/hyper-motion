@@ -1602,6 +1602,21 @@
         ],
         "reason": "An item is read whole, word by word: each phrase is fitted to its row beside its box on the projected surface in every look."
       }
+    },
+    {
+      "type": "glass-like",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text one word of a button, never cut",
+          "after one word of a button, never cut"
+        ],
+        "reason": "A button's word is twelve characters at most and is set a step smaller before the pill would leave the safe area; it is never shortened."
+      }
     }
   ]
 }
