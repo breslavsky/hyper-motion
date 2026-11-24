@@ -635,7 +635,7 @@ function glassSteps(args){
       set(item,{display:'flex',flexDirection:rows?'row':'column',alignItems:rows?'flex-start':'center',gap:px(rows?gaps.lead:gaps.stack),flex:rows?'none':'1',minWidth:'0'});
       const mark=el('div','pk-glass-step-number',item,String(i+1));
       K.design.apply(mark,G.type.mark.role,{step:G.type.mark.step});
-      set(mark,{flex:'none',width:px(G.mark.size),height:px(G.mark.size),display:'grid',placeItems:'center',lineHeight:'1',
+      set(mark,{flex:'none',width:px(G.mark.size),height:px(G.mark.size),display:'grid',placeItems:'center',
         borderRadius:px(G.mark.radius),boxShadow:`inset 0 0 0 ${px(G.mark.stroke)} currentColor`,opacity:'0'});
       const line=el('div','pk-glass-step-text',item,text);
       set(line,{textAlign:rows?'left':'center',minWidth:'0',opacity:'0'});
@@ -652,7 +652,7 @@ function glassSteps(args){
     }
     if(rows)for(const step of steps)set(step.line,{paddingTop:px(G.firstLine(fitted.lineHeight))});
     // The title stands a section's gap above the steps, centred over columns.
-    set(surface,{gap:px(gaps.section)});
+    K.design.surfaceGap(surface,gaps.sectionStep);
     if(heading)set(heading,{textAlign:rows?'left':'center'});
     return {rows,steps,list,height:surface.offsetHeight};
   };
@@ -738,7 +738,7 @@ function glassChecklist(args){
     try{fitted=K.design.fitGroup(lines,{role,w:beside,h:G.type.item.height,wrap:'anywhere'});}
     catch{fitted=smallestStep(K,lines,role,beside);}
     for(const row of rows)set(row.line,{paddingTop:px(G.firstLine(fitted.lineHeight))});
-    set(surface,{gap:px(gaps.section)});
+    K.design.surfaceGap(surface,gaps.sectionStep);
     return {rows,list,height:surface.offsetHeight};
   };
   // Airy when the panel has room at its own size; dense when the airy one

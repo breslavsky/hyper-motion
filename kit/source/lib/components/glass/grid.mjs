@@ -75,6 +75,12 @@ export function glassPlacement(K, {place = 'middle', size = 'normal'} = {}, box)
 // A frame wide enough for columns; a square or tall one stacks its parts.
 export const glassWide = K => K.W >= K.H * 1.2;
 
+// The step of the design system's space ladder that measures `value` pixels.
+function spaceStep(D, value) {
+  for (let step = 1; step <= 9; step++) if (Math.abs(D.space(step) - value) < .01) return step;
+  throw new Error(`A Glass gap of ${value}px is no step of the space ladder`);
+}
+
 export function glassGrid(K) {
   const D = K.design, unit = D.unit, card = D.box('card');
   const scaled = values => Object.freeze(Object.fromEntries(Object.entries(values).map(([key, value]) => [key, value * unit])));
@@ -103,7 +109,13 @@ export function glassGrid(K) {
     firstLine: (lineHeight, lead = GLASS_UNITS.mark.size * unit) => Math.max(0, (lead - lineHeight) / 2),
     // The gaps of a density, by what they separate: a title and its body,
     // rows, a row's lead and its text, columns, a column's lead and its text.
-    density: name => Object.freeze(Object.fromEntries(Object.entries(GLASS_DENSITY[name]).map(([part, token]) => [part, GLASS_UNITS.gap[token] * unit]))),
+    density: name => Object.freeze({
+      ...Object.fromEntries(Object.entries(GLASS_DENSITY[name]).map(([part, token]) => [part, GLASS_UNITS.gap[token] * unit])),
+      // The step of the space ladder that is the gap between the panel's
+      // blocks: a panel declares it (design.surfaceGap) and never writes a
+      // bare gap, so the design audit knows the panel's own gap from a drift.
+      sectionStep: spaceStep(D, GLASS_UNITS.gap[GLASS_DENSITY[name].section] * unit),
+    }),
     type, time: GLASS_TIME,
   });
 }
