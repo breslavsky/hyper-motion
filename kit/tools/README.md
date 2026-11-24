@@ -2,9 +2,10 @@
 
 Only `source/` is the renderable template. Its `lib/compiler/` compiles recipe
 data and `lib/components/` contains native HyperFrames components. There is no
-whole-film engine in the shipped source. Some development tools retain their
-`migration-*` names because they first verified that boundary; they still test
-the current components and are not a second playback path.
+whole-film engine in the shipped source. The `native-*` tools draw films through
+the pinned HyperFrames itself (they were named `migration-*` while the old
+engine was being replaced); they test the current components and are not a
+second playback path.
 
 ## Current maintenance
 
@@ -14,9 +15,9 @@ scope; a later source edit does not make their results current again.
 
 - `checks.py` checks a saved project's recipe, compiled page and soundtrack.
   Its older-page branches preserve saved-project compatibility.
-- `audit.mjs`, `sheet.mjs` and the native probes use `migration-browser.mjs`
+- `audit.mjs`, `sheet.mjs` and the native probes use `native-browser.mjs`
   to compile and seek the pinned native HyperFrames project. See
-  `migration-README.md` for commands and receipt policy.
+  `native-README.md` for commands and receipt policy.
 - `technique.py` searches the public technique library, creates native stubs
   and records accepted provenance. Downloaded examples in `techniques/` are
   ignored research inputs, not source files to ship.
@@ -45,7 +46,7 @@ scope; a later source edit does not make their results current again.
   browser ESM counterparts of canonical CJS data/functions. The Node compiler
   and browser need different module formats; these checked pairs are not
   duplicate independently maintained implementations. Catalogue JSON/ESM
-  equality is also checked by `migration-components.test.mjs`.
+  equality is also checked by `native-components.test.mjs`.
 - `quality-layout.mjs` measures actual post-transform glyph ranges, readable
   font size, clipping, safe areas and persistent overlap. `quality-cards.mjs`
   covers repeated card/endcard instances, native fonts, sound and reverse seeks.
@@ -57,8 +58,8 @@ scope; a later source edit does not make their results current again.
   `quality-on-accent.mjs` checks contrasting logo/button ink and moving shine;
   `quality-sky-contrast.mjs` checks implicit sky ink and explicit/native overrides.
 - `brand-tokens.test.mjs` covers exact semantic brand colours;
-  `migration-brand-tokens.mjs` verifies them in native hosts after variable edits.
-  `migration-code-pages.mjs` checks readable code pages, preservation of every
+  `native-brand-tokens.mjs` verifies them in native hosts after variable edits.
+  `native-code-pages.mjs` checks readable code pages, preservation of every
   supplied line and deterministic reverse seeks across all three formats.
 - `sequence-probe.mjs` checks the separate Document Flow production with three
   brands, normal/long copy and three formats. `sequence-variables.mjs` checks
@@ -146,7 +147,7 @@ Native browser hosting and seeking deliberately depend on private HyperFrames
 0.9.19 chunks through `native-hyperframes-adapter.mjs`. Its contract tests reject
 unsupported versions, missing/ambiguous chunks and changed callable exports with
 an actionable error. This is a pinned QA boundary, not a public vendor API or
-production dependency; see [the compatibility policy](migration-README.md).
+production dependency; see [the compatibility policy](native-README.md).
 The sequence probes share that adapter. The two contrast probes also use the
 pinned vendor's browser audit asset; vendor-private QA coupling remains explicit.
 Restore missing dependencies from the template directory with
@@ -182,7 +183,7 @@ changes, then regenerate the guide and run affected checks. A failed extraction
 can leave an incomplete review directory; inspect or remove that directory
 before choosing a fresh destination.
 
-`migration-components.mjs` is the one-time mechanical converter. Its explicit
+`native-components.mjs` is the one-time mechanical converter. Its explicit
 frozen input and fresh output safeguards remain; maintained native factories
 must be edited directly. It is retained to reproduce the migration method,
 not run as a template update command.

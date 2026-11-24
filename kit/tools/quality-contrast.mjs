@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 import {maximumScene} from './quality-layout.mjs';
 const args=process.argv.slice(2),option=(key,fallback)=>args.includes('--'+key)?args[args.indexOf('--'+key)+1]:fallback;
 const out=path.resolve(option('out','/tmp/pk-quality-contrast'));fs.mkdirSync(out,{recursive:true});

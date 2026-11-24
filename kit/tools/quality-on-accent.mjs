@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {createNativeBrowser,sourceHashes,sharp,SOURCE,TEMPLATE} from './migration-browser.mjs';
+import {createNativeBrowser,sourceHashes,sharp,SOURCE,TEMPLATE} from './native-browser.mjs';
 const args=process.argv.slice(2),option=(key,fallback)=>args.includes('--'+key)?args[args.indexOf('--'+key)+1]:fallback;
 const original=option('source',undefined),source=path.resolve(original??SOURCE),out=path.resolve(option('out','/tmp/pk-native-on-accent'));
 fs.mkdirSync(out,{recursive:true});

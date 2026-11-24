@@ -1,7 +1,7 @@
 # Native quality probes
 
 Run these from the template directory. They use the pinned HyperFrames 0.9.19
-renderer through `migration-browser.mjs`, copy source before a run, and block
+renderer through `native-browser.mjs`, copy source before a run, and block
 external requests. Every report includes the tested source hashes. Reports
 retain failures and exact inputs; screenshots are diagnostics, not golden images.
 

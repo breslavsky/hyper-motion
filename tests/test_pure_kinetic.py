@@ -643,7 +643,7 @@ def test_node_component_contracts(tmp_path):
 @AUDIT
 def test_native_clocks_reverse_seek_and_repeated_component_instances(tmp_path):
     run = subprocess.run([
-        "node", str(TEMPLATE / "tools" / "migration-accept.mjs"), "--scenes", "title,stat,phone3d",
+        "node", str(TEMPLATE / "tools" / "native-accept.mjs"), "--scenes", "title,stat,phone3d",
         "--aspects", "9:16,16:9,1:1", "--out", str(tmp_path / "native"),
     ], capture_output=True, text=True, timeout=300)
     assert run.returncode == 0, run.stdout[-3000:] + run.stderr[-1000:]
@@ -658,7 +658,7 @@ def test_community_components_reuse_native_definitions_with_private_brand_and_cl
 
 
 @AUDIT
-@pytest.mark.parametrize("script", ["migration-brand-tokens.mjs", "migration-code-pages.mjs", "community-scan-native.mjs", "community-shapes-native.mjs"])
+@pytest.mark.parametrize("script", ["native-brand-tokens.mjs", "native-code-pages.mjs", "community-scan-native.mjs", "community-shapes-native.mjs"])
 def test_native_brand_edits_code_pages_and_optional_scan_copy(tmp_path, script):
     out = artifact_directory(tmp_path, script.removesuffix(".mjs"))
     run = native_audit_run([

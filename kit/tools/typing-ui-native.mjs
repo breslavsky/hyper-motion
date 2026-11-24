@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,sourceHashes,SOURCE} from './migration-browser.mjs';
+import {createNativeBrowser,sourceHashes,SOURCE} from './native-browser.mjs';
 import {maximumScene} from './quality-layout.mjs';
 import metadata from '../source/lib/components/metadata.mjs';
 import {hash,clamp} from '../source/lib/components/maths.mjs';

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,sharp,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,sourceHashes} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings} from './quality-layout.mjs';
 import {ORB_STATES} from '../source/lib/components/thinking-orbs/orb.mjs';
 

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,sharp,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,sourceHashes} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings} from './quality-layout.mjs';
 import {cases as registryCases,measureTextOcclusion} from './registry-native.mjs';
 

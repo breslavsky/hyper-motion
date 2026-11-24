@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import definitions from '../source/lib/components/metadata.mjs';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 
 const out=process.argv.includes('--out')?path.resolve(process.argv[process.argv.indexOf('--out')+1]):null;
 if(out)fs.mkdirSync(out,{recursive:true});

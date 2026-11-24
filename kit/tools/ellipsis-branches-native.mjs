@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {run as runCatalog} from './ellipsis-catalog-native.mjs';
 import {run as runGeometry} from './catalog-design-native.mjs';
 import {maximumScene} from './quality-layout.mjs';
-import {SOURCE,sourceHashes} from './migration-browser.mjs';
+import {SOURCE,sourceHashes} from './native-browser.mjs';
 
 export function branchFixtures(){
   const chart=maximumScene('chart'),story=maximumScene('chart-story');

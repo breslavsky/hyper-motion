@@ -4,12 +4,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {sourceHashes} from './migration-browser.mjs';
+import {sourceHashes} from './native-browser.mjs';
 const args=process.argv.slice(2),outAt=args.indexOf('--out');
 const output=outAt<0?'/tmp/pk-native-coverage.json':args[outAt+1];
 if(outAt>=0)args.splice(outAt,2);
 if(!args.length)throw new Error('Supply acceptance report paths in chronological supersession order');
-const expected=JSON.parse(execFileSync(process.execPath,[path.join(path.dirname(fileURLToPath(import.meta.url)),'migration-accept.mjs'),'--extended','--list'],{encoding:'utf8'}));
+const expected=JSON.parse(execFileSync(process.execPath,[path.join(path.dirname(fileURLToPath(import.meta.url)),'native-accept.mjs'),'--extended','--list'],{encoding:'utf8'}));
 const cases=new Map(),reports=[],current=sourceHashes();
 for(const input of args){
   const file=path.resolve(input),report=JSON.parse(fs.readFileSync(file,'utf8'));

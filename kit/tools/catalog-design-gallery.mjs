@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {sharp} from './migration-browser.mjs';
+import {sharp} from './native-browser.mjs';
 
 const [beforeDir,afterDir,output]=process.argv.slice(2,5).map(p=>path.resolve(p));
 if(!output)throw new Error('Expected before, after and output directories');

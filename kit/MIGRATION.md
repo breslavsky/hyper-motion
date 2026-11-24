@@ -150,9 +150,9 @@ Reproduction commands (from the repository root):
 
 ```sh
 node kit/tools/kinetic/plans.test.js
-node --test kit/tools/migration-*.test.mjs
+node --test kit/tools/native-*.test.mjs
 node kit/tools/audit.mjs --looks editorial --aspects 9:16,16:9,1:1 --known --twice
-node kit/tools/migration-accept.mjs --extended --reference /path/to/frozen/source --out /tmp/pk-native-acceptance
+node kit/tools/native-accept.mjs --extended --reference /path/to/frozen/source --out /tmp/pk-native-acceptance
 PURE_KINETIC_TESTS=1 PURE_KINETIC_QUICK=1 .venv/bin/pytest -q
 .venv/bin/ruff check .
 ```
@@ -161,7 +161,7 @@ Browser acceptance runs separately from the full Python suite to avoid running
 the same expensive catalogue audit twice. Receipts identify the source hashes
 actually tested; a changed runtime requires a corresponding follow-up check.
 
-The recorded migration result is [tools/migration-acceptance.json](tools/migration-acceptance.json):
+The recorded migration result is [tools/native-acceptance.json](tools/native-acceptance.json):
 402/402 cases pass, including all 95 types in all three formats, 43 looks and
 18 transitions. It retains the frozen baseline revision, source hashes and
 explicit focused-check supersession. The independent full-length fit audit

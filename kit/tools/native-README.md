@@ -1,6 +1,6 @@
 # Native HyperFrames acceptance
 
-`audit.mjs`, `sheet.mjs`, and `migration-accept.mjs` compile and seek the actual pinned HyperFrames 0.9.19 project. They do not call the former Pure Kinetic frame player. The shared browser adapter copies the source before testing, builds native composition hosts, waits for readiness, and blocks external asset requests.
+`audit.mjs`, `sheet.mjs`, and `native-accept.mjs` compile and seek the actual pinned HyperFrames 0.9.19 project. They do not call the former Pure Kinetic frame player. The shared browser adapter copies the source before testing, builds native composition hosts, waits for readiness, and blocks external asset requests.
 
 For current component maintenance, start with [the maintained test entrypoints](README.md#maintained-test-entrypoints). This page also retains the original migration/reference workflow; reproducing that historical comparison requires its frozen source.
 
@@ -11,12 +11,12 @@ The same adapter serves `sequence-probe.mjs`, `sequence-variables.mjs` and `sequ
 ```sh
 node tools/audit.mjs --looks editorial --aspects 9:16,16:9,1:1 --known --twice --json /tmp/pk-audit.json
 node tools/audit.mjs --long --known --scenes title,typewriter,stack,steps,agent,orb,dial,controls,phone3d --looks editorial --aspects 9:16,16:9,1:1 --font 'Geist Mono' --json /tmp/pk-font-audit.json
-node tools/migration-accept.mjs --extended --reference /path/to/frozen/source --out /tmp/pk-accept
+node tools/native-accept.mjs --extended --reference /path/to/frozen/source --out /tmp/pk-accept
 ```
 
 The picture audit retains its existing safe-area, clipping, minimum-size, overlap, foreign-content, early-text, and known-debt checks. `--font` supplies a central bundled brand font. Its JSON faults and `.sources.json` receipt are written even with `--known`.
 
-The current extended acceptance matrix includes 105 component types in three formats; explicit toggle, chart, fullbleed, stat, and all nine morph states; 43 looks; 18 transitions; six real supplied-image branches; four halftone variants; four explicit dial schedules; and three repeated-definition films. It checks native instance clocks, absence of legacy playback globals, private SVG IDs, independent child timelines, hidden-future fitting, decoded image assets, and visible ui-float image pixels. A dial's visible target value and arrival sound must coincide with the requested musical beat. The historical `migration-acceptance.json` receipt and `MIGRATION.md` retain the original migration scope: 95 components and 402 cases. They do not claim coverage of later additions.
+The current extended acceptance matrix includes 105 component types in three formats; explicit toggle, chart, fullbleed, stat, and all nine morph states; 43 looks; 18 transitions; six real supplied-image branches; four halftone variants; four explicit dial schedules; and three repeated-definition films. It checks native instance clocks, absence of legacy playback globals, private SVG IDs, independent child timelines, hidden-future fitting, decoded image assets, and visible ui-float image pixels. A dial's visible target value and arrival sound must coincide with the requested musical beat. The historical `native-acceptance.json` receipt and `MIGRATION.md` retain the original migration scope: 95 components and 402 cases. They do not claim coverage of later additions.
 
 Use `--cases` with a regular expression to select a group, for example `--extended --cases '^(look|transition)-'`. `--scenes` and `--aspects` select the basic catalogue cases. Repeated-instance cases are included unless a case filter excludes them.
 
@@ -37,16 +37,16 @@ Each run writes `report.json`, `source-receipt.json`, and a `native-source/` cop
 Browsers are recycled every 25 cases while retaining the copied source. A disconnected browser stops the run instead of generating a cascade of meaningless case failures. Resume with the original snapshot and identical reference:
 
 ```sh
-node tools/migration-accept.mjs --extended --reference /path/to/frozen/source \
+node tools/native-accept.mjs --extended --reference /path/to/frozen/source \
   --source /tmp/pk-accept/native-source --out /tmp/pk-accept --resume
 ```
 
 Resume verifies source hashes, retains passed cases, and retries failures. After changing source, use a new output directory and rerun the affected cases. A full run against one snapshot and focused later regressions are distinct receipts, not one fabricated all-current-source result.
 
-`--extended --list` prints the expected case inventory without launching Chrome. `migration-merge.mjs` can combine disjoint runs and explicitly ordered focused regressions:
+`--extended --list` prints the expected case inventory without launching Chrome. `native-merge.mjs` can combine disjoint runs and explicitly ordered focused regressions:
 
 ```sh
-node tools/migration-merge.mjs --out /tmp/pk-coverage.json \
+node tools/native-merge.mjs --out /tmp/pk-coverage.json \
   /tmp/core-a/report.json /tmp/core-b/report.json /tmp/looks/report.json \
   /tmp/focused-final/report.json
 ```

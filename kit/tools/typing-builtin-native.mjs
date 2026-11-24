@@ -10,7 +10,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,SOURCE,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,SOURCE,sourceHashes} from './native-browser.mjs';
 import {maximumScene} from './quality-layout.mjs';
 
 const prompt='Первые слова остаются на месте, пока длинное продолжение строки печатается.';

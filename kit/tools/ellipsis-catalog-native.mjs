@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,sourceHashes,SOURCE,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sourceHashes,SOURCE,sharp} from './native-browser.mjs';
 import {maximumScene,samples} from './quality-layout.mjs';
 import {RADIX_TOKENS,ROLE_STEPS} from '../source/lib/components/design-system.mjs';
 

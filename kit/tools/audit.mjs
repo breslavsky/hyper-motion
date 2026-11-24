@@ -54,7 +54,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { createNativeBrowser, sharp } from "./migration-browser.mjs";
+import { createNativeBrowser, sharp } from "./native-browser.mjs";
 import { measureRenderedText } from "./quality-layout.mjs";
 import { pictureTextBoxes, pictureBounds, pictureTextOverlap, pictureLines as lines } from "./picture-audit-text.mjs";
 

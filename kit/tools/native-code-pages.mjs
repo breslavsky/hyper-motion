@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createNativeBrowser} from './migration-browser.mjs';
+import {createNativeBrowser} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings} from './quality-layout.mjs';
 const out=process.argv.includes('--out')?process.argv[process.argv.indexOf('--out')+1]:'/tmp/pk-native-code-pages';
 fs.mkdirSync(out,{recursive:true});

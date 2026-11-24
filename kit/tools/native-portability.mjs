@@ -1,9 +1,9 @@
 // Native source reuse and independent Canvas/WebGL lifecycle acceptance.
-// node tools/migration-portability.mjs [--out /tmp/pk-portability] [--case repeat-phone3d-9x16]
+// node tools/native-portability.mjs [--out /tmp/pk-portability] [--case repeat-phone3d-9x16]
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 
 const args=process.argv.slice(2),out=path.resolve(args.includes('--out')?args[args.indexOf('--out')+1]:'/tmp/pk-portability');
 fs.mkdirSync(out,{recursive:true});

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,sharp,sourceHashes,SOURCE} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,sourceHashes,SOURCE} from './native-browser.mjs';
 
 async function installCanary(){
   const {createDom}=await import(new URL('lib/components/dom.mjs',document.baseURI));

@@ -1,9 +1,9 @@
 // Native content, font, fitting and readiness regression acceptance.
-// node tools/migration-variables.mjs [--out /tmp/pk-native-variables]
+// node tools/native-variables.mjs [--out /tmp/pk-native-variables]
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createNativeBrowser} from './migration-browser.mjs';
+import {createNativeBrowser} from './native-browser.mjs';
 
 const args=process.argv.slice(2),out=path.resolve(args.includes('--out')?args[args.indexOf('--out')+1]:'/tmp/pk-native-variables');
 fs.mkdirSync(out,{recursive:true});

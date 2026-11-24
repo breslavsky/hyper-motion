@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 const require=createRequire(import.meta.url),definitions=require('../source/lib/components/metadata.cjs');
 const names=['polar','letterflip','accordion','explode','scan'],aspects=['9:16','1:1','16:9'];
 const args=process.argv.slice(2),out=path.resolve(args.includes('--out')?args[args.indexOf('--out')+1]:'/tmp/pk-community-native');

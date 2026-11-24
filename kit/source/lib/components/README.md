@@ -560,23 +560,23 @@ state, geometry, fit and content checks. The historical migration receipt still
 describes its original 95-component scope.
 
 The preserved visual source and licence provenance are in `SOURCE.json`.
-`tools/migration-components.mjs` records the one-time mechanical conversion; do
+`tools/native-components.mjs` records the one-time mechanical conversion; do
 not rerun it over maintained component sources. Acceptance uses the native
 HyperFrames bundler, loader and seek API, including three aspect ratios, backward
 seeks and independent text measurements. Generic layout-allow annotations in the
 preserved drawing helpers are not proof that text is readable.
 
-Run `node --test tools/migration-timing.test.mjs` for compiler/native local-time
-equivalence and fixed-slot edit rules, and `node tools/migration-variables.mjs`
+Run `node --test tools/native-timing.test.mjs` for compiler/native local-time
+equivalence and fixed-slot edit rules, and `node tools/native-variables.mjs`
 for native edits, future-clip fitting, complete readiness and bundled/local fonts
 in three aspect ratios, CSS isolation and disposal. The typewriter's canonical
 `typewriter-timing.cjs` schedule supplies both visible typing/erasing and audio
 events; run `node tools/sync-typewriter-timing.cjs` after editing it. Typing events
 do not alter the film's visual hit cues. The wider catalogue and raster comparisons live in
-`tools/migration-accept.mjs`; Canvas/WebGL isolation is checked by
-`tools/migration-portability.mjs`.
+`tools/native-accept.mjs`; Canvas/WebGL isolation is checked by
+`tools/native-portability.mjs`.
 
-`node tools/migration-typewriter-audio.mjs` runs the actual `music.py` in isolated
+`node tools/native-typewriter-audio.mjs` runs the actual `music.py` in isolated
 native projects for short/long text, erasing with replacement, emoji, and mute. It seeks
 each visible key action, checks the scheduled and mixed cue times, decodes the
 M4A outputs, and verifies that changed text invalidates the previous soundtrack.
@@ -637,7 +637,7 @@ Pytest wrappers are in `tests/test_pure_kinetic_typing.py`.
 The [maintenance entrypoints](../../../tools/README.md#maintained-test-entrypoints)
 cover all Node contracts and the current native ellipsis/typing gates. Native QA
 has a deliberately pinned private-vendor adapter, documented in
-[native acceptance](../../../tools/migration-README.md); it is outside the shipped
+[native acceptance](../../../tools/native-README.md); it is outside the shipped
 components and is not a second playback engine.
 
 Collapsed Ranges inside text nodes supply logical caret edges. At a bidirectional

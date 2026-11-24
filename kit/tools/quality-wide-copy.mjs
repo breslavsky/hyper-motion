@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {createNativeBrowser,sharp,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,sourceHashes} from './native-browser.mjs';
 import {maximumScene,measureRenderedText,layoutFindings,persistentFindings} from './quality-layout.mjs';
 
 const args=process.argv.slice(2),out=path.resolve(args.includes('--out')?args[args.indexOf('--out')+1]:'/tmp/pk-quality-wide-copy');

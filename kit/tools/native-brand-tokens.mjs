@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createNativeBrowser} from './migration-browser.mjs';
+import {createNativeBrowser} from './native-browser.mjs';
 const out=process.argv.includes('--out')?process.argv[process.argv.indexOf('--out')+1]:'/tmp/pk-native-brand-tokens';
 fs.mkdirSync(out,{recursive:true});
 const tokens={background:'#08172d',foreground:'#ffffff',accent:'#59cbff'};

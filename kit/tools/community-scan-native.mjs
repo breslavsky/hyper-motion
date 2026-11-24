@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {createNativeBrowser,sharp,sourceHashes,SOURCE} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,sourceHashes,SOURCE} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings} from './quality-layout.mjs';
 import {ellipsisIssues} from './text-overflow-audit.mjs';
 import {measureTextOcclusion} from './registry-native.mjs';

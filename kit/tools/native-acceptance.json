@@ -57,7 +57,7 @@
   ],
   "reproduce": {
     "baseline": "mkdir -p /tmp/pk-before && git archive 1ea04c946c3ad462de9128a920ab70f70c61f7c7 kit/source | tar -x -C /tmp/pk-before",
-    "matrix": "node kit/tools/migration-accept.mjs --extended --reference /tmp/pk-before/kit/source --out /tmp/pk-current",
+    "matrix": "node kit/tools/native-accept.mjs --extended --reference /tmp/pk-before/kit/source --out /tmp/pk-current",
     "audit": "node kit/tools/audit.mjs --known --twice --looks editorial --aspects 9:16,16:9,1:1 --json /tmp/pk-audit.json",
     "fonts": "node kit/tools/audit.mjs --long --known --scenes title,typewriter,stack,steps,agent,orb,dial,controls,phone3d --looks editorial --aspects 9:16,16:9,1:1 --font 'Geist Mono' --json /tmp/pk-font-audit.json",
     "nativeClockSmoke": "PURE_KINETIC_AUDIT=1 .venv/bin/pytest tests/test_pure_kinetic.py::test_native_clocks_reverse_seek_and_repeated_component_instances -q"

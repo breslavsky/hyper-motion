@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import {createNativeBrowser,SOURCE,TEMPLATE,sharp,compiler} from './migration-browser.mjs';
+import {createNativeBrowser,SOURCE,TEMPLATE,sharp,compiler} from './native-browser.mjs';
 const require=createRequire(import.meta.url),args=process.argv.slice(2);
 const option=(key,fallback)=>args.includes(`--${key}`)?args[args.indexOf(`--${key}`)+1]:fallback;
 const OUT=path.resolve(option('out','/tmp/pk-native-acceptance'));

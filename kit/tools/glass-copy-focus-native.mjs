@@ -1,7 +1,7 @@
 // Preview may reduce the cost of the optical world. Compare the actual painted
 // letters in the composite at the same instant and camera pose at both scales.
 import assert from 'node:assert/strict';
-import {createNativeBrowser, sharp} from './migration-browser.mjs';
+import {createNativeBrowser, sharp} from './native-browser.mjs';
 import catalog from '../source/lib/components/catalog.mjs';
 import {arrowElbowDownLeftBold, checkBold, circleNotchBold, magnifyingGlassBold} from '../source/lib/components/upstream/phosphor-icons/search-icons.mjs';
 

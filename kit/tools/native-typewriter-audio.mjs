@@ -1,11 +1,11 @@
 // Actual music.py output, native visible keys and stale audio mark acceptance.
-// node tools/migration-typewriter-audio.mjs [--out /tmp/pk-typewriter-audio]
+// node tools/native-typewriter-audio.mjs [--out /tmp/pk-typewriter-audio]
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {createNativeBrowser,TEMPLATE,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,TEMPLATE,sourceHashes} from './native-browser.mjs';
 import {typewriterTiming} from '../source/lib/components/typewriter-timing.mjs';
 
 const run=promisify(execFile),args=process.argv.slice(2);

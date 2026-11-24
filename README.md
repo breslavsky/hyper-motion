@@ -11,7 +11,7 @@ its own.
 
 | Path | What |
 | --- | --- |
-| `kit/source/lib` | The kit: a film written as data (`film.json`: scenes of a type, their words, beats and look) compiled into native HyperFrames sub-compositions. 100+ scene types (kinetic type, charts, UI, Glass, Metal, Three.js, the lens wall), 43 looks, text measured so nothing overflows. `lib/scene.cjs` builds one scene for a film of your own. A project takes this folder whole. |
+| `kit/source/lib` | The kit: a film written as data (`film.json`: scenes of a type, their words, beats and look) compiled into native HyperFrames sub-compositions. 100+ scene types (kinetic type, charts, UI, Glass, Metal, Three.js, the lens wall), 44 looks, text measured so nothing overflows. `lib/scene.cjs` builds one scene for a film of your own. A project takes this folder whole. |
 | `kit/source` | A film made with the kit, as a project: `film.json`, the page and compositions built from it. |
 | `kit/AGENTS.md` | The writing guide for an agent that fills in `film.json`: every scene type with its fields and limits. |
 | `kit/tools` | The kit's tests, acceptances and generators. |

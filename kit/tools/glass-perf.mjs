@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createNativeBrowser,SOURCE,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,SOURCE,sourceHashes} from './native-browser.mjs';
 
 const args=process.argv.slice(2);
 const option=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;

@@ -115,7 +115,7 @@ export function validateChild(job,report,aggregate,manifest=suiteManifest()){
 
 export async function run({out,source=path.resolve(here,'../source')}={}){
   assert.ok(out&&!fs.existsSync(out),'An explicit fresh output directory is required');fs.mkdirSync(out,{recursive:true});
-  const {sourceHashes}=await import('./migration-browser.mjs');
+  const {sourceHashes}=await import('./native-browser.mjs');
   const manifest=suiteManifest(),report={schema:'pure-kinetic.ellipsis-suite-native.v1',...manifest,
     sourceReceipt:sourceHashes(source),results:[],passed:false};
   report.schema='pure-kinetic.ellipsis-suite-native.v1';

@@ -1,5 +1,5 @@
 // One-time source-preserving migration from the frozen Kinetic scene snapshot.
-// Usage: node tools/migration-components.mjs <old-engine-directory> <fresh-output-directory>
+// Usage: node tools/native-components.mjs <old-engine-directory> <fresh-output-directory>
 // New component files are subsequently maintained directly. metadata.mjs is the
 // generated browser counterpart of canonical components/metadata.cjs.
 import fs from 'node:fs';
@@ -10,7 +10,7 @@ import vm from 'node:vm';
 
 const HERE=path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATE=path.resolve(HERE,'..');
-if(process.argv.length!==4)throw new Error('Usage: migration-components.mjs <old-engine-directory> <fresh-output-directory>. Maintained components must never be overwritten.');
+if(process.argv.length!==4)throw new Error('Usage: native-components.mjs <old-engine-directory> <fresh-output-directory>. Maintained components must never be overwritten.');
 const source=path.resolve(process.argv[2]);
 const destination=path.resolve(process.argv[3]);
 if(!fs.statSync(source,{throwIfNoEntry:false})?.isDirectory())throw new Error('The old-engine-directory must exist. Use the frozen reference, not shipped source.');

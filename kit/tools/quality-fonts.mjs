@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {createNativeBrowser} from './migration-browser.mjs';
+import {createNativeBrowser} from './native-browser.mjs';
 
 const args=process.argv.slice(2),out=path.resolve(args.includes('--out')?args[args.indexOf('--out')+1]:'/tmp/pk-quality-fonts');
 fs.mkdirSync(out,{recursive:true});

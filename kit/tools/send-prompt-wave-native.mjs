@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 import definitions from '../source/lib/components/metadata.mjs';
 
 const fixture={...definitions['send-prompt'].sample,beats:14,timing:{typed:2.5,pull:2.75,landed:4.5,send:5,sent:13}};

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {createNativeBrowser,sharp,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,sourceHashes} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings} from './quality-layout.mjs';
 import {measureDesign} from './design-audit.mjs';
 import {surfaceFindings} from './surface-audit.mjs';

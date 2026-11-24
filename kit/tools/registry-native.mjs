@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
-import {createNativeBrowser,sharp,SOURCE,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,SOURCE,sourceHashes} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings} from './quality-layout.mjs';
 import {measureDesign,designFindings} from './design-audit.mjs';
 const require=createRequire(import.meta.url),definitions=require('../source/lib/components/metadata.cjs'),F=require('../source/lib/film.cjs');

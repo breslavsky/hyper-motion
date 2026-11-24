@@ -6,7 +6,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,sharp,TEMPLATE,SOURCE} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,TEMPLATE,SOURCE} from './native-browser.mjs';
 import {ellipsisIssues,ellipsisViewportText} from './text-overflow-audit.mjs';
 
 const require=createRequire(import.meta.url),fields=require(path.join(SOURCE,'lib/compiler/fields.cjs'));

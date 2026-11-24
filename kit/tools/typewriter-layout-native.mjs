@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser, sourceHashes, SOURCE} from './migration-browser.mjs';
+import {createNativeBrowser, sourceHashes, SOURCE} from './native-browser.mjs';
 import {typewriterTiming} from '../source/lib/components/typewriter-timing.mjs';
 
 export const fixtures = [

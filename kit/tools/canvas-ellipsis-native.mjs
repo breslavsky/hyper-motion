@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createNativeBrowser,sourceHashes,SOURCE} from './migration-browser.mjs';
+import {createNativeBrowser,sourceHashes,SOURCE} from './native-browser.mjs';
 const args=process.argv.slice(2),value=(k,d)=>args.includes(k)?args[args.indexOf(k)+1]:d;
 const out=path.resolve(value('--out','/tmp/pk-canvas-ellipsis')),source=path.resolve(value('--source',SOURCE));
 assert.ok(!fs.existsSync(out),'Use a fresh output directory');fs.mkdirSync(out,{recursive:true});

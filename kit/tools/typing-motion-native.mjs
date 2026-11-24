@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser, sourceHashes, SOURCE, sharp} from './migration-browser.mjs';
+import {createNativeBrowser, sourceHashes, SOURCE, sharp} from './native-browser.mjs';
 
 export const fixtures = [
   {type:'trail', beats:6, text:'AVATAR travels around the room'},

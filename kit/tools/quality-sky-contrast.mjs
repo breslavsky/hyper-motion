@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
-import {createNativeBrowser,sharp,TEMPLATE} from './migration-browser.mjs';
+import {createNativeBrowser,sharp,TEMPLATE} from './native-browser.mjs';
 const args=process.argv.slice(2),out=path.resolve(args.includes('--out')?args[args.indexOf('--out')+1]:'/tmp/pk-native-sky-contrast');
 fs.mkdirSync(out,{recursive:true});
 const require=createRequire(import.meta.url),F=require('../source/lib/film.cjs');

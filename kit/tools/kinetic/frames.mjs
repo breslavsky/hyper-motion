@@ -21,7 +21,7 @@ import os from "node:os";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import {createNativeBrowser, sharp} from "../migration-browser.mjs";
+import {createNativeBrowser, sharp} from "../native-browser.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATE = path.resolve(HERE, "../..");

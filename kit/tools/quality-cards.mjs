@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 import {measureRenderedText,layoutFindings,persistentFindings,maximumScene} from './quality-layout.mjs';
 import metadata from '../source/lib/components/metadata.mjs';
 

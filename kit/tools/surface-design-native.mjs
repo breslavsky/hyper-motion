@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {createNativeBrowser,SOURCE,sourceHashes} from './migration-browser.mjs';
+import {createNativeBrowser,SOURCE,sourceHashes} from './native-browser.mjs';
 import {measureDesign} from './design-audit.mjs';
 import {surfaceFindings} from './surface-audit.mjs';
 

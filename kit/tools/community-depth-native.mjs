@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {createNativeBrowser,sharp} from './migration-browser.mjs';
+import {createNativeBrowser,sharp} from './native-browser.mjs';
 import defs from '../source/lib/components/metadata.cjs';
 const args=process.argv.slice(2),outAt=args.indexOf('--out');
 if(outAt>=0&&(!args[outAt+1]||args[outAt+1].startsWith('--')))throw new Error('--out requires a directory');
