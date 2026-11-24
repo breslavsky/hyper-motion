@@ -17,7 +17,7 @@ const credit = () => {
   if (!header || document.getElementById('hm-credit')) return Boolean(header);
   const line = document.createElement('div');
   line.id = 'hm-credit';
-  line.style.cssText = 'margin:-8px 0 12px;padding:0 7px;font-size:12px;line-height:16px;color:#73828c';
+  line.style.cssText = 'margin:-11px 0 12px;padding:0 0 0 8px;font-size:12px;line-height:16px;color:#73828c';
   const link = Object.assign(document.createElement('a'), {href: 'https://www.motionfab.app', target: '_blank', rel: 'noopener', textContent: 'Motion Fab'});
   link.style.cssText = 'color:#2e5bff;text-decoration:none;font-weight:600';
   line.append('by ', link);
