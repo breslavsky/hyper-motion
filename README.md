@@ -17,7 +17,7 @@ did. They will be reshaped step by step.
 | --- | --- |
 | `templates/pure-kinetic/source/lib` | The kit: a film written as data (`film.json`: scenes of a type, their words, beats and look) compiled into native HyperFrames sub-compositions. 100+ scene types (kinetic type, charts, UI, Glass, Metal, Three.js, the lens wall), 43 looks, text measured so nothing overflows. `lib/scene.cjs` builds one scene for a film of your own. |
 | `templates/pure-kinetic/AGENTS.md` | The writing guide for an agent that fills in `film.json`: every scene type with its fields and limits. |
-| `templates/pure-kinetic/tools` | The kit's tests, acceptances and generators. |
+| `templates/pure-kinetic/tools`, `tests/` | The kit's tests, acceptances and generators; `tests/` runs them under pytest. Every push runs the quick ones before the Storybook is published. |
 | `runtimes/hyperframes/components` | Standalone components: `lens-wall` (an endless wall of your photos and videos under a lens), `spatial-type` (extruded 3D type), `thinking-orbs`, `metal`, `ui-world`, and five scenes of the kit as plain HyperFrames factories (`pure-kinetic`). |
 | `tools/component-storybook` | A Storybook of every scene type with live controls, formats, materials and brand books. |
 | `references/hyperframes/local-catalog.json` | The catalogue of what can be installed, with a SHA-256 per file. |
@@ -33,12 +33,13 @@ Node 22.12 or newer, and Chrome for the browser checks.
 npm run storybook          # install and open the Storybook on http://127.0.0.1:6006
 npm run build:storybook    # a static build in tools/component-storybook/storybook-static
 npm test                   # the kit's node tests (nothing drawn in a browser)
+templates/pure-kinetic/tools/test.sh quick   # the quick pytest set (python3 -m pip install -r requirements-dev.txt first)
+templates/pure-kinetic/tools/test.sh         # everything, with the acceptances Chrome draws: hours
 ```
 
-The longer acceptances draw in Chrome through the pinned HyperFrames
-(`0.9.19`); they need the kit's own packages
-(`cd templates/pure-kinetic && pnpm install --frozen-lockfile`). Some of them
-still expect the repository they came from and do not run here yet.
+The acceptances draw in Chrome through the pinned HyperFrames (`0.9.19`) and
+need the kit's own packages (`cd templates/pure-kinetic && pnpm install
+--frozen-lockfile`).
 
 ## Projects that inspired this
 

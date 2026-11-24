@@ -1,5 +1,7 @@
-# Builds the component Storybook and publishes it on GitHub Pages.
-name: Storybook
+# Runs the quick tests, then builds the component Storybook and publishes it
+# on GitHub Pages. The acceptances that draw in Chrome are run by hand
+# (templates/pure-kinetic/tools/test.sh).
+name: Test and publish
 
 on:
   push:
@@ -25,7 +27,18 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: tools/component-storybook/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.txt
+      - name: The kit's node tests
+        run: npm test
+      - name: The kit's quick tests
+        run: PURE_KINETIC_QUICK=1 python -m pytest -q tests
       - run: npm ci
+        working-directory: tools/component-storybook
+      - name: The Storybook's own tests
+        run: npm test
         working-directory: tools/component-storybook
       - run: npm run build
         working-directory: tools/component-storybook

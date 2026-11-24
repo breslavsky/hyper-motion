@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Every test of Pure Kinetic, run by hand. None of this runs in CI.
+# Every test of Pure Kinetic, run by hand. CI runs the quick set; the rest is run by hand.
 #
 #   templates/pure-kinetic/tools/test.sh            everything
 #   templates/pure-kinetic/tools/test.sh quick      what draws nothing in Chrome (the node suites, the compiler, the checks)
@@ -21,16 +21,15 @@ cd "$root"
 die() { echo "test.sh: $*" >&2; exit 1; }
 part() { printf '\n== %s ==\n' "$*"; }
 
-[ -x .venv/bin/python ] || die "no .venv: run 'uv sync --frozen'"
+python="${PYTHON:-python3}"
+"$python" -c 'import pytest' 2>/dev/null || die "pytest is missing: run '$python -m pip install -r requirements-dev.txt' (or name another interpreter in PYTHON)"
 command -v node >/dev/null || die "node is not on PATH"
-[ -d "$template/node_modules/.pnpm" ] || die "the template's packages are missing: in templates/pure-kinetic run '../../core/tools/node_modules/.bin/pnpm install --frozen-lockfile --store-dir /opt/motion-fab/data/pnpm-store'"
+[ -d "$template/node_modules/.pnpm" ] || die "the kit's packages are missing: in templates/pure-kinetic run 'pnpm install --frozen-lockfile'"
 
-# Without this no pytest run collects Pure Kinetic's tests (tests/conftest.py).
-export PURE_KINETIC_TESTS=1
 export PURE_KINETIC_ARTIFACT_DIR="${PURE_KINETIC_ARTIFACT_DIR:-$root/data/qa/pure-kinetic/$(date +%Y%m%d-%H%M%S)}"
 mkdir -p "$PURE_KINETIC_ARTIFACT_DIR"
 
-pytest() { .venv/bin/python -m pytest -q "$@"; }
+pytest() { "$python" -m pytest -q "$@"; }
 
 # The Storybook's own tests, then its browser checks against a built copy.
 # Arguments: the browser checks to run, each one call of tests/browser.mjs
