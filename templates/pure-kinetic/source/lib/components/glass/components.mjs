@@ -94,8 +94,14 @@ function search(args){
   const caret=caretOf(K,query,'currentColor');
   const typing=createTyping(K,query,{text:scene.query,caret,unit:'codepoint',id:'search-query'});
 
-  // Keep a full click target but mirror the leading magnifier's visual inset.
-  const slot=actionSlot(K,field,'pk-glass-search-button',buttonSize,{flex:'none',marginRight:px((iconSize-buttonSize)/2)});
+  // Keep a full click target but mirror the leading magnifier's visual inset:
+  // the glyph stands where the field's padding ends, and the target around it
+  // is a layer over the padding, so the row keeps room for no more than the
+  // glyph and the target's inner half.
+  const reach=(buttonSize-iconSize)/2;
+  set(el('div','pk-glass-search-button-place',field),{flex:'none',width:px(buttonSize-reach),height:px(iconSize)});
+  const slot=actionSlot(K,field,'pk-glass-search-button',buttonSize,
+    {position:'absolute',right:px(recipe.paddingX-reach),top:'50%',marginTop:px(-buttonSize/2)});
   slot.setAttribute('role','button');
   slot.setAttribute('aria-label','Search');
   typing.measure();

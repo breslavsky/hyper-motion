@@ -1,5 +1,5 @@
 import {createContext,applyTypography,loadFonts,loadImages,loadEmoji} from './context.mjs';
-import {createComponentLibrary} from './index.mjs';
+import {createComponentLibrary,preloadFamilies} from './index.mjs';
 import {fitScene} from './fit.mjs';
 import {registerScene,rejectScene,unregisterScene} from './registry.mjs';
 import {componentTiming,resolveContent} from './timing.mjs';
@@ -71,6 +71,7 @@ export async function mountScene(host,config,variables={},gsap){
   const id=nativeHost?.dataset.compositionId??config.id;
   let ownedStage,ownedContext;
   try{
+    await preloadFamilies((config.plan.scenes??[]).map(planned=>planned.scene?.type).filter(Boolean));
     const sourcePlan=structuredClone(config.plan),sourcePs=structuredClone(config.ps);
     const style=variable(variables,'style',{});
     const {scene,changed}=resolveContent(sourcePs.scene,variable(variables,'content',sourcePs.scene));
@@ -188,6 +189,9 @@ export async function mountScene(host,config,variables={},gsap){
     const repaint=()=>draw(Math.max(0,(instance.time-ps.start)*(ps.speed??1)),ps.ldur??ps.dur*(ps.speed??1));
     for(const video of sceneVideos)video.onRepaint(repaint);
     K.glassBackground?.onRepaint?.(()=>draw(Math.max(0,(instance.time-ps.start)*(ps.speed??1)),ps.ldur??ps.dur*(ps.speed??1)));
+    // Resolves once nothing a seek started is still at work (a video frame
+    // being decoded), so what is on the canvas is the frame of this moment.
+    instance.frameReady=async()=>{while(ctx.frameWaits.size)await Promise.allSettled([...ctx.frameWaits]);};
     instance.textBoxes=()=>rendered(stage)?helpers.dom.textBoxes(stage):[];
     instance.audit=()=>({id,type:ps.scene.type,time:instance.time,localTime,texts:instance.textBoxes(),fit:instance.fitted??null,box:instance.box??null,surfaceForeground:instance.surfaceForeground,rebuildRequired:instance.rebuildRequired});
     instance.dispose=()=>{

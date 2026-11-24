@@ -7,7 +7,9 @@ import {createDesignSystem} from '../source/lib/components/design-system.mjs';
 
 test('surface scope accounts for every catalog component exactly once',()=>{
   const scope=JSON.parse(fs.readFileSync(new URL('./surface-scope.json',import.meta.url),'utf8'));
-  const names=Object.values(scope).flat();assert.equal(new Set(names).size,names.length);
+  // noText marks picture-only types among them, it is no group of its own.
+  const {noText,...groups}=scope,names=Object.values(groups).flat();assert.equal(new Set(names).size,names.length);
+  assert.ok(noText.every(type=>scope.noSurface.includes(type)));
   assert.deepEqual(names.sort(),Object.keys(catalog).sort());
 });
 test('local UI scale changes typography and all surface dimensions together',()=>{

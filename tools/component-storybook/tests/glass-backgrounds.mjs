@@ -1,7 +1,8 @@
 // Run against the built catalogue with STORYBOOK_URL=http://127.0.0.1:6009 node tests/glass-backgrounds.mjs.
 import assert from 'node:assert/strict';
-import {existsSync} from 'node:fs';
-import {fileURLToPath} from 'node:url';
+import {existsSync, mkdtempSync, writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
 import puppeteer from 'puppeteer-core';
 
 const base = process.env.STORYBOOK_URL ?? 'http://127.0.0.1:6006';
@@ -45,6 +46,8 @@ async function measure(page,time) {
       // Decode a second copy at the actual HyperFrames playhead. This also
       // detects a background canvas that changed to the wrong frame on a seek.
       source=win.document.createElement('video'); source.muted=true;source.preload='auto';
+      // The samples come from our CDN: without CORS the copy taints the canvas.
+      if (new URL(src,win.location.href).origin!==win.location.origin) source.crossOrigin='anonymous';
       const loaded=new Promise((resolve,reject)=>{source.onloadeddata=resolve;source.onerror=reject;});
       source.src=src;await loaded;
       const seeked=new Promise(resolve=>source.onseeked=resolve);
@@ -132,7 +135,7 @@ try {
   const page = await browser.newPage();
   await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
   await page.setViewport({width:1100,height:840});
-  assert.equal(stories.length,8);
+  assert.equal(stories.length,10);
   for (const story of stories) {
     const type = story.title.split('/').at(-1);
     await page.goto(storyURL(story.id,'glass'));
@@ -154,7 +157,10 @@ try {
     console.log(type+' image, video, reverse and reset passed');
   }
   await page.goto(storyURL('pure-kinetic-glass-ask--preview','dark-glass')); await ready(page);
-  const mediaFile = fileURLToPath(new URL('../public/pk/assets/glass-street.mp4',import.meta.url));
+  // A file of the visitor's own: the sample is fetched from our CDN and
+  // uploaded as a local file.
+  const mediaFile = path.join(mkdtempSync(path.join(tmpdir(),'glass-upload-')),'glass-street.mp4');
+  writeFileSync(mediaFile,Buffer.from(await (await fetch('https://motion-fab-share.b-cdn.net/components/glass/street.mp4')).arrayBuffer()));
   await (await page.$('.pk-background input[type=file]')).uploadFile(mediaFile);
   await ready(page,'video','assets/glass-street.mp4');
   const uploaded = await measure(page,.8);

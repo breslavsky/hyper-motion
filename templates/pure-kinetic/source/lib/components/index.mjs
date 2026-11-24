@@ -18,6 +18,13 @@ import {createFamily as create_bursts} from './scenes/bursts.mjs';
 
 export {catalog};
 const opticalTypes=new Set(Object.keys(catalog).filter(type=>catalog[type].family==='glass'&&catalog[type].renderMode==='webgl'));
+/** Loads what the film's scenes import on demand, before any of them mounts.
+ *  A scene that has mounted is played at once, and a film of heavy scenes
+ *  (six of the metal look) kept a glass scene's modules from arriving in time
+ *  for the film to be ready. */
+export async function preloadFamilies(types){
+ if(types.some(type=>opticalTypes.has(canonicalType(type))))await import('./glass/components.mjs');
+}
 export function createComponentLibrary(K){
  const builtin=createBuiltin(K);
  const factories={...builtin.SCENES,...text,...data,...ui,...flow,...hands,...reel,...studio,...create_glass(K).sceneFactories,...create_words(K).sceneFactories,...create_cards(K).sceneFactories,...create_bursts(K).sceneFactories};

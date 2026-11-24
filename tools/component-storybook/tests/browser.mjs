@@ -15,6 +15,8 @@ const ALL = process.argv.includes('--all');
 const METAL = process.argv.includes('--metal');
 const GLASS = process.argv.includes('--glass');
 assert.ok(!(GLASS && METAL), 'Choose either --glass or --metal');
+// --only=type,type keeps a run to those components (with --all: their formats and named variants).
+const ONLY = process.argv.find(arg => arg.startsWith('--only='))?.slice('--only='.length).split(',');
 const METAL_CASE = process.argv.find(arg => arg.startsWith('--metal-case='))?.slice('--metal-case='.length);
 const OUT = path.resolve(process.env.STORYBOOK_TEST_RESULTS ?? path.join(HERE, 'test-results', METAL_CASE ? 'metal-case' : METAL ? 'metal' : GLASS ? 'glass' : ALL ? 'all' : 'quick'));
 const DIMENSIONS = {'16:9': [1920, 1080], '9:16': [1080, 1920], '1:1': [1080, 1080]};
@@ -200,8 +202,11 @@ async function seekSnapshot(page, fraction) {
   }, {}, requested);
   const state = await page.evaluate(async () => {
     const player = document.querySelector('hyperframes-player'), win = player.iframeElement.contentWindow;
-    await new Promise(resolve => win.requestAnimationFrame(() => win.requestAnimationFrame(resolve)));
     const {instance, plan} = win.__storybookComponent;
+    // A video in a scene decodes its frame after the seek; the picture of
+    // this moment is there only when that is done.
+    await instance.frameReady();
+    await new Promise(resolve => win.requestAnimationFrame(() => win.requestAnimationFrame(resolve)));
     const root = instance.root;
     const encode = node => {
       if (node.nodeType === Node.TEXT_NODE) return ['text', node.textContent];
@@ -1456,17 +1461,17 @@ async function askOnTheBeat() {
 }
 
 try {
-  const chosen = METAL ? [] : GLASS ? glassFamily : ALL ? catalogue.map(entry => entry.type) : QUICK;
+  const chosen = (METAL ? [] : GLASS ? glassFamily : ALL ? catalogue.map(entry => entry.type) : QUICK).filter(type => !ONLY || ONLY.includes(type));
   for (const type of chosen) {
     for (const aspect of FORMATS) await runCase(type, aspect);
     console.log(`${type}: ${report.cases.filter(row => row.type === type && row.passed).length}/3 formats passed`);
     fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2)+'\n');
   }
-  for (const entry of catalogue.filter(entry => !METAL && (!GLASS || glassTypes.includes(entry.type)) && entry.variants.length)) {
+  for (const entry of catalogue.filter(entry => !METAL && (!GLASS || glassTypes.includes(entry.type)) && entry.variants.length && (!ONLY || ONLY.includes(entry.type)))) {
     for (const variant of entry.variants) for (const aspect of FORMATS) await runCase(entry.type, aspect, variant);
     console.log(`${entry.type}: ${entry.variants.length} named variants checked in all three formats`);
   }
-  for (const theme of GLASS ? [] : themes) {
+  for (const theme of GLASS || ONLY ? [] : themes) {
     for (const variant of theme.variants) for (const aspect of FORMATS) {
       if (!METAL_CASE || `${theme.type}/${aspect}/${variant.globals.material}` === METAL_CASE) await runCase(theme.type, aspect, {...variant, id: themeStories.get(`${theme.title}:${variant.exportName}`).id});
     }

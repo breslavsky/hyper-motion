@@ -47,24 +47,27 @@ function readLayout(){
     const rect=host.getBoundingClientRect(),rr=reference.getBoundingClientRect();
     const box=(r,origin=rect)=>({x:r.x-origin.x,y:r.y-origin.y,w:r.width,h:r.height});
     const count=Number(host.dataset.typingCount),units=[...host.querySelectorAll('[data-typing-unit]')];
-    const text=units.map(node=>node.textContent).join(''),refText=reference.firstChild;
+    // A joining letter's element carries zero-width joiners for its neighbours
+    // (typing.mjs); they are no part of the text the reference holds.
+    const plain=node=>node.textContent.replaceAll('\u200D','');
+    const text=units.map(plain).join(''),refText=reference.firstChild;
     const collapsed=(node,offset,origin)=>{const range=document.createRange();range.setStart(node,offset);range.collapse(true);return box(range.getBoundingClientRect(),origin);};
     let offset=0;
     const glyphs=units.map(node=>{
-      const text=node.textContent,range=document.createRange();range.selectNodeContents(node);
+      const text=plain(node),range=document.createRange();range.selectNodeContents(node);
       const actual=box(range.getBoundingClientRect());range.setStart(refText,offset);range.setEnd(refText,offset+text.length);
       const expected=box(range.getBoundingClientRect(),rr);offset+=text.length;
       const style=getComputedStyle(node),match=style.color.match(/^rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)$/);
       return {text,actual,expected,visible:style.visibility!=='hidden'&&(!match||Number(match[1])>0)};
     });
-    const current=units.slice(0,count).map(node=>node.textContent).join('');
+    const current=units.slice(0,count).map(plain).join('');
     // A logical insertion boundary in the contiguous reference is independent
     // of the span structure and fallback logic used by createTyping.
     const insertion=collapsed(refText,current.length,rr);
     const last=glyphs[count-1],before=last?collapsed(refText,current.length-last.text.length,rr):null;
     const caret=host.querySelector('[data-typing-caret]'),cs=getComputedStyle(caret),cr=box(caret.getBoundingClientRect());
     cr.x-=parseFloat(cs.marginLeft)||0;
-    return {count,text,domText:host.textContent,visibleText:glyphs.filter(g=>g.visible).map(g=>g.text).join(''),glyphs,
+    return {count,text,domText:host.textContent.replaceAll('\u200D',''),visibleText:glyphs.filter(g=>g.visible).map(g=>g.text).join(''),glyphs,
       host:{w:rect.width,h:rect.height},reference:{w:rr.width,h:rr.height},insertion,before,caret:cr,
       fontSize:parseFloat(getComputedStyle(host).fontSize),lineHeight:parseFloat(getComputedStyle(host).lineHeight),
       terminalCount:host.querySelectorAll('[data-typing-end]').length};

@@ -15,6 +15,10 @@ export {ellipsisIssues,ellipsisViewportText,ellipsisFindings} from './text-overf
 
 export const FORMATS=['9:16','1:1','16:9'];
 const surfaceScope=JSON.parse(fs.readFileSync(new URL('./surface-scope.json',import.meta.url),'utf8'));
+// A scene of pictures alone (a Lens Wall) has no type to hold to the scale; it
+// is excused only while it really draws no text, in the DOM or on a canvas.
+const pictureOnly=(job,snapshot)=>surfaceScope.noText.includes(job.type)&&
+  !snapshot.rasterPaint.length&&!snapshot.uncovered.length;
 export const expectsSurface=job=>[...surfaceScope.direct,...surfaceScope.sharedUi].includes(job.type)&&
   (job.type!=='caption'||/\[[^\]]+\]/.test(job.scene.text)||Boolean(job.scene.image));
 export function anchorFindings(anchors,{width,height}){
@@ -319,7 +323,7 @@ export async function run({out,source=SOURCE,types,aspects,long=false,baseline=f
             surfaceFindings:baseline?[]:surfaceFindings(snapshot.design)});
           if(fraction===.8){
             payoff=snapshot;row.design=snapshot.design;row.fit=snapshot.fit;row.raster=snapshot.raster;row.rasterPaint=snapshot.rasterPaint;row.surfacePaint=snapshot.surfacePaint;
-            row.designFindings=baseline?[]:[...designFindings(snapshot.design,snapshot.unit).filter(f=>f.kind!=='missing-design-contract'||snapshot.raster.length===0),...rasterFindings(snapshot.rasterPaint,{brandFont:snapshot.design.brandFont}),...rasterSurfaceFindings(snapshot.surfacePaint),...snapshot.metricOverflow];
+            row.designFindings=baseline?[]:[...designFindings(snapshot.design,snapshot.unit).filter(f=>f.kind!=='missing-design-contract'||snapshot.raster.length===0&&!pictureOnly(job,snapshot)),...rasterFindings(snapshot.rasterPaint,{brandFont:snapshot.design.brandFont}),...rasterSurfaceFindings(snapshot.surfacePaint),...snapshot.metricOverflow];
             const file=job.id+'.png';await sharp(await page.screenshot({type:'png'})).resize({width:480,height:720,fit:'inside'}).png().toFile(path.join(out,file));row.image=file;
           }
         }

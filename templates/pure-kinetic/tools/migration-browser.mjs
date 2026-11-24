@@ -25,6 +25,9 @@ export function sourceHashes(source=SOURCE){
   return {algorithm:'sha256',aggregate:createHash('sha256').update(JSON.stringify(hashes)).digest('hex'),files:hashes};
 }
 
+// What a component needs beyond its code (a Lens Wall's example videos) comes
+// from our public CDN in a film too, so a check lets that one address through.
+const COMPONENT_FILES='https://motion-fab-share.b-cdn.net/components/';
 export async function createNativeBrowser({source=SOURCE,blockExternal=true,keepProjects=false,legacy=false,options:defaultOptions={}}={}) {
   let browser;
   const pages=new Set(),receipts=[];
@@ -65,7 +68,8 @@ export async function createNativeBrowser({source=SOURCE,blockExternal=true,keep
                 await p.setRequestInterception(true);
                 p.on('request',request=>{
                   const u=new URL(request.url());
-                  if(['http:','https:'].includes(u.protocol)&&!['127.0.0.1','localhost'].includes(u.hostname)){
+                  if(request.url().startsWith(COMPONENT_FILES))request.continue();
+                  else if(['http:','https:'].includes(u.protocol)&&!['127.0.0.1','localhost'].includes(u.hostname)){
                     facade.externalRequests.push(request.url());request.abort();
                   }else request.continue();
                 });

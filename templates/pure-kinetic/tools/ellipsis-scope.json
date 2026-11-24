@@ -1199,10 +1199,8 @@
       "type": "send-prompt",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
-      "policy": "direct",
-      "singleLine": [
-        "mention dropdown options derived from text/chips"
-      ],
+      "policy": "preserved",
+      "singleLine": [],
       "inherits": [],
       "preserved": {
         "fields": [
