@@ -20,6 +20,15 @@ test('every length of the grid is a step of the design system', () => {
   for (const value of [GLASS_UNITS.card.radius, GLASS_UNITS.mark.radius]) assert.ok(radius.has(value), `${value} is not a radius step`);
   assert.deepEqual(GLASS_UNITS.card, SURFACE_RECIPES.card.normal);
   assert.equal(GLASS_UNITS.icon, RADIX_TOKENS.fontSizes[ROLE_STEPS.cardTitle.steps[0] - 1]);
+  // A box to tick is sized to the body text beside it: as tall as a line of
+  // that text and smaller than a mark, its tick a size of the type ladder
+  // between the text and the box, on the mark's stroke.
+  const step = ROLE_STEPS[GLASS_TYPE.item.role].steps[0] - 1, body = RADIX_TOKENS.fontSizes[step];
+  assert.equal(GLASS_UNITS.check.size, RADIX_TOKENS.lineHeights[step]);
+  assert.ok(GLASS_UNITS.check.size < GLASS_UNITS.mark.size);
+  assert.ok(RADIX_TOKENS.fontSizes.includes(GLASS_UNITS.check.glyph) && GLASS_UNITS.check.glyph > body && GLASS_UNITS.check.glyph < GLASS_UNITS.check.size);
+  assert.ok(radius.has(GLASS_UNITS.check.radius));
+  assert.equal(GLASS_UNITS.check.stroke, GLASS_UNITS.mark.stroke);
   assert.equal(GLASS_UNITS.row + GLASS_UNITS.gap.block, 44);
   for (const {role} of Object.values(GLASS_TYPE)) assert.ok(ROLE_STEPS[role], role);
   assert.ok(Object.isFrozen(GLASS_UNITS) && Object.isFrozen(GLASS_UNITS.gap) && Object.isFrozen(GLASS_TYPE) && Object.isFrozen(GLASS_TIME));

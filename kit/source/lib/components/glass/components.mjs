@@ -712,15 +712,18 @@ function glassChecklist(args){
     set(list,{display:'flex',flexDirection:'column',alignItems:'stretch',gap:px(gaps.rows)});
     const rows=s.items.map((text,i)=>{
       const item=el('div','pk-glass-check',list);
-      set(item,{display:'flex',flexDirection:'row',alignItems:'flex-start',gap:px(gaps.lead),minWidth:'0'});
-      // The box is the family's mark; the tick is the icon set's own check,
-      // an alpha mask in the text's ink, uncovered from its left.
+      // A box the size of its text stands closer to it than a mark does: the
+      // density's gap between a lead and what is stacked under it.
+      set(item,{display:'flex',flexDirection:'row',alignItems:'flex-start',gap:px(gaps.stack),minWidth:'0'});
+      // The box is the grid's check, sized to the text beside it; the tick is
+      // the icon set's own check, an alpha mask in the text's ink, uncovered
+      // from its left.
       const box=el('div','pk-glass-check-box',item);
-      set(box,{flex:'none',width:px(G.mark.size),height:px(G.mark.size),display:'grid',placeItems:'center',
-        borderRadius:px(G.mark.radius),boxShadow:`inset 0 0 0 ${px(G.mark.stroke)} currentColor`,opacity:'0'});
+      set(box,{flex:'none',width:px(G.check.size),height:px(G.check.size),display:'grid',placeItems:'center',
+        borderRadius:px(G.check.radius),boxShadow:`inset 0 0 0 ${px(G.check.stroke)} currentColor`,opacity:'0'});
       const art=el('span','pk-glass-check-tick',box);
       art.setAttribute('aria-hidden','true');
-      set(art,{display:'block',width:px(G.icon),height:px(G.icon),backgroundColor:'currentColor',
+      set(art,{display:'block',width:px(G.check.glyph),height:px(G.check.glyph),backgroundColor:'currentColor',
         maskImage:`url("${tick}")`,maskMode:'alpha',maskSize:'100% 100%',maskRepeat:'no-repeat',clipPath:'inset(0 100% 0 0)'});
       // The line is its words, each lit in turn as the line is read.
       const line=el('div','pk-glass-check-text',item);
@@ -733,11 +736,12 @@ function glassChecklist(args){
       return {item,box,art,line,words,ticked:i<done};
     });
     // The items are one list: all are set in the step the longest one needs.
-    const lines=rows.map(row=>row.line),role=G.type.item.role,beside=G.beside(G.mark.size,gaps.lead);
+    const lines=rows.map(row=>row.line),role=G.type.item.role,beside=G.beside(G.check.size,gaps.stack);
     let fitted;
     try{fitted=K.design.fitGroup(lines,{role,w:beside,h:G.type.item.height,wrap:'anywhere'});}
     catch{fitted=smallestStep(K,lines,role,beside);}
-    for(const row of rows)set(row.line,{paddingTop:px(G.firstLine(fitted.lineHeight))});
+    // The box stands on the centre of its line's first row.
+    for(const row of rows){set(row.box,{marginTop:px(G.leadDrop(fitted.lineHeight,G.check.size))});set(row.line,{paddingTop:px(G.firstLine(fitted.lineHeight,G.check.size))});}
     K.design.surfaceGap(surface,gaps.sectionStep);
     return {rows,list,height:surface.offsetHeight};
   };

@@ -21,6 +21,9 @@ export const GLASS_UNITS = Object.freeze({
   mark: Object.freeze({size: 32, radius: 8, stroke: 4 / 3}),
   // A glyph beside a title is the title's own size.
   icon: 24,
+  // A box to tick stands beside body text and is sized to it: as tall as a
+  // line of that text, its tick three quarters of it, on the mark's stroke.
+  check: Object.freeze({size: 24, radius: 6, glyph: 18, stroke: 4 / 3}),
   // How far a part travels as it comes in, hops or settles.
   move: Object.freeze({settle: 4, hop: 8, rise: 12}),
 });
@@ -97,7 +100,7 @@ export function glassGrid(K) {
   })));
   return Object.freeze({
     unit, units: GLASS_UNITS, wide: glassWide(K),
-    card: scaled(GLASS_UNITS.card), gap: scaled(GLASS_UNITS.gap), mark: scaled(GLASS_UNITS.mark), move: scaled(GLASS_UNITS.move),
+    card: scaled(GLASS_UNITS.card), gap: scaled(GLASS_UNITS.gap), mark: scaled(GLASS_UNITS.mark), check: scaled(GLASS_UNITS.check), move: scaled(GLASS_UNITS.move),
     row: GLASS_UNITS.row * unit, icon: GLASS_UNITS.icon * unit,
     // The panel's width and the width of what stands inside its insets.
     width, content: width - 2 * GLASS_UNITS.card.paddingX * unit,
@@ -105,6 +108,8 @@ export function glassGrid(K) {
     column: count => (width - 2 * GLASS_UNITS.card.paddingX * unit - GLASS_UNITS.gap.column * unit * (count - 1)) / count,
     // The width left beside a leading mark in a row.
     beside: (lead = GLASS_UNITS.mark.size * unit, gap = GLASS_UNITS.gap.group * unit) => width - 2 * GLASS_UNITS.card.paddingX * unit - lead - gap,
+    // What to add above a lead shorter than a line so it is centred on the first line.
+    leadDrop: (lineHeight, lead) => Math.max(0, (lineHeight - lead) / 2),
     // What to add above a text so its first line is centred on a taller lead.
     firstLine: (lineHeight, lead = GLASS_UNITS.mark.size * unit) => Math.max(0, (lead - lineHeight) / 2),
     // The gaps of a density, by what they separate: a title and its body,
