@@ -1,6 +1,6 @@
 # Runs the quick tests, then builds the component Storybook and publishes it
 # on GitHub Pages. The acceptances that draw in Chrome are run by hand
-# (templates/pure-kinetic/tools/test.sh).
+# (kit/tools/test.sh).
 name: Test and publish
 
 on:
@@ -26,28 +26,28 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: tools/component-storybook/package-lock.json
+          cache-dependency-path: storybook/package-lock.json
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m pip install -r requirements-dev.txt
       - name: The kit's packages (the pinned HyperFrames its tools run)
         run: npx --yes pnpm@12.14.0 install --frozen-lockfile
-        working-directory: templates/pure-kinetic
+        working-directory: kit
       - name: The kit's node tests
         run: npm test
       - name: The kit's quick tests
         run: PURE_KINETIC_QUICK=1 python -m pytest -q tests
       - run: npm ci
-        working-directory: tools/component-storybook
+        working-directory: storybook
       - name: The Storybook's own tests
         run: npm test
-        working-directory: tools/component-storybook
+        working-directory: storybook
       - run: npm run build
-        working-directory: tools/component-storybook
+        working-directory: storybook
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: tools/component-storybook/storybook-static
+          path: storybook/storybook-static
 
   deploy:
     needs: build

@@ -4,23 +4,21 @@ A library of motion-design scenes and components for
 [HyperFrames](https://github.com/heygen-com/hyperframes): HTML compositions
 that render to video, every frame a pure function of time.
 
-It was grown inside [Motion Fab](https://www.motionfab.app) and is being
-moved here to live on its own. **This is the first cut**: the folders still
-mirror the repository it came from, so that every tool and test works as it
-did. They will be reshaped step by step.
-
-**Storybook:** https://breslavsky.github.io/hyper-motion/ (every scene type with live controls; press Preview on a component).
+It was grown inside [Motion Fab](https://www.motionfab.app) and lives here on
+its own.
 
 ## What is here
 
 | Path | What |
 | --- | --- |
-| `templates/pure-kinetic/source/lib` | The kit: a film written as data (`film.json`: scenes of a type, their words, beats and look) compiled into native HyperFrames sub-compositions. 100+ scene types (kinetic type, charts, UI, Glass, Metal, Three.js, the lens wall), 43 looks, text measured so nothing overflows. `lib/scene.cjs` builds one scene for a film of your own. |
-| `templates/pure-kinetic/AGENTS.md` | The writing guide for an agent that fills in `film.json`: every scene type with its fields and limits. |
-| `templates/pure-kinetic/tools`, `tests/` | The kit's tests, acceptances and generators; `tests/` runs them under pytest. Every push runs the quick ones before the Storybook is published. |
-| `runtimes/hyperframes/components` | Standalone components: `lens-wall` (an endless wall of your photos and videos under a lens), `spatial-type` (extruded 3D type), `thinking-orbs`, `metal`, `ui-world`, and five scenes of the kit as plain HyperFrames factories (`pure-kinetic`). |
-| `tools/component-storybook` | A Storybook of every scene type with live controls, formats, materials and brand books. |
-| `references/hyperframes/local-catalog.json` | The catalogue of what can be installed, with a SHA-256 per file. |
+| `kit/source/lib` | The kit: a film written as data (`film.json`: scenes of a type, their words, beats and look) compiled into native HyperFrames sub-compositions. 100+ scene types (kinetic type, charts, UI, Glass, Metal, Three.js, the lens wall), 43 looks, text measured so nothing overflows. `lib/scene.cjs` builds one scene for a film of your own. A project takes this folder whole. |
+| `kit/source` | A film made with the kit, as a project: `film.json`, the page and compositions built from it. |
+| `kit/AGENTS.md` | The writing guide for an agent that fills in `film.json`: every scene type with its fields and limits. |
+| `kit/tools` | The kit's tests, acceptances and generators. |
+| `components/` | Standalone components: `lens-wall` (an endless wall of your photos and videos under a lens), `spatial-type` (extruded 3D type), `thinking-orbs`, `metal`, `ui-world`, and five scenes of the kit as plain HyperFrames factories (`pure-kinetic`). |
+| `storybook/` | A Storybook of every scene type with live controls, formats, materials and brand books. |
+| `tests/` | The kit's tests under pytest. Every push runs the quick ones before the Storybook is published. |
+| `catalog.json` | The catalogue of what can be installed, with a SHA-256 per file. |
 
 Media a component needs beyond its code (example videos, sample backgrounds)
 is loaded by link from a public CDN, never from this repository.
@@ -31,14 +29,14 @@ Node 22.12 or newer, and Chrome for the browser checks.
 
 ```bash
 npm run storybook          # install and open the Storybook on http://127.0.0.1:6006
-npm run build:storybook    # a static build in tools/component-storybook/storybook-static
+npm run build:storybook    # a static build in storybook/storybook-static
 npm test                   # the kit's node tests (nothing drawn in a browser)
-templates/pure-kinetic/tools/test.sh quick   # the quick pytest set (python3 -m pip install -r requirements-dev.txt first)
-templates/pure-kinetic/tools/test.sh         # everything, with the acceptances Chrome draws: hours
+kit/tools/test.sh quick   # the quick pytest set (python3 -m pip install -r requirements-dev.txt first)
+kit/tools/test.sh         # everything, with the acceptances Chrome draws: hours
 ```
 
 The acceptances draw in Chrome through the pinned HyperFrames (`0.9.19`) and
-need the kit's own packages (`cd templates/pure-kinetic && pnpm install
+need the kit's own packages (`cd kit && pnpm install
 --frozen-lockfile`).
 
 ## Projects that inspired this

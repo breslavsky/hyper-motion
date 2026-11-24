@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-TEMPLATE = ROOT / "templates" / "pure-kinetic"
+TEMPLATE = ROOT / "kit"
 SOURCE = TEMPLATE / "source"
 COMPILER = SOURCE / "lib" / "compiler"
 COMPONENTS = SOURCE / "lib" / "components"
@@ -299,11 +299,11 @@ def _chrome() -> bool:
 
 
 # The picture audits draw in Chrome with the template's own packages. They are
-# run by hand (templates/pure-kinetic/tools/test.sh), every time: nothing
+# run by hand (kit/tools/test.sh), every time: nothing
 # guesses whether they are due. `test.sh quick` leaves them out by PURE_KINETIC_QUICK=1.
 AUDIT = pytest.mark.skipif(
     os.environ.get("PURE_KINETIC_QUICK") == "1" or not (TEMPLATE / "node_modules" / ".pnpm").is_dir() or not _chrome(),
-    reason="draws in Chrome: needs the template's packages (pnpm install in templates/pure-kinetic) and Chrome, and is left out of `test.sh quick`",
+    reason="draws in Chrome: needs the template's packages (pnpm install in kit) and Chrome, and is left out of `test.sh quick`",
 )
 
 

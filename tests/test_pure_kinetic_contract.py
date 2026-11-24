@@ -13,7 +13,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-FILM = ROOT / "templates/pure-kinetic/source/lib/film.cjs"
+FILM = ROOT / "kit/source/lib/film.cjs"
 pytestmark = pytest.mark.skipif(shutil.which("node") is None, reason="needs Node")
 
 
