@@ -508,6 +508,51 @@ validate(s){
       if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
     }
 }),
+"glass-call":glassComponent({
+// A glass panel that is a call coming in (glass/components.mjs).
+anchors(s,len){
+  const open=.05,name=Math.min(.42,len*.14),reach=Math.min(1,len*.28);
+  // The call rings before it is taken: the pointer needs half a second to come up.
+  const answer=Math.max(reach+.5,Math.min(len*.45,2));
+  const collapse=Math.min(len*.95,Math.max(answer+1.2,len*.86));
+  return {open,name,reach,answer,collapse};
+},
+// A call that is taken is seen to run for a second and two tenths; one that
+// only rings, to ring for that long. In beats at 120 bpm.
+needs(s){
+  const folds=(s.exit??'hold')==='collapse',answers=s.answer??true;
+  for(let beats=3;beats<=16;beats++){
+    const len=beats*.5,marks=this.anchors(s,len);
+    if((answers?marks.answer:marks.name)+1.2<=(folds?marks.collapse:len))return beats;
+  }
+  return 16;
+},
+validate(s){
+  const needs=this.needs(s);
+  return Number.isFinite(s.beats)&&s.beats<needs?[`beats: the call needs at least ${needs} beats to ring${(s.answer??true)?' and be taken':''}`]:[];
+},
+"signature":true,
+"copyFields":["name","status"],
+"fields":{
+  "name":{"kind":"string","min":1,"max":16},
+  "status":{"kind":"string","min":1,"max":14,"optional":true},
+  "image":{"kind":"string","min":1,"max":300,"optional":true},
+  "answer":{"kind":"bool","optional":true},
+  "camera":{"kind":"enum","values":["orbit","static"],"optional":true},
+  "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
+},
+"previewVariants":["camera","exit"],
+"guide":"glass-call {name, status?, image?, answer?, camera?, exit?, background?}: an optical glass panel is a call coming in: it grows out of a pill with the picture of who calls, their name and a line under it, a red button to decline and a green one to accept that pulses as the call rings; a pointer comes up and accepts, the accept button goes and the line counts the call's seconds. name = who calls, up to 16 characters (\"Maya Chen\", \"Mum\", \"Unknown\"). status = the line under the name while it rings, up to 14 characters (default \"Incoming call\"). image = their picture, a photo of the user's by its path; without one a figure stands in its place. answer = true (default: the call is taken) or false (it only rings). camera = orbit (default) or static. exit = hold (default) or collapse (the panel folds away). Over a video of the user's it is a call laid on the footage: say where it stands with place (top is where a phone shows one) and size. 6-12 beats.",
+"sample":{"type":"glass-call","beats":10,"name":"Maya Chen","camera":"orbit","exit":"hold"},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len),answers=s.answer??true;
+      cue(marks.open,"pop",.8);
+      // It rings twice before it is taken, or goes on ringing.
+      for(const at of [marks.name,marks.name+.5])if(!answers||at<marks.answer-.1)cue(at,"chime",.6);
+      if(answers)cue(marks.answer,"click",.9);
+      if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+    }
+}),
 "widgets":glassComponent({
 placed:false,
 anchors(s,len){

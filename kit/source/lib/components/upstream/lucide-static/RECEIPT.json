@@ -17,7 +17,10 @@
     "sparkles": "icons/sparkles.svg",
     "arrow-right": "icons/arrow-right.svg",
     "like": "icons/thumbs-up.svg",
-    "save": "icons/bookmark.svg"
+    "save": "icons/bookmark.svg",
+    "phone": "icons/phone.svg",
+    "phone-off": "icons/phone-off.svg",
+    "user": "icons/user.svg"
   },
   "sha256": {
     "LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
@@ -32,6 +35,9 @@
     "icons/sparkles.svg": "ec56e82a61174d92e35550428a041d070332bc56951f1cdbb317820fbe14a9f5",
     "icons/arrow-right.svg": "272e765d0a808baebab26231a53cb1ffd7a46627bf14244a852bc1dddb8dc69f",
     "icons/thumbs-up.svg": "818ad1167be8b94f12e929ad9541fe1571bed91ca90c9876ca0b633c580bddcd",
-    "icons/bookmark.svg": "9242b2c2a7cfdee03d4e3d7cfcf5a9b9c734e1ec9f6ad4576673df20662d4338"
+    "icons/bookmark.svg": "9242b2c2a7cfdee03d4e3d7cfcf5a9b9c734e1ec9f6ad4576673df20662d4338",
+    "icons/phone.svg": "de89831807a3bf55a6f09f9ac03c715bf76a0cfd6e0127d4a61502b2adcc6dc8",
+    "icons/phone-off.svg": "a72370cc9c3efadcb148cac88207766d97f9b41c85561057c81dd512c47e3e31",
+    "icons/user.svg": "9530a04d64fcafbec464395b8cb8512dc25a7813db805d8e7250eb4d9e1efd22"
   }
 }

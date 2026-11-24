@@ -152,6 +152,14 @@
       "taken": "followed",
       "date": "2026-11-24",
       "note": "The glass-follow scene (glass/components.mjs): a glass panel with the mark of a network, a handle and a button a pointer presses. Written here on our own optical glass from what the template's preview video shows; the template itself (a Premiere Pro file) was not downloaded. The marks are Simple Icons' (upstream/simple-icons), each its owner's trademark."
+    },
+    {
+      "name": "Incoming Phone Call Popup Notification UI (Uppbeat), the look of its preview",
+      "url": "https://uppbeat.io/motion-graphics/asset/incoming-phone-call-popup-notification-ui-16513",
+      "license": "Public reference; no media or code copied",
+      "taken": "followed",
+      "date": "2026-11-24",
+      "note": "The glass-call scene (glass/components.mjs): a glass panel with who calls, a button to decline and one to accept, and a line that counts the call's seconds once it is taken. Written here on our own optical glass from what the template's preview video shows; the template itself was not downloaded. The phone, the hang-up and the figure are Lucide's (upstream/lucide-static)."
     }
   ]
 }

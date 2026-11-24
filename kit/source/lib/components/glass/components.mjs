@@ -956,6 +956,117 @@ function glassMessage(args){
   };
 }
 
+// What ends or refuses is shown in one red across the family.
+const DANGER='#ff3b30';
+
+// A glass panel that is a call coming in: it grows out of a pill with the
+// picture of who calls, their name and "Incoming call", a button to decline
+// and one to accept that pulses as the call rings; a pointer comes up and
+// accepts, the accept button goes, and the line under the name counts the
+// call's seconds. After the look of "Incoming Phone Call Popup Notification
+// UI" (SOURCE.json); every measure is the family's grid (grid.mjs).
+function glassCall(args){
+  const {K,p,fg}=args,{el,set,px}=K,s=p.scene;
+  const cameraMode=cameraOf(s,'glass-call');
+  const exit=enumValue(s.exit,['hold','collapse'],'hold','glass-call.exit');
+  const answers=s.answer??true,status=s.status??'Incoming call';
+  const {host,world}=makeWorld(args,'glass-call');
+  const {surface,width}=cardSurface(K,host,[s.name,status]);
+  surface.classList.add('pk-glass-call');
+  const G=glassGrid(K);
+  const mask=(node,source,color)=>set(node,{display:'block',backgroundColor:color,maskImage:`url("${source}")`,maskMode:'alpha',maskSize:'100% 100%',maskRepeat:'no-repeat'});
+  const row=el('div','pk-glass-call-row',surface);
+  set(row,{display:'flex',flexDirection:'row',alignItems:'center',gap:px(G.gap.group),minWidth:'0'});
+  // Who calls: their picture, or a figure on a tint of the text's ink.
+  const avatar=el('div','pk-glass-call-avatar',row);
+  set(avatar,{flex:'none',width:px(G.avatar.size),height:px(G.avatar.size),borderRadius:'50%',overflow:'hidden',
+    display:'grid',placeItems:'center',background:K.alpha(fg,.16),opacity:'0'});
+  const picture=s.image?K.images[s.image]:null;
+  if(picture){
+    const image=el('img','',avatar);image.src=picture.src;image.alt='';
+    set(image,{display:'block',width:'100%',height:'100%',objectFit:'cover'});
+  }else{
+    const figure=el('span','',avatar);figure.setAttribute('aria-hidden','true');
+    mask(figure,islandIconFilledSource('user'),'currentColor');set(figure,{width:px(G.icon),height:px(G.icon)});
+  }
+  // In a wide frame the two buttons stand at the far end of the row and the
+  // words take what is left. A tall or square frame has no room for that
+  // beside a name: the buttons stand in a row of their own under it, apart,
+  // as on a phone.
+  const round=G.mark.size,side=G.wide,spread=side?G.gap.item:G.gap.column;
+  const wordsW=side?G.content-G.avatar.size-2*G.gap.group-(2*round+spread):G.beside(G.avatar.size,G.gap.group);
+  const words=el('div','pk-glass-call-words',row);
+  set(words,{display:'flex',flexDirection:'column',gap:px(G.gap.hair),minWidth:'0',flex:'1'});
+  const name=el('div','pk-glass-call-name',words,s.name);
+  K.design.apply(name,G.type.name.role,{step:G.type.name.step});
+  set(name,{maxWidth:px(wordsW),overflowWrap:'anywhere',opacity:'0'});
+  // Under the name: what the call is, then, once it is taken, how long it has run.
+  const line=el('div','pk-glass-call-line',words);
+  set(line,{position:'relative'});
+  const state=el('div','pk-glass-call-status',line,status);
+  try{K.design.fitGroup([state],{role:G.type.label.role,w:wordsW,h:G.type.label.height,wrap:'anywhere'});}
+  catch{smallestStep(K,[state],G.type.label.role,wordsW);}
+  set(state,{opacity:'0'});
+  const clock=el('div','pk-glass-call-clock',line,'00:00');
+  K.design.apply(clock,G.type.label.role);
+  set(clock,{position:'absolute',left:'0',top:'0',whiteSpace:'nowrap',fontVariantNumeric:'tabular-nums',opacity:'0'});
+  const buttons=el('div','pk-glass-call-buttons',side?row:surface);
+  set(buttons,{display:'flex',flexDirection:'row',flex:'none',justifyContent:'center',gap:px(spread),opacity:'0'});
+  surface.dataset.callButtons=side?'beside':'under';
+  const button=(name,icon,color)=>{
+    const node=el('div',name,buttons);node.setAttribute('role','button');
+    set(node,{flex:'none',width:px(round),height:px(round),borderRadius:'50%',background:color,display:'grid',placeItems:'center'});
+    const art=el('span','',node);art.setAttribute('aria-hidden','true');
+    mask(art,islandIconFilledSource(icon),'#ffffff');set(art,{width:px(G.check.glyph),height:px(G.check.glyph)});
+    return node;
+  };
+  const decline=button('pk-glass-call-decline','phone-off',DANGER),accept=button('pk-glass-call-accept','phone',activeColor(args));
+  decline.setAttribute('aria-label','Decline');accept.setAttribute('aria-label','Accept');
+  surface.dataset.callAvatar=picture?'picture':'figure';
+  const copy=finishCard(K,surface,width);
+  const card=world.addCard({width,height:copy.height,element:surface,backdropOnly:true});
+  card.group.scale.setScalar(fitToFrame(K,copy.height));
+  world.prepare();
+  const {pointer,cursor}=pointerOf(K,surface,'pk-glass-call-pointer',G.icon,2);
+  const acceptAt=middleOf(accept),T=G.time;
+  // The button's place in the panel, not in its own row.
+  const at={x:buttons.offsetLeft+acceptAt.x,y:buttons.offsetTop+acceptAt.y};
+  let shownSeconds=-1;
+  return (time,duration=p.dur,backdropTime=time)=>{
+    const live=metadata['glass-call'].anchors(s,duration);
+    const n=clamp(time/duration),enter=phase(time,live.open,live.open+T.open);
+    const close=exit==='collapse'?smoother(phase(time,live.collapse,duration*.98)):0;
+    updateCard(card,world,width,copy.height,outBack(enter)*(1-close),outBack(phase(time,live.open+.04,live.open+T.open+.04))*(1-close),smooth(enter)*(1-close));
+    card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
+    const shown=smooth(phase(time,live.open+.16,live.open+T.open))*(1-smooth(phase(close,.05,.55)));
+    card.opacity=shown;
+    const named=smooth(phase(time,live.name,live.name+T.fade));
+    set(avatar,{opacity:smooth(phase(time,live.name-.06,live.name+.1)).toFixed(4),transform:`scale(${(.6+.4*outBack(phase(time,live.name-.06,live.name-.06+T.pop))).toFixed(4)})`});
+    set(name,{opacity:named.toFixed(4)});
+    set(buttons,{opacity:smooth(phase(time,live.name+.1,live.name+.1+T.fade)).toFixed(4)});
+    const taken=answers?smooth(phase(time,live.answer,live.answer+.2)):0;
+    set(state,{opacity:(.68*named*(1-taken)).toFixed(4)});
+    set(clock,{opacity:(.68*taken).toFixed(4)});
+    const seconds=answers?Math.max(0,Math.floor(time-live.answer)):0;
+    if(seconds!==shownSeconds){shownSeconds=seconds;clock.textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;}
+    // The call rings: the accept button swells twice a second until it is pressed.
+    const ringing=time>=live.name&&!(answers&&time>=live.answer)?Math.max(0,Math.sin(4*Math.PI*(time-live.name))):0;
+    const press=answers?Math.sin(Math.PI*phase(time,live.answer,live.answer+.22)):0;
+    set(accept,{opacity:(1-taken).toFixed(4),transform:`scale(${((1+.08*ringing)*(1-.1*press)*(1-.4*taken)).toFixed(4)})`});
+    // Taken, the call has one button: it moves to the end of the row beside
+    // the words, or to the middle of a row of its own.
+    set(decline,{transform:`translateX(${px((round+spread)*(side?1:.5)*taken)})`});
+    accept.setAttribute('aria-hidden',String(answers&&time>=live.answer));
+    if(answers){
+      const coming={fx:at.x+G.icon*2,fy:copy.height+G.icon*2,x:at.x,y:at.y,start:live.reach,arrive:live.answer-.1,click:live.answer};
+      const going={fx:at.x,fy:at.y,x:at.x+G.icon*2.4,y:copy.height+G.icon*2.4,start:live.answer+.34,arrive:live.answer+.9,click:Infinity};
+      cursor(time,time>=going.start?going:coming);
+      pointer.style.opacity=String(shown*(1-smooth(phase(time,live.answer+.55,live.answer+.9))));
+    }else pointer.style.opacity='0';
+    orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
+  };
+}
+
 // The word on the button where a network has its own for it.
 const FOLLOW_WORD=Object.freeze({youtube:'Subscribe',substack:'Subscribe',telegram:'Join',discord:'Join',patreon:'Join',whatsapp:'Message'});
 // Whether a colour is light enough to carry dark ink (its relative luminance).
@@ -1180,4 +1291,4 @@ function glassLike(args){
   };
 }
 
-export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow});
+export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});

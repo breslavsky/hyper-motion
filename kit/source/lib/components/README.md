@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `send-prompt`, `search` and `lens`.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `send-prompt`, `search` and `lens`.
 Catalog membership in the broader `glass` family also covers DOM scenes such as
 `widgets` and `sheet`. Apply these rules to the optical group.
 
@@ -329,7 +329,7 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`. The others have
+`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`. The others have
 neither (`placed:false` in their metadata), each for its reason: `widgets`
 and `sheet` are laid out by the page; in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
@@ -765,6 +765,24 @@ gave. The word on the button is the network's own where it has one
 (Subscribe, Join, Message), else Follow. In a wide frame the panel is as
 wide as what it holds; a handle is twenty characters at most
 (`tools/glass-follow.test.mjs`).
+
+## Glass call
+
+`glass-call` (`glass/components.mjs`) is a call coming in: the panel grows
+out of a pill with the picture of who calls (the film's `image`, or a
+figure), their name and a line under it ("Incoming call"), a button to
+decline and one to accept. The accept button swells twice a second as the
+call rings. A pointer comes up and accepts: the accept button goes, the
+other moves to the end of the panel, and the line counts the call's seconds
+from the moment it is taken (a pure function of the scene's time). With
+`answer: false` the call only rings. Accept takes the family's active
+colour; decline is the family's one red (`DANGER`). The picture is the
+grid's `avatar`, the buttons its `mark`, their glyphs the vendored Lucide
+phone and hang-up. In a wide frame the buttons stand at the end of the row;
+in a tall or square one they stand in a row of their own under the name,
+which otherwise had seven characters to a line. Measured in the native
+browser: a name of 16 characters takes two lines at most and a status of 14
+one, in every frame shape (`tools/glass-call.test.mjs`).
 
 ## Comic
 
