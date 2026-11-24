@@ -185,7 +185,7 @@ try {
       await page.setViewport({width:1100,height:820});
       const origin = process.env.STORYBOOK_URL ?? 'http://127.0.0.1:6006';
       const url = new URL('iframe.html',origin.endsWith('/') ? origin : origin + '/');
-      url.search = new URLSearchParams({id:'pure-kinetic-glass-ask--variant-camera-'+camera,viewMode:'story',
+      url.search = new URLSearchParams({id:'glass-ask--variant-camera-'+camera,viewMode:'story',
         globals:'aspect:portrait;brandbook:__default__;material:'+material});
       await page.goto(url.href);
       await page.waitForFunction(() => document.querySelector('hyperframes-player')?.iframeElement?.contentWindow?.__renderReady === true);

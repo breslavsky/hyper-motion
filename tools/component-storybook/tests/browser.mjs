@@ -59,9 +59,9 @@ async function fetchIndex() {
 const response = await fetchIndex();
 assert.ok(response.ok, `Storybook index returned HTTP ${response.status}`);
 const index = await response.json();
-const storyEntries = Object.values(index.entries).filter(entry => entry.type === 'story' && entry.title.startsWith('Pure Kinetic/'));
+const storyEntries = Object.values(index.entries).filter(entry => entry.type === 'story' && /^(Glass|3D|Pure Kinetic)\//.test(entry.title));
 const stories = new Map(Object.values(index.entries).filter(entry => entry.type === 'story'
-  && entry.title.startsWith('Pure Kinetic/') && entry.exportName === 'Preview')
+  && /^(Glass|3D|Pure Kinetic)\//.test(entry.title) && entry.exportName === 'Preview')
   .map(entry => [entry.title.split('/').at(-1), entry]));
 assert.deepEqual([...stories.keys()].sort(), catalogue.map(entry => entry.type).sort(), 'Storybook index must cover the canonical catalogue exactly');
 const componentTitles = new Set([...stories.values()].map(entry => entry.title));

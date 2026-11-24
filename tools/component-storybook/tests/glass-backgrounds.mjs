@@ -11,7 +11,7 @@ const executablePath = process.env.CHROME_BIN ?? [
   '/usr/bin/google-chrome','/usr/bin/chromium','/usr/bin/chromium-browser',
 ].find(existsSync);
 const index = await (await fetch(new URL('index.json',base))).json();
-const stories = Object.values(index.entries).filter(entry => entry.title.startsWith('Pure Kinetic/glass/') && entry.exportName === 'Preview');
+const stories = Object.values(index.entries).filter(entry => entry.title.startsWith('Glass/') && entry.exportName === 'Preview');
 const storyURL = (id, material) => {
   const url = new URL('iframe.html',base);
   url.search = new URLSearchParams({id,viewMode:'story',globals:'aspect:portrait;brandbook:__default__;material:'+material});
@@ -156,7 +156,7 @@ try {
     await page.select('.pk-background select','component'); await ready(page);
     console.log(type+' image, video, reverse and reset passed');
   }
-  await page.goto(storyURL('pure-kinetic-glass-ask--preview','dark-glass')); await ready(page);
+  await page.goto(storyURL('glass-ask--preview','dark-glass')); await ready(page);
   // A file of the visitor's own: the sample is fetched from our CDN and
   // uploaded as a local file.
   const mediaFile = path.join(mkdtempSync(path.join(tmpdir(),'glass-upload-')),'glass-street.mp4');
@@ -176,7 +176,7 @@ try {
   await page.select('.pk-background select','component'); await ready(page);
   console.log('local video upload, portable recipe and reset passed');
   for (const material of ['glass','dark-glass']) {
-    await page.goto(storyURL('pure-kinetic-glass-ask--preview',material)); await ready(page);
+    await page.goto(storyURL('glass-ask--preview',material)); await ready(page);
     await uploadStripeChart(page);
     const [left,right] = await imageRefraction(page);
     assert.ok(left.shift*right.shift<0 && Math.min(left.correlation,right.correlation)>.7,

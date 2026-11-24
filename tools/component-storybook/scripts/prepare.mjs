@@ -59,11 +59,13 @@ if (settings.materials.includes('dark-glass')) {
     fs.copyFileSync(path.join(here, 'src', file), path.join(output, file));
   }
 }
-// The sidebar's folders are the catalogue's families, but the scenes drawn in
-// depth stand together: Three.js scenes and the wall under a lens.
-const GROUPS = {three: '3d', 'lens-wall': '3d'};
+// The sidebar has three sections of scenes: Glass, the scenes drawn in depth
+// (Three.js and the wall under a lens) as 3D, and every other family as a
+// folder of Pure Kinetic.
+const SECTIONS = {glass: 'Glass', three: '3D', 'lens-wall': '3D'};
+const titleOf = entry => SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.family}/${entry.type}`;
 for (const entry of catalog) {
-  const code = `// Generated from the maintained Pure Kinetic catalogue. Do not edit.\nimport catalog from './catalog.json';\nimport {renderComponent} from '../src/render.mjs';\nimport {defaultArgs, argTypesFor} from '../src/model.mjs';\nconst entry = catalog.find(item => item.type === ${JSON.stringify(entry.type)});\nexport default {title: ${JSON.stringify(`Pure Kinetic/${GROUPS[entry.family]??entry.family}/${entry.type}`)}, tags: ['autodocs'], ${settings.materialComponents.includes(entry.type)?'':"globals: {material: 'glass'}, "}args: defaultArgs(entry), argTypes: argTypesFor(entry), parameters: {docs: {description: {component: entry.description}}}, render: (args, context) => renderComponent(entry, args, context.globals, {viewMode: context.viewMode, storyId: context.id})};\nexport const Preview = {name: 'Component'};\n`;
+  const code = `// Generated from the maintained Pure Kinetic catalogue. Do not edit.\nimport catalog from './catalog.json';\nimport {renderComponent} from '../src/render.mjs';\nimport {defaultArgs, argTypesFor} from '../src/model.mjs';\nconst entry = catalog.find(item => item.type === ${JSON.stringify(entry.type)});\nexport default {title: ${JSON.stringify(titleOf(entry))}, tags: ['autodocs'], ${settings.materialComponents.includes(entry.type)?'':"globals: {material: 'glass'}, "}args: defaultArgs(entry), argTypes: argTypesFor(entry), parameters: {docs: {description: {component: entry.description}}}, render: (args, context) => renderComponent(entry, args, context.globals, {viewMode: context.viewMode, storyId: context.id})};\nexport const Preview = {name: 'Component'};\n`;
   // CSF's static indexer reads identifier property keys for the display name.
   const stories = [...entry.variants, ...entry.examples].map(variant => `export const ${variant.exportName} = {name: ${JSON.stringify(variant.name)}, args: ${JSON.stringify(variant.args)}};\n`).join('');
   fs.writeFileSync(path.join(generated, `${entry.type}.stories.mjs`), code + stories);
