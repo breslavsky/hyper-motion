@@ -331,7 +331,7 @@ validate(s){
     }
 }),
 "glass-like":glassComponent({
-// A glass button somebody presses: Like to Liked (glass/components.mjs).
+// A glass button somebody presses (glass/components.mjs).
 anchors(s,len){
   const open=.05,reach=Math.min(.7,len*.2);
   // The pointer needs half a second to come up; the click is before the scene's middle.
@@ -354,23 +354,73 @@ validate(s){
   return Number.isFinite(s.beats)&&s.beats<needs?[`beats: the button needs at least ${needs} beats to be pressed and seen`]:[];
 },
 "signature":true,
-"copyFields":["text","after"],
+"copyFields":["text"],
 "fields":{
   "text":{"kind":"string","min":1,"max":12},
-  "after":{"kind":"string","min":1,"max":12,"optional":true},
   "icon":{"kind":"enum","values":["like","heart","star","bell","save","plus","check"],"optional":true},
   "camera":{"kind":"enum","values":["static","orbit"],"optional":true},
   "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
 },
 "previewVariants":["icon","exit"],
-"guide":"glass-like {text, after?, icon?, camera?, exit?, background?}: an optical glass button is pressed: a pill grows out of a round seed with an icon and a word, a pointer comes up and clicks the icon, the icon fills with colour and the word changes (\"Like\" to \"Liked\"). text = the word before the click and after = the word after it (default: the same word), each up to 12 characters: \"Like\"/\"Liked\", \"Follow\"/\"Following\", \"Subscribe\"/\"Subscribed\", \"Save\"/\"Saved\". icon = like (default: a thumb), heart, star, bell, save (a bookmark), plus or check; pressed, it takes the brand's accent, or its own colour without one. camera = static (default) or orbit. exit = hold (default) or collapse (the pill folds back into its seed and goes). Over a video of the user's it is the call to like, follow or subscribe laid on the footage: say where it stands with place and size. 4-8 beats.",
-"sample":{"type":"glass-like","beats":6,"text":"Like","after":"Liked","icon":"like","camera":"static","exit":"hold"},
+"guide":"glass-like {text, icon?, camera?, exit?, background?}: an optical glass button is pressed: a pill grows out of a round seed with an icon and a word, a pointer comes up and clicks the icon, a ripple runs the pill and the icon fills with colour. text = the word on the button, up to 12 characters (\"Like\", \"Follow\", \"Subscribe\", \"Save\"); it does not change when pressed. icon = like (default: a thumb), heart, star, bell, save (a bookmark), plus or check; pressed, it takes the brand's accent, or a clear green without one. camera = static (default) or orbit. exit = hold (default) or collapse (the pill folds back into its seed and goes). Over a video of the user's it is the call to like, follow or subscribe laid on the footage: say where it stands with place and size. 4-8 beats.",
+"sample":{"type":"glass-like","beats":6,"text":"Like","icon":"like","camera":"static","exit":"hold"},
 "sounds":function sounds(s,len,cue){
       const marks=this.anchors(s,len);
       cue(marks.open,"pop",.8);
       cue(marks.click,"click",.9);
       cue(marks.click+.14,"chime",.55);
       if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+    }
+}),
+"glass-rating":glassComponent({
+// A glass panel that gives a rating in five stars (glass/components.mjs).
+anchors(s,len){
+  const open=.05,title=Math.min(.38,len*.12);
+  // The stars fill one after another, 0.16 s apart, the first after the question is up.
+  const first=Math.min(.7,len*.22),last=Math.min(len*.6,first+4*.16);
+  const stars=spread(5,first,last);
+  const caption=stars.at(-1)+.3;
+  // A folding panel leaves in the scene's last quarter.
+  const collapse=Math.min(len*.95,Math.max(caption+.7,len*.84));
+  return {open,title,stars,caption,collapse};
+},
+// The rating is seen for eight tenths of a second after its last star (or its
+// line of words) before the scene ends or the panel folds. In beats at 120 bpm.
+needs(s){
+  const folds=(s.exit??'hold')==='collapse';
+  for(let beats=3;beats<=16;beats++){
+    const len=beats*.5,marks=this.anchors(s,len);
+    if((s.caption?marks.caption+.26:marks.stars.at(-1)+.18)+.8<=(folds?marks.collapse:len))return beats;
+  }
+  return 16;
+},
+validate(s){
+  const errors=[];
+  if(s.stars!==undefined&&Number.isFinite(s.stars)&&Math.round(s.stars*2)!==s.stars*2)errors.push(`stars: ${s.stars}; a rating is whole or half stars, 0 to 5`);
+  const needs=this.needs(s);
+  if(!errors.length&&Number.isFinite(s.beats)&&s.beats<needs)errors.push(`beats: the rating needs at least ${needs} beats to be given and seen`);
+  return errors;
+},
+"signature":true,
+"copyFields":["title","caption"],
+// A small panel takes the same texts: at their limits both stay in the first
+// step of their role in every frame shape (measured in the native browser).
+"fields":{
+  "title":{"kind":"string","min":1,"max":40,"optional":true},
+  "stars":{"kind":"number","min":0,"max":5,"optional":true},
+  "caption":{"kind":"string","min":1,"max":36,"optional":true},
+  "camera":{"kind":"enum","values":["orbit","static"],"optional":true},
+  "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
+},
+"previewVariants":["camera","exit"],
+"guide":"glass-rating {title?, stars?, caption?, camera?, exit?, background?}: an optical glass panel gives a rating: it grows out of a pill, its question or name comes in, then five stars fill with gold one after another up to the rating, and a line under them says it in words. title = what is rated or the question asked, up to 40 characters (\"How was your stay?\", \"Nook for iPhone\"). stars = the rating, 0 to 5 in whole or half stars (default 5; 4.5 fills the fifth star to its middle). caption = one line under the stars, up to 36 characters, for the number and where it is from (\"4.8 out of 5 from 1,240 reviews\"); state only a rating the user gave you. camera = orbit (default) or static. exit = hold (default) or collapse (the panel folds away). The stars take the brand's accent when the film has one. Over a photo or a video of the user's it is a review laid on the footage: say where it stands with place and size. 4-8 beats.",
+"sample":{"type":"glass-rating","beats":7,"title":"How was your stay?","stars":4.5,"caption":"4.8 out of 5 from 1,240 reviews","camera":"orbit","exit":"hold"},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len),rating=s.stars??5;
+      cue(marks.open,"pop",.8);
+      marks.stars.forEach((at,i)=>{if(rating>i)cue(at,"tick",.5+.05*i);});
+      if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+      else if(rating>0)cue(marks.stars[Math.min(4,Math.ceil(rating)-1)]+.2,"chime",.6);
     }
 }),
 "widgets":glassComponent({

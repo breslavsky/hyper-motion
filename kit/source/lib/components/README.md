@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `send-prompt`, `search` and `lens`.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `send-prompt`, `search` and `lens`.
 Catalog membership in the broader `glass` family also covers DOM scenes such as
 `widgets` and `sheet`. Apply these rules to the optical group.
 
@@ -329,7 +329,7 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`. The others have
+`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`. The others have
 neither (`placed:false` in their metadata), each for its reason: `widgets`
 and `sheet` are laid out by the page; in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
@@ -684,7 +684,8 @@ step comes in, and a film that gives it fewer beats is refused
 `glass-checklist` (`glass/components.mjs`) ticks a list off: the panel grows
 out of a pill, its title comes in, then two to five items one after another,
 each an empty box that pops, a line lit word by word as it would be read,
-and a tick drawn into the box when the line is said. `done` says how many
+and a tick drawn into the box, which fills with the family's active colour,
+when the line is said. `done` says how many
 items are ticked, from the top; the rest keep an empty box. With
 `exit: collapse` the rows go one after another and the panel folds away. It
 follows the look of a stock template's preview (`SOURCE.json`) on the
@@ -705,17 +706,33 @@ a second after it, and a film that gives it fewer beats is refused
 `glass-like` (`glass/components.mjs`) is a button somebody presses: a glass
 pill grows out of a round seed with an icon and a word, a pointer comes up
 and clicks the icon, a ripple runs the pill from the click as in `search`,
-the icon fills with colour and the word changes ("Like" to "Liked",
-"Follow" to "Following"). The pill is the design system's field in its pill
-shape, the word a scene title (the grid's `action`), the icon the word's
-size; the two words stand in one place as wide as the wider, so the pill
-keeps its size when the word changes. A word is twelve characters at most
+and the icon fills with colour. The word stays as it is. The pill is the
+design system's field in its pill shape, the word a scene title (the grid's
+`action`), the icon the word's size. A word is twelve characters at most
 and is set a step smaller only when the pill would be wider than the safe
 area. Icons: `like`, `heart`, `star`, `bell`, `save`, `plus`, `check`, from
-the vendored Lucide set, outlined before the click and filled after, in the
-brand's accent or a colour of the icon's own. With `exit: collapse` the pill
-folds back into its seed. Over footage it is the call to like, follow or
-subscribe, placed by `place` and `size` (`tools/glass-like.test.mjs`).
+the vendored Lucide set, outlined before the click and filled after. With
+`exit: collapse` the pill folds back into its seed. Over footage it is the
+call to like, follow or subscribe, placed by `place` and `size`
+(`tools/glass-like.test.mjs`).
+
+What is on, pressed or done has one colour across the family
+(`activeColor` in `glass/components.mjs`): the brand's accent, or a clear
+green when the film has none. A switch's rail, a pressed icon and a ticked
+box of the checklist take it; the stars of a rating are gold.
+
+## Glass rating
+
+`glass-rating` (`glass/components.mjs`) gives a rating in five stars: the
+panel grows out of a pill, a question or a name comes in, the stars fill
+with gold one after another up to `stars` (whole or half: a half star is
+filled to its middle), and an optional `caption` under them says the rating
+in words. A star is the vendored Lucide star, filled, as an alpha mask:
+faint in the text's ink when empty, in gold (or the brand's accent) over it
+when filled, uncovered from its left. It is the grid's mark in size, with
+the item gap between stars; the panel is the family's card, centred. With
+`exit: collapse` the panel folds away. The guide tells the writer to state
+only a rating the user gave (`tools/glass-rating.test.mjs`).
 
 ## Comic
 

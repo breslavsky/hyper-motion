@@ -1228,7 +1228,8 @@ async function glassControlsAndCleanup() {
           : type === 'send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
           : type === 'glass-steps' ? {title: 'Three steps', items: ['Shoot it', 'Cut it', 'Share it'], camera: 'static'}
           : type === 'glass-checklist' ? {title: 'Ready to post', items: ['Shot', 'Cut', 'Captioned'], camera: 'static'}
-          : type === 'glass-like' ? {text: 'Follow', after: 'Following', icon: 'heart'}
+          : type === 'glass-like' ? {text: 'Follow', icon: 'heart'}
+          : type === 'glass-rating' ? {title: 'Rate the class', stars: 4, caption: 'Four of five', camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');

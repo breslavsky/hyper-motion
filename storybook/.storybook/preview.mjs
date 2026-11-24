@@ -22,7 +22,7 @@ export default {
     layout: 'fullscreen',
     controls: {expanded: true, sort: 'requiredFirst'},
     // Glass first, then the scenes drawn in depth, then every other family by name.
-    options: {storySort: {order: ['Glass', ['search', 'send-prompt', 'ask', 'island', 'glass-steps', 'glass-checklist', 'glass-like', 'glass-flow', '*'], '3D', 'Pure Kinetic']}},
+    options: {storySort: {order: ['Glass', ['search', 'send-prompt', 'ask', 'island', 'glass-steps', 'glass-checklist', 'glass-like', 'glass-rating', 'glass-flow', '*'], '3D', 'Pure Kinetic']}},
     docs: {toc: true},
   },
 };

@@ -127,7 +127,15 @@
       "license": "Public reference; no media or code copied",
       "taken": "followed",
       "date": "2026-11-24",
-      "note": "The glass-like scene (glass/components.mjs): a glass pill with an icon and a word, a pointer that comes up and clicks the icon, the icon filled with colour and the word changed, a pill that folds back into a round seed. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded. The thumb and the bookmark are Lucide's (upstream/lucide-static)."
+      "note": "The glass-like scene (glass/components.mjs): a glass pill with an icon and a word, a pointer that comes up and clicks the icon, a ripple through the pill and the icon filled with colour, a pill that folds back into a round seed. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded. The thumb and the bookmark are Lucide's (upstream/lucide-static)."
+    },
+    {
+      "name": "Rating Element Liquid Glass (Uppbeat), the look of its preview",
+      "url": "https://uppbeat.io/motion-graphics/asset/rating-element-liquid-glass-12294",
+      "license": "Public reference; no media or code copied",
+      "taken": "followed",
+      "date": "2026-11-24",
+      "note": "The glass-rating scene (glass/components.mjs): a glass panel with a question and five stars that fill with gold one after another. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded. The star is Lucide's (upstream/lucide-static)."
     }
   ]
 }

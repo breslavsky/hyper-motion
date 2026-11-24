@@ -11,10 +11,10 @@ const problems = extra => film.problems({aspect: '9:16', style: 'glass', brand: 
 
 test('the sample is a film; a word is twelve characters at most and the icon one of the set', () => {
   assert.deepEqual(problems({}), []);
-  assert.deepEqual(problems({text: 'Subscribe', after: 'Subscribed', icon: 'bell'}), []);
-  assert.deepEqual(problems({after: undefined}), []);
+  assert.deepEqual(problems({text: 'Subscribe', icon: 'bell'}), []);
   assert.match(problems({text: 'x'.repeat(13)}).join(), /at most 12/);
-  assert.match(problems({after: 'x'.repeat(13)}).join(), /at most 12/);
+  // The word stays as it is when the button is pressed: there is no second word.
+  assert.ok(problems({after: 'Liked'}).length);
   assert.match(problems({icon: 'rocket'}).join(), /icon/);
   assert.deepEqual(scene.fields.icon.values, ['like', 'heart', 'star', 'bell', 'save', 'plus', 'check']);
 });

@@ -1612,10 +1612,24 @@
       "inherits": [],
       "preserved": {
         "fields": [
-          "text one word of a button, never cut",
-          "after one word of a button, never cut"
+          "text one word of a button, never cut"
         ],
         "reason": "A button's word is twelve characters at most and is set a step smaller before the pill would leave the safe area; it is never shortened."
+      }
+    },
+    {
+      "type": "glass-rating",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title multiline cardTitle",
+          "caption whole line, fitted to the panel"
+        ],
+        "reason": "The question and the line under the stars are read whole: each is fitted to the panel's width in its role on the projected surface in every look."
       }
     }
   ]
