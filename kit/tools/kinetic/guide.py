@@ -360,7 +360,7 @@ Put the panel where the footage is quiet, not over a face. Over footage
 set the film's `material` to `"dark-glass"`: it is frosted and its text
 reads, while clear `"glass"` is all but transparent and a small panel of it
 is lost on a busy picture. `place` and `size` are fields of `island`,
-`controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like` and `glass-rating`; the other glass scenes fill
+`controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating` and `glass-message`; the other glass scenes fill
 the frame and take neither:
 
 '''

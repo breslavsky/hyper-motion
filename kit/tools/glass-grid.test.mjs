@@ -17,7 +17,8 @@ test('every length of the grid is a step of the design system', () => {
   const space = new Set(RADIX_TOKENS.space), radius = new Set(RADIX_TOKENS.radius);
   for (const value of [...Object.values(GLASS_UNITS.gap), GLASS_UNITS.row, GLASS_UNITS.mark.size, ...Object.values(GLASS_UNITS.move),
     GLASS_UNITS.card.paddingX, GLASS_UNITS.card.paddingY, GLASS_UNITS.card.gap]) assert.ok(space.has(value), `${value} is not a space step`);
-  for (const value of [GLASS_UNITS.card.radius, GLASS_UNITS.mark.radius]) assert.ok(radius.has(value), `${value} is not a radius step`);
+  for (const value of [GLASS_UNITS.card.radius, GLASS_UNITS.mark.radius, GLASS_UNITS.avatar.radius]) assert.ok(radius.has(value), `${value} is not a radius step`);
+  assert.ok(space.has(GLASS_UNITS.avatar.size));
   assert.deepEqual(GLASS_UNITS.card, SURFACE_RECIPES.card.normal);
   assert.equal(GLASS_UNITS.icon, RADIX_TOKENS.fontSizes[ROLE_STEPS.cardTitle.steps[0] - 1]);
   // A box to tick is sized to the body text beside it: as tall as a line of
@@ -73,7 +74,7 @@ test('a panel stands at one of nine places against the safe area, at one of two 
   assert.equal(GLASS_PLACES.length, 9);
   assert.deepEqual(GLASS_SIZES, {normal: 1, small: .6});
   const placed = Object.keys(definitions).filter(type => definitions[type].fields?.place).sort();
-  assert.deepEqual(placed, ['ask', 'controls', 'glass-checklist', 'glass-like', 'glass-rating', 'glass-steps', 'island', 'search'], 'scenes that are one panel under a camera at rest');
+  assert.deepEqual(placed, ['ask', 'controls', 'glass-checklist', 'glass-like', 'glass-message', 'glass-rating', 'glass-steps', 'island', 'search'], 'scenes that are one panel under a camera at rest');
   for (const type of ['widgets', 'sheet', 'lens', 'send-prompt', 'glass-flow']) assert.equal(definitions[type].fields.size, undefined, type);
 
   const K = frame(1920, 1080), box = {w: 1000, h: 400};

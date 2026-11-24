@@ -351,6 +351,11 @@ export const catalog={
     "renderMode": "webgl",
     "owned": true
   },
+  "glass-message": {
+    "family": "glass",
+    "renderMode": "webgl",
+    "owned": true
+  },
   "send-prompt": {
     "family": "glass",
     "renderMode": "webgl",

@@ -886,6 +886,75 @@ function glassRating(args){
   };
 }
 
+// A glass panel that is a message arriving: it grows out of a pill with the
+// picture of who it is from, their name, when it came and what it says.
+// After the look of "Liquid Glass Message Popup" (SOURCE.json); every measure
+// is the family's grid (grid.mjs).
+function glassMessage(args){
+  const {K,p,fg}=args,{el,set,px}=K,s=p.scene;
+  const cameraMode=cameraOf(s,'glass-message');
+  const exit=enumValue(s.exit,['hold','collapse'],'hold','glass-message.exit');
+  const {host,world}=makeWorld(args,'glass-message');
+  const {surface,width}=cardSurface(K,host,[s.name,s.time,s.text]);
+  surface.classList.add('pk-glass-message');
+  const G=glassGrid(K);
+  const row=el('div','pk-glass-message-row',surface);
+  set(row,{display:'flex',flexDirection:'row',alignItems:'flex-start',gap:px(G.gap.group),minWidth:'0'});
+  // The picture, or the first letters of the name on a tint of the text's ink.
+  const avatar=el('div','pk-glass-message-avatar',row);
+  set(avatar,{flex:'none',width:px(G.avatar.size),height:px(G.avatar.size),borderRadius:px(G.avatar.radius),overflow:'hidden',
+    display:'grid',placeItems:'center',background:K.alpha(fg,.16),opacity:'0'});
+  const picture=s.image?K.images[s.image]:null;
+  if(picture){
+    const image=el('img','',avatar);image.src=picture.src;image.alt='';
+    set(image,{display:'block',width:'100%',height:'100%',objectFit:'cover'});
+  }else{
+    const letters=String(s.name).trim().split(/\s+/u).slice(0,2).map(word=>[...word][0]??'').join('').toUpperCase();
+    K.design.apply(el('div','pk-glass-message-initials',avatar,letters),'initials');
+  }
+  const besideW=G.beside(G.avatar.size,G.gap.group);
+  const words=el('div','pk-glass-message-words',row);
+  set(words,{display:'flex',flexDirection:'column',gap:px(G.gap.hair),minWidth:'0',flex:'1'});
+  // The name and, at the far end of its line, when the message came.
+  const head=el('div','pk-glass-message-head',words);
+  // The time stands at the top of the name's line, as on a phone.
+  set(head,{display:'flex',flexDirection:'row',alignItems:'flex-start',gap:px(G.gap.item),minWidth:'0'});
+  const name=el('div','pk-glass-message-name',head,s.name);
+  K.design.apply(name,G.type.name.role,{step:G.type.name.step});
+  set(name,{flex:'1',minWidth:'0',overflowWrap:'anywhere',opacity:'0'});
+  let time=null;
+  if(s.time){
+    time=el('div','pk-glass-message-time',head,s.time);
+    K.design.apply(time,G.type.time.role);
+    set(time,{flex:'none',whiteSpace:'nowrap',opacity:'0'});
+  }
+  const text=el('div','pk-glass-message-text',words,s.text);
+  try{K.design.fitGroup([text],{role:G.type.item.role,w:besideW,h:G.type.item.height,wrap:'anywhere'});}
+  catch{smallestStep(K,[text],G.type.item.role,besideW);}
+  set(text,{opacity:'0'});
+  surface.dataset.messageAvatar=picture?'picture':'initials';
+  const copy=finishCard(K,surface,width);
+  const card=world.addCard({width,height:copy.height,element:surface,backdropOnly:true});
+  card.group.scale.setScalar(fitToFrame(K,copy.height));
+  world.prepare();
+  const T=G.time;
+  return (time_,duration=p.dur,backdropTime=time_)=>{
+    const live=metadata['glass-message'].anchors(s,duration);
+    const n=clamp(time_/duration),enter=phase(time_,live.open,live.open+T.open);
+    const close=exit==='collapse'?smoother(phase(time_,live.collapse,duration*.98)):0;
+    updateCard(card,world,width,copy.height,outBack(enter)*(1-close),outBack(phase(time_,live.open+.04,live.open+T.open+.04))*(1-close),smooth(enter)*(1-close));
+    card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
+    card.opacity=smooth(phase(time_,live.open+.16,live.open+T.open))*(1-smooth(phase(close,.05,.55)));
+    set(avatar,{opacity:smooth(phase(time_,live.name-.06,live.name+.1)).toFixed(4),transform:`scale(${(.6+.4*outBack(phase(time_,live.name-.06,live.name-.06+T.pop))).toFixed(4)})`});
+    const named=smooth(phase(time_,live.name,live.name+T.fade));
+    set(name,{opacity:named.toFixed(4)});
+    if(time)set(time,{opacity:(.68*named).toFixed(4)});
+    const said=smooth(phase(time_,live.text,live.text+T.fade));
+    set(text,{opacity:said.toFixed(4),transform:`translateY(${px((1-said)*G.move.settle)})`});
+    orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
+  };
+}
+
 const LIKE_ICONS=Object.freeze(['like','heart','star','bell','save','plus','check']);
 
 // A glass button somebody presses: a pill grows out of a round seed with an
@@ -993,4 +1062,4 @@ function glassLike(args){
   };
 }
 
-export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating});
+export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage});

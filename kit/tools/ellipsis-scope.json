@@ -1631,6 +1631,22 @@
         ],
         "reason": "The question and the line under the stars are read whole: each is fitted to the panel's width in its role on the projected surface in every look."
       }
+    },
+    {
+      "type": "glass-message",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "name whole, wrapped if it must",
+          "time a few characters, never cut",
+          "text whole message, fitted beside the picture"
+        ],
+        "reason": "A message is read whole: its text is fitted to the width beside the picture in its role, and a name too long for its line wraps rather than being cut."
+      }
     }
   ]
 }

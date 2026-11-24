@@ -24,6 +24,8 @@ export const GLASS_UNITS = Object.freeze({
   // A box to tick stands beside body text and is sized to it: as tall as a
   // line of that text, its tick three quarters of it, on the mark's stroke.
   check: Object.freeze({size: 24, radius: 6, glyph: 18, stroke: 4 / 3}),
+  // The picture of who a message is from: three lines of body text tall.
+  avatar: Object.freeze({size: 48, radius: 12}),
   // How far a part travels as it comes in, hops or settles.
   move: Object.freeze({settle: 4, hop: 8, rise: 12}),
 });
@@ -35,6 +37,9 @@ export const GLASS_TYPE = Object.freeze({
   body: Object.freeze({role: 'body', lines: 5}),
   item: Object.freeze({role: 'body', lines: 3}),
   label: Object.freeze({role: 'body', lines: 2}),
+  // A name over a message is a title at its smallest step; the time beside it is small print.
+  name: Object.freeze({role: 'cardTitle', lines: 1, step: 'smallest'}),
+  time: Object.freeze({role: 'meta', lines: 1}),
   // The one word of a button that is the whole scene.
   action: Object.freeze({role: 'sceneTitle', lines: 1}),
   // A mark's figure is a title at its smallest step: five eighths of the mark.
@@ -102,7 +107,7 @@ export function glassGrid(K) {
   })));
   return Object.freeze({
     unit, units: GLASS_UNITS, wide: glassWide(K),
-    card: scaled(GLASS_UNITS.card), gap: scaled(GLASS_UNITS.gap), mark: scaled(GLASS_UNITS.mark), check: scaled(GLASS_UNITS.check), move: scaled(GLASS_UNITS.move),
+    card: scaled(GLASS_UNITS.card), gap: scaled(GLASS_UNITS.gap), mark: scaled(GLASS_UNITS.mark), check: scaled(GLASS_UNITS.check), avatar: scaled(GLASS_UNITS.avatar), move: scaled(GLASS_UNITS.move),
     row: GLASS_UNITS.row * unit, icon: GLASS_UNITS.icon * unit,
     // The panel's width and the width of what stands inside its insets.
     width, content: width - 2 * GLASS_UNITS.card.paddingX * unit,

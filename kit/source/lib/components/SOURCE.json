@@ -136,6 +136,14 @@
       "taken": "followed",
       "date": "2026-11-24",
       "note": "The glass-rating scene (glass/components.mjs): a glass panel with a question and five stars that fill with gold one after another. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded. The star is Lucide's (upstream/lucide-static)."
+    },
+    {
+      "name": "Liquid Glass Message Popup (Uppbeat), the look of its preview",
+      "url": "https://uppbeat.io/motion-graphics/asset/liquid-glass-message-popup-12289",
+      "license": "Public reference; no media or code copied",
+      "taken": "followed",
+      "date": "2026-11-24",
+      "note": "The glass-message scene (glass/components.mjs): a glass panel with the picture of who writes, their name, when the message came and what it says. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded."
     }
   ]
 }

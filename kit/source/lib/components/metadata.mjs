@@ -423,6 +423,48 @@ validate(s){
       else if(rating>0)cue(marks.stars[Math.min(4,Math.ceil(rating)-1)]+.2,"chime",.6);
     }
 }),
+"glass-message":glassComponent({
+// A glass panel that is a message arriving (glass/components.mjs).
+anchors(s,len){
+  const open=.05,name=Math.min(.42,len*.14),text=name+.14;
+  // A folding panel leaves in the scene's last quarter.
+  const collapse=Math.min(len*.95,Math.max(text+1,len*.84));
+  return {open,name,text,collapse};
+},
+// The message is read before the scene ends (or the panel folds): half a
+// second and a quarter of a second a word from when it comes in. In beats at 120 bpm.
+needs(s){
+  const folds=(s.exit??'hold')==='collapse',words=String(s.text??'').trim().split(/\s+/u).filter(Boolean).length;
+  for(let beats=3;beats<=24;beats++){
+    const len=beats*.5,marks=this.anchors(s,len);
+    if(marks.text+.5+.25*words<=(folds?marks.collapse:len))return beats;
+  }
+  return 24;
+},
+validate(s){
+  const needs=this.needs(s);
+  return Number.isFinite(s.beats)&&s.beats<needs?[`beats: this message needs at least ${needs} beats to be read (a shorter message needs fewer)`]:[];
+},
+"signature":true,
+"copyFields":["name","text","time"],
+"fields":{
+  "name":{"kind":"string","min":1,"max":18},
+  "text":{"kind":"string","min":1,"max":60},
+  "time":{"kind":"string","min":1,"max":8,"optional":true},
+  "image":{"kind":"string","min":1,"max":300,"optional":true},
+  "camera":{"kind":"enum","values":["orbit","static"],"optional":true},
+  "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
+},
+"previewVariants":["camera","exit"],
+"guide":"glass-message {name, text, time?, image?, camera?, exit?, background?}: an optical glass panel is a message arriving: it grows out of a pill with the picture of who it is from, their name, when it came and what it says. name = who writes, up to 18 characters. text = the message, up to 60 characters, as they would write it. time = when it came, up to 8 characters (\"now\", \"2m ago\", \"9:41\"). image = their picture, a photo of the user's by its path; without one the first letters of the name stand in its place. camera = orbit (default) or static. exit = hold (default) or collapse (the panel folds away). The scene is as long as the message takes to read, about a beat for each two words, and a scene too short for it is refused with the beats it needs. Over a video of the user's it is a notification laid on the footage: say where it stands with place (top is where a phone shows one) and size. 5-12 beats.",
+"sample":{"type":"glass-message","beats":8,"name":"Maya Chen","text":"The cut looks great. Can we post it today?","time":"now","camera":"orbit","exit":"hold"},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len);
+      cue(marks.open,"pop",.8);
+      cue(marks.name,"chime",.6);
+      if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+    }
+}),
 "widgets":glassComponent({
 placed:false,
 anchors(s,len){

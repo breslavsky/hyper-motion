@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `send-prompt`, `search` and `lens`.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `send-prompt`, `search` and `lens`.
 Catalog membership in the broader `glass` family also covers DOM scenes such as
 `widgets` and `sheet`. Apply these rules to the optical group.
 
@@ -329,7 +329,7 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`. The others have
+`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`. The others have
 neither (`placed:false` in their metadata), each for its reason: `widgets`
 and `sheet` are laid out by the page; in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
@@ -733,6 +733,21 @@ when filled, uncovered from its left. It is the grid's mark in size, with
 the item gap between stars; the panel is the family's card, centred. With
 `exit: collapse` the panel folds away. The guide tells the writer to state
 only a rating the user gave (`tools/glass-rating.test.mjs`).
+
+## Glass message
+
+`glass-message` (`glass/components.mjs`) is a message arriving: the panel
+grows out of a pill with the picture of who it is from, their name, when it
+came and what it says. The picture is the film's `image` (a photo by its
+path, loaded like any other picture of a film) or, without one, the first
+letters of the name on a tint of the text's ink. The picture is the grid's
+`avatar`, three lines of body text tall; the name is a title at its smallest
+step, the time small print at the far end of the name's line, the text body
+fitted to the width beside the picture. Measured in the native browser: a
+name of 18 characters, a time of 8 and a message of 60 keep the message in
+the first step of its role, three lines at most, in every frame shape. With
+`exit: collapse` the panel folds away. Over footage it is a notification, placed by `place` and `size`
+(`tools/glass-message.test.mjs`).
 
 ## Comic
 
