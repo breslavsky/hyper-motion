@@ -1,0 +1,45 @@
+{
+ "note": "The layout norms of every film: where what a viewer reads may stand and how large it is. One source: core/design.py reads it for the worker, skills/build-plan/scripts/norms.json is its copy inside a project, Pure Kinetic's plan.js (SAFE, TYPE, typeOf) holds the same numbers, and tests/test_design.py keeps the three equal. The numbers are Pure Kinetic's (HISTORY 332, 335, 337).",
+ "base": 1080,
+ "type": {
+  "label": 36,
+  "body": 52,
+  "lead": 72,
+  "title": 102,
+  "big": 144
+ },
+ "parts": {
+  "label": "a number, a tag, a note",
+  "body": "a line under a title, a button",
+  "lead": "an item of a list, the main line",
+  "title": "a scene's title",
+  "big": "a figure, a word that carries the scene"
+ },
+ "tall": {
+  "over": 1.2,
+  "scale": 1.1
+ },
+ "smallest": "label",
+ "aspects": {
+  "16:9": {
+   "width": 1920,
+   "height": 1080,
+   "safe": {"top": 0.05, "bottom": 0.05, "left": 0.04, "right": 0.04}
+  },
+  "9:16": {
+   "width": 1080,
+   "height": 1920,
+   "safe": {"top": 0.08, "bottom": 0.16, "left": 0.05, "right": 0.05}
+  },
+  "1:1": {
+   "width": 1080,
+   "height": 1080,
+   "safe": {"top": 0.05, "bottom": 0.05, "left": 0.05, "right": 0.05}
+  },
+  "4:5": {
+   "width": 1080,
+   "height": 1350,
+   "safe": {"top": 0.05, "bottom": 0.05, "left": 0.05, "right": 0.05}
+  }
+ }
+}

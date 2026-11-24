@@ -18,7 +18,9 @@ const PACKAGE = path.join(TEMPLATE, 'node_modules/hyperframes');
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const clone = value => structuredClone(value);
 const ASPECTS = ['9:16', '1:1', '16:9'];
-const NORMS = JSON.parse(fs.readFileSync(path.resolve(TEMPLATE, '../../design/norms.json'), 'utf8'));
+// The layout norms the kit is held to: safe areas by aspect and the scale of
+// type (norms.json beside this file; the compiler holds the same numbers).
+const NORMS = JSON.parse(fs.readFileSync(new URL('./norms.json', import.meta.url), 'utf8'));
 
 /** These fixtures vary only accepted content/brand slots, never choreography. */
 export function cases(base = DEFAULT_RECIPE) {

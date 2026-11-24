@@ -16,7 +16,7 @@ scope; a later source edit does not make their results current again.
   Its older-page branches preserve saved-project compatibility.
 - `audit.mjs`, `sheet.mjs` and the native probes use `migration-browser.mjs`
   to compile and seek the pinned native HyperFrames project. See
-  `migration-README.md` and `../COMMUNITY.md` for commands and receipt policy.
+  `migration-README.md` for commands and receipt policy.
 - `technique.py` searches the public technique library, creates native stubs
   and records accepted provenance. Downloaded examples in `techniques/` are
   ignored research inputs, not source files to ship.
