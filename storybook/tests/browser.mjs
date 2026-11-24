@@ -65,7 +65,10 @@ const stories = new Map(Object.values(index.entries).filter(entry => entry.type 
   .map(entry => [entry.title.split('/').at(-1), entry]));
 assert.deepEqual([...stories.keys()].sort(), catalogue.map(entry => entry.type).sort(), 'Storybook index must cover the canonical catalogue exactly');
 const componentTitles = new Set([...stories.values()].map(entry => entry.title));
-const variants = new Map(storyEntries.filter(entry => componentTitles.has(entry.title) && entry.exportName !== 'Preview')
+// A Glass scene's material examples (Glass, Dark Glass, Metal) are named stories of its
+// page too; they are checked with the materials below, not as catalogue variants.
+const materialExample = entry => themes.some(theme => theme.title === entry.title && theme.variants.some(variant => variant.exportName === entry.exportName));
+const variants = new Map(storyEntries.filter(entry => componentTitles.has(entry.title) && entry.exportName !== 'Preview' && !materialExample(entry))
   .map(entry => [`${entry.title.split('/').at(-1)}:${entry.exportName}`, entry]));
 assert.deepEqual([...variants.keys()].sort(), catalogue.flatMap(entry => [...entry.variants, ...entry.examples].map(variant => `${entry.type}:${variant.exportName}`)).sort(), 'Named stories must match the catalogue variants and examples');
 for (const entry of catalogue) for (const variant of [...entry.variants, ...entry.examples]) {
@@ -1223,6 +1226,7 @@ async function glassControlsAndCleanup() {
           : type === 'search' ? {query: 'Thursday workshops', timing: {search: 2.5, collapse: 4, collapsed: 5, checked: 5.65}}
           : type === 'send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
           : type === 'glass-steps' ? {title: 'Three steps', items: ['Shoot it', 'Cut it', 'Share it'], camera: 'static'}
+          : type === 'glass-checklist' ? {title: 'Ready to post', items: ['Shot', 'Cut', 'Captioned'], camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');

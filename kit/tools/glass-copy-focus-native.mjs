@@ -12,6 +12,8 @@ const fixtures = [
     probes: [[.48, '.pk-glass-control-label'], [.78, '.pk-glass-slider-row .pk-glass-control-label']]},
   {scene: {type: 'glass-steps', title: 'How it works', items: ['Upload your footage', 'Pick a style', 'Export in 4K'], beats: 6},
     probes: [[.48, '.pk-glass-heading'], [.8, '.pk-glass-step-text']]},
+  {scene: {type: 'glass-checklist', title: 'Launch checklist', items: ['Brief approved', 'Footage uploaded', 'Captions checked'], beats: 8},
+    probes: [[.48, '.pk-glass-heading'], [.8, '.pk-glass-check-text']]},
   {scene: {type: 'ask', text: 'Find my next class', reply: 'Tuesday is confirmed.', beats: 6},
     probes: [[.35, '.pk-glass-ask-prompt'], [.85, '.pk-glass-ask-reply']]},
   {scene: {type: 'search', query: 'Thursday workshops', beats: 6, timing: {focus: .5, type: 1, typed: 3, search: 4, collapse: 5, collapsed: 5.7, checked: 5.9}},

@@ -112,6 +112,14 @@
       "taken": "followed",
       "date": "2026-11-24",
       "note": "The glass-steps scene (glass/components.mjs): a glass panel that grows out of a pill, a title, numbered steps that come in one after another, and a wave of the steps before the panel folds away. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded."
+    },
+    {
+      "name": "Liquid Glass List (Uppbeat), the look of its preview",
+      "url": "https://uppbeat.io/motion-graphics/asset/liquid-glass-list-12756",
+      "license": "Public reference; no media or code copied",
+      "taken": "followed",
+      "date": "2026-11-24",
+      "note": "The glass-checklist scene (glass/components.mjs): a glass panel that grows out of a pill, a title, items that come in one after another, each an empty box, a line lit word by word and a tick drawn into the box, and rows that go before the panel folds away. Written here on our own optical glass from what the template's preview video shows; the template itself (a paid Premiere Pro file) was not downloaded."
     }
   ]
 }

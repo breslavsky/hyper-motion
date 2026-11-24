@@ -1587,6 +1587,21 @@
         ],
         "reason": "A step is read whole: each phrase is fitted to its own column or row on the projected surface in every look, and the numbers are drawn, not written."
       }
+    },
+    {
+      "type": "glass-checklist",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "title multiline cardTitle",
+          "items[*] whole phrases, fitted to their row"
+        ],
+        "reason": "An item is read whole, word by word: each phrase is fitted to its row beside its box on the projected surface in every look."
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 import metadata from '../metadata.mjs';
 import {timedGlassFactories} from '../timing.mjs';
-import {createIslandIcon} from '../island-icon.mjs';
+import {createIslandIcon,islandIconSource} from '../island-icon.mjs';
 import {createTyping} from '../typing.mjs';
 import {clamp,phase,smooth,smoother,mix,outBack} from './world.mjs';
 import {enumValue,cameraMode as cameraOf,makeWorld,panelWidth,cardSurface,cardHeading,finishCard,cardCopy,updateCard,REST_TILT,fitToFrame,
@@ -592,6 +592,14 @@ function lens(args){
   };
 }
 
+// Text that does not fit its lines at the role's smallest step keeps that
+// step and takes the lines it needs.
+function smallestStep(K,nodes,role,width){
+  const step=K.design.steps(role).at(-1).step;
+  for(const node of nodes){K.design.apply(node,role,{step});K.set(node,{maxWidth:K.px(width),whiteSpace:'normal',overflowWrap:'anywhere'});}
+  return K.design.type(role,step);
+}
+
 // A glass panel that explains a process: it grows out of a pill, its title
 // comes in, then the steps one after another, each a numbered mark that pops
 // and a line that settles beside it. Before a collapsing exit the steps hop
@@ -609,11 +617,7 @@ function glassSteps(args){
   // Text that does not fit its lines at the role's smallest step keeps that
   // step and takes the lines it needs: the panel grows with it and is then
   // scaled to the frame (fitToFrame), so nothing is cut and nothing leaves.
-  const smallest=(nodes,role,width)=>{
-    const step=K.design.steps(role).at(-1).step;
-    for(const node of nodes){K.design.apply(node,role,{step});set(node,{maxWidth:px(width),whiteSpace:'normal',overflowWrap:'anywhere'});}
-    return K.design.type(role,step);
-  };
+  const smallest=(nodes,role,width)=>smallestStep(K,nodes,role,width);
   let heading=null;
   if(s.title){
     try{heading=cardHeading(K,surface,s.title,G.content).heading;}
@@ -683,4 +687,96 @@ function glassSteps(args){
   };
 }
 
-export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps});
+// A glass panel that ticks a list off: it grows out of a pill, its title
+// comes in, then the items one after another, each an empty box that pops, a
+// line read word by word, and a tick drawn into the box when the line is
+// said. Always rows: a checklist is read down. After the look of "Liquid
+// Glass List" (SOURCE.json); every measure is the family's grid (grid.mjs).
+function glassChecklist(args){
+  const {K,p}=args,{el,set,px}=K,s=p.scene;
+  const cameraMode=cameraOf(s,'glass-checklist');
+  const exit=enumValue(s.exit,['hold','collapse'],'hold','glass-checklist.exit');
+  const {host,world}=makeWorld(args,'glass-checklist');
+  const {surface,width}=cardSurface(K,host,[s.title,...s.items]);
+  surface.classList.add('pk-glass-checklist');
+  const G=glassGrid(K),count=s.items.length,done=s.done??count;
+  let heading=null;
+  if(s.title){
+    try{heading=cardHeading(K,surface,s.title,G.content).heading;}
+    catch{heading=surface.querySelector('.pk-glass-heading');smallestStep(K,[heading],G.type.title.role,G.content);}
+    set(heading,{opacity:'0',textAlign:'left'});
+  }
+  const tick=islandIconSource('check');
+  const lay=gaps=>{
+    const list=el('div','pk-glass-check-list',surface);
+    set(list,{display:'flex',flexDirection:'column',alignItems:'stretch',gap:px(gaps.rows)});
+    const rows=s.items.map((text,i)=>{
+      const item=el('div','pk-glass-check',list);
+      set(item,{display:'flex',flexDirection:'row',alignItems:'flex-start',gap:px(gaps.lead),minWidth:'0'});
+      // The box is the family's mark; the tick is the icon set's own check,
+      // an alpha mask in the text's ink, uncovered from its left.
+      const box=el('div','pk-glass-check-box',item);
+      set(box,{flex:'none',width:px(G.mark.size),height:px(G.mark.size),display:'grid',placeItems:'center',
+        borderRadius:px(G.mark.radius),boxShadow:`inset 0 0 0 ${px(G.mark.stroke)} currentColor`,opacity:'0'});
+      const art=el('span','pk-glass-check-tick',box);
+      art.setAttribute('aria-hidden','true');
+      set(art,{display:'block',width:px(G.icon),height:px(G.icon),backgroundColor:'currentColor',
+        maskImage:`url("${tick}")`,maskMode:'alpha',maskSize:'100% 100%',maskRepeat:'no-repeat',clipPath:'inset(0 100% 0 0)'});
+      // The line is its words, each lit in turn as the line is read.
+      const line=el('div','pk-glass-check-text',item);
+      const words=String(text).trim().split(/\s+/u).filter(Boolean).map((word,k,all)=>{
+        const span=el('span','pk-glass-check-word',line,word+(k<all.length-1?' ':''));
+        set(span,{opacity:'0'});
+        return span;
+      });
+      set(line,{textAlign:'left',minWidth:'0'});
+      return {item,box,art,line,words,ticked:i<done};
+    });
+    // The items are one list: all are set in the step the longest one needs.
+    const lines=rows.map(row=>row.line),role=G.type.item.role,beside=G.beside(G.mark.size,gaps.lead);
+    let fitted;
+    try{fitted=K.design.fitGroup(lines,{role,w:beside,h:G.type.item.height,wrap:'anywhere'});}
+    catch{fitted=smallestStep(K,lines,role,beside);}
+    for(const row of rows)set(row.line,{paddingTop:px(G.firstLine(fitted.lineHeight))});
+    set(surface,{gap:px(gaps.section)});
+    return {rows,list,height:surface.offsetHeight};
+  };
+  // Airy when the panel has room at its own size; dense when the airy one
+  // would have to be scaled down to fit the frame.
+  let laid=lay(G.density('airy')),density='airy';
+  if(fitToFrame(K,laid.height)<1){laid.list.remove();laid=lay(G.density('dense'));density='dense';}
+  const {rows}=laid;
+  Object.assign(surface.dataset,{checklistDensity:density,checklistDone:String(done)});
+  const copy=finishCard(K,surface,width);
+  const card=world.addCard({width,height:copy.height,element:surface,backdropOnly:true});
+  card.group.scale.setScalar(fitToFrame(K,copy.height));
+  world.prepare();
+  const T=G.time;
+  return (time,duration=p.dur,backdropTime=time)=>{
+    const live=metadata['glass-checklist'].anchors(s,duration);
+    const n=clamp(time/duration),enter=phase(time,live.open,live.open+T.open);
+    const close=exit==='collapse'?smoother(phase(time,live.collapse,duration*.98)):0;
+    updateCard(card,world,width,copy.height,outBack(enter)*(1-close),outBack(phase(time,live.open+.04,live.open+T.open+.04))*(1-close),smooth(enter)*(1-close));
+    card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
+    card.opacity=smooth(phase(time,live.open+.16,live.open+T.open))*(1-smooth(phase(close,.05,.55)));
+    if(heading)set(heading,{opacity:smooth(phase(time,live.title,live.title+T.fade)).toFixed(4)});
+    rows.forEach((row,i)=>{
+      const at=live.items[i],ticked=live.ticks[i];
+      // Before a folding panel leaves, its rows go one after another.
+      const gone=exit==='collapse'?smooth(phase(time,live.leave+i*T.stagger,live.leave+i*T.stagger+T.fade)):0;
+      set(row.item,{opacity:(1-gone).toFixed(4),transform:`translateY(${px(G.move.settle*gone)})`});
+      set(row.box,{opacity:smooth(phase(time,at,at+.12)).toFixed(4),transform:`scale(${(.4+.6*outBack(phase(time,at,at+T.pop))).toFixed(4)})`});
+      // A word waits dim and is lit when the reading reaches it.
+      const read=phase(time,at+.1,ticked-.04),shown=smooth(phase(time,at+.06,at+.06+T.fade));
+      row.words.forEach((word,k)=>{
+        const lit=smooth(phase(read*row.words.length,k,k+1));
+        set(word,{opacity:(shown*(.38+.62*lit)).toFixed(4)});
+      });
+      const drawn=row.ticked?smooth(phase(time,ticked,ticked+.2)):0;
+      set(row.art,{clipPath:`inset(0 ${(100*(1-drawn)).toFixed(2)}% 0 0)`,transform:`scale(${(.7+.3*outBack(drawn)).toFixed(4)})`});
+    });
+    orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
+  };
+}
+
+export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist});

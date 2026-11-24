@@ -279,6 +279,57 @@ validate(s){
       else cue(marks.items.at(-1)+.42,"chime",.6);
     }
 }),
+"glass-checklist":glassComponent({
+// A glass panel that ticks a list off, item by item (glass/components.mjs).
+anchors(s,len){
+  const count=s.items.length,open=.05,title=Math.min(.38,len*.12);
+  const wordsOf=text=>String(text).trim().split(/\s+/u).filter(Boolean).length;
+  // An item is read at 0.07 s a word, then ticked; the next comes 0.46 s after it.
+  const first=Math.min(.62,len*.2),last=Math.min(len*.6,first+(count-1)*.46);
+  const items=spread(count,first,last);
+  const ticks=items.map((at,i)=>at+.16+Math.min(.5,.07*wordsOf(s.items[i])));
+  // A folding panel leaves in the scene's last quarter: its rows go, then it folds.
+  // In a scene too short for its list (refused by `needs`) the marks still keep their order.
+  const leave=Math.min(len*.86,Math.max(ticks.at(-1)+.6,len*.76)),collapse=Math.min(len*.95,Math.max(leave+.18,len*.84));
+  return {open,title,items,ticks,leave,collapse};
+},
+// The last tick must land and be seen before the scene ends (or the panel
+// folds): six tenths of a second after it. In beats at 120 bpm.
+needs(s){
+  const marks=this.anchors(s,60),leaves=(s.exit??'hold')==='collapse'?.76:1;
+  return Math.ceil((marks.ticks.at(-1)+.2+.6)/leaves/.5);
+},
+validate(s){
+  if(!Array.isArray(s.items)||!s.items.every(text=>typeof text==='string'))return [];
+  const errors=[];
+  s.items.forEach((text,i)=>{const words=text.trim().split(/\s+/u).filter(Boolean).length;if(words>7)errors.push(`items[${i}]: ${words} words; an item is a phrase of 7 words at most`);});
+  if(s.done!==undefined&&(!Number.isInteger(s.done)||s.done>s.items.length))errors.push(`done: ${s.done}; it is how many of the ${s.items.length} items are ticked, from the top`);
+  const needs=this.needs(s);
+  if(!errors.length&&Number.isFinite(s.beats)&&s.beats<needs)errors.push(`beats: this list needs at least ${needs} beats to be ticked off (fewer or shorter items need fewer)`);
+  return errors;
+},
+"signature":true,
+"copyFields":["title","items"],
+// In a small panel: four items of 28 characters and a title of 24.
+"small":{"title":24,"items":{"count":4,"chars":28}},
+"fields":{
+  "items":{"kind":"array","of":{"kind":"string","min":1,"max":40},"min":2,"max":5},
+  "title":{"kind":"string","min":1,"max":32,"optional":true},
+  "done":{"kind":"number","min":0,"max":5,"optional":true},
+  "camera":{"kind":"enum","values":["orbit","static"],"optional":true},
+  "exit":{"kind":"enum","values":["hold","collapse"],"optional":true}
+},
+"previewVariants":["camera","exit"],
+"guide":"glass-checklist {items[2-5], title?, done?, camera?, exit?, background?}: an optical glass panel ticks a list off: it grows out of a pill, its title comes in, then the items one after another, each an empty box, a line read word by word and a tick drawn into the box (\"Brief approved\", \"Footage uploaded\", \"Captions checked\"). items: what is done, a short phrase of up to 40 characters and 7 words each, in order. done = how many of them are ticked, from the top (default: all); the rest keep an empty box, for a list still in progress. camera = orbit (default) or static. exit = hold (default) or collapse (the rows go and the panel folds away). The scene is as long as its list: about a beat an item plus a beat for the last tick, and a scene too short for its list is refused with the beats it needs. For a process in numbered steps use glass-steps. Over a photo or a video of the user's it is a slide of a presentation or an overlay for b-roll. 6-12 beats.",
+"sample":{"type":"glass-checklist","beats":9,"title":"Launch checklist","items":["Brief approved","Footage uploaded","Captions checked","Music licensed"],"camera":"orbit","exit":"hold"},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len),done=s.done??s.items.length;
+      cue(marks.open,"pop",.8);
+      marks.ticks.forEach((at,i)=>{if(i<done)cue(at,"tick",i===done-1?.7:.55);});
+      if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
+      else if(done===s.items.length)cue(marks.ticks.at(-1)+.3,"chime",.6);
+    }
+}),
 "widgets":glassComponent({
 placed:false,
 anchors(s,len){

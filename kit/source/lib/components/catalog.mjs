@@ -336,6 +336,11 @@ export const catalog={
     "renderMode": "webgl",
     "owned": true
   },
+  "glass-checklist": {
+    "family": "glass",
+    "renderMode": "webgl",
+    "owned": true
+  },
   "send-prompt": {
     "family": "glass",
     "renderMode": "webgl",

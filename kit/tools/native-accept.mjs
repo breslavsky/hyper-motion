@@ -96,7 +96,9 @@ async function checkClock(time,plan){
 const domHash=()=>page.evaluate(()=>{
   const encode=node=>{
     if(node.nodeType!==Node.ELEMENT_NODE)return [node.nodeType,node.nodeValue];
-    const attrs=[...node.attributes].map(a=>[a.name,a.name==='style'?[...node.style].sort().map(key=>[key,node.style.getPropertyValue(key),node.style.getPropertyPriority(key)]):a.value]).sort((a,b)=>a[0].localeCompare(b[0]));
+    // The order of a style's declarations and of a class list's names is no
+    // state: a class taken off and put back stands last.
+    const attrs=[...node.attributes].map(a=>[a.name,a.name==='style'?[...node.style].sort().map(key=>[key,node.style.getPropertyValue(key),node.style.getPropertyPriority(key)]):a.name==='class'?[...node.classList].sort():a.value]).sort((a,b)=>a[0].localeCompare(b[0]));
     return [node.tagName,attrs,[...node.childNodes].map(encode)];
   };
   return JSON.stringify(encode(document.getElementById('root')));

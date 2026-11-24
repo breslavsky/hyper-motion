@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `send-prompt`, `search` and `lens`.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `send-prompt`, `search` and `lens`.
 Catalog membership in the broader `glass` family also covers DOM scenes such as
 `widgets` and `sheet`. Apply these rules to the optical group.
 
@@ -329,7 +329,7 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`. The others have
+`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`. The others have
 neither (`placed:false` in their metadata), each for its reason: `widgets`
 and `sheet` are laid out by the page; in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
@@ -348,7 +348,7 @@ the normal one: nothing runs off in it that does not run off at full size.
 Body text is then 29 px in a 1080 frame, and a label (a chip, a caption) 22
 px, whatever its length. A scene may give measured limits for a small panel
 (`small` in its metadata; `glass-steps`: three steps of 32 characters, a
-title of 24), and only those are refused: a general rule that shortened
+title of 24; `glass-checklist`: four items of 28), and only those are refused: a general rule that shortened
 every text by a third refused the family's own samples and is gone. Every
 placed scene's sample is a valid film in both sizes
 (`tools/glass-grid.test.mjs`).
@@ -382,7 +382,7 @@ rows, the square one), so that the longest allowed list is still at or above
 the readable 28 px. A scene also refuses a length too short for its text to
 be read (`needs` in its metadata).
 
-`glass-steps` is written on the grid. The scenes written before it use the
+`glass-steps` and `glass-checklist` are written on the grid. The scenes written before them use the
 same values, which is where the tokens were taken from, but spell them as
 design-system calls (`recipe.gap`, `K.design.space(6)`); they move to the
 tokens as they are next touched.
@@ -678,6 +678,27 @@ capitals still fits its panel but is set smaller than that in a square
 frame. The scene needs half a second and three tenths a word after its last
 step comes in, and a film that gives it fewer beats is refused
 (`tools/glass-steps.test.mjs`).
+
+## Glass checklist
+
+`glass-checklist` (`glass/components.mjs`) ticks a list off: the panel grows
+out of a pill, its title comes in, then two to five items one after another,
+each an empty box that pops, a line lit word by word as it would be read,
+and a tick drawn into the box when the line is said. `done` says how many
+items are ticked, from the top; the rest keep an empty box. With
+`exit: collapse` the rows go one after another and the panel folds away. It
+follows the look of a stock template's preview (`SOURCE.json`) on the
+family's own card, like `glass-steps`, and shares its parts: the box is the
+grid's mark, the tick the icon set's own check as a mask in the text's ink,
+the gaps the airy and dense densities. A checklist is always rows.
+
+Its limits are measured in the native browser at the worst case of each
+frame shape: five items of 40 characters and a title of 32 stay in the first
+step of their role (48-53 px items, 72-79 px title) and take two lines at
+most; in a small panel four items of 28 characters and a title of 24 do. An
+item is seven words at most. The scene needs its last tick and six tenths of
+a second after it, and a film that gives it fewer beats is refused
+(`tools/glass-checklist.test.mjs`).
 
 ## Comic
 
