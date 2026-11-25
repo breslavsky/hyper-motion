@@ -7,7 +7,7 @@
       "license": "MIT",
       "taken": "vendored",
       "date": "2026-11-23",
-      "note": "The Glass field and buttons use the original SVGs from assets/bold/arrow-up-bold.svg, arrow-down-bold.svg, magnifying-glass-bold.svg, arrow-elbow-down-left-bold.svg, circle-notch-bold.svg and check-bold.svg. The full upstream license is in arrow-up-bold.mjs, which also holds the arrow down; its path was checked against the same icon of @iconify-json/ph 1.2.2 in illustrations/."
+      "note": "The Glass field and buttons use the original SVGs from assets/bold/arrow-up-bold.svg, arrow-down-bold.svg, magnifying-glass-bold.svg, arrow-elbow-down-left-bold.svg, circle-notch-bold.svg, check-bold.svg and question-mark-bold.svg (the last as @iconify-json/ph 1.2.2 writes the same icon's path). The full upstream license is in arrow-up-bold.mjs, which also holds the arrow down; its path was checked against the same icon of @iconify-json/ph 1.2.2 in illustrations/."
     }
   ]
 }

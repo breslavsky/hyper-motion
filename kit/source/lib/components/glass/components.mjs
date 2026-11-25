@@ -7,7 +7,7 @@ import {enumValue,cameraMode as cameraOf,makeWorld,panelWidth,cardSurface,cardHe
   orbitCamera,caretOf,actionSlot,pointerOf,typedCount,revealer,pulse,middleOf,fontOf,svgPicture} from './scene-parts.mjs';
 import {sliderSize,switchSize} from './controls.mjs';
 import {portraitGlassWidth} from './layout.mjs';
-import {magnifyingGlassBold} from '../upstream/phosphor-icons/search-icons.mjs';
+import {magnifyingGlassBold,questionMarkBold} from '../upstream/phosphor-icons/search-icons.mjs';
 import {createLettering} from './lettering.mjs';
 import {glassGrid} from './grid.mjs';
 import {createOwnKit} from '../own-kit.mjs';
@@ -71,7 +71,7 @@ function clickRing(progress,reach,deep){
 }
 
 function search(args){
-  const {K,p,fg}=args,{el,set,px,design}=K,scene=p.scene;
+  const {K,p,fg}=args,{el,set,px,design}=K,scene=p.scene,G=glassGrid(K);
   const {host,world}=makeWorld(args,'glass-search');
   const field=el('div','pk-glass-search-field',host);
   field.dataset.glassCopy=scene.query;
@@ -118,8 +118,9 @@ function search(args){
   const drawHint=letters.text(placeholder),drawQuery=letters.glyphs(typing),drawCaret=letters.caret(caret);
   letters.measure();
   const inputWidth=viewport.clientWidth;
-  // The round button the field folds into is larger than its place in the field.
-  const finalSize=buttonSize*1.5;
+  // The field grows out of the family's drop and folds back into it: the
+  // round button it ends on, larger than the button's place in the field.
+  const finalSize=G.drop;
   const card=world.addCard({width,height,element:field,backdropOnly:true,fixedOptics:true});
   card.geometry.update(width*world.U,height*world.U,height*world.U/2,.24*K.S,.05*K.S);
   // The pane folds around the middle of the field and the button travels
@@ -177,6 +178,8 @@ function search(args){
   // checkmark lands on. Pinning those actions to beats sets its pace.
   const span=(from,to)=>Math.max(RIPPLE_SHORTEST,Math.min(RIPPLE,to-from));
   const firstWave=span(marks.focus,marks.search),secondWave=span(marks.search,marks.checked);
+  const iconTravel=width/2-icon.offsetLeft-iconSize/2;
+  const openFor=Math.min(G.time.open,Math.max(.12,(marks.focus-marks.open)*.8));
   const showTyped=revealer(typing,count=>{
     // Expose the insertion point of a long query just like a one-line input.
     viewport.scrollLeft=Math.max(0,typing.caretAt(count).x+design.unit-inputWidth);
@@ -187,13 +190,15 @@ function search(args){
     const count=typedCount(keys,time);
     const focused=time>=marks.focus, submitted=time>=marks.search, checked=time>=marks.checked;
     const closing=phase(time,marks.collapse,marks.collapsed), morph=smoother(closing);
+    // The drop opens into the field before the pointer reaches it.
+    const opened=phase(time,marks.open,marks.open+openFor),fold=Math.max(1-smoother(opened),morph);
     showTyped(count);
     caret.style.opacity=focused&&!submitted?(count&&count<typing.length?'1':String(K.blink(time-marks.focus))):'0';
     copy.count=count;copy.caret=Number(caret.style.opacity);
-    const w=mix(width,finalSize,morph), h=mix(height,finalSize,morph);
+    const w=mix(width,finalSize,fold), h=mix(height,finalSize,fold);
     const center=width/2,travel=(width/2-buttonX)*morph;
     card.geometry.update(w*world.U,h*world.U,h*world.U/2,.24*K.S,.05*K.S);
-    const copyOpacity=1-smooth(phase(closing,0,.6)), visibility=copyOpacity>0?'visible':'hidden';
+    const copyOpacity=(1-smooth(phase(closing,0,.6)))*smooth(phase(opened,.45,1)), visibility=copyOpacity>0?'visible':'hidden';
     copy.opacity=copyOpacity;copy.left=center-w/2;
     const second=time>=marks.search,from=second?buttonClick:fieldClick;
     const wave=phase(time-(second?marks.search:marks.focus),0,second?secondWave:firstWave);
@@ -204,10 +209,15 @@ function search(args){
       const unseen=ripple(ring&&{...middle(from),...ring})&&carried?'opacity(0)':'none';
       viewport.style.filter=unseen;icon.style.filter=unseen;
     }else drawWave(wave,from);
-    set(field,{clipPath:closing>0?`inset(0 ${px(center-w/2)} round ${px(h/2)})`:'none'});
+    set(field,{clipPath:fold>0?`inset(0 ${px(center-w/2)} round ${px(h/2)})`:'none'});
+    card.group.scale.setScalar(.02+.98*outBack(phase(time,marks.open-.05,marks.open+.13)));
+    card.opacity=smooth(phase(time,marks.open-.05,marks.open+.04));
     set(viewport,{opacity:String(copyOpacity),visibility});
 
-    set(icon,{opacity:String(.68*copyOpacity),visibility});
+    // The scene's own icon stands in the middle of the drop and goes to the head of the field as it opens.
+    const leaving=1-smooth(phase(closing,0,.6)),inDrop=1-smoother(opened);
+    set(icon,{opacity:String(mix(.68,1,inDrop)*leaving),visibility:leaving>0?'visible':'hidden',
+      transform:`translateX(${px(iconTravel*inDrop)})`});
     viewport.setAttribute('aria-hidden',String(copyOpacity===0));
     slot.setAttribute('aria-busy',String(submitted&&!checked));
     slot.setAttribute('aria-label',checked?'Search complete':'Search');
@@ -221,7 +231,7 @@ function search(args){
     // to the pane as that folds into the same circle: two discs of one size,
     // one flat and one bevelled, would show a double edge.
     const over=smooth(phase(time,mix(marks.typed,marks.search,.74),searchPointer.arrive));
-    button.draw((1-.12*press)*mix(1,finalSize/buttonSize,morph),{loading:submitted&&!checked?Math.max(0,backdropTime-trigger):null,
+    button.draw((1-.12*press)*mix(1,finalSize/buttonSize,morph)*outBack(phase(opened,.55,1)),{loading:submitted&&!checked?Math.max(0,backdropTime-trigger):null,
       checked,fill:over,shift:travel,disc:over*(1-morph)});
     world.render(backdropTime);
   };
@@ -298,12 +308,16 @@ function ask(args){
   const {host,world}=makeWorld(args,'glass-ask');
   const {surface,width,recipe}=cardSurface(K,host,[s.text,s.reply]);
   surface.classList.add('pk-glass-ask');
-  const {unit}=K.design,iconSize=K.design.space(5),sendSize=K.design.space(6),seedSize=K.design.space(7);
+  const exit=enumValue(s.exit,['drop','hold'],'drop','glass-ask.exit');
+  const {unit}=K.design,iconSize=K.design.space(5),sendSize=K.design.space(6),G=glassGrid(K),seedSize=G.drop;
   const contentWidth=width-recipe.paddingX*2,textInset=iconSize+recipe.gap;
   const row=el('div','pk-glass-ask-row',surface);
   set(row,{display:'grid',gridTemplateColumns:`${px(iconSize)} minmax(0,1fr) ${px(sendSize)}`,alignItems:'start',gap:px(recipe.gap),flex:'none'});
-  const icon=createIslandIcon(K,row,'sparkles',iconSize);
+  // The scene's own icon: it stands in the middle of the drop and goes to the head of the prompt.
+  const icon=el('div','pk-glass-ask-icon',row);
+  icon.innerHTML=questionMarkBold;
   icon.setAttribute('aria-hidden','true');
+  set(icon,{display:'flex',flex:'none',width:px(iconSize),height:px(iconSize)});
   const prompt=el('div','pk-glass-ask-prompt',row);
   set(prompt,{minWidth:'0',boxSizing:'border-box',paddingRight:px(2*unit)});
   const caret=caretOf(K,prompt,accent);
@@ -315,8 +329,9 @@ function ask(args){
   send.setAttribute('aria-hidden','true');
 
   const promptHeight=surface.offsetHeight;
+  // Where the icon stands in the drop: the middle of the panel, whatever its height.
   const seedOffsetX=(width-iconSize)/2-recipe.paddingX;
-  const seedOffsetY=promptHeight/2-recipe.paddingY-firstLineHeight/2;
+  const seedOffsetY=height=>height/2-recipe.paddingY-firstLineHeight/2;
   let reply=null,words=[];
   if(s.reply){
     reply=el('div','pk-glass-ask-reply',surface);
@@ -341,31 +356,36 @@ function ask(args){
   card.group.scale.setScalar(fitScale);
   const marks=metadata['glass-ask'].anchors(s,p.dur);
   // Short films and long replies still reach their last word before the final hold.
-  const wordDelay=reply?Math.min(.05,Math.max(0,p.dur-marks.reply-.43)/Math.max(1,words.length-1)):0;
+  const wordsBy=exit==='drop'?marks.collapse:p.dur;
+  const wordDelay=reply?Math.min(.05,Math.max(0,wordsBy-marks.reply-.43)/Math.max(1,words.length-1)):0;
   const showTyped=revealer(typing);
   world.prepare();
   return (time,duration=p.dur,backdropTime=time)=>{
-    const open=phase(time,marks.open,.51),opening=outBack(open);
+    const open=phase(time,marks.open,.51);
+    // The panel folds back into the drop it came out of, its icon in the middle again.
+    const close=exit==='drop'?smoother(phase(time,marks.collapse,marks.collapse+G.time.open)):0;
+    const opening=outBack(open)*(1-close),visible=smooth(open)*(1-smooth(phase(close,0,.5)));
     const answer=reply?smoother(phase(time,marks.reply,marks.reply+.3)):0;
     const height=mix(promptHeight,fullHeight,answer);
     // Anchor the top of the open prompt as the same mesh extends under the reply.
     card.height=height;set(surface,{height:px(height)});
-    updateCard(card,world,width,height,opening,opening,smooth(open),seedSize);
+    updateCard(card,world,width,height,opening,opening,smooth(open)*(1-close),seedSize);
     const press=pulse(time,.2,marks.open);
     card.group.scale.setScalar(fitScale*(.02+.98*outBack(phase(time,0,.18)))*(1-.12*press));
-    card.group.position.set(0,(fullHeight-height)*world.U*fitScale/2,0).applyQuaternion(card.group.quaternion);
+    // The drop stands in the middle; the open prompt rises to leave room for its reply.
+    card.group.position.set(0,(fullHeight-height)*world.U*fitScale/2*smooth(open),0).applyQuaternion(card.group.quaternion);
     card.opacity=smooth(phase(time,0,.09));
-    const iconTravel=1-smooth(open);
-    set(icon,{transform:`translate(${px(seedOffsetX*iconTravel)},${px(seedOffsetY*iconTravel)})`});
+    const iconTravel=1-smooth(open)*(1-close);
+    set(icon,{transform:`translate(${px(seedOffsetX*iconTravel)},${px(seedOffsetY(height)*iconTravel)})`});
     const shown=Math.round(K.prog(time,marks.type,marks.typed-marks.type)*typing.length);
     showTyped(shown);
-    set(prompt,{opacity:String(smooth(open))});
+    set(prompt,{opacity:String(visible)});
     set(caret,{opacity:time>=marks.send?'0':shown>0&&shown<typing.length?'1':String(K.blink(time))});
     const sendPress=pulse(time,marks.send,marks.send+.22);
     // Nobody points at this button: its circle comes in as it is pressed.
-    button.draw(outBack(phase(time,.36,.52))*(1-.14*sendPress),{fill:smooth(phase(time,marks.send-.12,marks.send))});
+    button.draw(outBack(phase(time,.36,.52))*(1-.14*sendPress)*(1-smooth(phase(close,0,.5))),{fill:smooth(phase(time,marks.send-.12,marks.send))});
     if(reply){
-      set(reply,{opacity:String(answer)});
+      set(reply,{opacity:String(answer*(1-smooth(phase(close,0,.5))))});
       words.forEach((word,i)=>{const at=marks.reply+.15+i*wordDelay;set(word,{opacity:String(smooth(phase(time,at,at+.16)))});});
     }
     // Orbit while the prompt is being typed. The camera settles before the

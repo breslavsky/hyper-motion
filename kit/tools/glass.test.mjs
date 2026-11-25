@@ -75,7 +75,7 @@ test('glass cameras and capsule exits have bounded recipe controls',()=>{
   }
 });
 
-test('ask preserves the code-point keyboard, send and optional reply sound cues',()=>{
+test('ask keeps the code-point keyboard, send and optional reply sound cues, and folds unless held',()=>{
   const scene={...samples['glass-ask'],text:'Book 🚀 now'},characters=[...scene.text].length,duration=3.25;
   const typed=Math.min(duration*.5,.5+characters/27);
   const times={type:.5,typed,send:typed+.2,reply:typed+.45};
@@ -87,7 +87,11 @@ test('ask preserves the code-point keyboard, send and optional reply sound cues'
     for(let index=0;index<characters;index+=2)expected.push([.5+((typed-.5)*index)/characters,'type',.8]);
     expected.push([times.send,'click',.9]);
     if(reply)expected.push([times.reply+.1,'chime',.8]);
+    // The panel folds back into its drop over the last half second.
+    expected.push([duration-.5,'whoosh',.5]);
     assert.deepEqual(cues,expected);
+    const held=[];definitions['glass-ask'].sounds({...ask,exit:'hold'},duration,(...cue)=>held.push(cue));
+    assert.deepEqual(held,expected.slice(0,-1));
   }
 });
 

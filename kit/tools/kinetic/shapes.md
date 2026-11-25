@@ -82,7 +82,7 @@ card.
 
 ```json
 { "aspect": "9:16", "style": "liquid", "brand": { "name": "Nook", "url": "nook.app" }, "scenes": [
-  { "type": "glass-ask", "beats": 6, "text": "Fill my Tuesday class", "reply": "The waitlist is ready." },
+  { "type": "glass-ask", "beats": 8, "text": "When is my next class?", "reply": "Tuesday at 6 pm. One spot is left." },
   { "type": "glass-controls", "beats": 4, "title": "Autopilot", "toggles": ["Reminders", "Waitlist", "Payments"] },
   { "type": "glass-island", "beats": 3, "title": "Class is full", "body": "Waitlist updated", "icon": "check" },
   { "type": "stack", "beats": 3, "words": ["FULLER", "CALMER", "NOOK"] },

@@ -709,12 +709,14 @@ async function checkSearchCollapse(page) {
         x: center.x, y: center.y};
     }
     try {
-      return {before: at(0), hold: at((pressed + collapse) / 2), folding: at((collapse + collapsed) / 2),
+      // The open field, just before the pointer clicks it: at 0 the scene is still its drop.
+      return {drop: at(0), before: at(mark('focus', .22) * .98), hold: at((pressed + collapse) / 2), folding: at((collapse + collapsed) / 2),
         done: at(collapsed + (checked - collapsed) * .25), spinning: at(collapsed + (checked - collapsed) * .75),
         checked: at(checked + (ps.dur - checked) / 2), end: at(ps.dur), reverse: at((pressed + collapse) / 2)};
     } finally { instance.drawAt(saved); }
   });
-  const {before, hold, folding, done, spinning, checked, end} = states;
+  const {drop, before, hold, folding, done, spinning, checked, end} = states;
+  assert.ok(drop.width < before.width * .5, 'Search grows out of a drop');
   assert.ok(!before.discVisible && !before.lensVisible && !hold.lensVisible,
     'Expanded Search must present Enter and the spinner as inline glyphs');
   assert.ok(hold.discVisible, 'A soft disc lies under the pointer once it is over the button');

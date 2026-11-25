@@ -122,7 +122,7 @@ test('Liquid Glass stories expose native camera and morph controls with reusable
   assert.match(validateArgs(island, {exit: 'fly'}).join('\n'), /exit.*choose/);
   const ask = entry('glass-ask');
   if (ask?.renderMode === 'webgl') {
-    assert.deepEqual(ask.variants.map(variant => variant.args), [{camera: 'static'}, {camera: 'orbit'}]);
+    assert.deepEqual(ask.variants.map(variant => variant.args), [{camera: 'static'}, {camera: 'orbit'}, {exit: 'drop'}, {exit: 'hold'}]);
     assert.equal(defaultArgs(ask).camera, 'orbit');
     const scene = makeFilm(ask, {text: 'When?', reply: 'Tuesday', camera: 'static'}, {material: 'metal'}).scenes[0];
     assert.deepEqual([scene.text, scene.reply, scene.camera], ['When?', 'Tuesday', 'static']);

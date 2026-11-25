@@ -26,6 +26,9 @@ export const GLASS_UNITS = Object.freeze({
   check: Object.freeze({size: 24, radius: 6, glyph: 18, stroke: 4 / 3}),
   // The picture of who a message is from: three lines of body text tall.
   avatar: Object.freeze({size: 48, radius: 12}),
+  // The drop: the round piece of glass a scene grows out of and folds back
+  // into, so one scene can hand over to the next. One diameter for the family.
+  drop: 48,
   // How far a part travels as it comes in, hops or settles.
   move: Object.freeze({settle: 4, hop: 8, rise: 12}),
 });
@@ -110,7 +113,7 @@ export function glassGrid(K) {
   return Object.freeze({
     unit, units: GLASS_UNITS, wide: glassWide(K),
     card: scaled(GLASS_UNITS.card), gap: scaled(GLASS_UNITS.gap), mark: scaled(GLASS_UNITS.mark), check: scaled(GLASS_UNITS.check), avatar: scaled(GLASS_UNITS.avatar), move: scaled(GLASS_UNITS.move),
-    row: GLASS_UNITS.row * unit, icon: GLASS_UNITS.icon * unit,
+    row: GLASS_UNITS.row * unit, icon: GLASS_UNITS.icon * unit, drop: GLASS_UNITS.drop * unit,
     // The panel's width and the width of what stands inside its insets.
     width, content: width - 2 * GLASS_UNITS.card.paddingX * unit,
     // The width of one of `count` equal columns across the content.

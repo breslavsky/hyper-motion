@@ -690,16 +690,18 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
 "glass-ask":glassComponent({
 anchors(s,len){
   const marks=this.times(s,len);
-  return {open:.32,...marks,reply:s.reply?marks.reply:undefined};
+  // The panel folds back into its drop over the scene's last half second.
+  return {open:.32,...marks,reply:s.reply?marks.reply:undefined,collapse:(s.exit??'drop')==='drop'?Math.max(marks.send+.3,len-.5):undefined};
 },
 "opener":true,
 "signature":true,
 "copyFields":["text","reply"],
-"previewVariants":["camera"],
+"previewVariants":["camera","exit"],
 validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?['camera must be static or orbit']:[];},
 "from":"0670c6b0-25b8-4082-b7e3-15910602e1af-1-3",
 "fields":{
   "camera":{"kind":"enum","values":["static","orbit"],"optional":true},
+  "exit":{"kind":"enum","values":["drop","hold"],"optional":true},
   "text": {
     "kind": "string",
     "min": 1,
@@ -712,13 +714,14 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
     "optional": true
   }
 },
-"guide":"glass-ask {text, reply?, camera?, background?}: a round icon opens into a 3D prompt bar. The request types, the send button presses and the same panel expands below the prompt for an optional reply. Both texts follow the panel. The camera defaults to orbit and can also be static. 5-6 beats.",
+"guide":"glass-ask {text, reply?, camera?, exit?, background?}: somebody asks a question and gets an answer. A round drop of glass with a question mark opens into a 3D prompt bar. The question types (\"When is my next class?\"), the send button presses and the same panel expands below the prompt for an optional reply, the answer (\"Tuesday at 6 pm. One spot is left.\"). Both texts follow the panel. The camera defaults to orbit and can also be static. exit = drop (default: over its last half second the panel folds back into the drop it came out of, so the next glass scene can grow from it) or hold (the panel stays open). Give a reply time to be read before the fold: about a beat for each three words after it opens. 6-10 beats.",
 "sample":{
   "type": "glass-ask",
-  "beats": 6,
+  "beats": 8,
   "camera":"orbit",
-  "text": "Fill my Tuesday class",
-  "reply": "Done. 12 of 12 booked, 3 on the waitlist."
+  "exit":"drop",
+  "text": "When is my next class?",
+  "reply": "Tuesday at 6 pm. One spot is left."
 },
 "times":function times(s, len) {
 			// A one-beat slot may end before the original keyboard starts. Keep
@@ -735,6 +738,8 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
 			for (let c = 0; c < n; c += 2) cue(t.type + ((t.typed - t.type) * c) / n, "type", 0.8);
 			cue(t.send, "click", 0.9);
 			if (s.reply) cue(t.reply + (s.timing?.reply === undefined ? .1 : 0), "chime", 0.8);
+			const fold = this.anchors(s, len).collapse;
+			if (fold !== undefined) cue(fold, "whoosh", 0.5);
 		}
 }),
 "glass-lens":glassComponent({
@@ -780,12 +785,13 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
     query:{kind:'string',min:1,max:80},
     placeholder:{kind:'string',min:0,optional:true,default:'Search...'},
   },
-  guide:'glass-search {query, placeholder?, background?, speed?, timing?}: use when a user enters and submits a search query. The empty field displays "Search..." until typing begins. Set placeholder to your own hint or to an empty string to leave it blank. The cursor clicks the field, types the query and clicks Enter (↵) inside its right edge. Each click sends a light wave through the field that bends its glass and the text under it. A wave runs for up to 1.2 seconds: the first has left by the search beat and the second by checked, so pinning those sets its pace. A spinner turns while the field folds into the round button. Pin collapse to the start of the fold, collapsed to its end and checked to the beat when the spinner becomes a checkmark. The checkmark holds through the end of the scene. 4-8 beats.',
+  guide:'glass-search {query, placeholder?, background?, speed?, timing?}: use when a user enters and submits a search query. A round drop of glass opens into the field, and the scene ends on the same drop, so glass scenes can follow one another. The empty field displays "Search..." until typing begins. Set placeholder to your own hint or to an empty string to leave it blank. The cursor clicks the field, types the query and clicks Enter (↵) inside its right edge. Each click sends a light wave through the field that bends its glass and the text under it. A wave runs for up to 1.2 seconds: the first has left by the search beat and the second by checked, so pinning those sets its pace. A spinner turns while the field folds into the round button. Pin collapse to the start of the fold, collapsed to its end and checked to the beat when the spinner becomes a checkmark. The checkmark holds through the end of the scene. 4-8 beats.',
   sample:{type:'glass-search',beats:6,query:'Tuesday classes'},
-  anchors(s,len){return {focus:.22*len,type:.28*len,typed:.54*len,search:.68*len,collapse:.80*len,collapsed:.90*len,checked:.96*len};},
+  anchors(s,len){return {open:.02*len,focus:.22*len,type:.28*len,typed:.54*len,search:.68*len,collapse:.80*len,collapsed:.90*len,checked:.96*len};},
   keys(s,marks){return typingKeys(s.query,marks);},
   sounds(s,len,cue){
     const marks=this.anchors(s,len);
+    cue(marks.open,'pop',.7);
     cue(marks.focus,'click',.65);
     cueTypingKeys(this.keys(s,marks),cue);
     cue(marks.search,'click',.9);
