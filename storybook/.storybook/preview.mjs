@@ -2,6 +2,7 @@ import settings from '../generated/settings.json';
 import brandbooks from '../generated/brandbooks.json';
 import {DEFAULT_BRANDBOOK, DEFAULT_FONT} from '../src/model.mjs';
 import '../src/story.css';
+import '../src/landing.css';
 import page from './docs-page.mjs';
 
 export default {
