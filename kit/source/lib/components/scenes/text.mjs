@@ -574,20 +574,22 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		const opening = hasClip ? at(t.open, t.placed, l) : 0, opened = swift(opening);
 		const room = opened * (stripW + sp);
 		const left = (which) => begins[which] + (ends[which] - begins[which]) * (which === "a" ? carried : made);
-		// Then the frame goes into the clip, faster and faster: the clip grows from its own middle and the
-		// words, growing with it, are carried out to the sides and leave the frame.
+		// Then the frame goes into the clip: the clip grows from its own middle and the words, growing with it,
+		// are carried out to the sides and leave the frame at full light. Nothing fades.
 		const gone = hasClip ? firm(at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l)) : 0;
-		const shift = (which) => (ends[which] > ends[which === "a" ? "b" : "a"] ? 1 : -1) * (room / 2 + gone * W * 0.12);
+		const shift = (which) => (ends[which] > ends[which === "a" ? "b" : "a"] ? 1 : -1) * (room / 2 + gone * W * 0.3);
 		// As the line opens the words grow and go apart, out of the frame if they must: the clip takes the middle.
 		const grown = 1 + 0.24 * opened;
-		set(line, { scale: (1 + ZOOM * gone).toFixed(4), transformOrigin: `${px(between)} 50%` });
+		// Nothing stands still once the clip is in: the frame keeps coming closer, slowly, until it goes in.
+		const nearer = hasClip ? 0.07 * inOut(at(t.placed - 0.1, t.leave + 0.15, l)) : 0;
+		set(line, { scale: ((1 + nearer) * (1 + ZOOM * gone)).toFixed(4), transformOrigin: `${px(between)} 50%` });
 		const side = begins.a > ends.a ? -1 : 1;
 		set(a, { translate: `${px(left("a") + shift("a"))} ${px(-height)}`, scale: ((1 + 0.14 * held - 0.03 * Math.sin(Math.PI * settle)) * grown).toFixed(4), transformOrigin: opened > 0 ? `${ends.a < ends.b ? 100 : 0}% 60%` : "50% 60%",
 			rotate: `${(side * 2.4 * held * Math.sin(Math.PI * u)).toFixed(3)}deg`,
 			// Nearly white at the core, in a glow of the tube's own colour, wider while the words are taken.
 			color: core(selected), textShadow: tubeGlow(selected, 1 + 0.3 * selected) });
-		set(b, { translate: `${px(left("b") + shift("b"))} 0`, scale: grown.toFixed(4), transformOrigin: `${ends.b < ends.a ? 100 : 0}% 60%`, opacity: ((1 - 0.55 * selected) * (1 - inOut(at(0.55, 1, gone))) * lit(l)).toFixed(3), color: core(0), textShadow: tubeGlow(0) });
-		a.style.opacity = ((1 - inOut(at(0.55, 1, gone))) * lit(l)).toFixed(3);
+		set(b, { translate: `${px(left("b") + shift("b"))} 0`, scale: grown.toFixed(4), transformOrigin: `${ends.b < ends.a ? 100 : 0}% 60%`, opacity: ((1 - 0.55 * selected) * lit(l)).toFixed(3), color: core(0), textShadow: tubeGlow(0) });
+		a.style.opacity = lit(l).toFixed(3);
 		// The caret stands where the words were taken from, then jumps to where they will be put: in front of
 		// the rest of the line, and it stays at that word's first letter while the word steps aside.
 		const from = begins.a - sp / 2, to = first ? left("b") + shift("b") - sp * 0.18 : ends.a - sp / 2;
