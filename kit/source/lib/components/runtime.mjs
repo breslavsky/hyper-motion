@@ -135,6 +135,7 @@ export async function mountScene(host,config,variables={},gsap){
     const library=createComponentLibrary(K);K.logoNode=library.logoNode;
     const builder=await library.get(scene.type);
     const selfCamera=library.selfCamera.has(scene.type);
+    const ownFrame=catalog[scene.type]?.family==='glass';
     const filter=privateFilter(stage,id.replace(/[^\w-]/g,'-'),S,Boolean(plan.look?.deco?.sketch));
     const inner=selfCamera?null:el('div','layer',cam);
     const draw=withMeasurable(stage,()=>builder({p:{...ps,dur:ps.ldur??ps.dur,beatLen:plan.beat*(ps.speed??1)},root:sceneRoot,cam:inner??cam,fg:foreground,accent:ps.accent,palette:plan.palette,bg:ps.bg==='sky'?plan.palette.sky:ps.bg,K}));
@@ -175,7 +176,9 @@ export async function mountScene(host,config,variables={},gsap){
       const punch=ps.transition==='cut'&&ps.index>0?.05*(1-helpers.maths.expoOut(helpers.maths.prog(l,0,.3))):0;
       const kick=.01*helpers.moves.pulse((t+1e-6)%plan.beat,9);
       if(!selfCamera)set(cam,{transform:motion.camera(M.camera,l,ps.dur,t,punch,kick,ps.index)});
-      set(life,{transform:motion.lifeOf(l,ps.dur,ps.index,selfCamera||['pan','punch','shake','push'].includes(M.camera))});
+      // A Glass scene draws the whole frame in its own world, under its own camera: the film's slow
+      // drift would move that picture off the frame's edge and show the ground behind it.
+      if(!ownFrame)set(life,{transform:motion.lifeOf(l,ps.dur,ps.index,selfCamera||['pan','punch','shake','push'].includes(M.camera))});
       if(instance.ab)sceneRoot.style.setProperty('--ab',(instance.ab*S*(1.5+7*helpers.moves.pulse((t+1e-6)%plan.beat,10))).toFixed(2));
       instance.sky(l);draw(Math.max(0,l*sp),ps.dur*sp);
       metal?.draw(Math.max(0,l*sp));

@@ -861,7 +861,7 @@ function glassStepper(args){
   try{design.fitGroup(pills.map(({line})=>line),{role,w:room,h:design.type(role).lineHeight,wrap:'nowrap'});}
   catch{smallestStep(K,pills.map(({line})=>line),role,room);}
   // Every pill is as wide as the longest name needs and as tall as the tallest.
-  const pillW=Math.min(room+lead+inset,Math.ceil(Math.max(...pills.map(({pill})=>pill.offsetWidth)))),pillH=Math.max(size,...pills.map(({pill})=>pill.offsetHeight));
+  const pillW=Math.ceil(Math.max(...pills.map(({pill})=>pill.getBoundingClientRect().width))),pillH=Math.max(size,...pills.map(({pill})=>pill.offsetHeight));
   for(const {pill} of pills)set(pill,{width:px(pillW),height:px(pillH)});
   // The pill's lit outline and its glow stop at the mark's round edge: the two read as one shape.
   const cut=`radial-gradient(circle at ${px(2*G.gap.block)} 50%, transparent ${px(round/2-G.mark.stroke/2)}, #000 ${px(round/2)})`;
