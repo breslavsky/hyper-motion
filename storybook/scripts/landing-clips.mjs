@@ -3,7 +3,7 @@
 // plays these instead of four live scenes, which is more than a page can
 // carry. Run by hand after a scene shown there changes, then put the files on
 // our public CDN (components/landing/):
-//   node storybook/scripts/landing-clips.mjs <folder to write into>
+//   node storybook/scripts/landing-clips.mjs <folder to write into> [id ...]
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -20,12 +20,14 @@ const FOOTAGE = 'https://motion-fab-share.b-cdn.net/components/glass/talking-hea
 const CLIPS = [
   {id: 'glass', scene: definitions['glass-search'].sample},
   {id: '3d', scene: definitions.synth3d.sample},
-  {id: 'flat', scene: {type: 'slam', lines: ['NO ROCKETS', 'NO GRADIENTS'], crumbs: ['$ launch --prod', 'BUILD 0412'], beats: 4}},
+  // A clip that changes takes a new name: the CDN keeps what it has already served.
+  {id: 'flat-2', scene: definitions.ride.sample},
   {id: 'b-rolls', footage: true, scene: {...definitions['glass-message'].sample, over: true, background: {clip: 'footage'}, place: 'bottom', size: 'small'}},
 ];
 const W = 1920, H = 1080;
 fs.mkdirSync(out, {recursive: true});
-for (const clip of CLIPS) {
+const only = process.argv.slice(3);
+for (const clip of CLIPS.filter(clip => !only.length || only.includes(clip.id))) {
   const project = fs.mkdtempSync(path.join(os.tmpdir(), 'pk-landing-'));
   const run = (file, args, options = {}) => execFileSync(file, args, {cwd: project, stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 1 << 28, ...options});
   try {

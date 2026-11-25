@@ -25,7 +25,8 @@ fs.rmSync(generated, {recursive: true, force: true});
 fs.mkdirSync(generated, {recursive: true}); fs.mkdirSync(output, {recursive: true});
 // The Controls validator and preview runtime must use the same selected kit.
 fs.copyFileSync(path.join(source, 'lib/components/metadata.mjs'), path.join(generated, 'metadata.mjs'));
-fs.copyFileSync(path.join(here, 'node_modules/storybook/assets/browser/favicon.svg'), path.join(here, 'public/favicon.svg'));
+// The library's own icon: the browser tab's and the sidebar's.
+for (const name of ['favicon.svg', 'icon.svg']) fs.copyFileSync(path.join(here, 'src/icon.svg'), path.join(here, 'public', name));
 fs.rmSync(path.join(output, 'lib'), {recursive: true, force: true});
 fs.cpSync(path.join(source, 'lib'), path.join(output, 'lib'), {recursive: true});
 // Controls accept new emoji too; serve the kit's own complete Fluent set.

@@ -15,22 +15,20 @@ addons.setConfig({
   },
 });
 
-// "by Motion Fab" under the name, with a link to the product the library
-// grew in. The sidebar's header is Storybook's own, so the line is added to it
-// once it is there.
+// The library's own icon before its name. The sidebar's header is Storybook's
+// own, so the icon is added to it once it is there.
 const credit = () => {
   const header = document.querySelector('.sidebar-header');
-  if (!header || document.getElementById('hm-credit')) return Boolean(header);
-  const line = document.createElement('div');
-  line.id = 'hm-credit';
-  // The line is drawn up under the name, into the header's own box: it stands over that box, or the header takes its clicks.
-  line.style.cssText = 'position:relative;z-index:2;margin:-11px 0 12px;padding:0 0 0 8px;font-size:12px;line-height:16px;color:#73828c';
-  const link = Object.assign(document.createElement('a'), {href: 'https://www.motionfab.app', target: '_blank', rel: 'noopener', textContent: 'Motion Fab'});
-  link.style.cssText = 'display:inline-block;padding:3px 6px 3px 0;margin:-3px 0;color:#2e5bff;text-decoration:none;font-weight:600;cursor:pointer';
-  line.append('by ', link);
-  header.after(line);
+  if (!header) return false;
+  // The name is the header's link that says it; another link there skips to the canvas.
+  const name = [...header.querySelectorAll('a')].find(link => link.textContent.trim() === 'Hyper Motion');
+  if (name && !document.getElementById('hm-icon')) {
+    const icon = Object.assign(document.createElement('img'), {id: 'hm-icon', src: './icon.svg', alt: '', width: 22, height: 22});
+    icon.style.cssText = 'flex:none;margin-right:8px;border-radius:6px;vertical-align:-5px';
+    name.prepend(icon);
+  }
   return true;
 };
-// Storybook redraws the sidebar (a narrow window, a reload of the index): keep the line there.
+// Storybook redraws the sidebar (a narrow window, a reload of the index): keep the icon there.
 new MutationObserver(credit).observe(document.documentElement, {childList: true, subtree: true});
 credit();

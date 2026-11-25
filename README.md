@@ -1,8 +1,10 @@
 <div align="center">
 
+<img src="storybook/src/icon.svg" alt="" width="72" height="72">
+
 # Ultimate Hyper Frames<br>Components Pack
 
-**For your AI agent.** Free & Open Source.
+**Your AI agent can do HTML to video.** Free & Open Source.
 
 120+ motion-design scenes for [HyperFrames](https://github.com/heygen-com/hyperframes) films, each one a recipe an agent can write: its fields, its limits and its sound cues are checked by code.
 
@@ -13,7 +15,9 @@
 [![Renders with HyperFrames](https://img.shields.io/badge/renders%20with-HyperFrames-4f46e5?style=flat-square)](https://github.com/heygen-com/hyperframes)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
-**Follow [@AntonBreslavsky](https://x.com/AntonBreslavsky) on X** for what comes next. Developed with **[Motion Fab](https://www.motionfab.app)**.
+**Follow [@AntonBreslavsky](https://x.com/AntonBreslavsky) on X** for what comes next.
+
+Developed with &nbsp;[<img src="https://www.motionfab.app/brand/motionfab-logo.svg" alt="Motion Fab" height="22" align="center">](https://www.motionfab.app)
 
 [Storybook](https://breslavsky.github.io/hyper-motion/) &nbsp;·&nbsp; [The four kinds](#the-four-kinds) &nbsp;·&nbsp; [What is here](#what-is-here) &nbsp;·&nbsp; [Running it](#running-it) &nbsp;·&nbsp; [Status](#status) &nbsp;·&nbsp; [Licence](#licence)
 

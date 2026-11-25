@@ -20,7 +20,7 @@ const KINDS = [
     says: 'Thick optical glass that bends the picture behind it: search, prompts, messages, calls, ratings, steps. Over your own footage too.'},
   {id: '3d', name: '3D', shows: 'synth3d', film: {},
     says: 'Real objects under a real camera: a laptop a hand opens, a machine two hands play, phones, cards, a wall of pictures under a lens.'},
-  {id: 'flat', name: 'Flat Motion', shows: 'slam', film: {},
+  {id: 'flat', name: 'Flat Motion', shows: 'ride', clip: 'flat-2', film: {},
     says: 'Kinetic type, charts, interface mock-ups and transitions in forty-three looks: the scenes a launch film is cut from.'},
   // Glass scenes laid over footage that plays on a track of its own: a talking head, b-roll.
   {id: 'b-rolls', name: 'B-Rolls', shows: 'glass-message', counts: 'overlays',
@@ -43,7 +43,7 @@ const seen = new IntersectionObserver(entries => {
 }, {threshold: .2});
 function playing(kind, entry) {
   const frame = el('div', 'hm-play');
-  const clip = Object.assign(el('video'), {src: `${CLIPS}${kind.id}.mp4`, muted: true, loop: true, playsInline: true, preload: 'metadata'});
+  const clip = Object.assign(el('video'), {src: `${CLIPS}${kind.clip ?? kind.id}.mp4`, muted: true, loop: true, playsInline: true, preload: 'metadata'});
   clip.setAttribute('aria-label', `${entry.type}, playing`);
   seen.observe(clip);
   frame.append(clip);
@@ -96,7 +96,7 @@ export function renderLanding() {
   const hero = el('header', 'hm-hero');
   const title = el('h1');
   title.append('Ultimate Hyper Frames', el('br'), 'Components Pack');
-  hero.append(el('p', 'hm-badge', 'Free & Open Source'), title, el('p', 'hm-lead', 'For your AI agent'));
+  hero.append(el('p', 'hm-badge', 'Free & Open Source'), title, el('p', 'hm-lead', 'Your AI agent can do HTML to video'));
   const total = catalog.length;
   hero.append(el('p', 'hm-facts', `${total} scenes for HyperFrames films, each one a recipe an agent can write: its fields, its limits and its sound cues are checked by code.`));
   const badges = el('p', 'hm-badges');
@@ -110,11 +110,17 @@ export function renderLanding() {
   hero.append(badges);
   const follow = el('p', 'hm-follow');
   const link = (text, href) => Object.assign(el('a', '', text), {href, target: '_blank', rel: 'noopener'});
-  follow.append('Follow ', link('@AntonBreslavsky', 'https://x.com/AntonBreslavsky'), ' on X for what comes next. Developed with ', link('Motion Fab', 'https://www.motionfab.app'), '.');
-  hero.append(follow);
+  // Motion Fab as its logo, with a link to it.
+  const motionFab = () => { const mark = link('', 'https://www.motionfab.app'); mark.className = 'hm-logo'; mark.title = 'Motion Fab';
+    mark.append(Object.assign(el('img'), {src: 'https://www.motionfab.app/brand/motionfab-logo.svg', alt: 'Motion Fab', height: 22})); return mark; };
+  follow.append('Follow ', link('@AntonBreslavsky', 'https://x.com/AntonBreslavsky'), ' on X for what comes next.');
+  const made = el('p', 'hm-made');
+  made.append('Developed with', motionFab());
+  hero.append(follow, made);
   const actions = el('p', 'hm-actions');
   const browse = Object.assign(el('a', 'hm-button', 'Browse the components'), {href: docs(catalog.find(entry => entry.type === 'glass-search')), target: '_top'});
-  actions.append(browse, link('GitHub', 'https://github.com/breslavsky/hyper-motion'));
+  const install = Object.assign(el('a', 'hm-button hm-quiet', 'Install'), {href: './?path=/story/hyper-motion--install', target: '_top'});
+  actions.append(browse, install, link('GitHub', 'https://github.com/breslavsky/hyper-motion'));
   actions.lastChild.className = 'hm-link';
   hero.append(actions);
   page.append(hero);
@@ -150,7 +156,7 @@ export function renderLanding() {
   features.append(grid);
   page.append(features);
   const foot = el('footer', 'hm-foot');
-  foot.append('Developed with ', Object.assign(el('a', '', 'Motion Fab'), {href: 'https://www.motionfab.app', target: '_blank', rel: 'noopener'}), '. Beta: scenes and their fields may still change.');
+  foot.append('Beta: scenes and their fields may still change.');
   page.append(foot);
   return page;
 }

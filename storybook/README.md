@@ -41,6 +41,9 @@ ignored build directories. Rebuild when changing the selection.
   toolbar switches all of them; elsewhere "As in the example" is Glass. The material applies to the shared
   Liquid Glass components, every scene of the Glass family and the rides made of them.
   Ordinary DOM typography, buttons and cards keep their normal appearance.
+- **Hyper Motion / Install** (`src/install.mjs`) is how an agent puts the pack
+  into a film of its own: five steps and a prompt to hand over as it is. Its
+  steps are the kit's (`kit/source/lib/USAGE.md`); change them together.
 - The Storybook opens on **Hyper Motion / Welcome** (`src/landing.mjs`): what the
   library is and its three kinds of scenes, each with one scene playing and
   the way into its section, and what every scene does. It has no toolbar and

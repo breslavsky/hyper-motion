@@ -93,3 +93,20 @@ a.hm-shield:hover { filter: brightness(1.12); }
 @media (max-width: 560px) { .hm-feature-grid { grid-template-columns: 1fr; } }
 .hm-drawing { margin: -4px -4px 14px; border-radius: 10px; background: #f6f7f9; }
 .hm-drawing svg { display: block; width: 100%; height: auto; }
+.hm-made { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px 0 0; color: #596275; font-size: 15px; }
+.hm-logo { display: inline-flex; }
+.hm-logo img { display: block; height: 22px; width: auto; }
+.hm-quiet { background: #fff; color: #14161c; box-shadow: inset 0 0 0 1px #b9c3d6; }
+.hm-quiet:hover { background: #eef1f7; }
+.hm-install .hm-hero { margin-bottom: 36px; }
+.hm-hand, .hm-steps { max-width: 880px; margin: 0 auto; }
+.hm-hand { padding: 22px; border: 1px solid #dfe2e8; border-radius: 16px; background: #fff; box-shadow: 0 4px 24px #171c2910; }
+.hm-hand-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.hm-hand h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+.hm-hand button { border: 0; cursor: pointer; font: inherit; font-weight: 650; }
+.hm-install pre { margin: 0; padding: 16px; overflow: auto; border-radius: 10px; background: #14161c; color: #e9edf5; font: 13px/1.6 ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.hm-steps { margin-top: 36px; padding: 0; list-style: none; counter-reset: step; }
+.hm-steps li { position: relative; padding: 0 0 28px 52px; counter-increment: step; }
+.hm-steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: #2e5bff; color: #fff; font-weight: 700; }
+.hm-steps h3 { margin: 4px 0 6px; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+.hm-steps p { margin: 0 0 12px; color: #596275; }
