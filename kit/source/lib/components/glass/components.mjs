@@ -1326,9 +1326,11 @@ function glassCall(args){
   card.group.scale.setScalar(fitToFrame(K,copy.height));
   world.prepare();
   const {pointer,cursor}=pointerOf(K,surface,'pk-glass-call-pointer',G.icon,2);
-  const acceptAt=middleOf(accept),T=G.time;
-  // The button's place in the panel, not in its own row.
-  const at={x:buttons.offsetLeft+acceptAt.x,y:buttons.offsetTop+acceptAt.y};
+  const T=G.time;
+  // The middle of the button in the panel, measured on the page before the
+  // panel is turned: the button's own offsets are from whichever box holds it.
+  const panelBox=surface.getBoundingClientRect(),acceptBox=accept.getBoundingClientRect();
+  const at={x:acceptBox.left-panelBox.left+acceptBox.width/2,y:acceptBox.top-panelBox.top+acceptBox.height/2};
   let shownSeconds=-1;
   return (time,duration=p.dur,backdropTime=time)=>{
     const live=metadata['glass-call'].anchors(s,duration);
