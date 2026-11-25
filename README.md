@@ -19,7 +19,7 @@
 
 Developed with &nbsp;[<img src="https://www.motionfab.app/brand/motionfab-logo.svg" alt="Motion Fab" height="22" align="center">](https://www.motionfab.app)
 
-[Storybook](https://breslavsky.github.io/hyper-motion/) &nbsp;·&nbsp; [The four kinds](#the-four-kinds) &nbsp;·&nbsp; [What is here](#what-is-here) &nbsp;·&nbsp; [Running it](#running-it) &nbsp;·&nbsp; [Status](#status) &nbsp;·&nbsp; [Licence](#licence)
+[Storybook](https://breslavsky.github.io/hyper-motion/) &nbsp;·&nbsp; [What it is for](#what-it-is-for) &nbsp;·&nbsp; [The four kinds](#the-four-kinds) &nbsp;·&nbsp; [What is here](#what-is-here) &nbsp;·&nbsp; [Running it](#running-it) &nbsp;·&nbsp; [Status](#status) &nbsp;·&nbsp; [Licence](#licence)
 
 </div>
 
@@ -29,6 +29,14 @@ Hyper Motion is a library of scenes and components for HyperFrames: HTML
 compositions that render to video, every frame a pure function of time. It
 was grown inside [Motion Fab](https://www.motionfab.app) and lives here on
 its own.
+
+## What it is for
+
+- **A free After Effects alternative** for motion graphics an agent writes as code: titles, kinetic type, charts, interface animation and glass overlays, with no timeline to drag. It is not a compositor for footage.
+- **AI motion graphics.** Your AI agent picks a scene, fills in its fields and gets motion design that was drawn and timed by hand.
+- **HTML to video, HTML to MP4.** Every scene is HTML, CSS and JavaScript; HyperFrames renders it to MP4 or WebM.
+- **A Remotion alternative** if you render with HyperFrames rather than React: plain HTML compositions and nothing to install from npm.
+- **Claude Code, Codex, Cursor.** Works with any agent that can run a command.
 
 ## The four kinds
 

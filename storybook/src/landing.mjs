@@ -34,6 +34,17 @@ const BADGES = [
   ['renders with', 'HyperFrames', 'https://github.com/heygen-com/hyperframes', '#4f46e5'],
 ];
 
+// The words people search by, and what the library is to each of them, said
+// as it is: no more than it does.
+const ASKS = [
+  ['A free After Effects alternative', 'For motion graphics an agent writes as code: titles, kinetic type, charts, interface animation and glass overlays, with no timeline to drag. It is not a compositor for footage.'],
+  ['AI motion graphics', 'Your AI agent picks a scene, fills in its fields and gets motion design that was drawn and timed by hand, instead of inventing animation from nothing.'],
+  ['HTML to video, HTML to MP4', 'Every scene is HTML, CSS and JavaScript, each frame a pure function of time. HyperFrames renders it to MP4 or WebM.'],
+  ['A Remotion alternative', 'If you render with HyperFrames rather than React: plain HTML compositions, ready-made scenes, and nothing to install from npm.'],
+  ['HyperFrames components', 'More than a hundred scenes and components for HyperFrames films, added to a film of your own as one more clip.'],
+  ['Claude Code, Codex, Cursor', 'Works with any agent that can run a command: Claude Code, Codex, Cursor and the rest. The Install page has a prompt to hand over as it is.'],
+];
+
 // One scene playing: a small silent clip of it from our public CDN, rendered
 // by HyperFrames (scripts/landing-clips.mjs). Four live scenes are more than a
 // page can carry. A clip plays only while it is on the screen.
@@ -155,6 +166,13 @@ export function renderLanding() {
   }
   features.append(grid);
   page.append(features);
+  // What people look for when they need this, each answered plainly.
+  const asks = el('section', 'hm-asks');
+  asks.append(el('h2', '', 'What it is for'));
+  const answers = el('div', 'hm-ask-grid');
+  for (const [asked, answer] of ASKS) { const item = el('article'); item.append(el('h3', '', asked), el('p', '', answer)); answers.append(item); }
+  asks.append(answers);
+  page.append(asks);
   const foot = el('footer', 'hm-foot');
   foot.append('Beta: scenes and their fields may still change.');
   page.append(foot);

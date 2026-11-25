@@ -110,3 +110,11 @@ a.hm-shield:hover { filter: brightness(1.12); }
 .hm-steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: #2e5bff; color: #fff; font-weight: 700; }
 .hm-steps h3 { margin: 4px 0 6px; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
 .hm-steps p { margin: 0 0 12px; color: #596275; }
+.hm-asks { max-width: 1180px; margin: 64px auto 0; }
+.hm-asks h2 { margin: 0 0 24px; text-align: center; font-size: 30px; font-weight: 750; letter-spacing: -.03em; }
+.hm-ask-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.hm-ask-grid article { padding: 20px; border: 1px solid #dfe2e8; border-radius: 14px; background: #fff; }
+.hm-ask-grid h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.hm-ask-grid p { margin: 0; color: #596275; font-size: 14px; line-height: 1.5; }
+@media (max-width: 1080px) { .hm-ask-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .hm-ask-grid { grid-template-columns: 1fr; } }
