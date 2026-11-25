@@ -331,6 +331,11 @@ export const catalog={
     "renderMode": "webgl",
     "owned": true
   },
+  "glass-stepper": {
+    "family": "glass",
+    "renderMode": "webgl",
+    "owned": true
+  },
   "glass-checklist": {
     "family": "glass",
     "renderMode": "webgl",

@@ -488,6 +488,11 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
   push and arc; `"static"` holds the view. The editable title, labels and
   controls travel together on the projected surface. Dense panels fit as a
   whole inside the safe height, preserving text, control and spacing proportions.
+- `glass-stepper {items[2-10], current?}` walks a long process down a line of
+  glass pills, each with a round glass mark over its left end and no panel
+  behind them. The camera goes down the line with the step being done, which
+  stands in the middle of the frame, magnified as in a dock; a step leaving
+  the frame fades before the edge cuts it.
 - `glass-ride {steps[...]}` plays glass scenes one after another on one drop
   and under one camera: a step's scene folds into the family's clear drop,
   the drop leaps to the next slide and the next scene grows out of it. Its

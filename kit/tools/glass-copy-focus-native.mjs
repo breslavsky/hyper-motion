@@ -12,6 +12,8 @@ const fixtures = [
     probes: [[.48, '.pk-glass-control-label'], [.78, '.pk-glass-slider-row .pk-glass-control-label']]},
   {scene: {type: 'glass-steps', title: 'How it works', items: ['Upload your footage', 'Pick a style', 'Export in 4K'], beats: 6},
     probes: [[.48, '.pk-glass-heading'], [.8, '.pk-glass-step-text']]},
+  {scene: {type: 'glass-stepper', items: ['Cart review', 'Shipping info', 'Payment method', 'Confirmation'], beats: 10},
+    probes: [[.9, '.pk-glass-stepper-text']]},
   {scene: {type: 'glass-checklist', title: 'Launch checklist', items: ['Brief approved', 'Footage uploaded', 'Captions checked'], beats: 8},
     probes: [[.48, '.pk-glass-heading'], [.8, '.pk-glass-check-text']]},
   {scene: {type: 'glass-like', text: 'Like', beats: 6},

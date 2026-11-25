@@ -794,7 +794,8 @@ async function runCase(type, aspect, variant) {
       row.collapse = await checkSearchCollapse(session.page);
     }
     // A button is a pill as wide as its icon and word, not a sheet of the panel's width.
-    if (!variant && aspect === '9:16' && glassFamily.includes(type) && type !== 'glass-like') {
+    // Nor is a stepper: its pills are as wide as their names, down a line.
+    if (!variant && aspect === '9:16' && glassFamily.includes(type) && !['glass-like', 'glass-stepper'].includes(type)) {
       row.gutters = await portraitGlassGutters(session.page, type);
       for (const {fraction, layout, left, right} of row.gutters) {
         // The DOM grid, both sheets of the transition and the lens text column
@@ -1216,6 +1217,7 @@ async function glassControlsAndCleanup() {
           : type === 'glass-search' ? {query: 'Thursday workshops', timing: {search: 2.5, collapse: 4, collapsed: 5, checked: 5.65}}
           : type === 'glass-send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
           : type === 'glass-steps' ? {title: 'Three steps', items: ['Shoot it', 'Cut it', 'Share it'], camera: 'static'}
+          : type === 'glass-stepper' ? {items: ['Plan', 'Shoot', 'Cut', 'Publish'], current: 3}
           : type === 'glass-checklist' ? {title: 'Ready to post', items: ['Shot', 'Cut', 'Captioned'], camera: 'static'}
           : type === 'glass-like' ? {text: 'Follow', icon: 'heart'}
           : type === 'glass-rating' ? {title: 'Rate the class', stars: 4, caption: 'Four of five', camera: 'static'}

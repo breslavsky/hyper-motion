@@ -76,6 +76,8 @@ duration with repeated end cards, restated slogans or invented claims.
 - A person typing a search query and submitting it → `glass-search`. Supply the
   actual query. After submission, the field folds into a round button.
   Its spinner turns into a checkmark when the search completes.
+- A process of five to ten steps, or how far along somebody is in one →
+  `glass-stepper`; two to four steps read at once → `glass-steps`.
 - Somebody asking a question and getting an answer → `glass-ask`.
 - Two such moments that belong together, one after the other with no cut
   (somebody searches, then asks) → one `glass-ride` whose `steps` are those

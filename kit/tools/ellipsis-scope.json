@@ -1607,6 +1607,20 @@
       }
     },
     {
+      "type": "glass-stepper",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "items[*] names of up to two lines of body text"
+        ],
+        "reason": "The panel is as long as its steps and the camera goes down it: a name is fitted whole, never cut."
+      }
+    },
+    {
       "type": "glass-like",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",

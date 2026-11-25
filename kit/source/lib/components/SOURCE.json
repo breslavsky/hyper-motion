@@ -168,6 +168,14 @@
       "taken": "adapted",
       "date": "2026-11-24",
       "note": "The laptop of the laptop3d scene (scenes/laptop3d.mjs): the model by timblewee on Sketchfab, as the Codrops tutorial 'DeviceShowcase' ships it in the repository named here, packed again into one file. The file is not in this repository: the scene loads it from our public CDN (components/laptop3d/macbook.glb, named in metadata.cjs). The owner of this library states an agreement with the model's author; the author is credited here. Nothing else in laptop3d and synth3d is taken: the hand that opens the laptop and the two hands that play the machine are our own generations (Wan 3.0 over frames of our scenes, made again on a green screen and keyed, the laptop's frames interpolated by Topaz), and the synthesizer is built in code."
+    },
+    {
+      "name": "Stepper UI for mobile flows (a pin on Pinterest), its look",
+      "url": "https://www.pinterest.com/pin/1102748658800856536/",
+      "license": "Public reference; no media or code copied",
+      "taken": "followed",
+      "date": "2026-11-25",
+      "note": "The glass-stepper scene (glass/components.mjs): round numbered marks on a line, each with a pill that names its step, the ones done ticked and the one being done lit. Written here on our own optical glass from what the picture shows; the walk, the camera that goes down the line with the step being done and every measure are ours."
     }
   ]
 }

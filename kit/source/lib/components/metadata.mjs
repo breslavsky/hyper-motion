@@ -288,6 +288,44 @@ validate(s){
       else cue(marks.items.at(-1)+.42,"chime",.6);
     }
 }),
+"glass-stepper":glassComponent({
+// A long process walked step by step down a line of glass marks and pills, the camera with it (glass/components.mjs).
+placed:false,
+// How many steps the walk takes: all of them, or up to the one it stops on.
+taken(s){return Math.min(s.items.length,Number.isInteger(s.current)?s.current:s.items.length);},
+anchors(s,len){
+  // `all`: no step is named to stop on, so the last one is ticked too.
+  const taken=this.taken(s),open=.05,first=Math.min(.7,len*.15),stops=s.current===undefined;
+  // A step is done in up to a second; the last one is ticked a step later unless the walk stops on it.
+  const gap=Math.min(1,Math.max(.2,(len*.92-first)/(stops?taken:Math.max(1,taken-1))));
+  const items=Array.from({length:taken},(_,i)=>first+i*gap);
+  return {open,items,finish:stops?items.at(-1)+gap:undefined};
+},
+// Half a second a step, after the panel opens, and a moment on the last one. In beats at 120 bpm.
+needs(s){return Math.ceil((.7+this.taken(s)*.5+.6)/.5);},
+validate(s){
+  if(!Array.isArray(s.items))return [];
+  const errors=[];
+  if(s.current!==undefined&&(!Number.isInteger(s.current)||s.current>s.items.length))errors.push(`current: ${s.current}; it is the number of the step the walk stops on, 1 to ${s.items.length}`);
+  const needs=this.needs(s);
+  if(!errors.length&&Number.isFinite(s.beats)&&s.beats<needs)errors.push(`beats: these steps need at least ${needs} beats to be walked (fewer steps need fewer)`);
+  return errors;
+},
+"signature":true,
+"copyFields":["items"],
+"fields":{
+  "items":{"kind":"array","of":{"kind":"string","min":1,"max":32},"min":2,"max":10},
+  "current":{"kind":"number","min":1,"max":10,"optional":true}
+},
+"guide":"glass-stepper {items[2-10], current?, background?}: a long process walked step by step, up to ten steps down a line with no panel behind them: each is a glass pill with its name and a round glass mark with its number over the pill's left end (\"Cart review\", \"Shipping info\", \"Payment method\"; the pill reads \"1: Cart review\"). The steps are taken one after another: the one being done is lit, the ones before it are ticked, and the camera goes down the line with it, so the step being done is always in the middle of the frame, a little larger than its neighbours, and a long list never runs out of it. items: the names of the steps in order, up to 32 characters each; the numbers are drawn for you. current = the number of the step the walk stops on, lit and not ticked (\"we are here\"); leave it out and every step is ticked. Use glass-steps for two to four steps read at once on one panel, and glass-stepper when there are more or when the point is how far along somebody is. About a beat a step: a scene too short for its steps is refused with the beats it needs. 6-32 beats.",
+"sample":{"type":"glass-stepper","beats":14,"items":["Cart review","Shipping info","Payment method","Billing address","Confirmation","Receipt"]},
+"sounds":function sounds(s,len,cue){
+      const marks=this.anchors(s,len);
+      cue(marks.open,"pop",.7);
+      marks.items.forEach((at,i)=>cue(at,"tick",i===marks.items.length-1?.7:.55));
+      if(marks.finish!==undefined)cue(marks.finish,"chime",.6);
+    }
+}),
 "glass-checklist":glassComponent({
 // A glass panel that ticks a list off, item by item (glass/components.mjs).
 anchors(s,len){

@@ -820,6 +820,140 @@ function glassWidgets(args){
   };
 }
 
+// A long process walked step by step: up to ten steps down a line, each a
+// glass pill with its name and, over the pill's left end, a round glass mark
+// with its number; no panel behind them. The steps are taken one after another: the one being
+// done is lit, the ones before it are ticked, and the camera goes down the
+// line with it, so the step being done stands in the middle of the frame
+// however many there are. After the look of a mobile stepper (SOURCE.json);
+// every measure is the family's grid (grid.mjs).
+// How much larger the step in the middle of the frame is, and over how many steps to either side that falls away.
+const MAGNIFY=.3,MAGNIFY_REACH=1.3;
+function glassStepper(args){
+  const {K,p,fg}=args,{el,set,px,design}=K,s=p.scene;
+  const {host,world}=makeWorld(args,'glass-stepper');
+  const G=glassGrid(K),count=s.items.length;
+  const tick=islandIconSource('check'),active=activeColor(args);
+  // A pill is the family's field, as the search field is: one line of body text and its insets.
+  const pills=s.items.map((name,i)=>{
+    const text=`${i+1}: ${name}`;
+    const pill=el('div','pk-glass-copy pk-glass-stepper-pill',host);pill.dataset.glassCopy=text;
+    const recipe=design.surface(pill,'field',{shape:'pill'});
+    set(pill,{position:'absolute',display:'flex',alignItems:'center',color:fg,boxSizing:'border-box',width:'max-content'});
+    // Lit while its step is being done: the active colour around the pill.
+    // It is drawn in a box that has room for its glow, so the glow can be cut to the mark's round edge.
+    const lit=el('span','pk-glass-stepper-lit',pill);lit.setAttribute('aria-hidden','true');
+    set(lit,{position:'absolute',inset:px(-2*G.gap.block),opacity:'0'});
+    const outline=el('span','',lit);
+    set(outline,{position:'absolute',inset:px(2*G.gap.block),borderRadius:px(9999),boxShadow:`inset 0 0 0 ${px(G.mark.stroke)} ${active}, 0 0 ${px(G.gap.block)} ${active}`});
+    // The mark stands over the pill's left end: the name begins clear of it.
+    const under=el('span','pk-glass-stepper-under',pill);under.setAttribute('aria-hidden','true');set(under,{flex:'none'});
+    const line=el('div','pk-glass-stepper-text',pill,text);
+    set(line,{position:'relative',minWidth:'0',textAlign:'left'});
+    return {pill,line,lit,under,recipe};
+  });
+  const inset=pills[0].recipe.paddingX,size=design.type('body').lineHeight+2*pills[0].recipe.paddingY;
+  // The mark is larger than the pill it stands on, by a hair's gap all round, and the name begins clear of it.
+  const round=size+2*G.gap.hair,lead=round/2+G.gap.item;
+  for(const {under} of pills)set(under,{width:px(lead-inset)});
+  // The names are one list: all are set in the step the longest one needs, on one line.
+  // The longest name still fits the family's width when its step is the one magnified.
+  const room=G.width/(1+MAGNIFY)-round/2-lead-inset,role=G.type.item.role;
+  try{design.fitGroup(pills.map(({line})=>line),{role,w:room,h:design.type(role).lineHeight,wrap:'nowrap'});}
+  catch{smallestStep(K,pills.map(({line})=>line),role,room);}
+  // Every pill is as wide as the longest name needs and as tall as the tallest.
+  const pillW=Math.min(room+lead+inset,Math.ceil(Math.max(...pills.map(({pill})=>pill.offsetWidth)))),pillH=Math.max(size,...pills.map(({pill})=>pill.offsetHeight));
+  for(const {pill} of pills)set(pill,{width:px(pillW),height:px(pillH)});
+  // The pill's lit outline and its glow stop at the mark's round edge: the two read as one shape.
+  const cut=`radial-gradient(circle at ${px(2*G.gap.block)} 50%, transparent ${px(round/2-G.mark.stroke/2)}, #000 ${px(round/2)})`;
+  for(const {lit} of pills)set(lit,{maskImage:cut,webkitMaskImage:cut});
+  const between=G.gap.section,pitch=round+between,total=count*round+(count-1)*between;
+  // The line is centred as its magnified step stands: that step is the widest, and the marks keep one line.
+  const markX=-(round/2+pillW)*(1+MAGNIFY)/2+round*(1+MAGNIFY)/2;
+  const steps=pills.map(({pill,line,lit},i)=>{
+    // The mark is a round piece of glass over the pill's left end: a ring, its
+    // number, and when the step is done the family's active colour under the
+    // icon set's own check. The line to the next mark hangs under it.
+    const mark=el('div','pk-glass-copy pk-glass-stepper-mark',host);mark.dataset.glassCopy=String(i+1);
+    set(mark,{position:'absolute',display:'grid',placeItems:'center',color:fg,width:px(round),height:px(round),borderRadius:px(round/2)});
+    const part=(name,style)=>{const node=el('span',name,mark);node.setAttribute('aria-hidden','true');set(node,{position:'absolute',inset:'0',borderRadius:'inherit',...style});return node;};
+    const glow=part('pk-glass-stepper-glow',{boxShadow:`inset 0 0 0 ${px(G.mark.stroke)} ${active}, 0 0 ${px(G.gap.block)} ${active}`,opacity:'0'});
+    const fill=part('pk-glass-stepper-fill',{background:active,opacity:'0'});
+    const number=el('span','pk-glass-stepper-number',mark,String(i+1));
+    design.apply(number,G.type.mark.role,{step:G.type.mark.step});set(number,{position:'relative'});
+    const check=el('span','pk-glass-stepper-check',mark);check.setAttribute('aria-hidden','true');
+    set(check,{position:'absolute',width:px(G.check.glyph),height:px(G.check.glyph),backgroundColor:'currentColor',
+      maskImage:`url("${tick}")`,maskMode:'alpha',maskSize:'100% 100%',maskRepeat:'no-repeat',clipPath:'inset(0 100% 0 0)'});
+    let rail=null,done=null;
+    if(i<count-1){
+      const piece=(name,style)=>{const node=el('span',name,mark);node.setAttribute('aria-hidden','true');
+        set(node,{position:'absolute',left:px(round/2-G.mark.stroke/2),top:px(round),width:px(G.mark.stroke),height:px(between),...style});return node;};
+      rail=piece('pk-glass-stepper-rail',{background:'currentColor',opacity:'0'});
+      done=piece('pk-glass-stepper-done',{background:active,transformOrigin:'50% 0',transform:'scaleY(0)'});
+    }
+    // Where the step stands, in frame pixels from the middle of the line.
+    const y=-total/2+round/2+i*pitch;
+    const glass=(element,width,height,x,z)=>{
+      const card=world.addCard({width,height,element,backdropOnly:true,fixedOptics:true});
+      card.geometry.update(width*world.U,height*world.U,height*world.U/2,.24*K.S,.05*K.S);
+      card.group.position.set(x*world.U,-y*world.U,z);
+      return card;
+    };
+    // The pill first and the mark over it, a pane's depth nearer.
+    const bar=glass(pill,pillW,pillH,markX+pillW/2,0);
+    return {y,line,lit,glow,fill,number,check,rail,done,bar,round:glass(mark,round,round,markX,.3*K.S)};
+  });
+  host.dataset.stepperSteps=String(count);
+  world.prepare();
+  const T=G.time;
+  return (time,duration=p.dur,backdropTime=time)=>{
+    const live=metadata['glass-stepper'].anchors(s,duration);
+    // The camera stands over the step being done and goes on to the next as it is reached.
+    let focus=steps[0].y;
+    live.items.forEach((at,i)=>{if(i)focus=mix(focus,steps[i].y,smoother(phase(time,at-.28,at+.14)));});
+    // Magnification, as in a dock: a step is larger the nearer it stands to
+    // the middle of the frame, and its neighbours make room for it. Sizes
+    // first, by where each step stands down the line; then the line laid out
+    // again with every step at its size, the camera's place kept in the middle.
+    const sizes=steps.map(step=>1+MAGNIFY*Math.exp(-(((step.y-focus)/(MAGNIFY_REACH*pitch))**2)));
+    const down=[0];
+    for(let i=1;i<count;i++)down.push(down[i-1]+(round*(sizes[i-1]+sizes[i])/2+between));
+    const along=(focus-steps[0].y)/pitch,k=Math.min(count-2,Math.max(0,Math.floor(along)));
+    const centre=count>1?mix(down[k],down[k+1],along-k):0;
+    steps.forEach((step,i)=>{
+      const from=live.open+i*T.stagger,shown=smooth(phase(time,from,from+T.fade)),pop=outBack(phase(time,from,from+T.pop));
+      const reached=live.items[i],left=live.items[i+1]??(i===live.items.length-1?live.finish:undefined);
+      const now=reached===undefined?0:smooth(phase(time,reached,reached+.2));
+      const done=left===undefined?0:smooth(phase(time,left,left+.22));
+      const lit=now*(1-done),hop=left===undefined?0:Math.sin(Math.PI*phase(time,left,left+T.pop));
+      // A step that has left the frame, or is leaving it, is not shown: nothing is cut by the frame's edge.
+      const size=sizes[i],y=down[i]-centre,edge=K.safe.h/2-round*size/2;
+      const inside=1-smooth(phase(Math.abs(y),edge-round,edge));
+      step.round.opacity=step.bar.opacity=shown*inside;
+      step.round.group.visible=step.bar.group.visible=inside>0;
+      const grow=size*(1+.04*hop);
+      step.round.group.scale.setScalar(mix(.6,1,pop)*grow);
+      step.bar.group.scale.setScalar(mix(.9,1,pop)*size);
+      // The marks stay on one line; a pill grows away from its mark.
+      step.round.group.position.y=step.bar.group.position.y=-y*world.U;
+      step.bar.group.position.x=(markX+pillW*size/2)*world.U;
+      if(step.rail&&i<count-1){
+        // The line to the next mark, in the mark's own pixels at its size.
+        const length=Math.max(0,(down[i+1]-down[i]-round*(size+sizes[i+1])/2)/grow);
+        set(step.rail,{height:px(length)});set(step.done,{height:px(length)});
+      }
+      set(step.glow,{opacity:lit.toFixed(4)});set(step.lit,{opacity:lit.toFixed(4)});
+      set(step.fill,{opacity:done.toFixed(4)});
+      set(step.number,{opacity:(mix(.5,1,now)*(1-done)).toFixed(4)});
+      set(step.check,{clipPath:`inset(0 ${(100*(1-done)).toFixed(2)}% 0 0)`});
+      set(step.line,{opacity:mix(.5,mix(1,.75,done),now).toFixed(4)});
+      if(step.rail){set(step.rail,{opacity:'.3'});set(step.done,{transform:`scaleY(${done.toFixed(4)})`});}
+    });
+    orbitCamera(world,'static',0,{rest:1});
+    world.render(backdropTime);
+  };
+}
+
 // A glass panel that ticks a list off: it grows out of a pill, its title
 // comes in, then the items one after another, each an empty box that pops, a
 // line read word by word, and a tick drawn into the box when the line is
@@ -1551,4 +1685,4 @@ export function dropLeap(go,dx,dy,frameHeight){
     sx:1-.1*stretch+.3*squash,sy:1+.18*stretch-.28*squash};
 }
 
-export const factories=timedGlassFactories({'glass-ride':glassRide,'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});
+export const factories=timedGlassFactories({'glass-ride':glassRide,'glass-stepper':glassStepper,'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});
