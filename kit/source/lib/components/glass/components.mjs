@@ -1482,36 +1482,52 @@ function glassRide(args){
   // away from the one before, and the camera stands over the step that plays.
   const SLIDE=1.25,WAY={right:[1,0],left:[-1,0],down:[0,1],up:[0,-1]};
   steps.forEach((step,i)=>{
-    const [x,y]=WAY[step.scene.move??'right'],before=steps[i-1]?.camera??{x:0,y:0};
+    const [x,y]=WAY[step.move],before=steps[i-1]?.camera??{x:0,y:0};
     step.camera=i?{x:before.x+x*K.W*SLIDE,y:before.y+y*K.H*SLIDE}:before;
   });
-  let shown=-1;
+  let shown='';
   return (time,duration=p.dur,backdropTime=time)=>{
     // The step that plays, or the one whose drop is on its way to the next.
     let at=steps.findLastIndex(step=>time>=step.start);if(at<0)at=0;
     const step=steps[at],next=steps[at+1],local=Math.min(step.dur,Math.max(0,time-step.start));
-    if(at!==shown){
+    const travelling=next&&time>step.start+step.dur,go=travelling?phase(time,step.start+step.dur,next.start):0;
+    // A scene that does not begin on the drop comes into the frame as the camera reaches it.
+    const arriving=travelling&&!next.drop?at+1:-1;
+    if(shown!==`${at}:${arriving}`){
       // A step that is not seen stands as it begins or as it ended, whatever
       // was last drawn in it: seeking back and forth leaves the same page.
       steps.forEach((other,i)=>{
-        set(other.layer,{visibility:i===at?'visible':'hidden'});
-        if(i!==at){other.world.shift(0,0);other.world.pan(other.camera.x,other.camera.y,1);other.draw(i<at?other.dur:0,other.dur,i<at?other.start+other.dur:other.start);}
+        const seen=i===at||i===arriving;
+        set(other.layer,{visibility:seen?'visible':'hidden',opacity:'1'});
+        if(!seen){other.world.shift(0,0);other.world.pan(other.camera.x,other.camera.y,1);other.draw(i<at?other.dur:0,other.dur,i<at?other.start+other.dur:other.start);}
       });
-      shown=at;
+      shown=`${at}:${arriving}`;
     }
-    if(next&&time>step.start+step.dur){
-      // The drop leaps to the next slide and the camera goes after it: it
-      // sets off a moment later and arrives with the drop, in the middle of
-      // its frame again.
-      const go=phase(time,step.start+step.dur,next.start),from=step.world.stands(),to=next.world.stands();
-      const way={x:next.camera.x-step.camera.x,y:next.camera.y-step.camera.y},follow=smoother(phase(go,.12,1));
-      const leap=dropLeap(go,way.x+to.dx-from.dx,way.y+to.dy-from.dy,K.H);
-      // It pulls back while the drop is in the air, to take the whole leap in, and comes in again as it lands.
-      const near=1/(1+PULL_BACK*Math.sin(Math.PI*smoother(go)));
-      step.world.pan(step.camera.x+way.x*follow,step.camera.y+way.y*follow,1/near);
-      // Seen from further off, the drop is smaller and nearer the middle of the frame.
-      const seen={x:(from.dx+leap.dx-way.x*follow)*near-from.dx,y:(from.dy+leap.dy-way.y*follow)*near-from.dy};
-      step.world.shift(seen.x,seen.y,leap.sx*near,leap.sy*near);
+    if(travelling){
+      const from=step.world.stands(),to=next.world.stands();
+      const way={x:next.camera.x-step.camera.x,y:next.camera.y-step.camera.y};
+      if(next.drop){
+        // The drop leaps to the next slide and the camera goes after it: it
+        // sets off a moment later and arrives with the drop, in the middle of
+        // its frame again.
+        const follow=smoother(phase(go,.12,1));
+        const leap=dropLeap(go,way.x+to.dx-from.dx,way.y+to.dy-from.dy,K.H);
+        // It pulls back while the drop is in the air, to take the whole leap in, and comes in again as it lands.
+        const near=1/(1+PULL_BACK*Math.sin(Math.PI*smoother(go)));
+        step.world.pan(step.camera.x+way.x*follow,step.camera.y+way.y*follow,1/near);
+        // Seen from further off, the drop is smaller and nearer the middle of the frame.
+        const seen={x:(from.dx+leap.dx-way.x*follow)*near-from.dx,y:(from.dy+leap.dy-way.y*follow)*near-from.dy};
+        step.world.shift(seen.x,seen.y,leap.sx*near,leap.sy*near);
+      }else{
+        // The drop stays where it is and the camera goes on: the drop leaves
+        // the frame the way the camera came, and the next scene comes in from
+        // where it is going, the one giving way to the other on the road.
+        const follow=smoother(go),x=step.camera.x+way.x*follow,y=step.camera.y+way.y*follow;
+        step.world.pan(x,y,1);step.world.shift(-way.x*follow,-way.y*follow);
+        next.world.pan(x,y,1);next.world.shift(way.x*(1-follow),way.y*(1-follow));
+        set(next.layer,{opacity:smooth(phase(go,.35,.75)).toFixed(4)});
+        next.draw(0,next.dur,backdropTime);
+      }
     }else{step.world.pan(step.camera.x,step.camera.y,1);step.world.shift(0,0);}
     step.draw(local,step.dur,backdropTime);
   };

@@ -660,17 +660,18 @@ async function portraitGlassGutters(page, type) {
     const draw = time => instance.drawAt(instance.ps.start - instance.clipStart + time / instance.ps.speed);
     try {
       // Also check the last readable hold after the camera has pushed in.
-      // A ride is measured in its last step, the open panel of a question.
-      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-ride' ? .7 : .45;
+      // A ride is measured in the open panel of its question.
+      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-ride' ? .45 : .45;
       // Search finishes as a single button. Measure its full-width field
       // while the query is visible, before the capsule folds into the button.
-      return [firstHold, type === 'glass-search' ? .78 : type === 'glass-ride' ? .85 : .94].map(fraction => {
+      return [firstHold, type === 'glass-search' ? .78 : type === 'glass-ride' ? .52 : .94].map(fraction => {
         draw(instance.ps.ldur * fraction);
         const selector = type === 'glass-lens' ? '.pk-glass-lens-layout'
           : type === 'glass-search' ? '.pk-glass-search-field'
           : type === 'glass-send-prompt' ? '[data-glass-surface]' : '[data-design-surface="card"]';
         const surfaces = [...instance.root.querySelectorAll(selector)]
-          .filter(node => type === 'glass-lens' || Number(win.getComputedStyle(node).opacity) > .75);
+          // A ride keeps the steps that are not playing on the page, hidden.
+          .filter(node => win.getComputedStyle(node).visibility !== 'hidden' && (type === 'glass-lens' || Number(win.getComputedStyle(node).opacity) > .75));
         if (!surfaces.length) throw new Error(type + ': missing readable body at ' + fraction);
         const layout = surfaces[0];
         const boxes = surfaces.map(node => node.getBoundingClientRect());
@@ -1221,7 +1222,7 @@ async function glassControlsAndCleanup() {
           : type === 'glass-message' ? {name: 'Sam Rivera', text: 'See you at six.', time: '2m ago'}
           : type === 'glass-follow' ? {network: 'instagram', handle: '@samrivera'}
           : type === 'glass-call' ? {name: 'Sam Rivera', status: 'Video call'}
-          : type === 'glass-ride' ? {steps: [{type: 'glass-search', beats: 6, query: 'Evening classes'}, {type: 'glass-ask', beats: 8, move: 'down', text: 'Is there a spot?', reply: 'Two are left.'}]}
+          : type === 'glass-ride' ? {steps: [{type: 'glass-search', beats: 6, query: 'Evening classes'}, {type: 'glass-ask', beats: 8, move: 'down', text: 'Is there a spot?', reply: 'Two are left.'}, {type: 'glass-send-prompt', beats: 10, text: 'Book one for me'}]}
           : type === 'glass-widgets' ? {title: 'This month', items: [{label: 'Orders', value: '320'}, {label: 'Rating', value: '4.8'}], camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {

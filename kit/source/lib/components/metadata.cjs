@@ -833,28 +833,42 @@ placed:false,
 "glass-ride":glassComponent({
 // Glass scenes one after another on one drop (glass/components.mjs glassRide).
 placed:false,
-// The scenes a ride can take: each begins and ends on the family's clear drop.
-rideable:['glass-search','glass-ask'],
-// Two beats between two steps, while the drop leaps to where the next one stands.
+// The scenes a ride can take, and those of them that begin and end on the
+// family's clear drop: the drop leaps on to such a scene. Any other is where
+// a ride ends: the drop stays behind and the camera goes on to it.
+rideable:['glass-search','glass-ask','glass-send-prompt'],
+drops:['glass-search','glass-ask'],
+// What a step of each scene needs and what else it may carry.
+stepFields:{'glass-search':[['query'],['placeholder']],'glass-ask':[['text'],['reply','exit']],'glass-send-prompt':[['text'],['chips']]},
+// Two beats between two steps, while the drop leaps or the camera travels.
 travel:2,
-// Every step with its scene as the film would write it, when it starts and how long it runs.
+// Every step with its scene as the film would write it, when it starts, how
+// long it runs and which way the camera goes to reach it.
 plan(s,len){
   const beat=len/s.beats;let at=0;
   return s.steps.map((step,i)=>{
-    const {beats,...scene}=step,part={scene:{...scene,beats,...(scene.type==='glass-ask'&&i<s.steps.length-1?{exit:'drop'}:{})},start:at*beat,dur:beats*beat};
+    const {beats,move,...scene}=step,drop=this.drops.includes(scene.type);
+    // A question folds into the drop when the drop is to leap on; when the camera only travels on, it may stay open (exit: hold).
+    const leaps=this.drops.includes(s.steps[i+1]?.type);
+    const part={scene:{...scene,beats,...(scene.type==='glass-ask'&&leaps?{exit:'drop'}:{})},start:at*beat,dur:beats*beat,drop,move:move??(drop?'right':'down')};
     at+=beats+this.travel;return part;
   });
 },
 anchors(s,len){return {steps:this.plan(s,len).map(part=>part.start)};},
 validate(s){
   if(!Array.isArray(s.steps)||!s.steps.every(step=>step&&typeof step==='object'))return [];
-  const errors=[];
+  const errors=[],all=[...new Set(Object.values(this.stepFields).flat(2))];
   s.steps.forEach((step,i)=>{
     if(!this.rideable.includes(step.type))return;
-    for(const name of step.type==='glass-search'?['query']:['text'])if(typeof step[name]!=='string')errors.push(`steps[${i}].${name}: a ${step.type} step needs it`);
-    for(const name of step.type==='glass-search'?['text','reply']:['query','placeholder'])if(step[name]!==undefined)errors.push(`steps[${i}].${name}: not a field of ${step.type}`);
+    const [needs,may]=this.stepFields[step.type];
+    for(const name of needs)if(step[name]===undefined)errors.push(`steps[${i}].${name}: a ${step.type} step needs it`);
+    for(const name of all)if(step[name]!==undefined&&!needs.includes(name)&&!may.includes(name))errors.push(`steps[${i}].${name}: not a field of ${step.type}`);
+    if(step.type==='glass-ask'&&typeof step.text==='string'&&[...step.text].length>60)errors.push(`steps[${i}].text: ${[...step.text].length} characters; a question takes 60 at most`);
     if(i===0&&step.move!==undefined)errors.push('steps[0].move: the first step is where the ride begins; move belongs to the steps after it');
-    if(step.type==='glass-ask'&&step.exit==='hold'&&i<s.steps.length-1)errors.push(`steps[${i}].exit: only the last step of a ride can hold; the others fold into the drop`);
+    if(step.type==='glass-ask'&&step.exit==='hold'&&this.drops.includes(s.steps[i+1]?.type))errors.push(`steps[${i}].exit: the next step grows out of the drop, so this one folds into it; hold is for the last step and for one the camera travels on from`);
+    if(!this.drops.includes(step.type)&&step.place!==undefined)errors.push(`steps[${i}].place: ${step.type} fills the frame and takes no place`);
+    if(!this.drops.includes(step.type)&&i<s.steps.length-1)errors.push(`steps[${i}]: ${step.type} does not end on the drop, so it can only be the last step of a ride`);
+    if(!this.drops.includes(step.type)&&i===0)errors.push(`steps[0]: a ride begins with a scene that ends on the drop: ${this.drops.join(' or ')}`);
   });
   const needs=s.steps.reduce((sum,step)=>sum+(Number(step.beats)||0),0)+this.travel*(s.steps.length-1);
   if(!errors.length&&Number.isFinite(s.beats)&&s.beats!==needs)errors.push(`beats: a ride is as long as its steps and two beats of travel between them: ${needs} beats here`);
@@ -865,21 +879,23 @@ validate(s){
 "section":"Rides",
 "fields":{
   "steps":{"kind":"array","min":2,"max":4,"of":{"kind":"object","fields":{
-    "type":{"kind":"enum","values":["glass-search","glass-ask"]},
+    "type":{"kind":"enum","values":["glass-search","glass-ask","glass-send-prompt"]},
     "beats":{"kind":"number","min":4,"max":16},
     "place":{"kind":"enum","values":GLASS_PLACES,"optional":true},
     "move":{"kind":"enum","values":["right","left","down","up"],"optional":true},
     "query":{"kind":"string","min":1,"max":80,"optional":true},
     "placeholder":{"kind":"string","min":0,"optional":true},
-    "text":{"kind":"string","min":1,"max":60,"optional":true},
+    "text":{"kind":"string","min":1,"max":90,"optional":true},
+    "chips":{"kind":"array","of":{"kind":"string","min":1,"max":18},"max":3,"optional":true},
     "reply":{"kind":"string","min":1,"max":80,"optional":true},
     "exit":{"kind":"enum","values":["drop","hold"],"optional":true}
   }}}
 },
-"guide":"glass-ride {steps[{type, beats, move?, place?, ...the scene's own fields} x2-4], background?}: glass scenes one after another with no cut, on one clear drop of glass and under one camera: a step's scene grows out of the drop and folds back into it, the drop leaps to the next slide, stretched as it flies and squashed as it lands, the camera goes after it, and the next scene grows out of the drop in the middle of the frame. move = which way the next slide lies and the camera goes to reach this step: right (default) | left | down | up; not on the first step. type = glass-search (with query, placeholder?) or glass-ask (with text, reply?, exit? on the last step). place = where the step's panel stands (top-left | top | top-right | left | middle | right | bottom-left | bottom | bottom-right; default middle). Over a photo or a video of the user's the camera travels the picture the same way; past its edge the picture goes on as its mirror image. beats of the ride = the steps' beats and two beats of travel between each two (6 + 2 + 8 = 16); another number is refused with the one needed. Use it for one thought in two moves: somebody searches, then asks. 9-40 beats.",
-"sample":{"type":"glass-ride","beats":16,"steps":[
+"guide":"glass-ride {steps[{type, beats, move?, place?, ...the scene's own fields} x2-4], background?}: glass scenes one after another with no cut, on one clear drop of glass and under one camera: a step's scene grows out of the drop and folds back into it, the drop leaps to the next slide, stretched as it flies and squashed as it lands, the camera goes after it, and the next scene grows out of the drop in the middle of the frame. move = which way the next slide lies and the camera goes to reach this step: right (default; down for glass-send-prompt) | left | down | up; not on the first step. type = glass-search (with query, placeholder?), glass-ask (with text, reply?, exit?) or glass-send-prompt (with text, chips?[]). glass-send-prompt does not begin on the drop, so it can only be the last step: what stands before it stays where it is, the camera goes down past it and the composer comes into the frame. Give the glass-ask before it exit = hold and its panel stays open as the camera leaves, with no fold into the drop; before a step that grows out of the drop a question always folds. place = where the step's panel stands (top-left | top | top-right | left | middle | right | bottom-left | bottom | bottom-right; default middle). Over a photo or a video of the user's the camera travels the picture the same way; past its edge the picture goes on as its mirror image. beats of the ride = the steps' beats and two beats of travel between each two (6 + 2 + 8 + 2 + 10 = 28); another number is refused with the one needed. Use it for one thought in two or three moves: somebody searches, asks, then writes a prompt. 9-48 beats.",
+"sample":{"type":"glass-ride","beats":28,"steps":[
   {"type":"glass-search","beats":6,"query":"Yoga classes near me"},
-  {"type":"glass-ask","beats":8,"text":"When is my next class?","reply":"Tuesday at 6 pm. One spot is left."}]},
+  {"type":"glass-ask","beats":8,"text":"When is my next class?","reply":"Tuesday at 6 pm. One spot is left.","exit":"hold"},
+  {"type":"glass-send-prompt","beats":10,"text":"Book me in for @Tuesday","chips":["Classes","Bookings"]}]},
 "sounds":function sounds(s,len,cue,beat){
       const parts=this.plan(s,len);
       parts.forEach((part,i)=>{

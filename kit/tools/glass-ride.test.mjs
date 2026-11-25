@@ -12,21 +12,28 @@ test('a ride is as long as its steps and the travel between them', () => {
   assert.equal(sample.beats, sample.steps.reduce((sum, step) => sum + step.beats, 0) + ride.travel * (sample.steps.length - 1));
   assert.deepEqual(film.problems(recipe(sample)), []);
   const beat = .5, parts = ride.plan(sample, sample.beats * beat);
-  assert.deepEqual(parts.map(part => [part.start, part.dur, part.scene.type]), [[0, 3, 'glass-search'], [4, 4, 'glass-ask']]);
-  assert.deepEqual(ride.anchors(sample, sample.beats * beat), {steps: [0, 4]});
-  assert.match(film.problems(recipe({...sample, beats: 12})).join('\n'), /16 beats here/);
+  assert.deepEqual(parts.map(part => [part.start, part.dur, part.scene.type]), [[0, 3, 'glass-search'], [4, 4, 'glass-ask'], [9, 5, 'glass-send-prompt']]);
+  assert.deepEqual(ride.anchors(sample, sample.beats * beat), {steps: [0, 4, 9]});
+  assert.match(film.problems(recipe({...sample, beats: 12})).join('\n'), /28 beats here/);
 });
 
 test('every step that is not the last folds into the drop, and a step keeps to its own fields', () => {
-  const [search, ask] = sample.steps, turned = {...sample, steps: [ask, search]};
+  const [search, held, prompt] = sample.steps, {exit: _, ...ask} = held, two = {...sample, beats: 16, steps: [search, ask]}, turned = {...two, steps: [ask, search]};
   assert.equal(ride.plan(turned, 8)[0].scene.exit, 'drop');
-  assert.equal(ride.plan(sample, 8)[1].scene.exit, undefined);
-  assert.match(film.problems(recipe({...turned, steps: [{...ask, exit: 'hold'}, search]})).join('\n'), /only the last step of a ride can hold/);
-  assert.match(film.problems(recipe({...sample, steps: [{type: 'glass-search', beats: 6}, ask]})).join('\n'), /steps\[0\]\.query/);
-  assert.match(film.problems(recipe({...sample, steps: [{...search, text: 'Why?'}, ask]})).join('\n'), /not a field of glass-search/);
-  assert.match(film.problems(recipe({...sample, steps: [{...search, move: 'left'}, ask]})).join('\n'), /first step is where the ride begins/);
-  assert.deepEqual(film.problems(recipe({...sample, steps: [search, {...ask, move: 'down', place: 'top'}]})), []);
-  for (const type of ride.rideable) assert.ok(definitions[type].fields.place, type);
+  assert.equal(ride.plan(two, 8)[1].scene.exit, undefined);
+  // The camera travels on from the question: it folds unless it is told to hold.
+  assert.equal(ride.plan(sample, 14)[1].scene.exit, 'hold');
+  assert.equal(ride.plan({...sample, steps: [search, {...ask, exit: undefined}, prompt]}, 14)[1].scene.exit, undefined);
+  assert.deepEqual(ride.plan(sample, 14).map(part => [part.drop, part.move]), [[true, 'right'], [true, 'right'], [false, 'down']]);
+  assert.deepEqual(film.problems(recipe(two)), []);
+  assert.match(film.problems(recipe({...sample, steps: [search, prompt, ask]})).join('\n'), /can only be the last step/);
+  assert.match(film.problems(recipe({...two, beats: 18, steps: [prompt, ask]})).join('\n'), /a ride begins with a scene that ends on the drop/);
+  assert.match(film.problems(recipe({...turned, steps: [{...ask, exit: 'hold'}, search]})).join('\n'), /the next step grows out of the drop/);
+  assert.match(film.problems(recipe({...two, steps: [{type: 'glass-search', beats: 6}, ask]})).join('\n'), /steps\[0\]\.query/);
+  assert.match(film.problems(recipe({...two, steps: [{...search, text: 'Why?'}, ask]})).join('\n'), /not a field of glass-search/);
+  assert.match(film.problems(recipe({...two, steps: [{...search, move: 'left'}, ask]})).join('\n'), /first step is where the ride begins/);
+  assert.deepEqual(film.problems(recipe({...two, steps: [search, {...ask, move: 'down', place: 'top'}]})), []);
+  for (const type of ride.drops) assert.ok(definitions[type].fields.place, type);
 });
 
 test('a ride plays the sounds of its steps where they stand, and one as the drop sets off', () => {
