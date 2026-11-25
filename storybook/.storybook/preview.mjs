@@ -26,7 +26,7 @@ export default {
     layout: 'fullscreen',
     controls: {expanded: true, sort: 'requiredFirst'},
     // Glass first, then the scenes drawn in depth, then every other family by name.
-    options: {storySort: {order: ['Glass', ['glass-search', 'glass-send-prompt', 'glass-ask', 'glass-island', 'glass-steps', 'glass-stepper', 'glass-checklist', 'glass-message', 'glass-call', 'glass-follow', 'glass-like', 'glass-rating', 'glass-lens', '*'], 'Rides', '3D', 'Pure Kinetic']}},
+    options: {storySort: {order: ['Glass', ['glass-search', 'glass-send-prompt', 'glass-ask', 'glass-island', 'glass-steps', 'glass-stepper', 'glass-checklist', 'glass-message', 'glass-call', 'glass-follow', 'glass-like', 'glass-rating', 'glass-lens', '*'], 'Rides', 'B-Rolls', '3D', 'Pure Kinetic']}},
     docs: {toc: true, page},
   },
 };

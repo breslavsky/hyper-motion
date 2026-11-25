@@ -64,6 +64,19 @@ for (const entry of catalog) {
   const materials = (themes.find(theme => theme.type === entry.type)?.variants ?? []).map(variant => `export const ${variant.exportName} = {name: ${JSON.stringify(variant.name)}, parameters: ${JSON.stringify(variant.globals)}};\n`).join('');
   fs.writeFileSync(path.join(generated, `${entry.type}.stories.mjs`), code + stories + materials);
 }
+// B-Rolls: Glass scenes laid over footage that plays on a track of its own
+// (`over`), each where such an overlay usually stands. The preview lays a
+// sample video under them (src/preview.mjs).
+const BROLLS = [
+  ['glass-like', {place: 'bottom-right', size: 'small'}], ['glass-follow', {place: 'bottom-left', size: 'small'}],
+  ['glass-rating', {place: 'top-right', size: 'small'}], ['glass-message', {place: 'bottom'}], ['glass-call', {place: 'bottom'}],
+  ['glass-island', {place: 'top'}], ['glass-checklist', {place: 'right', size: 'small'}], ['glass-search', {place: 'bottom'}], ['glass-ask', {place: 'bottom'}],
+];
+for (const [type, stands] of BROLLS) {
+  if (!catalog.some(entry => entry.type === type)) continue;
+  const code = `// Generated: a Glass scene over footage. Do not edit.\nimport catalog from './catalog.json';\nimport {renderComponent} from '../src/render.mjs';\nimport {defaultArgs, argTypesFor} from '../src/model.mjs';\nconst entry = catalog.find(item => item.type === ${JSON.stringify(type)});\nexport default {title: ${JSON.stringify('B-Rolls/' + type)}, args: {...defaultArgs(entry), over: true, ...${JSON.stringify(stands)}}, argTypes: argTypesFor(entry), parameters: {material: 'dark-glass', docs: {description: {component: 'Over footage that plays on a track of its own: the scene draws only its glass, and the footage is seen through it.'}}}, render: (args, context) => renderComponent(entry, args, {...context.globals, exampleMaterial: context.parameters.material}, {viewMode: context.viewMode, storyId: context.id})};\nexport const Preview = {name: 'Over footage'};\n`;
+  fs.writeFileSync(path.join(generated, `b-roll-${type}.stories.mjs`), code);
+}
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 function hashes(directory, prefix = '') {
   return Object.fromEntries(fs.readdirSync(directory).sort().flatMap(name => {

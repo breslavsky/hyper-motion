@@ -39,6 +39,22 @@ try {
   if (SAMPLES[ps.scene.video]) options.assetUrls = {...options.assetUrls, [ps.scene.video]: SAMPLES[ps.scene.video]};
   const ready = mountScene(root, {id: 'main', plan, ps, clipStart: 0, clipDuration: plan.duration, options}, {}, window.gsap).then(({timeline, instance}) => {
     window.__timelines.main = timeline;
+    // A scene laid over footage (`over`) has none of its own: the preview plays
+    // a sample under it, in step with the scene's clock.
+    if (ps.scene.over) {
+      const footage = Object.assign(document.createElement('video'), {muted: true, loop: true, playsInline: true, crossOrigin: 'anonymous', src: SAMPLES['assets/glass-street.mp4']});
+      footage.dataset.previewFootage = '';
+      Object.assign(footage.style, {position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'cover'});
+      root.prepend(footage);
+      let moved = 0;
+      timeline.eventCallback('onUpdate', () => {
+        moved = performance.now();
+        const at = timeline.time() % (footage.duration || 1);
+        if (Math.abs(footage.currentTime - at) > .3) footage.currentTime = at;
+      });
+      const pace = setInterval(() => { if (performance.now() - moved < 160) footage.play().catch(() => {}); else footage.pause(); }, 120);
+      window.addEventListener('pagehide', () => clearInterval(pace), {once: true});
+    }
     window.__storybookComponent = {instance, plan, film};
     window.dispatchEvent(new Event('pk-preview-mounted'));
     window.addEventListener('pagehide', () => instance.dispose(), {once: true});
