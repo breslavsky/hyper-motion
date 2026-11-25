@@ -8,7 +8,6 @@
 
 <br>
 
-[![X](https://img.shields.io/badge/X-%40AntonBreslavsky-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/AntonBreslavsky)
 [![Storybook](https://img.shields.io/badge/storybook-live-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://breslavsky.github.io/hyper-motion/)
 [![Status](https://img.shields.io/badge/status-beta-orange?style=flat-square)](#status)
 [![Renders with HyperFrames](https://img.shields.io/badge/renders%20with-HyperFrames-4f46e5?style=flat-square)](https://github.com/heygen-com/hyperframes)

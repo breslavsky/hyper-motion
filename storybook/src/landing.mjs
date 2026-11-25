@@ -29,7 +29,6 @@ const KINDS = [
 ];
 // A badge as a repository's page wears them: what it is about, and what it says.
 const BADGES = [
-  ['X', '@AntonBreslavsky', 'https://x.com/AntonBreslavsky', '#000000'],
   ['status', 'beta', null, '#f08c00'],
   ['license', 'MIT', 'https://github.com/breslavsky/hyper-motion/blob/main/LICENSE', '#2463eb'],
   ['renders with', 'HyperFrames', 'https://github.com/heygen-com/hyperframes', '#4f46e5'],
