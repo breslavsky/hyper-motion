@@ -497,7 +497,14 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 
 	// The clip between the words: a strip of its frames over a band of sound, in a selection of the accent.
 	const stripH = high * 1.5, stripW = hasClip ? Math.min(K.safe.w * 0.34, stripH * 4.2) : 0;
-	const sharp = hasClip ? Math.min(3, Math.max(1, (K.safe.w * 0.86) / stripW)) : 1;
+	// A source drawn into a box as large as needed to cover it, the rest cut off.
+	const cover = (g, source, x, y, w, h) => {
+		const sw = source.videoWidth || source.naturalWidth || source.width, sh = source.videoHeight || source.naturalHeight || source.height;
+		if (!sw || !sh || w <= 0 || h <= 0) return;
+		const k = Math.max(w / sw, h / sh), cw = w / k, ch = h / k;
+		g.drawImage(source, (sw - cw) / 2, (sh - ch) / 2, cw, ch, x, y, w, h);
+	};
+	const sharp = hasClip ? 1.3 : 1;
 	let strip = null, ring = null, halo = null, paint = null;
 	if (hasClip) {
 		// The clip hangs in a tube of its own: a ring of the sign's two lights that run round it, and their glow.
@@ -509,7 +516,7 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		set(strip, { position: "absolute", top: px((high - stripH) / 2), height: px(stripH), width: px(stripW), borderRadius: px(em * 0.12), overflow: "hidden", opacity: "0",
 			background: "#0a0d14", transformOrigin: "50% 50%" });
 		const canvas = document.createElement("canvas");
-		// Drawn at the size it ends at, when the frame has gone into it, so it is sharp there.
+		// Drawn at the size it ends at, a little larger than it stands, so it is sharp there.
 		const tiles = 4, th = Math.round(stripH * 0.74 * sharp), tw = Math.round(stripW * sharp / tiles);
 		canvas.width = tw * tiles; canvas.height = Math.round(stripH * sharp);
 		// The frames keep their own size and stand in the middle of the strip: the strip is a window that
@@ -522,14 +529,8 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		const bars = Array.from({ length: 64 }, () => { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return ((seed >>> 0) % 1000) / 1000; });
 		paint = (source) => {
 			g.fillStyle = "#101a33"; g.fillRect(0, 0, canvas.width, canvas.height);
-			if (source) {
-				const sw = source.videoWidth || source.naturalWidth || source.width, sh = source.videoHeight || source.naturalHeight || source.height;
-				if (sw && sh) {
-					// Each frame of the strip is the clip cropped to its own shape.
-					const k = Math.max(tw / sw, th / sh), cw = tw / k, ch = th / k;
-					for (let i = 0; i < tiles; i++) g.drawImage(source, (sw - cw) / 2, (sh - ch) / 2, cw, ch, i * tw + sharp, 0, tw - 2 * sharp, th);
-				}
-			}
+			// Each frame of the strip is the clip cropped to its own shape.
+			if (source) for (let i = 0; i < tiles; i++) cover(g, source, i * tw + sharp, 0, tw - 2 * sharp, th);
 			g.fillStyle = "#7f9bd6";
 			const room = canvas.height - th - 4 * sharp, step = canvas.width / bars.length;
 			bars.forEach((v, i) => { const h = Math.max(1, v * room * 0.9); g.fillRect(i * step, canvas.height - 2 * sharp - h, Math.max(1, step * 0.6), h); });
@@ -538,17 +539,32 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		if (s.image && K.images[s.image]) {
 			const im = new Image();
 			im.crossOrigin = "anonymous";
-			im.onload = () => paint(im);
+			im.onload = () => { still = im; paint(im); };
 			im.src = K.images[s.image].src;
 			K.defer(im.decode ? im.decode().then(() => paint(im)).catch(() => {}) : Promise.resolve());
 		}
 	}
-	let video = null;
-	if (s.video) K.defer(K.videoSource(0, Math.round(stripW * sharp / 4), Math.round(stripH * 0.74 * sharp)).then((source) => { video = source.element; }));
+	let video = null, still = null;
+	// The video whole, in its own shape: the scene crops it itself, to a frame of the strip and, handed over,
+	// to the place it goes to, so it is asked for as large as it will be shown.
+	const large = s.to ? Math.max(s.to.w * W, s.to.h * K.H) : stripW * sharp / 2;
+	if (s.video) K.defer(K.videoSource(0, large, large, { whole: true }).then((source) => { video = source.element; }));
 
+	// Handing the clip over: with `to` the scene ends with the clip standing in that part of the frame, as one
+	// picture, for what follows to take it up there. The picture is never bent to fit: it is cropped.
+	let out = null, outCanvas = null;
+	if (hasClip && s.to) {
+		// In the frame itself, not in the layer the scene's own content is fitted in: a part of the frame is
+		// a part of the frame.
+		out = el("div", "", cam.parentElement ?? cam);
+		set(out, { position: "absolute", overflow: "hidden", background: "#0a0d14", display: "none" });
+		outCanvas = document.createElement("canvas");
+		set(outCanvas, { position: "absolute", left: "0", top: "0", width: "100%", height: "100%" });
+		out.append(outCanvas);
+	}
 	const lift = high * 0.62;
-	// How far the frame goes into the clip at the end: until the strip is most of the frame's width.
-	const ZOOM = hasClip ? Math.max(0.6, (K.safe.w * 0.86) / stripW - 1) : 0;
+	// How much the clip grows as it goes out at the end: a fifth, no more. It never fills the frame.
+	const ZOOM = hasClip ? 0.2 : 0;
 	// How the taken words travel, as a hand would carry them and never evenly: a quick pull towards the place,
 	// a hover over the line while the rest makes room, then the last of the way. `u` is the share of the carry.
 	const way = (u) => {
@@ -574,15 +590,16 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		const opening = hasClip ? at(t.open, t.placed, l) : 0, opened = swift(opening);
 		const room = opened * (stripW + sp);
 		const left = (which) => begins[which] + (ends[which] - begins[which]) * (which === "a" ? carried : made);
-		// Then the frame goes into the clip: the clip grows from its own middle and the words, growing with it,
-		// are carried out to the sides and leave the frame at full light. Nothing fades.
-		const gone = hasClip ? firm(at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l)) : 0;
+		// Then the clip grows a little from its own middle and the words go out to the sides.
+		const leaving = hasClip ? at(t.leave, out ? t.arrive : Math.max(t.leave + 0.2, length - 0.05), l) : 0, gone = firm(leaving);
+		// As it grows the line goes out, to nothing by the end of the scene: what follows starts clean.
+		const faded = inOut(at(out ? 0 : 0.25, out ? 0.55 : 1, leaving));
 		const shift = (which) => (ends[which] > ends[which === "a" ? "b" : "a"] ? 1 : -1) * (room / 2 + gone * W * 0.3);
 		// As the line opens the words grow and go apart, out of the frame if they must: the clip takes the middle.
 		const grown = 1 + 0.24 * opened;
 		// Nothing stands still once the clip is in: the frame keeps coming closer, slowly, until it goes in.
-		const nearer = hasClip ? 0.07 * inOut(at(t.placed - 0.1, t.leave + 0.15, l)) : 0;
-		set(line, { scale: ((1 + nearer) * (1 + ZOOM * gone)).toFixed(4), transformOrigin: `${px(between)} 50%` });
+		const nearer = hasClip ? 0.07 * inOut(at(t.placed - 0.1, t.leave + 0.15, out ? Math.min(l, t.leave) : l)) : 0;
+		set(line, { scale: ((1 + nearer) * (1 + (out ? 0 : ZOOM) * gone)).toFixed(4), transformOrigin: `${px(between)} 50%`, opacity: (1 - faded).toFixed(3) });
 		const side = begins.a > ends.a ? -1 : 1;
 		set(a, { translate: `${px(left("a") + shift("a"))} ${px(-height)}`, scale: ((1 + 0.14 * held - 0.03 * Math.sin(Math.PI * settle)) * grown).toFixed(4), transformOrigin: opened > 0 ? `${ends.a < ends.b ? 100 : 0}% 60%` : "50% 60%",
 			rotate: `${(side * 2.4 * held * Math.sin(Math.PI * u)).toFixed(3)}deg`,
@@ -608,7 +625,32 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 			const lightsRound = `conic-gradient(from ${turn}deg, ${lights[0]}, ${lights[1]}, #fff 52%, ${lights[1]}, ${lights[0]})`;
 			for (const [node, grow] of [[ring, edge], [halo, edge * 2.2]]) set(node, { left: px(between - wide / 2 - grow), top: px((high - tall) / 2 - grow), width: px(wide + 2 * grow), height: px(tall + 2 * grow),
 				borderRadius: px(em * 0.12 + grow), background: lightsRound, opacity: opened > 0.001 ? (node === halo ? "0.9" : "1") : "0" });
-			if (video && opened > 0.001) paint(video);
+			if (video && opened > 0.001 && !(out && leaving > 0)) paint(video);
+			if (out) {
+				const on = leaving > 0;
+				out.style.display = on ? "block" : "none";
+				strip.style.visibility = on ? "hidden" : "visible";
+				if (on) {
+					// From where the strip stands to the place it is handed over in: its middle and its size go there
+					// together, and its four frames become one that fills it.
+					// Where the strip stands is measured as it is seen, under everything that places the line.
+					const host = out.parentElement.getBoundingClientRect(), seen = strip.getBoundingClientRect(), k = host.width / W || 1;
+					const from = { x: (seen.left + seen.width / 2 - host.left) / k, y: (seen.top + seen.height / 2 - host.top) / k, w: seen.width / k, h: seen.height / k };
+					const k0 = from.w / stripW;
+					const to = { x: (s.to.x + s.to.w / 2) * W, y: (s.to.y + s.to.h / 2) * K.H, w: s.to.w * W, h: s.to.h * K.H };
+					const mix = (a, b) => a + (b - a) * gone;
+					const w = mix(from.w, to.w), h = mix(from.h, to.h);
+					set(out, { left: px(mix(from.x, to.x) - w / 2), top: px(mix(from.y, to.y) - h / 2), width: px(w), height: px(h), borderRadius: px(em * 0.12 * k0 * (1 - gone)) });
+					const cw = Math.max(2, Math.round(w)), ch = Math.max(2, Math.round(h));
+					if (outCanvas.width !== cw || outCanvas.height !== ch) { outCanvas.width = cw; outCanvas.height = ch; }
+					const g = outCanvas.getContext("2d"), source = video ?? still;
+					g.fillStyle = "#101a33"; g.fillRect(0, 0, cw, ch);
+					// The band of sound goes down out of the window; the frames widen from a quarter of it to all of it,
+					// the second of them coming to the middle.
+					const band = stripH * 0.26 * k0 * (1 - gone), tall = ch - band, wide = mix(cw / 4, cw), middle = mix(1.5, 1, gone), gap = 1 - gone;
+					if (source) for (let i = 0; i < 4; i++) cover(g, source, cw / 2 + (i - middle) * wide - wide / 2 + gap, 0, wide - 2 * gap, tall);
+				}
+			}
 		}
 	};
 };
@@ -638,8 +680,17 @@ sceneFactories["kinetic-spin-words"] = ({ p, cam, fg, K }) => {
 		set(node, { display: "inline-block", whiteSpace: "pre" });
 		return { node };
 	});
-	K.design.fitSize(line, K.safe.w * 0.6, K.safe.h * (W > H * 1.2 ? 0.24 : 0.14), "display", { wrap: "nowrap" });
-	const em = parseFloat(getComputedStyle(line).fontSize) || 48, high = em * 1.15, scale = K.scale || 1;
+	const widest = K.safe.w * 0.6;
+	const tallest = K.safe.h * (W > H * 1.2 ? 0.32 : 0.14), scale = K.scale || 1;
+	K.design.fitSize(line, widest, tallest, "display", { wrap: "nowrap" });
+	// The type ladder stops well short of a short word's room: the line is then set as large as its length
+	// lets it be, a long one to the width, a short one to the height.
+	const stepped = parseFloat(getComputedStyle(line).fontSize) || 48, fitted = line.getBoundingClientRect();
+	const grown = Math.min(widest / (fitted.width / scale), tallest / (fitted.height / scale));
+	// The same step of the ladder on a larger unit, so its leading and tracking grow with it.
+	K.design.forSurface(grown).apply(line, "display", { step: Number(line.dataset.designStep) });
+	set(line, { maxWidth: "none" });
+	const em = stepped * grown, high = em * 1.15;
 	const box = line.getBoundingClientRect();
 	for (const part of parts) {
 		const r = part.node.getBoundingClientRect();
@@ -647,9 +698,10 @@ sceneFactories["kinetic-spin-words"] = ({ p, cam, fg, K }) => {
 		part.middle = (r.left - box.left) / scale + part.width / 2;
 	}
 	const full = box.width / scale;
-	// The line takes ARC of the ring; the camera stands a few radii away, so the near side is a little
-	// larger than the far one.
-	const radius = full / ARC;
+	// The ring is one size for the frame, and a line takes of it what its length asks: the widest line ARC,
+	// a short word a small part. The camera stands a few radii away, so the near side is a little larger
+	// than the far one.
+	const radius = widest / ARC;
 	set(line, { width: px(full), height: px(high), perspective: px(radius * 4.2), perspectiveOrigin: "50% 50%" });
 	const ring = el("div", "", line);
 	set(ring, { position: "absolute", left: px(full / 2), top: "0", width: "0", height: px(high), transformStyle: "preserve-3d" });

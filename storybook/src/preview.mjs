@@ -1,5 +1,6 @@
 import compiler from './compiler.mjs';
 import {mountScene} from './lib/components/runtime.mjs';
+import metadata from './lib/components/metadata.mjs';
 
 const root = document.getElementById('root');
 function fail(error) {
@@ -76,7 +77,25 @@ try {
       window.addEventListener('pagehide', () => clearInterval(pace), {once: true});
     }};
   }
+  // A scene that hands its picture over (`handoff` of its definition: a clip standing in a part of the frame
+  // as the scene ends) is shown with what takes it up: the same video as a clip of the film, in that place,
+  // from that moment, for a few seconds more. That is the whole of a hand-over, as a film does it.
+  const speed = ps.speed ?? 1;
+  const handed = metadata[ps.scene.type]?.handoff?.(ps.scene, ps.ldur ?? ps.dur * speed, plan.beat * speed) ?? null;
+  const AFTER = 2.5;
+  let next = null;
+  if (handed?.video) {
+    const at = ps.start + handed.at / speed, {x, y, w, h} = handed.to;
+    next = Object.assign(document.createElement('video'), {id: 'pk-handed', className: 'clip', muted: true, playsInline: true, crossOrigin: 'anonymous', preload: 'auto',
+      src: options.assetUrls?.[handed.video] ?? handed.video});
+    Object.assign(next.dataset, {start: at.toFixed(4), duration: AFTER.toFixed(4), trackIndex: '30', mediaStart: at.toFixed(4), volume: '0', previewHanded: ''});
+    Object.assign(next.style, {position: 'absolute', left: `${x * 100}%`, top: `${y * 100}%`, width: `${w * 100}%`, height: `${h * 100}%`, objectFit: 'cover', zIndex: '50'});
+    root.append(next);
+    root.dataset.duration = String(at + AFTER);
+  }
   const ready = mountScene(root, {id: 'main', plan, ps, clipStart: 0, clipDuration: plan.duration, options}, {}, window.gsap).then(({timeline, instance}) => {
+    // The film goes on after the scene for as long as the clip that takes its picture up.
+    if (next) timeline.to({}, {duration: Number(root.dataset.duration) - timeline.duration()}, timeline.duration());
     window.__timelines.main = timeline;
     footage?.follow(timeline);
     window.__storybookComponent = {instance, plan, film};

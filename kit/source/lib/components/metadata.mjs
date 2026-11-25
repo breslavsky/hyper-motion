@@ -2009,8 +2009,9 @@ validate(s){
 // film's clip is put between the words. Ours, after one move of Apple's
 // Creator Studio film (SOURCE.json).
 "copyFields":["text"],
-"fields":{"text":{"kind":"string","min":5,"max":40},"move":{"kind":"string","min":1,"max":32},"image":{"kind":"string","optional":true},"video":{"kind":"string","optional":true}},
-"guide":"kinetic-swap-words {text, move, image?, video?}: a short line is edited before the viewer. It stands in the wrong order (\"video. Edit a\"); the words out of place take the accent colour, glow and lift off the line, are carried over the rest behind a caret and dropped where they belong (\"Edit a video.\"). text = the line as it ends, 2-6 words, up to 40 characters. move = the words that start out of place, exactly as they stand in text, at its beginning or at its end and never all of it (\"Edit a\"). With image or video (one of them, a file of the user's) the line then opens and a strip of that clip, its frames over a band of sound in a selection of the accent, grows out of a caret between the words and takes its place there; a video plays in the strip; then the words leave to the sides and the clip stays alone in the frame, so the next scene can be that clip. Without either the scene ends on the line in order. The line is a sign of one tube of light, always set in the rounded one-line font Comfortaa whatever the film's font: letters nearly white at the core in a glow of one colour, another colour while they are taken, and a flicker as the sign comes on. For a line about editing, fixing, changing or putting something in its place; the drop of the words is the moment for a hit of the music. 4-6 beats, 6-8 with a clip.",
+"fields":{"text":{"kind":"string","min":5,"max":40},"move":{"kind":"string","min":1,"max":32},"image":{"kind":"string","optional":true},"video":{"kind":"string","optional":true},
+"to":{"kind":"object","optional":true,"fields":{"x":{"kind":"number","min":0,"max":1},"y":{"kind":"number","min":0,"max":1},"w":{"kind":"number","min":0.05,"max":1},"h":{"kind":"number","min":0.05,"max":1}}}},
+"guide":"kinetic-swap-words {text, move, image?, video?, to?}: a short line is edited before the viewer. It stands in the wrong order (\"video. Edit a\"); the words out of place take the accent colour, glow and lift off the line, are carried over the rest behind a caret and dropped where they belong (\"Edit a video.\"). text = the line as it ends, 2-6 words, up to 40 characters. move = the words that start out of place, exactly as they stand in text, at its beginning or at its end and never all of it (\"Edit a\"). With image or video (one of them, a file of the user's) the line then opens and a strip of that clip, its frames over a band of sound in a selection of the accent, grows out of a caret between the words and takes its place there; a video plays in the strip; then the words go out to the sides while the clip grows a fifth larger and the whole line fades to nothing by the end of the scene. to = {x, y, w, h}, a part of the frame in shares of it from its top left corner ({\"x\":0,\"y\":0,\"w\":1,\"h\":1} is the whole frame): with it the scene does not fade. Its clip goes to that part of the frame instead, its four frames becoming one picture that fills it, cropped and never bent, and the scene ends with the clip standing there, so that what follows (the same video as a clip of the film in that place, a screen, a card) takes it up with no cut. Only with image or video. Without either the scene ends on the line in order. The line is a sign of one tube of light, always set in the rounded one-line font Comfortaa whatever the film's font: letters nearly white at the core in a glow of one colour, another colour while they are taken, and a flicker as the sign comes on. For a line about editing, fixing, changing or putting something in its place; the drop of the words is the moment for a hit of the music. 4-6 beats, 6-8 with a clip.",
 "sample":{"type":"kinetic-swap-words","beats":6,"text":"Edit a video.","move":"Edit a"},
 "words":function words(text){return String(text??'').trim().split(/\s+/u).filter(Boolean);},
 // A tube of light is bent from one line: the sign is always set in Comfortaa, a rounded
@@ -2028,6 +2029,11 @@ validate(s){
       if(all.length<2||all.length>6)errors.push(`text: ${all.length} words; the line has 2 to 6`);
       if(typeof s.move!=='string'||!this.parts(s).ok)errors.push('move: the words that start out of place, exactly as they stand in text, at its beginning or at its end and not all of it');
       if(s.image&&s.video)errors.push('image, video: one of them');
+      if(s.to){
+        if(!s.image&&!s.video)errors.push('to: a clip to hand over, an image or a video');
+        if(Number.isFinite(s.to.x)&&Number.isFinite(s.to.w)&&s.to.x+s.to.w>1.0001)errors.push('to: x + w goes past the right edge of the frame');
+        if(Number.isFinite(s.to.y)&&Number.isFinite(s.to.h)&&s.to.y+s.to.h>1.0001)errors.push('to: y + h goes past the bottom edge of the frame');
+      }
       const clip=Boolean(s.image||s.video);
       if(Number.isFinite(s.beats)&&s.beats<(clip?6:4))errors.push(`beats: the line needs at least ${clip?6:4} beats${clip?' with a clip':''}`);
       return errors;
@@ -2042,7 +2048,15 @@ validate(s){
       const open=clip?Math.min(drop+b,len*.72):len,placed=clip?Math.min(open+Math.max(.28,b*.6),len*.9):len;
       // With a clip the words then leave to the sides, and the clip stays.
       const leave=clip?Math.min(Math.max(placed+b*.8,len*.8),len-.3):len;
-      return {select,carry,drop,open,placed,leave,clip};
+      // Handed over (`to`), the clip leaves a little sooner and stands in its place as the scene ends.
+      const handed=Boolean(clip&&s.to),left=handed?Math.min(leave,len-Math.max(.5,b)):leave;
+      return {select,carry,drop,open,placed,leave:left,arrive:handed?len-.02:len,clip};
+    },
+// What the scene leaves for what follows: where its clip stands at the end, in
+// shares of the frame, when (in the scene's own seconds) and what it shows.
+"handoff":function handoff(s,len,beat){
+      if(!s.to||!(s.image||s.video))return null;
+      return {at:this.times(s,len,beat).arrive,to:{x:s.to.x,y:s.to.y,w:s.to.w,h:s.to.h},...(s.video?{video:s.video}:{image:s.image})};
     },
 "sounds":function sounds(s,len,cue,beat){
       const t=this.times(s,len,beat);
@@ -2056,7 +2070,7 @@ validate(s){
 // place on a beat. Ours, after one move of Apple's Creator Studio film (SOURCE.json).
 "copyFields":["text"],
 "fields":{"text":{"kind":"string","min":2,"max":28},"turns":{"kind":"number","min":1,"max":4,"optional":true}},
-"guide":"kinetic-spin-words {text, turns?}: a short line spins in real 3D. Its letters stand upright on a ring, facing out, and the ring turns about its upright axis under a camera: the line swings off to one side, goes round behind, where it is seen from its back, mirrored and dim, and comes to the front again; a few fast turns that slow into place on a beat. Standing, the line keeps the curve of its ring: its ends are turned a little away. text = the line, 1-4 words, up to 28 characters (\"Loop it.\"). turns = how many times it goes round, 1 to 4 (default 2). In the film's own font, white on the black ground of its family. For a line about a loop, a repeat, a turn, a cycle, something that comes round again; its landing is the moment for a hit of the music. 3-6 beats.",
+"guide":"kinetic-spin-words {text, turns?}: a short line spins in real 3D. Its letters stand upright on a ring, facing out, and the ring turns about its upright axis under a camera: the line swings off to one side, goes round behind, where it is seen from its back, mirrored and dim, and comes to the front again; a few fast turns that slow into place on a beat. The ring is one size for the frame, so a longer line takes more of it: standing, a long line keeps the curve of its ring, its ends turned a little away, and a short word stands almost flat. text = the line, 1-4 words, up to 28 characters (\"Loop it.\"). turns = how many times it goes round, 1 to 4 (default 2). In the film's own font, white on the black ground of its family. For a line about a loop, a repeat, a turn, a cycle, something that comes round again; its landing is the moment for a hit of the music. 3-6 beats.",
 "sample":{"type":"kinetic-spin-words","beats":4,"text":"Loop it."},
 // What turns as one: a letter, a space, or a whole word of a script whose letters join.
 "units":function units(text){

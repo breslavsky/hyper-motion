@@ -32,6 +32,9 @@ export const MEDIA_EXAMPLES = {
   'kinetic-swap-words': [
     {exportName: 'ExampleVideo', name: 'With a video', args: {beats: 8, video: 'assets/talking-head.mp4'}},
     {exportName: 'ExampleImage', name: 'With a picture', args: {beats: 8, image: 'assets/glass-bahamas.webp'}},
+    // The clip is handed over: it goes to a part of the frame and the same video goes on there as the film's own clip.
+    {exportName: 'ExampleHandedFull', name: 'Handed over to the whole frame', args: {beats: 8, video: 'assets/talking-head.mp4', to: {x: 0, y: 0, w: 1, h: 1}}},
+    {exportName: 'ExampleHandedPart', name: 'Handed over to a part of the frame', args: {beats: 8, video: 'assets/talking-head.mp4', to: {x: 0.52, y: 0.12, w: 0.4, h: 0.76}}},
   ],
 };
 

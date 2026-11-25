@@ -124,10 +124,10 @@ export async function mountScene(host,config,variables={},gsap){
     K.sceneVideos=[];
     // By its place among the scene's videos, or by its path (a clip of the
     // component's own, which the plan lists after the film's).
-    K.videoSource=(which,width,height)=>{
+    K.videoSource=(which,width,height,{whole=false}={})=>{
       const list=ps.scene.videos??[],named=typeof which==='string';
       const path=named?which:(list[which]??ps.scene.video),index=named?Math.max(0,list.indexOf(which)):which;
-      const source=loadVideoSource(ctx,{path,inputId:`pk-video-${id}-${index}`,width,height});K.sceneVideos.push(source);return source;};
+      const source=loadVideoSource(ctx,{path,inputId:`pk-video-${id}-${index}`,width,height,whole});K.sceneVideos.push(source);return source;};
     const sceneRoot=el('div',`scene on look-${plan.look?.id??'editorial'}`,stage);
     sceneRoot.style.visibility='visible';sceneRoot.style.zIndex=String(10+ps.index);
     const post=plan.look?.post??{};
@@ -148,7 +148,11 @@ export async function mountScene(host,config,variables={},gsap){
     const library=createComponentLibrary(K);K.logoNode=library.logoNode;
     const builder=await library.get(scene.type);
     const selfCamera=library.selfCamera.has(scene.type);
-    const ownFrame=catalog[scene.type]?.family==='glass';
+    // A Glass scene and a Kinetic Text scene move their own frame: the slow drift every other scene has
+    // would take a picture off the place it is handed over in. A Kinetic Text scene's frame stands still
+    // altogether: the look's camera (a push, a punch on a cut, a kick on the beat) is not its own either.
+    const stillFrame=catalog[scene.type]?.ground==='kinetic';
+    const ownFrame=catalog[scene.type]?.family==='glass'||stillFrame;
     const filter=privateFilter(stage,id.replace(/[^\w-]/g,'-'),S,Boolean(plan.look?.deco?.sketch));
     const inner=selfCamera?null:el('div','layer',cam);
     const draw=withMeasurable(stage,()=>builder({p:{...ps,dur:ps.ldur??ps.dur,beatLen:plan.beat*(ps.speed??1)},root:sceneRoot,cam:inner??cam,fg:foreground,accent:ps.accent,palette:plan.palette,bg:ps.bg==='sky'?plan.palette.sky:ps.bg,K}));
@@ -163,6 +167,9 @@ export async function mountScene(host,config,variables={},gsap){
     instance.rebuildRequired=contentChanged?{audio:true,reason:'Native content changed. Visual timing was recalculated; update film.json and rebuild to synchronize the mixed audio and film-level hit effects.'}:null;
     if(instance.rebuildRequired)host.setAttribute('data-pk-rebuild-required','audio');
     if(options.fit!==false)withMeasurable(stage,()=>fitScene(instance,ctx,{selfCamera:library.selfCamera}));
+    // The fit measures a scene under the look's camera and leaves that camera where it last stood. A scene
+    // whose frame stands still is never moved again, so it is put back.
+    if(stillFrame){set(cam,{transform:'none'});set(life,{transform:'none'});}
     // Preserve the original measurement order: factory textContent emoji are
     // measured as glyphs, then substituted after fitting (el() substitutes early).
     helpers.dom.emojify(stage);
@@ -188,7 +195,7 @@ export async function mountScene(host,config,variables={},gsap){
       for(const video of sceneVideos)video.seek(localTime);
       const punch=ps.transition==='cut'&&ps.index>0?.05*(1-helpers.maths.expoOut(helpers.maths.prog(l,0,.3))):0;
       const kick=.01*helpers.moves.pulse((t+1e-6)%plan.beat,9);
-      if(!selfCamera)set(cam,{transform:motion.camera(M.camera,l,ps.dur,t,punch,kick,ps.index)});
+      if(!selfCamera&&!stillFrame)set(cam,{transform:motion.camera(M.camera,l,ps.dur,t,punch,kick,ps.index)});
       // A Glass scene draws the whole frame in its own world, under its own camera: the film's slow
       // drift would move that picture off the frame's edge and show the ground behind it.
       if(!ownFrame)set(life,{transform:motion.lifeOf(l,ps.dur,ps.index,selfCamera||['pan','punch','shake','push'].includes(M.camera))});

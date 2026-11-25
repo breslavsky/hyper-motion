@@ -797,8 +797,8 @@ Text family (its own section in the Storybook, `"section"` of its definition):
 a line whose words out of place are selected, carried on an uneven arc behind
 a caret and dropped where they belong; with a picture or a video a strip of
 that clip opens out of a caret between the words, a window over frames that
-are never stretched, and the frame then goes into the clip, which carries the
-words out to the sides. Every frame comes from the scene's time alone: the two
+are never stretched; then the words go out to the sides, the clip grows a
+fifth larger and the whole line fades to nothing by the scene's end. Every frame comes from the scene's time alone: the two
 orders are measured once.
 
 The line is a sign of one tube of light, and that is its only look: letters
@@ -816,11 +816,11 @@ whose letters join) is a plane standing on a ring, turned to face outwards
 turns about its upright axis under a camera with perspective: one `rotateY`
 of the ring, set from the scene's time. The browser does the geometry, the
 depth and what hides what; the scene adds only the light each letter gets for
-the way it faces, so the back of the ring is dim and read mirrored. The line
-takes `ARC` of the ring and keeps that curve when it stands. A first version
-moved letters along a flat belt with a mirrored copy behind, which is what the
-film it follows appears to do; it was a trick, and was replaced. It is set in
-the film's own font and ink: the sign of tubes (`kineticSign`) is the edited
+the way it faces, so the back of the ring is dim and read mirrored. The ring is
+one size for the frame and the line is set as large as its length lets it be:
+the widest line takes `ARC` of the ring and keeps that curve when it stands,
+a short word takes a small part of it and stands almost flat. It is set in the
+film's own font and ink: the sign of tubes (`kineticSign`) is the edited
 line's.
 
 The family has a ground of its own (`kinetic-ground.mjs`, `"ground":

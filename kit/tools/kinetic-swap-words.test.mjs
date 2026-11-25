@@ -61,7 +61,7 @@ test('the sign has one look and two lights', async () => {
   // There is no ink and no wall to choose.
   assert.match(problems({ink: 'neon'}).join(), /ink/);
   assert.match(problems({wall: 'brick'}).join(), /wall/);
-  assert.deepEqual(Object.keys(scene.fields).sort(), ['image', 'move', 'text', 'video']);
+  assert.deepEqual(Object.keys(scene.fields).sort(), ['image', 'move', 'text', 'to', 'video']);
   const {KINETIC_GROUND} = await import('../source/lib/components/kinetic-ground.mjs');
   assert.match(KINETIC_GROUND.palette.signTaken, /^#[0-9a-f]{6}$/);
   assert.match(KINETIC_GROUND.palette.signStanding, /^#[0-9a-f]{6}$/);
@@ -72,4 +72,27 @@ test('the sign has a font of its own, a bundled one, and the scene asks for it',
   const library = require('../source/lib/fonts/library.json');
   assert.ok(library.families.some(family => family.family === scene.font), `${scene.font} is not a family of the kit`);
   assert.deepEqual(scene.fonts(scene.sample), [`700 100px "${scene.font}"`]);
+});
+
+test('a clip handed over goes to a part of the frame that is inside it, and only a clip can go', () => {
+  const clip = {beats: 8, video: 'b.mp4'};
+  assert.deepEqual(problems({...clip, to: {x: 0, y: 0, w: 1, h: 1}}), []);
+  assert.deepEqual(problems({...clip, to: {x: .52, y: .12, w: .4, h: .76}}), []);
+  assert.match(problems({to: {x: 0, y: 0, w: 1, h: 1}}).join(), /to: a clip to hand over, an image or a video/);
+  assert.match(problems({...clip, to: {x: .7, y: 0, w: .5, h: 1}}).join(), /x \+ w goes past the right edge/);
+  assert.match(problems({...clip, to: {x: 0, y: .6, w: 1, h: .5}}).join(), /y \+ h goes past/);
+  assert.match(problems({...clip, to: {x: 0, y: 0, w: 1}}).join(), /to/);
+});
+
+test('a scene that hands its clip over says when, where and which file, and leaves earlier to get there', () => {
+  for (const [beats, bpm] of [[6, 96], [8, 120], [8, 72]]) {
+    const beat = 60 / bpm, len = beats * beat, to = {x: .5, y: .1, w: .4, h: .8};
+    const kept = {...scene.sample, beats, video: 'b.mp4'}, handed = {...kept, to};
+    const stays = scene.times(kept, len, beat), goes = scene.times(handed, len, beat);
+    assert.ok(goes.placed < goes.leave && goes.leave < goes.arrive && goes.arrive <= len, JSON.stringify(goes));
+    assert.ok(goes.leave <= stays.leave, 'the way to its place takes time');
+    assert.equal(scene.handoff(kept, len, beat), null);
+    assert.deepEqual(scene.handoff(handed, len, beat), {at: goes.arrive, to, video: 'b.mp4'});
+    assert.deepEqual(scene.handoff({...handed, video: undefined, image: 'a.png'}, len, beat), {at: goes.arrive, to, image: 'a.png'});
+  }
 });

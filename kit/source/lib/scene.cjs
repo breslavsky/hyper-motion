@@ -79,12 +79,15 @@ function buildScene(recipe, out = process.cwd()) {
   fs.writeFileSync(drawn, `${JSON.stringify(emoji)}\n`);
 
   const time = value => Number(value.toFixed(3));
+  // What the scene leaves for the next clip of the film: a picture standing in a part of the frame.
+  const handed = require('./components/metadata.cjs')[ps.scene.type]?.handoff?.(ps.scene, ps.ldur ?? ps.dur, plan.beat * (ps.speed ?? 1)) ?? null;
   return {
     file: `compositions/${file}`,
     duration: clip.duration,
     head: [`<link rel="stylesheet" href="${kit}/components/presentation.css">`, `<link rel="stylesheet" href="${kit}/fonts.css">`],
     mount: sceneHost({id, file, variables, config, start, duration: clip.duration, track, width: plan.width, height: plan.height}),
     sounds: (plan.audioEvents ?? []).map(({t, kind, strength}) => ({at: time(start + t), kind, ...(strength === undefined ? {} : {strength})})),
+    ...(handed ? {handoff: {...handed, at: time(start + handed.at / (ps.speed ?? 1))}} : {}),
   };
 }
 

@@ -83,6 +83,13 @@ The command writes `compositions/pk-<id>.html` and the scene's emoji into
 - `sounds`: the scene's own cues (`click`, `type`, `whoosh`, `chime`...) with
   their times in the film. The kit plays nothing: give them to the film's
   soundtrack, or leave the scene silent.
+- `handoff`, for a scene that ends with a picture standing in a part of the
+  frame (`kinetic-swap-words` with `to`): `at`, the film's second it stands
+  there from; `to`, that part of the frame in shares of it, `{x, y, w, h}`;
+  and `video` or `image`, what it shows. Start the next clip at `at`, in
+  that place and with that file, and there is no cut: the same video as a
+  clip of the film (`data-media-start` its time at `at`, `object-fit:
+  cover`), a screen, a card.
 
 The page must have GSAP as `window.gsap`, as HyperFrames films do. Build the
 scene again after changing its recipe; do not edit the written file.

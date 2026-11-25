@@ -25,9 +25,11 @@ export async function loadGlassBackground(context,id){
 }
 
 // One video of a scene as a canvas that holds its frame at the scene's moment,
-// cropped to cover `width` x `height`. `inputId` names the <video> the film's
+// cropped to cover `width` x `height`; with `whole`, the canvas takes the video's
+// own shape instead (its longer side the longer of the two) and nothing is cut,
+// for a scene that crops the picture itself, to one box and then to another. `inputId` names the <video> the film's
 // page declares for it (build.cjs), which is what HyperFrames decodes offline.
-export async function loadVideoSource(context,{path,inputId,width,height,label='Scene video'}){
+export async function loadVideoSource(context,{path,inputId,width,height,whole=false,label='Scene video'}){
   const {K,stage,options}=context;
   const doc=stage.ownerDocument;
   const url=options.assetUrls?.[path]??path;
@@ -44,7 +46,13 @@ export async function loadVideoSource(context,{path,inputId,width,height,label='
   // content variable can choose a different source from the compiled input.
   const decoder=held?null:doc.createElement('video');
   let wanted=0,painted=-1,pending=null,repaint,injectedSrc;
+  let shaped=!whole;
   function blit(frame,width,height){
+    if(!shaped&&width&&height){
+      shaped=true;const long=Math.max(element.width,element.height);
+      element.width=Math.max(1,Math.round(width>=height?long:long*width/height));
+      element.height=Math.max(1,Math.round(width>=height?long*height/width:long));
+    }
     const scale=Math.max(element.width/width,element.height/height);
     const w=scale*width,h=scale*height;
     ctx.drawImage(frame,(element.width-w)/2,(element.height-h)/2,w,h);
