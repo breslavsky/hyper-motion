@@ -104,3 +104,15 @@ test('a panel stands at one of nine places against the safe area, at one of two 
   assert.throws(() => glassPlacement(K, {place: 'centre'}, box), /place must be one of/);
   assert.throws(() => glassPlacement(K, {size: 'tiny'}, box), /size must be one of/);
 });
+
+test('a scene laid over the film\'s own footage takes no picture of its own', async () => {
+  const {createRequire} = await import('node:module');
+  const require = createRequire(import.meta.url), definitions = require('../source/lib/components/metadata.cjs'), film = require('../source/lib/film.cjs');
+  const recipe = scene => ({aspect: '16:9', style: 'glass', brand: {name: 'Nook'}, scenes: [scene]});
+  const like = definitions['glass-like'].sample;
+  for (const type of Object.keys(definitions).filter(type => type.startsWith('glass-'))) {
+    assert.equal(definitions[type].fields.over.kind, 'bool', type);
+  }
+  assert.deepEqual(film.problems(recipe({...like, over: true, place: 'bottom-right', size: 'small'})), []);
+  assert.match(film.problems(recipe({...like, over: true, background: {video: 'assets/clip.mp4'}})).join('\n'), /takes no background/);
+});

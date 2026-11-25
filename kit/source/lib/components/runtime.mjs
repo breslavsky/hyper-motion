@@ -125,6 +125,8 @@ export async function mountScene(host,config,variables={},gsap){
     if(post.aberration)sceneRoot.classList.add('fx-ab');
     if(plan.look?.deco?.chrome)sceneRoot.classList.add('fx-chrome');
     const sky=paintBackground(sceneRoot,ps.bg,ps.index,ctx);
+    // A scene laid over footage on a track of its own has no ground: the footage is seen through it.
+    if(scene.over)sceneRoot.style.background='transparent';
     const decoration=helpers.decor.of({W,H,S,plan,stage,get M(){return M;}});
     const decoDraw=decoration.decorate(sceneRoot,ps);
     const life=el('div','layer',sceneRoot),cam=el('div','cam',life);

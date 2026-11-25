@@ -17,14 +17,17 @@ export const outBack=p=>{const q=p-1,s=.6;return 1+(s+1)*q*q*q+s*q*q;};
 
 // Only the renderer/environment are pooled. World state, output pixels, meshes,
 // camera, render targets and material uniforms always belong to one native host.
-let pool=null;
-function acquireRenderer(environmentKey='legacy'){
+// A world laid over footage draws on a clear frame: it has a renderer of its own kind.
+const pools={};
+function acquireRenderer(environmentKey='legacy',clear=false){
+  const kind=clear?'clear':'solid';let pool=pools[kind];
   if(!pool){
-    const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+    const renderer=new THREE.WebGLRenderer({antialias:true,alpha:clear,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+    if(clear)renderer.setClearColor(0x000000,0);
     renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;
     renderer.toneMapping=THREE.NeutralToneMapping;renderer.toneMappingExposure=1;
     renderer.transmissionResolutionScale=.8;
-    pool={renderer,environments:new Map(),refs:0,width:0,height:0};
+    pool=pools[kind]={renderer,environments:new Map(),refs:0,width:0,height:0};
   }
   const own=pool,neutral=environmentKey!=='legacy';
   if(!own.environments.has(environmentKey)){
@@ -51,7 +54,7 @@ function acquireRenderer(environmentKey='legacy'){
       // different output size, never on every frame of a stable preview.
       if(own.width!==width||own.height!==height){own.renderer.setSize(width,height,false);own.width=width;own.height=height;}
     },release(){
-    own.refs--;if(own.refs===0){for(const environment of own.environments.values())environment.dispose();own.renderer.dispose();own.renderer.forceContextLoss();if(pool===own)pool=null;}
+    own.refs--;if(own.refs===0){for(const environment of own.environments.values())environment.dispose();own.renderer.dispose();own.renderer.forceContextLoss();if(pools[kind]===own)delete pools[kind];}
   }};
 }
 
@@ -101,7 +104,7 @@ function backgroundMaterial({bg,fg,accent,accent2,W,H,referencePalette}){
   });
 }
 
-export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePalette=true,placement=null,ride=false}){
+export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePalette=true,placement=null,ride=false,over=false}){
   const {W,H,S,el,set,px}=K,U=1/300;
   // Preview hosts may explicitly spend fewer pixels. Logical layout and text
   // projection retain the video size; exports omit this option and render 1:1.
@@ -118,10 +121,15 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   // pane a part of the colour taken away.
   // local: the size of the part's own unit, for the specks of the glass.
   const smokeOf=(finish,pane,local=1)=>smoked?{tint:finish.tint,keep:pane?.78:1,pane,grain:.017*S/local}:null;
-  const shared=acquireRenderer(smoked?'smoked':branded?'neutral':'legacy'),renderer=shared.renderer;
+  const shared=acquireRenderer(smoked?'smoked':branded?'neutral':'legacy',over),renderer=shared.renderer;
   const canvas=el('canvas','pk-glass-canvas',parent);canvas.width=renderW;canvas.height=renderH;canvas.dataset.glass=mode;
   canvas.dataset.glassResolution=JSON.stringify({width:renderW,height:renderH,logicalWidth:W,logicalHeight:H,previewScale});
   set(canvas,{position:'absolute',inset:'0',width:px(W),height:px(H),pointerEvents:'none'});
+  // Over footage on a track of its own (`over`): the world draws no backdrop.
+  // Its frame is black but for the light of the glass: the last pass keeps
+  // that light and makes the black clear (lightOnly); the pane's frost is the
+  // page's own blur of what lies under it (frost()).
+
   const out=canvas.getContext('2d');
   // One original Paper/MetalFx sheet per world, shared by all its cards. It
   // stays small and fixed-size while the geometry morphs; no per-frame resize.
@@ -158,6 +166,20 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     ?new THREE.MeshBasicMaterial({map:mediaTexture,toneMapped:false,transparent:true,depthWrite:false})
     :backgroundMaterial({bg,fg,accent,accent2:K.plan.brand?.tokens?.accent2??palette.coral??palette.lilac??accent,W,H,referencePalette});
   const backgroundPlane=new THREE.Mesh(new THREE.PlaneGeometry(2,2),background);bgScene.add(backgroundPlane);
+  if(over){backgroundPlane.visible=false;bgScene.background=new THREE.Color(0x000000);}
+  // The last pass of a world over footage: every pixel as bright as it was drawn, and as clear as it is dark.
+  const lightOnly=over?(()=>{
+    const target=new THREE.WebGLRenderTarget(renderW,renderH,{type:THREE.HalfFloatType,samples:4});
+    const material=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,transparent:true,blending:THREE.NoBlending,uniforms:{map:{value:target.texture}},
+      vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+      fragmentShader:`uniform sampler2D map;varying vec2 vUv;
+        void main(){gl_FragColor=vec4(texture2D(map,vUv).rgb,1.);
+          #include <tonemapping_fragment>
+          #include <colorspace_fragment>
+          gl_FragColor.a=max(gl_FragColor.r,max(gl_FragColor.g,gl_FragColor.b));}`});
+    const quad=new THREE.Mesh(new THREE.PlaneGeometry(2,2),material),pass=new THREE.Scene();pass.add(quad);
+    return {target,scene:pass,owned:[target,material,quad.geometry]};
+  })():null;
   // Keep supplied SDR media in its source colour space through the background passes.
   const targetFormat=media?{type:THREE.UnsignedByteType,colorSpace:THREE.SRGBColorSpace}:{type:THREE.HalfFloatType};
   const target=new THREE.WebGLRenderTarget(renderW,renderH,{...targetFormat,depthBuffer:false});scene.background=target.texture;
@@ -169,6 +191,7 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   const optics=[];
   const panelLayer=1;
   const cards=[],surfaces=[],extraResources=[];
+  if(lightOnly)extraResources.push(...lightOnly.owned);
   const local=new THREE.Matrix4(),clip=new THREE.Matrix4(),corner=new THREE.Vector3();
   const audit={mode,resolution:{width:renderW,height:renderH,logicalWidth:W,logicalHeight:H,previewScale},disposed:false,time:0,camera:{position:[],quaternion:[]},cards:[],surfaces:[],lens:null};
   let disposed=false,textureCanvas=null,textPlane=null,sendWave=null,projectLensCopy=null;
@@ -241,6 +264,22 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     const m=clip.elements,n=1/m[15];
     const css=[W/2*(m[0]+m[3])*n,H/2*(m[3]-m[1])*n,0,m[3]*n,W/2*(m[4]+m[7])*n,H/2*(m[7]-m[5])*n,0,m[7]*n,0,0,1,0,W/2*(m[12]+m[15])*n,H/2*(m[15]-m[13])*n,0,1];
     receipt.matrix=css;set(element,{transform:`matrix3d(${css.join(',')})`});return receipt;
+  }
+  // The frost of a pane laid over footage: a blur of what lies under it, in the
+  // pane's shape as it stands now, on a layer under the glass's light. It
+  // stands outside the pane's copy, whose fading would keep it from the footage.
+  function frost(card){
+    const {element,width,height,unit=U}=card;
+    if(!card.frost){
+      const wrap=el('span','pk-glass-frost');wrap.setAttribute('aria-hidden','true');parent.insertBefore(wrap,canvas);
+      set(wrap,{position:'absolute',left:'0',top:'0',width:px(width),height:px(height),transformOrigin:'0 0',pointerEvents:'none'});
+      const pane=el('span','',wrap),blur=`blur(${px(26*S)}) saturate(1.25)`;
+      set(pane,{position:'absolute',backdropFilter:blur,webkitBackdropFilter:blur,background:smoked?'rgba(6,8,20,.5)':'rgba(255,255,255,.07)'});
+      card.frost={wrap,pane};
+    }
+    const w=card.geometry.width/unit,h=card.geometry.height/unit,shown=card.opacity>0&&element.style.transform!=='none';
+    set(card.frost.wrap,{transform:element.style.transform,visibility:shown?'visible':'hidden'});
+    set(card.frost.pane,{left:px((width-w)/2),top:px((height-h)/2),width:px(w),height:px(h),borderRadius:px(card.geometry.radius/unit),opacity:String(card.opacity)});
   }
   function addControls(card, slots) {
     // Three's transmission buffer leaves a traced pane out, as it leaves out
@@ -387,6 +426,7 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
           {color:'#'+c.material.color.getHexString(),metalness:c.material.metalness,transmission:c.material.transmission,
             roughness:c.material.roughness,edgeMetalness:c.finish.edgeMaterial?.metalness??null})}}));
     audit.surfaces=surfaces.map(project);
+    if(over)for(const card of surfaces)frost(card);
     for(const update of optics)update();
     shared.size(renderW,renderH);renderer.setRenderTarget(target);renderer.render(bgScene,bgCamera);
     if(panelTarget){
@@ -404,7 +444,12 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     }
     renderer.setRenderTarget(null);
     sendWave?.render(scene,camera);
-    renderer.render(scene,camera);
+    if(lightOnly){
+      // The frame in full, then only its light on a clear frame: black is no light.
+      renderer.setRenderTarget(lightOnly.target);renderer.render(scene,camera);
+      renderer.setRenderTarget(null);renderer.clear();renderer.render(lightOnly.scene,bgCamera);
+      out.clearRect(0,0,renderW,renderH);
+    }else renderer.render(scene,camera);
     // The source is opaque and covers the whole output; a clear/readback pass is unnecessary.
     out.drawImage(renderer.domElement,0,0,renderW,renderH);
     projectLensCopy?.();

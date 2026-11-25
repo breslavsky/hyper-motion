@@ -367,7 +367,9 @@ every look: a deep blue backdrop with light text, whatever `style` the film
 has. Give it the user's photo or video with `background`, or the brand's own
 colours, to change that; never pick a look for the sake of a glass scene.
 A glass scene over the user's footage is an overlay: give it `background`
-with their video or photo, and say where the panel stands with `place`
+with their video or photo (or, in a film that already plays the footage on a
+track of its own, such as a talking head, `over` = true and no background:
+the scene then draws only its glass and the footage is seen through it), and say where the panel stands with `place`
 (top-left | top | top-right | left | middle | right | bottom-left | bottom |
 bottom-right; middle unless said) and how large it is with `size` (normal |
 small; small is six tenths, so keep its texts short).

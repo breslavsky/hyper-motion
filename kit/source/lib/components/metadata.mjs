@@ -14,7 +14,9 @@ const registryMediaProblems=paths=>{
   if(!Array.isArray(paths))return ['images must be a list of project-relative paths'];
   return paths.flatMap((path,i)=>projectPathProblems(path,`image path ${i+1}`));
 };
-function glassBackgroundProblems({background}){
+function glassBackgroundProblems({background,over}){
+  // Over footage that plays on a track of the film's own, a scene draws no picture: it has none of its own.
+  if(over&&background!==undefined)return ['over: a scene laid over the film\'s own footage takes no background; give it one or the other'];
   if(background===undefined)return [];
   if(!background||typeof background!=='object'||Array.isArray(background))return ['background must contain either an image or a video'];
   const keys=Object.keys(background),kind=keys[0];
@@ -141,7 +143,7 @@ function glassComponent(definition){
     guide:(placed?signed(definition.guide):definition.guide)
       .replace(/(\d+(?:-\d+)? beats\.)$/,(placed?guidePlace+' ':'')+guideTiming+' $1'),
     hasAuthoredTiming,
-    fields:{...definition.fields,background:{kind:'object',optional:true,fields:{image:path,video:path}},
+    fields:{...definition.fields,background:{kind:'object',optional:true,fields:{image:path,video:path}},over:{kind:'bool',optional:true},
       ...(definition.placed===false?{}:{place:{kind:'enum',values:GLASS_PLACES,optional:true},size:{kind:'enum',values:GLASS_SIZES,optional:true}}),
       timing:{kind:'object',optional:true,fields:Object.fromEntries(actions)},speed:{kind:'number',min:.25,max:4,optional:true}},
     retime(scene,len,beat){return retimeGlass(definition,scene,len,beat);},

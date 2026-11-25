@@ -23,7 +23,7 @@ export function makeWorld(args,mode){
   const referencePalette=p.scene.bg===undefined&&!['background','accent','accent2'].some(key=>tokens[key]!==undefined);
   // Where the film puts the panel over its picture, and how large (grid.mjs).
   const placement={place:p.scene.place??'middle',size:p.scene.size??'normal'};
-  const world=createGlassWorld({K,parent:host,mode,bg,fg,accent,palette,referencePalette,placement,ride:Boolean(args.ride)});
+  const world=createGlassWorld({K,parent:host,mode,bg,fg,accent,palette,referencePalette,placement,ride:Boolean(args.ride),over:Boolean(p.scene.over)});
   // A ride moves the worlds of its steps (glass-ride).
   args.ride?.worlds.push(world);
   return {host,world};
