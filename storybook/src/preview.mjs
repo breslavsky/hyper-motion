@@ -39,6 +39,20 @@ try {
   if (sample && !options.assetUrls) options.assetUrls = {[background.image ?? background.video]: sample};
   // A scene's own sample video (the laptop's screen) comes from there too.
   if (SAMPLES[ps.scene.video]) options.assetUrls = {...options.assetUrls, [ps.scene.video]: SAMPLES[ps.scene.video]};
+  // The scene's own sound cues (a key typed, a button clicked, a panel that
+  // opens), played by small free sounds from our public CDN: one <audio> clip
+  // a cue, which HyperFrames plays in step with the scene and the player's
+  // sound button turns on. In a film these cues go to its soundtrack.
+  const SOUNDS = {from: 'https://motion-fab-share.b-cdn.net/components/sounds/', as: {sparkle: 'chime'},
+    seconds: {tick: .03, type: .03, click: .12, pop: .3, ping: .3, chime: 2.3, whoosh: .65}, level: {sparkle: .6, chime: .8, whoosh: .7}};
+  (plan.cues ?? []).forEach((cue, i) => {
+    const name = SOUNDS.as[cue.kind] ?? cue.kind, seconds = SOUNDS.seconds[name], left = plan.duration - cue.t;
+    if (!seconds || left < .02) return;
+    const clip = Object.assign(document.createElement('audio'), {id: `pk-sound-${i}`, preload: 'auto', src: `${SOUNDS.from}${name}.mp3`});
+    Object.assign(clip.dataset, {start: cue.t.toFixed(4), duration: Math.min(seconds, left).toFixed(4), trackIndex: String(40 + i),
+      volume: Math.min(1, (cue.strength ?? 1) * (SOUNDS.level[cue.kind] ?? 1)).toFixed(3), previewSound: cue.kind});
+    root.append(clip);
+  });
   // A scene laid over footage (`over`) has none of its own: the preview plays
   // a sample under it, as the film's clip "footage", in step with the scene.
   let footage = null;

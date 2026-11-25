@@ -1,0 +1,22 @@
+{
+  "note": "What the Storybook takes from elsewhere. Its example sounds are played from our public CDN (components/sounds/), not kept here: src/preview.mjs.",
+  "sources": [
+    {
+      "name": "Kenney Interface Sounds",
+      "url": "https://kenney.nl/assets/interface-sounds",
+      "version": "1.0",
+      "license": "CC0-1.0",
+      "taken": "adapted",
+      "date": "2026-11-25",
+      "note": "The preview's sounds for a scene's cues: tick.mp3 from tick-1, type.mp3 from click-3, click.mp3 from click-1, pop.mp3 from drop-4. Each levelled, mono, 96 kbit/s mp3."
+    },
+    {
+      "name": "Sonic Pi samples",
+      "url": "https://github.com/sonic-pi-net/sonic-pi",
+      "license": "CC0-1.0",
+      "taken": "adapted",
+      "date": "2026-11-25",
+      "note": "The preview's sounds for a scene's cues: ping.mp3 from elec_bell, chime.mp3 from elec_chime (also played for sparkle), whoosh.mp3 from perc_swoosh. Each levelled, mono, 96 kbit/s mp3."
+    }
+  ]
+}
