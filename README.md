@@ -1,11 +1,50 @@
-# Hyper Motion
+<div align="center">
 
-A library of motion-design scenes and components for
-[HyperFrames](https://github.com/heygen-com/hyperframes): HTML compositions
-that render to video, every frame a pure function of time.
+# Ultimate Hyper Frames<br>Components Pack
 
-It was grown inside [Motion Fab](https://www.motionfab.app) and lives here on
+**For your AI agent.** Free & Open Source.
+
+120+ motion-design scenes for [HyperFrames](https://github.com/heygen-com/hyperframes) films, each one a recipe an agent can write: its fields, its limits and its sound cues are checked by code.
+
+<br>
+
+[![X](https://img.shields.io/badge/X-%40AntonBreslavsky-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/AntonBreslavsky)
+[![Storybook](https://img.shields.io/badge/storybook-live-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://breslavsky.github.io/hyper-motion/)
+[![Status](https://img.shields.io/badge/status-beta-orange?style=flat-square)](#status)
+[![Scenes](https://img.shields.io/badge/scenes-120%2B-0f9d58?style=flat-square)](https://breslavsky.github.io/hyper-motion/)
+[![For AI agents](https://img.shields.io/badge/for-AI%20agents-111111?style=flat-square)](kit/AGENTS.md)
+[![Renders with HyperFrames](https://img.shields.io/badge/renders%20with-HyperFrames-4f46e5?style=flat-square)](https://github.com/heygen-com/hyperframes)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![Developed with Motion Fab](https://img.shields.io/badge/developed%20with-Motion%20Fab-2e5bff?style=flat-square)](https://www.motionfab.app)
+
+**Follow [@AntonBreslavsky](https://x.com/AntonBreslavsky) on X** for what comes next. Developed with **[Motion Fab](https://www.motionfab.app)**.
+
+[Storybook](https://breslavsky.github.io/hyper-motion/) &nbsp;·&nbsp; [The four kinds](#the-four-kinds) &nbsp;·&nbsp; [What is here](#what-is-here) &nbsp;·&nbsp; [Running it](#running-it) &nbsp;·&nbsp; [Status](#status) &nbsp;·&nbsp; [Licence](#licence)
+
+</div>
+
+<br>
+
+Hyper Motion is a library of scenes and components for HyperFrames: HTML
+compositions that render to video, every frame a pure function of time. It
+was grown inside [Motion Fab](https://www.motionfab.app) and lives here on
 its own.
+
+## The four kinds
+
+| Kind | What it is |
+| --- | --- |
+| **Apple Glass** | Thick optical glass that bends the picture behind it: search, prompts, messages, calls, ratings, steps, and rides that pass from one to the next on one drop of glass. |
+| **3D** | Real objects under a real camera: a laptop a hand opens, a machine two hands play, phones, cards, a wall of pictures under a lens. |
+| **Flat Motion** | Kinetic type, charts, interface mock-ups and transitions in forty-three looks: the scenes a launch film is cut from. |
+| **B-Rolls** | The same glass laid over your own footage, a talking head or b-roll, bending the video under it. |
+
+See every one of them play in the [Storybook](https://breslavsky.github.io/hyper-motion/).
+
+## Status
+
+Beta. The scenes work and are tested, but their names and fields may still
+change.
 
 ## What is here
 
