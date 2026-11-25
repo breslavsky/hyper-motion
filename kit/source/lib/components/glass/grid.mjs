@@ -40,6 +40,8 @@ export const GLASS_TYPE = Object.freeze({
   // A name over a message is a title at its smallest step; the time beside it is small print.
   name: Object.freeze({role: 'cardTitle', lines: 1, step: 'smallest'}),
   time: Object.freeze({role: 'meta', lines: 1}),
+  // A figure that is the thing read: a count, a share, a price.
+  figure: Object.freeze({role: 'metric', lines: 1}),
   // The one word of a button that is the whole scene.
   action: Object.freeze({role: 'sceneTitle', lines: 1}),
   // A mark's figure is a title at its smallest step: five eighths of the mark.

@@ -559,12 +559,16 @@ validate(s){
     }
 }),
 "widgets":glassComponent({
-placed:false,
+// A glass panel of figures that count up (glass/components.mjs).
 anchors(s,len){
-  const first=hasAuthoredTiming(s)?Math.min(.15,len*.3):.15;
-  const items=spread(s.items.length,first,Math.min(len*.45,.15+s.items.length*.16));
-  return {items,settled:items.at(-1)+.1+Math.min(1.1,len*.5)};
+  // The panel opens, then the figures come in one after another and count up to `settled`.
+  const first=hasAuthoredTiming(s)?Math.min(.15,len*.3):Math.min(.45,len*.15);
+  const items=spread(s.items.length,first,Math.max(first,Math.min(len*.45,first+s.items.length*.16)));
+  return {open:.05,items,settled:items.at(-1)+.1+Math.min(1.1,len*.5)};
 },
+"copyFields":["title","items"],
+// In a small panel: three figures and a title of 24.
+"small":{"title":24,"items":{"count":3}},
 "fields":{
   "items": {
     "kind": "array",
@@ -589,11 +593,13 @@ anchors(s,len){
   "title": {
     "kind": "string",
     "min": 1,
-    "max": 40,
+    "max": 32,
     "optional": true
-  }
+  },
+  "camera":{"kind":"enum","values":["orbit","static"],"optional":true}
 },
-"guide":"widgets {items[{label, value} x2-4], title?, background?}: glass tiles, each a label and a big figure that counts up (\"Bookings\" \"1,240\", \"Rating\" \"4.9\", \"Faster\" \"3x\"). ONLY real figures the user gave. 4 beats.",
+"previewVariants":["camera"],
+"guide":"widgets {items[{label, value} x2-4], title?, camera?, background?}: an optical glass panel of key figures: it grows out of a pill, its title comes in, then the figures one after another, each a label and a big number that counts up (\"Bookings\" \"1,240\", \"Rating\" \"4.9\", \"Faster\" \"3x\"). ONLY real figures the user gave. value: the figure as it is written, up to 10 characters, with its sign or unit (\"$12,400\", \"98%\"); label: what it counts, up to 20 characters. Columns in a wide frame, rows in a square or tall one, and rows too when the figures are long. camera = orbit (default) or static. Over a photo or a video of the user's it is a slide of a presentation or an overlay for b-roll. 4-8 beats.",
 "sample":{
   "type": "widgets",
   "beats": 4,
@@ -611,7 +617,8 @@ anchors(s,len){
       "label": "No-shows",
       "value": "2%"
     }
-  ]
+  ],
+  "camera": "orbit"
 },
 "sounds":function sounds(s, len, cue) {
 			const marks=this.anchors(s,len);
@@ -669,51 +676,6 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
 "sounds":function sounds(s, len, cue) {
 			this.times(s, len).forEach((at) => cue(at, "click", 0.8));
 			if (s.slider) cue(Math.max(0.7, len * 0.66), "sparkle", 0.6);
-		}
-}),
-"sheet":glassComponent({
-placed:false,
-anchors(s,len){return {open:.05,...this.times(s,len)};},
-"fields":{
-  "title": {
-    "kind": "string",
-    "min": 1,
-    "max": 36
-  },
-  "rows": {
-    "kind": "array",
-    "of": {
-      "kind": "string",
-      "min": 1,
-      "max": 34
-    },
-    "min": 2,
-    "max": 4
-  },
-  "cta": {
-    "kind": "string",
-    "min": 1,
-    "max": 22
-  }
-},
-"guide":"sheet {title, rows[2-4], cta, background?}: a glass sheet rises from the bottom with a title, a few rows that tick themselves and a button that is pressed (\"Book a class\", \"Pick a time\", \"Pay in one tap\", cta \"Confirm\"). A flow in one screen. 4-5 beats.",
-"sample":{
-  "type": "sheet",
-  "beats": 5,
-  "title": "Book a class",
-  "rows": [
-    "Pick a time",
-    "Bring a friend",
-    "Pay in one tap"
-  ],
-  "cta": "Confirm"
-},
-"times":(s, len) => ({ rows: spread(s.rows.length, 0.55, Math.max(0.7, len * 0.55)), press: Math.max(0.9, len * 0.74) }),
-"sounds":function sounds(s, len, cue) {
-			const t = this.times(s, len);
-			cue(s.timing?.open === undefined ? .1 : .05, "whoosh", 0.6);
-			t.rows.forEach((at) => cue(at, "tick", 0.9));
-			cue(t.press, "click", 1);
 		}
 }),
 "ask":glassComponent({

@@ -11,7 +11,6 @@ import {sceneFactories as flow} from './scenes/flow.mjs';
 import {sceneFactories as hands} from './scenes/hands.mjs';
 import {sceneFactories as reel} from './scenes/reel.mjs';
 import {sceneFactories as studio} from './scenes/studio.mjs';
-import {createFamily as create_glass} from './scenes/glass.mjs';
 import {createFamily as create_words} from './scenes/words.mjs';
 import {createFamily as create_cards} from './scenes/cards.mjs';
 import {createFamily as create_bursts} from './scenes/bursts.mjs';
@@ -27,7 +26,7 @@ export async function preloadFamilies(types){
 }
 export function createComponentLibrary(K){
  const builtin=createBuiltin(K);
- const factories={...builtin.SCENES,...text,...data,...ui,...flow,...hands,...reel,...studio,...create_glass(K).sceneFactories,...create_words(K).sceneFactories,...create_cards(K).sceneFactories,...create_bursts(K).sceneFactories};
+ const factories={...builtin.SCENES,...text,...data,...ui,...flow,...hands,...reel,...studio,...create_words(K).sceneFactories,...create_cards(K).sceneFactories,...create_bursts(K).sceneFactories};
  const types=Object.keys(catalog);
  const selfCamera=new Set([...builtin.SELF_CAMERA,...opticalTypes]);
  for(const [alias,type] of Object.entries(aliases))if(selfCamera.has(type))selfCamera.add(alias);

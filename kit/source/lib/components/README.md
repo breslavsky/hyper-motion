@@ -165,9 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `send-prompt`, `search` and `lens`.
-Catalog membership in the broader `glass` family also covers DOM scenes such as
-`widgets` and `sheet`. Apply these rules to the optical group.
+The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `send-prompt`, `search`, `widgets` and `lens`: every scene of the `glass` family.
 
 - Each Glass scene can supply its own background, for example
   `"background":{"image":"media/<assetId>/original.jpg"}` or
@@ -175,7 +173,6 @@ Catalog membership in the broader `glass` family also covers DOM scenes such as
   Images (including screenshots) and muted video fill the frame with a centred
   cover crop. Omit the field to use the component's default.
   The Three.js components feed the source into their transmission pass.
-  The widget grid and sheet apply their existing translucent surfaces over it.
 - A Glass scene does not follow the film's look. Whatever the film's `style`,
   it stands on the family's own ground (`glass/ground.mjs`: the deep blue
   backdrop, the light ink and the accent of the `glass` look), because that
@@ -194,8 +191,8 @@ Catalog membership in the broader `glass` family also covers DOM scenes such as
   the sound scheduler use opposite directions of the same time map.
   Keep background media on the playback clock when retiming the action.
 - All Glass components use 7% side margins for their layout in 9:16.
-  Wider authored safe margins take precedence. Measure the expanded card,
-  widget grid, sheet or lens text area before camera projection. The camera
+  Wider authored safe margins take precedence. Measure the expanded card
+  or lens text area before camera projection. The camera
   controls the visible margin during an orbit or fly-through.
 - One scene can be built for a film that is not Pure Kinetic's:
   `node lib/scene.cjs recipe.json` (see `lib/USAGE.md`). It writes the scene's
@@ -329,9 +326,8 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`. The others have
-neither (`placed:false` in their metadata), each for its reason: `widgets`
-and `sheet` are laid out by the page; in `lens` the headline is the page's
+`island`, `controls`, `ask`, `search`, `widgets`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`. The others have
+neither (`placed:false` in their metadata), each for its reason: in `lens` the headline is the page's
 own type behind the lens, so only the lens would move; `send-prompt` stands
 close on the caret and pulls back, and a moved picture is cut by the frame;
 `glass-flow` flies from one card through to the next. A new scene gets the

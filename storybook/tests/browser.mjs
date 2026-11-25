@@ -672,7 +672,7 @@ async function portraitGlassGutters(page, type) {
         const surfaces = [...instance.root.querySelectorAll(selector)]
           .filter(node => type === 'lens' || Number(win.getComputedStyle(node).opacity) > .75);
         if (!surfaces.length) throw new Error(type + ': missing readable body at ' + fraction);
-        const layout = type === 'widgets' ? surfaces[0].parentElement : surfaces[0];
+        const layout = surfaces[0];
         const boxes = surfaces.map(node => node.getBoundingClientRect());
         return {fraction, layout: layout.offsetWidth / instance.context.K.W,
           left: (Math.min(...boxes.map(r => r.left)) - frame.left) / frame.width,
@@ -1233,6 +1233,7 @@ async function glassControlsAndCleanup() {
           : type === 'glass-message' ? {name: 'Sam Rivera', text: 'See you at six.', time: '2m ago'}
           : type === 'glass-follow' ? {network: 'instagram', handle: '@samrivera'}
           : type === 'glass-call' ? {name: 'Sam Rivera', status: 'Video call'}
+          : type === 'widgets' ? {title: 'This month', items: [{label: 'Orders', value: '320'}, {label: 'Rating', value: '4.8'}], camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');

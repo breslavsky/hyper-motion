@@ -44,9 +44,6 @@
   "overlay": {
    "text": 40
   },
-  "sheet": {
-   "rows[]": 26
-  },
   "chips": {
    "chips[]": 9
   }

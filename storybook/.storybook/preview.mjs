@@ -2,6 +2,7 @@ import settings from '../generated/settings.json';
 import brandbooks from '../generated/brandbooks.json';
 import {DEFAULT_BRANDBOOK, DEFAULT_FONT} from '../src/model.mjs';
 import '../src/story.css';
+import page from './docs-page.mjs';
 
 export default {
   globalTypes: {
@@ -26,6 +27,6 @@ export default {
     controls: {expanded: true, sort: 'requiredFirst'},
     // Glass first, then the scenes drawn in depth, then every other family by name.
     options: {storySort: {order: ['Glass', ['search', 'send-prompt', 'ask', 'island', 'glass-steps', 'glass-checklist', 'glass-like', 'glass-rating', 'glass-message', 'glass-follow', 'glass-call', 'glass-flow', '*'], '3D', 'Pure Kinetic']}},
-    docs: {toc: true},
+    docs: {toc: true, page},
   },
 };

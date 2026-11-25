@@ -10,6 +10,7 @@ import {portraitGlassWidth} from './layout.mjs';
 import {magnifyingGlassBold} from '../upstream/phosphor-icons/search-icons.mjs';
 import {createLettering} from './lettering.mjs';
 import {glassGrid} from './grid.mjs';
+import {createOwnKit} from '../own-kit.mjs';
 import {socialIcons} from '../upstream/simple-icons/icons.mjs';
 
 function island(args){
@@ -601,6 +602,9 @@ function lens(args){
 
 // Text that does not fit its lines at the role's smallest step keeps that
 // step and takes the lines it needs.
+// A figure as a number to count up to, and the text of it part of the way.
+const {figure:figureOf,counted:countedTo}=createOwnKit();
+
 function smallestStep(K,nodes,role,width){
   const step=K.design.steps(role).at(-1).step;
   for(const node of nodes){K.design.apply(node,role,{step});K.set(node,{maxWidth:K.px(width),whiteSpace:'normal',overflowWrap:'anywhere'});}
@@ -689,6 +693,94 @@ function glassSteps(args){
       set(step.item,{transform:`translateY(${px(-G.move.hop*wave)})`});
       set(step.mark,{opacity:smooth(phase(time,at,at+.12)).toFixed(4),transform:`scale(${(.4+.6*outBack(phase(time,at,at+T.pop))).toFixed(4)})`});
       set(step.line,{opacity:settle.toFixed(4),transform:`translateY(${px((1-settle)*G.move.settle)})`});
+    });
+    orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
+  };
+}
+
+// A glass panel of key figures: it grows out of a pill, its title comes in,
+// then the figures one after another, each a label and a big number that pops and
+// counts up. Columns in a wide frame, rows in a square or tall one or
+// when the figures are long: a row is its label and its figure side by side,
+// or the label over the figure when they do not fit one line. Every measure
+// is the family's grid (grid.mjs).
+// The share of a row a figure may take beside its label.
+const ROW_FIGURE=.62;
+function glassWidgets(args){
+  const {K,p}=args,{el,set,px}=K,s=p.scene;
+  const cameraMode=cameraOf(s,'widgets');
+  const {host,world}=makeWorld(args,'widgets');
+  const {surface,width}=cardSurface(K,host,[s.title,...s.items.flatMap(item=>[item.value,item.label])]);
+  surface.classList.add('pk-glass-widgets');
+  const G=glassGrid(K),count=s.items.length;
+  const smallest=(nodes,role,width)=>smallestStep(K,nodes,role,width);
+  let heading=null;
+  if(s.title){
+    try{heading=cardHeading(K,surface,s.title,G.content).heading;}
+    catch{heading=surface.querySelector('.pk-glass-heading');smallest([heading],G.type.title.role,G.content);}
+    set(heading,{opacity:'0'});
+  }
+  const lay=(shape,gaps)=>{
+    const rows=shape!=='columns',stacked=shape==='stacked';
+    const list=el('div','pk-glass-widget-list',surface);
+    set(list,{display:'flex',flexDirection:rows?'column':'row',alignItems:rows?'stretch':'flex-start',gap:px(rows?gaps.rows:gaps.columns)});
+    const align=shape==='columns'?'center':stacked?'left':'right';
+    const tiles=s.items.map(item=>{
+      const tile=el('div','pk-glass-widget',list);
+      set(tile,{display:'flex',flexDirection:shape==='rows'?'row-reverse':'column-reverse',alignItems:shape==='columns'?'center':shape==='rows'?'center':'flex-start',
+        justifyContent:shape==='rows'?'space-between':'flex-start',gap:px(shape==='rows'?gaps.lead:G.gap.hair),flex:rows?'none':'1',minWidth:'0'});
+      // The figure is first in the page, as what is read, and stands under or after its label.
+      const value=el('div','pk-glass-widget-value',tile,item.value);
+      set(value,{flex:'none',fontVariantNumeric:'tabular-nums',textAlign:align,opacity:'0'});
+      const label=el('div','pk-glass-widget-label',tile,item.label);
+      set(label,{minWidth:'0',textAlign:shape==='columns'?'center':'left',opacity:'0'});
+      return {tile,value,label,figure:figureOf(item.value),text:item.value};
+    });
+    const values=tiles.map(tile=>tile.value),labels=tiles.map(tile=>tile.label);
+    const columnW=(G.content-gaps.columns*(count-1))/count;
+    const fail=()=>{list.remove();return null;};
+    // The figures are one set: all are in the step the longest one needs.
+    try{K.design.fitGroup(values,{role:G.type.figure.role,w:shape==='columns'?columnW:stacked?G.content:G.content*ROW_FIGURE,h:G.type.figure.height,wrap:'nowrap'});}
+    catch{if(!stacked)return fail();smallest(values,G.type.figure.role,G.content);}
+    // A figure keeps the width of its final text while it counts.
+    const widest=Math.max(...values.map(value=>value.offsetWidth));
+    if(shape==='columns'&&widest>columnW)return fail();
+    for(const value of values)set(value,{width:px(shape==='rows'?widest:value.offsetWidth)});
+    const labelW=shape==='columns'?columnW:stacked?G.content:G.content-widest-gaps.lead;
+    try{K.design.fitGroup(labels,{role:G.type.label.role,w:labelW,h:G.type.label.height,wrap:'anywhere'});}
+    catch{if(!stacked)return fail();smallest(labels,G.type.label.role,labelW);}
+    K.design.surfaceGap(surface,gaps.sectionStep);
+    if(heading)set(heading,{textAlign:shape==='columns'?'center':'left'});
+    return {shape,tiles,list,height:surface.offsetHeight};
+  };
+  const build=gaps=>(G.wide?lay('columns',gaps):null)??lay('rows',gaps)??lay('stacked',gaps);
+  // Airy when the panel has room at its own size; dense when the airy one
+  // would have to be scaled down to fit the frame.
+  let density='airy',laid=build(G.density('airy'));
+  if(fitToFrame(K,laid.height)<1){laid.list.remove();laid=build(G.density('dense'));density='dense';}
+  const {tiles}=laid;
+  Object.assign(surface.dataset,{widgetsLayout:laid.shape,widgetsDensity:density});
+  const copy=finishCard(K,surface,width);
+  const card=world.addCard({width,height:copy.height,element:surface,backdropOnly:true});
+  card.group.scale.setScalar(fitToFrame(K,copy.height));
+  world.prepare();
+  const T=G.time;
+  return (time,duration=p.dur,backdropTime=time)=>{
+    const live=metadata.widgets.anchors(s,duration);
+    const n=clamp(time/duration),enter=phase(time,live.open,live.open+T.open);
+    updateCard(card,world,width,copy.height,outBack(enter),outBack(phase(time,live.open+.04,live.open+T.open+.04)),smooth(enter));
+    card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
+    card.opacity=smooth(phase(time,live.open+.16,live.open+T.open));
+    if(heading)set(heading,{opacity:smooth(phase(time,live.open+.12,live.open+.12+T.fade)).toFixed(4)});
+    const counting=Math.max(.1,live.settled-live.items.at(-1)-.1);
+    tiles.forEach((tile,i)=>{
+      const at=live.items[i],settle=smooth(phase(time,at+.1,at+.1+T.pop));
+      set(tile.value,{opacity:smooth(phase(time,at,at+.12)).toFixed(4),transform:`scale(${(.6+.4*outBack(phase(time,at,at+T.pop))).toFixed(4)})`});
+      set(tile.label,{opacity:settle.toFixed(4),transform:`translateY(${px((1-settle)*G.move.settle)})`});
+      if(tile.figure){
+        const text=countedTo(tile.figure,K.expoOut(phase(time,at+.1,at+.1+counting)));
+        if(text!==tile.text){tile.value.textContent=text;tile.text=text;}
+      }
     });
     orbitCamera(world,cameraMode,n,{sway:.07,rise:.02,near:1,rest:1.04});world.render(backdropTime);
   };
@@ -1334,4 +1426,4 @@ function glassLike(args){
   };
 }
 
-export const factories=timedGlassFactories({island,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});
+export const factories=timedGlassFactories({island,widgets:glassWidgets,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});

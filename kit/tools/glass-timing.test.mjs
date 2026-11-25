@@ -12,7 +12,7 @@ const cues = (scene, len, beat) => {
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-8, `${actual} != ${expected}`);
 
 test('Glass choreography preserves its original frames and score when unset', () => {
-  for (const type of ['island', 'controls', 'ask', 'search', 'sheet', 'widgets', 'lens', 'glass-flow', 'send-prompt']) {
+  for (const type of ['island', 'controls', 'ask', 'search', 'widgets', 'lens', 'glass-flow', 'send-prompt']) {
     const def = definitions[type];
     const scene = def.sample;
     assert.equal(def.retime(scene, 4, .5), null);
@@ -29,7 +29,6 @@ test('explicit action beats control the graphic and matching SFX in every Glass 
     ['controls', {toggles: [.25, 2, 3], slider: 4.75, sliderEnd: 7}, [[.25, 'click'], [2, 'click'], [3, 'click'], [4.75, 'sparkle']]],
     ['ask', {open: .25, type: 1, typed: 3, send: 3.5, reply: 5}, [[.25, 'pop'], [1, 'type'], [3.5, 'click'], [5, 'chime']]],
     ['search', {focus: .5, type: 1, typed: 3, search: 4, collapse: 5.5, collapsed: 7, checked: 7.5}, [[.5, 'click'], [1, 'type'], [4, 'click']]],
-    ['sheet', {open: 0, rows: [.5, 2, 3.75], press: 6}, [[0, 'whoosh'], [.5, 'tick'], [2, 'tick'], [3.75, 'tick'], [6, 'click']]],
     ['widgets', {items: [0, 1.5, 3], settled: 6}, [[0, 'pop'], [1.5, 'pop'], [3, 'pop'], [6, 'ping']]],
     ['lens', {sweep: 2.25, sweepEnd: 6.5}, [[2.25, 'whoosh'], [6.5, 'sparkle']]],
     ['glass-flow', {flight: 3, cross: 4.5, nextTitle: 6}, [[3, 'whoosh'], [4.5, 'sparkle'], [6, 'chime']]],
@@ -112,8 +111,7 @@ test('all enabled actions remain ordered and reachable inside a single musical b
     controls: {open: 0, toggles: [.15, .25, .4], slider: .6, sliderEnd: 1},
     ask: {open: 0, type: .1, typed: .4, send: .6, reply: .8},
     search: {focus: 0, type: .2, typed: .5, search: .7, collapse: .8, collapsed: .9, checked: .95},
-    sheet: {open: 0, rows: [.1, .2, .3], press: .7},
-    widgets: {items: [.05, .1, .3], settled: .9},
+    widgets: {open: 0, items: [.05, .1, .3], settled: .9},
     lens: {sweep: .1, sweepEnd: .9},
     'glass-flow': {open: 0, title: .1, opened: .2, titleShown: .3, flight: .4,
       cross: .5, nextTitle: .6, land: .7, nextTitleShown: .9},

@@ -1099,20 +1099,18 @@
     },
     {
       "type": "widgets",
-      "file": "source/lib/components/scenes/glass.mjs",
-      "renderMode": "dom",
-      "policy": "direct",
-      "singleLine": [
-        "items[*].label in noncompact cards"
-      ],
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
       "inherits": [],
       "preserved": {
         "fields": [
-          "items[*].label in deliberately two-line compact rows",
-          "items[*].value animated metric digits",
-          "title multiline sceneTitle"
+          "title multiline cardTitle",
+          "items[*].label two-line body captions",
+          "items[*].value animated metric digits"
         ],
-        "reason": "Existing responsive compact rows intentionally allow two label lines; card labels are single-line."
+        "reason": "The shared panel fits complete authored labels and figures on its projected surface; a figure is never cut."
       }
     },
     {
@@ -1130,24 +1128,6 @@
           "toggle/slider graphics"
         ],
         "reason": "The shared panel fits complete authored labels on its projected surface in every look; Metal changes the material without a separate text layout."
-      }
-    },
-    {
-      "type": "sheet",
-      "file": "source/lib/components/scenes/glass.mjs",
-      "renderMode": "dom",
-      "policy": "direct",
-      "singleLine": [
-        "cta fixed-height action label"
-      ],
-      "inherits": [],
-      "preserved": {
-        "fields": [
-          "title two-line cardTitle",
-          "rows[*] deliberate two/three-line checklist copy",
-          "checkmark icons"
-        ],
-        "reason": "The fixed-height button gets an inner ellipsis leaf; checklist messages keep their measured layouts."
       }
     },
     {
@@ -1218,7 +1198,9 @@
       "singleLine": [],
       "inherits": [],
       "preserved": {
-        "fields": ["query"],
+        "fields": [
+          "query"
+        ],
         "reason": "The input retains the complete query during typing and the loading hold before the field folds into the button."
       }
     },

@@ -31,7 +31,12 @@ test('bundled stories, samples and toolbars use English copy', {skip: !!(process
     assertBundledCopy(fs.readFileSync(path.join(tooling, 'generated', filename), 'utf8'), filename);
   }
   const config = await build({entryPoints: [path.join(tooling, '.storybook/preview.mjs')], bundle: true, write: false,
-    format: 'esm', loader: {'.css': 'empty'}});
+    format: 'esm', loader: {'.css': 'empty'},
+    // The docs page is React and holds no copy: left out of this bundle.
+    plugins: [{name: 'no-docs-page', setup(b) {
+      b.onResolve({filter: /docs-page\.mjs$/}, () => ({path: 'docs-page', namespace: 'empty'}));
+      b.onLoad({filter: /.*/, namespace: 'empty'}, () => ({contents: 'export default null'}));
+    }}]});
   const preview = await import('data:text/javascript;base64,' + Buffer.from(config.outputFiles[0].contents).toString('base64'));
   assertBundledCopy(preview.default.globalTypes, 'toolbar titles, descriptions and items');
   assert.equal(preview.default.globalTypes.brandbook.toolbar.items.find(item => item.value === DEFAULT_BRANDBOOK).title, 'Default');
@@ -319,7 +324,7 @@ test('material stories compare Glass, Dark Glass and Metal on each shared 3D com
 
 test('material globals leave typography, buttons and flat cards unchanged',()=>{
   const flat=entries.filter(item=>!MATERIAL_COMPONENTS.includes(item.type));
-  for(const type of ['title','endcard','widgets','sheet'])assert.ok(flat.some(item=>item.type===type),type);
+  for(const type of ['title','endcard'])assert.ok(flat.some(item=>item.type===type),type);
   for(const item of entries){
     const code=fs.readFileSync(path.join(tooling,'generated',`${item.type}.stories.mjs`),'utf8');
     assert.equal(code.includes("globals: {material: 'glass'}"),!MATERIAL_COMPONENTS.includes(item.type),

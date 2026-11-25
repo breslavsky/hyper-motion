@@ -303,17 +303,12 @@ export const catalog={
   },
   "widgets": {
     "family": "glass",
-    "renderMode": "dom",
+    "renderMode": "webgl",
     "owned": true
   },
   "controls": {
     "family": "glass",
     "renderMode": "webgl",
-    "owned": true
-  },
-  "sheet": {
-    "family": "glass",
-    "renderMode": "dom",
     "owned": true
   },
   "ask": {

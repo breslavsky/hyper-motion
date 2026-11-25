@@ -32,9 +32,7 @@ const fixtures = [
   {scene: {type: 'glass-flow', title: 'First message', nextTitle: 'Next message', beats: 16},
     probes: [[.32, '[data-glass-surface="0"] .pk-glass-heading'], [.88, '[data-glass-surface="1"] .pk-glass-heading']]},
   {scene: {type: 'widgets', items: [{label: 'Bookings', value: '12'}, {label: 'Reviews', value: '24'}], beats: 4},
-    probes: [[.45, '[data-design-role="label"]']]},
-  {scene: {type: 'sheet', title: 'Book a class', rows: ['Pick a time', 'Confirm booking'], cta: 'Confirm', beats: 5},
-    probes: [[.55, '[data-design-role="body"]']]},
+    probes: [[.9, '.pk-glass-widget-label']]},
   {scene: {type: 'lens', text: 'Read every letter clearly', sub: 'Optical clarity', camera: 'orbit', beats: 6},
     probes: [[.1, '.pk-glass-lens-source'], [.525, '.pk-glass-lens-source'], [.955, '.pk-glass-lens-caption'], [.525, '.pk-glass-lens-source']]},
 ];
