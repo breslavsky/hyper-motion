@@ -110,7 +110,7 @@ test('all enabled actions remain ordered and reachable inside a single musical b
     'glass-island': {open: .05, opened: .35, collapse: .65, exit: .8},
     'glass-controls': {open: 0, toggles: [.15, .25, .4], slider: .6, sliderEnd: 1},
     'glass-ask': {open: 0, type: .1, typed: .4, send: .6, reply: .8},
-    'glass-search': {focus: 0, type: .2, typed: .5, search: .7, collapse: .8, collapsed: .9, checked: .95},
+    'glass-search': {focus: 0, type: .2, typed: .5, search: .7, collapse: .8, collapsed: .9, checked: .95, clear: .98},
     'glass-widgets': {open: 0, items: [.05, .1, .3], settled: .9},
     'glass-lens': {sweep: .1, sweepEnd: .9},
     'glass-flow': {open: 0, title: .1, opened: .2, titleShown: .3, flight: .4,

@@ -216,7 +216,9 @@ function search(args){
 
     // The scene's own icon stands in the middle of the drop and goes to the head of the field as it opens.
     const leaving=1-smooth(phase(closing,0,.6)),inDrop=1-smoother(opened);
-    set(icon,{opacity:String(mix(.68,1,inDrop)*leaving),visibility:leaving>0?'visible':'hidden',
+    // The drop itself is clear: the icon comes up as it opens.
+    const iconShown=.68*leaving*smooth(phase(opened,.1,.55));
+    set(icon,{opacity:String(iconShown),visibility:iconShown>0?'visible':'hidden',
       transform:`translateX(${px(iconTravel*inDrop)})`});
     viewport.setAttribute('aria-hidden',String(copyOpacity===0));
     slot.setAttribute('aria-busy',String(submitted&&!checked));
@@ -231,7 +233,9 @@ function search(args){
     // to the pane as that folds into the same circle: two discs of one size,
     // one flat and one bevelled, would show a double edge.
     const over=smooth(phase(time,mix(marks.typed,marks.search,.74),searchPointer.arrive));
-    button.draw((1-.12*press)*mix(1,finalSize/buttonSize,morph)*outBack(phase(opened,.55,1)),{loading:submitted&&!checked?Math.max(0,backdropTime-trigger):null,
+    // The checkmark goes before the scene ends: what is left is the clear drop.
+    const cleared=smooth(phase(time,marks.clear,marks.clear+Math.min(.2,(duration-marks.clear)*.9)));
+    button.draw((1-.12*press)*mix(1,finalSize/buttonSize,morph)*outBack(phase(opened,.55,1))*(1-cleared),{loading:submitted&&!checked?Math.max(0,backdropTime-trigger):null,
       checked,fill:over,shift:travel,disc:over*(1-morph)});
     world.render(backdropTime);
   };
@@ -359,6 +363,32 @@ function ask(args){
   const wordsBy=exit==='drop'?marks.collapse:p.dur;
   const wordDelay=reply?Math.min(.05,Math.max(0,wordsBy-marks.reply-.43)/Math.max(1,words.length-1)):0;
   const showTyped=revealer(typing);
+  // Pressing send runs a wave through the panel from the button, as a click
+  // does in glass-search. The glass carries a picture of what is written on
+  // it (lettering.mjs): the icon, the typed question and the answer's words.
+  const letters=createLettering(K,surface);
+  const inkPrompt=letters.glyphs(typing),inkWords=words.map(word=>letters.text(word));
+  letters.measure();
+  const inkColor=host.ownerDocument.defaultView.getComputedStyle(prompt).color;
+  const markPath=new Path2D(new DOMParser().parseFromString(questionMarkBold,'image/svg+xml').querySelector('path').getAttribute('d'));
+  const iconAt={x:icon.offsetLeft,y:icon.offsetTop},sendAt=middleOf(send);
+  const carried=!/[\u0590-\u08FF\uFB1D-\uFEFC]/.test(s.text+(s.reply??''));
+  // The picture is the whole panel's; while the panel is still short it lies lower by half the difference.
+  const copy={count:0,shown:0,words:[],drop:0};
+  function ink(ctx){
+    if(!carried)return;
+    ctx.save();ctx.translate(0,copy.drop);
+    ctx.save();ctx.globalAlpha=copy.shown;ctx.fillStyle=inkColor;
+    ctx.translate(iconAt.x,iconAt.y);ctx.scale(iconSize/256,iconSize/256);ctx.fill(markPath);ctx.restore();
+    inkPrompt(ctx,copy.shown,copy.count);
+    inkWords.forEach((draw,i)=>draw(ctx,copy.words[i]??0));
+    ctx.restore();
+  }
+  const sendBox={x:send.offsetLeft,y:send.offsetTop,w:send.offsetWidth,h:send.offsetHeight};
+  const ripple=card.slab?world.addRipple(card,{ink}):null;
+  const drawWave=ripple?null:world.addSendWave(card,{ink,source:sendBox,tune:lightClickWave});
+  // The wave has left the panel before it folds.
+  const waveFor=Math.max(RIPPLE_SHORTEST,Math.min(RIPPLE,(marks.collapse??p.dur)-marks.send));
   world.prepare();
   return (time,duration=p.dur,backdropTime=time)=>{
     const open=phase(time,marks.open,.51);
@@ -376,18 +406,28 @@ function ask(args){
     card.group.position.set(0,(fullHeight-height)*world.U*fitScale/2*smooth(open),0).applyQuaternion(card.group.quaternion);
     card.opacity=smooth(phase(time,0,.09));
     const iconTravel=1-smooth(open)*(1-close);
-    set(icon,{transform:`translate(${px(seedOffsetX*iconTravel)},${px(seedOffsetY(height)*iconTravel)})`});
+    // The drop itself is clear: the icon comes up as it opens and goes as it folds.
+    set(icon,{opacity:String(smooth(phase(open,.1,.6))*(1-smooth(phase(close,.25,.8)))),transform:`translate(${px(seedOffsetX*iconTravel)},${px(seedOffsetY(height)*iconTravel)})`});
     const shown=Math.round(K.prog(time,marks.type,marks.typed-marks.type)*typing.length);
     showTyped(shown);
     set(prompt,{opacity:String(visible)});
+    copy.count=shown;copy.shown=visible;copy.drop=(fullHeight-height)/2;
     set(caret,{opacity:time>=marks.send?'0':shown>0&&shown<typing.length?'1':String(K.blink(time))});
     const sendPress=pulse(time,marks.send,marks.send+.22);
     // Nobody points at this button: its circle comes in as it is pressed.
     button.draw(outBack(phase(time,.36,.52))*(1-.14*sendPress)*(1-smooth(phase(close,0,.5))),{fill:smooth(phase(time,marks.send-.12,marks.send))});
     if(reply){
       set(reply,{opacity:String(answer*(1-smooth(phase(close,0,.5))))});
-      words.forEach((word,i)=>{const at=marks.reply+.15+i*wordDelay;set(word,{opacity:String(smooth(phase(time,at,at+.16)))});});
+      const answered=answer*(1-smooth(phase(close,0,.5)));
+      words.forEach((word,i)=>{const at=marks.reply+.15+i*wordDelay,said=smooth(phase(time,at,at+.16));set(word,{opacity:String(said)});copy.words[i]=said*answered;});
     }
+    const wave=phase(time-marks.send,0,waveFor);
+    if(ripple){
+      const ring=clickRing(wave,width,firstLineHeight*.2);
+      // While the glass carries the lettering, the page's own copy is unseen.
+      const unseen=ripple(ring&&{x:sendAt.x,y:sendAt.y+copy.drop,...ring})&&carried?'opacity(0)':'none';
+      for(const node of [icon,prompt,reply])if(node)node.style.filter=unseen;
+    }else drawWave(wave,sendBox);
     // Orbit while the prompt is being typed. The camera settles before the
     // lower edge opens for the reply, keeping its motion separate from resizing.
     orbitCamera(world,camera,phase(time,.51,reply?marks.reply:duration));world.render(backdropTime);

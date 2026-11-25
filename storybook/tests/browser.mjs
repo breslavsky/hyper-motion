@@ -696,7 +696,7 @@ async function checkSearchCollapse(page) {
     const paneMeshes = button.parent.children.filter(node => node.isMesh);
     const visibleInk = node => node.checkVisibility({opacityProperty: true, visibilityProperty: true});
     const mark = (name, fraction) => ps.scene.timing?.[name] === undefined ? ps.dur * fraction : ps.scene.timing[name] * plan.beat;
-    const pressed = mark('search', .68), collapse = mark('collapse', .80), collapsed = mark('collapsed', .90), checked = mark('checked', .96);
+    const pressed = mark('search', .68), collapse = mark('collapse', .76), collapsed = mark('collapsed', .86), checked = mark('checked', .9);
     function at(time) {
       instance.drawAt(time);
       const center = face.getWorldPosition(face.position.clone()).project(camera);
@@ -712,7 +712,7 @@ async function checkSearchCollapse(page) {
       // The open field, just before the pointer clicks it: at 0 the scene is still its drop.
       return {drop: at(0), before: at(mark('focus', .22) * .98), hold: at((pressed + collapse) / 2), folding: at((collapse + collapsed) / 2),
         done: at(collapsed + (checked - collapsed) * .25), spinning: at(collapsed + (checked - collapsed) * .75),
-        checked: at(checked + (ps.dur - checked) / 2), end: at(ps.dur), reverse: at((pressed + collapse) / 2)};
+        checked: at(checked + (mark('clear', .96) - checked) / 2), end: at(ps.dur), reverse: at((pressed + collapse) / 2)};
     } finally { instance.drawAt(saved); }
   });
   const {drop, before, hold, folding, done, spinning, checked, end} = states;
@@ -726,7 +726,7 @@ async function checkSearchCollapse(page) {
   assert.ok(hold.width > folding.width && folding.width > done.width, 'The physical field must shrink between the two collapse beats');
   assert.ok(done.paneVisible && !done.inputVisible && !done.iconVisible,
     'The folded pane stays as the body of the round button, without the query or the magnifier');
-  assert.ok(done.buttonVisible && end.buttonVisible && hold.x > 0 && Math.abs(done.x) < .002 && Math.abs(end.x) < .002,
+  assert.ok(done.buttonVisible && checked.buttonVisible && hold.x > 0 && Math.abs(done.x) < .002 && Math.abs(checked.x) < .002,
     'The action button must travel from the right end to the middle');
   assert.ok(!done.discVisible && !end.discVisible && !done.lensVisible && !end.lensVisible,
     'The hover disc must give way to the folded pane, the one circle of the final button');
@@ -734,7 +734,8 @@ async function checkSearchCollapse(page) {
     'The spinner must keep rotating on the button until the checked beat');
   assert.ok(checked.busy === 'false' && checked.label === 'Search complete' && checked.glyph !== spinning.glyph
     && checked.glyph !== before.glyph, 'A completed search must show the checkmark instead of the spinner or Enter');
-  assert.deepEqual(end, checked, 'The completed button must hold steady through the end');
+  assert.ok(!end.buttonVisible && end.paneVisible && end.width === checked.width && !end.inputVisible && !end.iconVisible,
+    'The checkmark goes before the end: the scene ends on the clear drop');
   assert.ok(Math.abs(done.y - hold.y) < .002, 'Collapsing the field must keep the action button at its height');
   assert.deepEqual(states.reverse, hold, 'Seeking back must restore the full field and the spinner');
   return states;
