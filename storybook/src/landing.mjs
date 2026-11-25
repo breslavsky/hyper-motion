@@ -2,7 +2,6 @@
 // repository's page has them, and its kinds of scenes, each with one scene of
 // it playing and the way into its section.
 import catalog from '../generated/catalog.json';
-import {defaultArgs, makeFilm} from './model.mjs';
 
 const el = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = text; return node; };
 // Where a scene stands in the sidebar (catalog-data.mjs storyTitle, which is for the build and not for a page).
@@ -38,31 +37,33 @@ const BADGES = [
   ['developed with', 'Motion Fab', 'https://www.motionfab.app', '#2e5bff'],
 ];
 
-// One scene playing on its own: the kit's preview page, driven by this page's clock.
-function playing(entry, change = {}) {
+// One scene playing: a small silent clip of it from our public CDN, rendered
+// by HyperFrames (scripts/landing-clips.mjs). Four live scenes are more than a
+// page can carry. A clip plays only while it is on the screen.
+const CLIPS = 'https://motion-fab-share.b-cdn.net/components/landing/';
+const seen = new IntersectionObserver(entries => {
+  for (const {target, isIntersecting} of entries) { if (isIntersecting) target.play().catch(() => {}); else target.pause(); }
+}, {threshold: .2});
+function playing(kind, entry) {
   const frame = el('div', 'hm-play');
-  const view = el('iframe');
-  view.title = `${entry.type}, playing`; view.loading = 'lazy'; view.setAttribute('scrolling', 'no'); view.tabIndex = -1;
-  const film = makeFilm(entry, {...defaultArgs(entry), ...change}, {aspect: 'landscape', material: 'example'});
-  view.src = `./pk/preview.html#${encodeURIComponent(JSON.stringify(film))}`;
-  let raf = 0;
-  view.addEventListener('load', () => {
-    const page = view.contentWindow, began = performance.now();
-    const turn = now => {
-      if (!view.isConnected) return;
-      const timeline = page.__timelines?.main;
-      // A beat of rest on the last frame before it begins again.
-      if (timeline) { const length = timeline.duration() + .8; timeline.pause(); timeline.time(Math.min(timeline.duration(), ((now - began) / 1000) % length), false); }
-      raf = requestAnimationFrame(turn);
-    };
-    raf = requestAnimationFrame(turn);
-  });
-  // The scene is drawn at the film's own size and shown as wide as its card.
-  const fit = () => { view.style.transform = `scale(${frame.clientWidth / 1920})`; };
-  new ResizeObserver(fit).observe(frame);
-  frame.append(view);
+  const clip = Object.assign(el('video'), {src: `${CLIPS}${kind.id}.mp4`, muted: true, loop: true, playsInline: true, preload: 'metadata'});
+  clip.setAttribute('aria-label', `${entry.type}, playing`);
+  seen.observe(clip);
+  frame.append(clip);
   return frame;
 }
+
+// What every scene of the library does, whatever its kind.
+const FEATURES = [
+  ['Three formats', 'Every scene is laid out for 16:9, 9:16 and 1:1: columns in a wide frame, rows in a tall one, nothing cut.'],
+  ['On the beat', 'A scene is as long as its beats, and its moves can be pinned to beats of the music: a click, a reveal, a landing.'],
+  ['Sound cues', 'Each scene says what it sounds like and when: a key typed, a button clicked, a panel that opens. Play them or score them.'],
+  ['Placed where you say', 'A glass panel stands at one of nine places in the frame, full size or small, clear of what the footage shows.'],
+  ['Over your footage', 'Glass laid on a video that plays on its own track bends that video under it, through the film\'s reframes and zooms.'],
+  ['Your brand', 'Colours, a font from sixteen bundled families, forty-three looks, and glass, dark glass or metal for the 3D surfaces.'],
+  ['Text that fits', 'Every text is measured with its font against its box. A long line is set smaller, wrapped or refused, never cut.'],
+  ['Checked for agents', 'A recipe a scene cannot draw is refused with the reason and the number it needs, before anything is rendered.'],
+];
 
 export function renderLanding() {
   const page = el('main', 'hm-landing');
@@ -93,6 +94,7 @@ export function renderLanding() {
   // The way to each part of the page, as a repository's page lists its chapters.
   const nav = el('nav', 'hm-nav');
   for (const kind of KINDS) nav.append(Object.assign(el('a', '', kind.name), {href: `#hm-${kind.id}`}));
+  nav.append(Object.assign(el('a', '', 'Features'), {href: '#hm-features'}));
   hero.append(nav);
   page.append(hero);
 
@@ -105,7 +107,7 @@ export function renderLanding() {
     const way = entry => over ? story(`b-rolls-${entry.type}--preview`) : docs(entry);
     const card = el('article', 'hm-kind');
     card.id = `hm-${kind.id}`;
-    card.append(playing(shown, kind.over));
+    card.append(playing(kind, shown));
     const words = el('div', 'hm-words');
     const heading = el('h2');
     heading.append(Object.assign(el('a', '', kind.name), {href: way(entries[0]), target: '_top'}), el('span', '', `${entries.length} ${kind.counts ?? 'scenes'}`));
@@ -118,6 +120,13 @@ export function renderLanding() {
     kinds.append(card);
   }
   page.append(kinds);
+  const features = el('section', 'hm-features');
+  features.id = 'hm-features';
+  features.append(el('h2', '', 'What every scene does'));
+  const grid = el('div', 'hm-feature-grid');
+  for (const [name, says] of FEATURES) { const item = el('article'); item.append(el('h3', '', name), el('p', '', says)); grid.append(item); }
+  features.append(grid);
+  page.append(features);
   const foot = el('footer', 'hm-foot');
   foot.append('Developed with ', Object.assign(el('a', '', 'Motion Fab'), {href: 'https://www.motionfab.app', target: '_blank', rel: 'noopener'}), '. Beta: scenes and their fields may still change.');
   page.append(foot);
