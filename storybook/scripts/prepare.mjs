@@ -65,13 +65,12 @@ for (const entry of catalog) {
   fs.writeFileSync(path.join(generated, `${entry.type}.stories.mjs`), code + stories + materials);
 }
 // B-Rolls: Glass scenes laid over footage that plays on a track of its own
-// (`over`), each where such an overlay usually stands. The preview lays a
+// (`over`), at the bottom of the frame. The preview lays a
 // sample video under them (src/preview.mjs).
 const BROLLS = [
-  // Over somebody who talks to the camera the face is the picture: a panel is small and stands in a corner or along an edge.
-  ['glass-like', {place: 'bottom-right', size: 'small'}], ['glass-follow', {place: 'bottom-left', size: 'small'}],
-  ['glass-rating', {place: 'top-right', size: 'small'}], ['glass-message', {place: 'bottom-left', size: 'small'}], ['glass-call', {place: 'bottom-right', size: 'small'}],
-  ['glass-island', {place: 'top-left', size: 'small'}], ['glass-checklist', {place: 'right', size: 'small'}], ['glass-search', {place: 'bottom', size: 'small'}], ['glass-ask', {place: 'bottom', size: 'small'}],
+  // Over somebody who talks to the camera the face is the picture: every panel is small and stands at the bottom, in the middle.
+  ...['glass-like', 'glass-follow', 'glass-rating', 'glass-message', 'glass-call', 'glass-island', 'glass-checklist', 'glass-search', 'glass-ask']
+    .map(type => [type, {place: 'bottom', size: 'small'}]),
 ];
 for (const [type, stands] of BROLLS) {
   if (!catalog.some(entry => entry.type === type)) continue;
