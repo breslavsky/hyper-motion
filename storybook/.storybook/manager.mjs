@@ -5,7 +5,10 @@ addons.setConfig({
   theme: create({base: 'light', brandTitle: 'Hyper Motion', brandUrl: './', brandTarget: '_self'}),
   panelPosition: 'bottom',
   layoutCustomisations: {
-    showPanel: ({storyId}, current) => storyId?.startsWith('pure-kinetic-sequences-') ? false : current,
+    // A sequence and the first page have no controls to show.
+    showPanel: ({storyId}, current) => storyId?.startsWith('pure-kinetic-sequences-') || storyId?.startsWith('hyper-motion-') ? false : current,
+    // The first page is a page, not a component: it has no format, brandbook or material to choose.
+    showToolbar: ({storyId}, current) => storyId?.startsWith('hyper-motion-') ? false : current,
   },
 });
 

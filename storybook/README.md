@@ -41,6 +41,9 @@ ignored build directories. Rebuild when changing the selection.
   toolbar switches all of them; elsewhere "As in the example" is Glass. The material applies to the shared
   Liquid Glass components, every scene of the Glass family and the rides made of them.
   Ordinary DOM typography, buttons and cards keep their normal appearance.
+- The Storybook opens on **Hyper Motion / Welcome** (`src/landing.mjs`): what the
+  library is and its three kinds of scenes, each with one scene playing and
+  the way into its section. It has no toolbar and no panel.
 - A scene's sound cues (a key typed, a button clicked, a panel that opens) are
   heard in the preview: small CC0 sounds from our public CDN, one `<audio>`
   clip a cue, turned on by the player's sound button (`SOURCE.json`). In a
