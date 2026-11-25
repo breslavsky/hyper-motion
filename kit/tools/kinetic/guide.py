@@ -249,11 +249,11 @@ that it is the film the user requested.
 - `style`: one look from the table below. It sets the colours, the type, how
   words arrive, the transitions and the music; pick the one that fits the
   product and the mood.
-- `material`: choose `"glass"` for thick glass with a round edge that bends
-  the picture behind it like a lens (a full-size glass scene with a `background`
-  image or video shows it best), `"dark-glass"` for smoked, frosted glass whose
-  text reads over any footage (the one for a small overlay),
-  or `"metal"` for opaque metal. The finish applies to the 3D surfaces
+- `material`: the glass scenes are `"dark-glass"` unless you say otherwise:
+  smoked, frosted glass whose text reads over any picture. Choose `"glass"`
+  for clear thick glass with a round edge that bends the picture behind it
+  like a lens (a full-size glass scene with a `background` image or video
+  shows it best), or `"metal"` for opaque metal. The finish applies to the 3D surfaces
   throughout the film, including scenes with their own `look`. Brand colours
   and typography come from `brand.tokens` and `brand.font`. Omit these overrides
   to use component defaults. Choose either `material` or `metalVariant`.
@@ -375,9 +375,9 @@ only its glass, which bends the footage under it), and say where the panel stand
 bottom-right; middle unless said) and how large it is with `size` (normal |
 small; small is six tenths, so keep its texts short).
 Put the panel where the footage is quiet, not over a face. Over footage
-set the film's `material` to `"dark-glass"`: it is frosted and its text
-reads, while clear `"glass"` is all but transparent and a small panel of it
-is lost on a busy picture. `place` and `size` are fields of `glass-island`,
+keep the default `"dark-glass"`: it is frosted and its text reads, while
+clear `"glass"` is all but transparent and a small panel of it is lost on a
+busy picture. `place` and `size` are fields of `glass-island`,
 `glass-controls`, `glass-ask`, `glass-search`, `glass-widgets`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow` and `glass-call`; the other glass scenes fill
 the frame and take neither:
 

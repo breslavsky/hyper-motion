@@ -104,6 +104,7 @@ function backgroundMaterial({bg,fg,accent,accent2,W,H,referencePalette}){
   });
 }
 
+export const DEFAULT_MATERIAL=Object.freeze({type:'dark-glass'});
 export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePalette=true,placement=null,ride=false,over=false}){
   const {W,H,S,el,set,px}=K,U=1/300;
   // Preview hosts may explicitly spend fewer pixels. Logical layout and text
@@ -111,9 +112,12 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   const previewScale=K.previewScale??1;
   if(!Number.isFinite(previewScale)||previewScale<.25||previewScale>1)throw new Error('Glass previewScale must be between .25 and 1');
   const renderW=Math.max(1,Math.round(W*previewScale)),renderH=Math.max(1,Math.round(H*previewScale));
-  const branded=K.plan.look?.material?.branded===true;
-  const metal=K.plan.look?.material?.type==='metal';
-  const smoked=K.plan.look?.material?.type==='dark-glass';
+  // The family's material when the film names none: smoked, frosted glass,
+  // whose text reads over any picture. Clear glass and metal are asked for.
+  const material=K.plan.look?.material??DEFAULT_MATERIAL;
+  const branded=material.branded===true;
+  const metal=material.type==='metal';
+  const smoked=material.type==='dark-glass';
   // Glass, clear or smoked, is traced as thick round-edged slabs
   // (liquid.mjs). Metal stays polygons.
   const liquid=!metal;
@@ -135,7 +139,7 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   // stays small and fixed-size while the geometry morphs; no per-frame resize.
   const metalSheet=metal?createMetal({canvas:canvas.ownerDocument.createElement('canvas'),
     width:140,height:40,shaderScale:1,pixelRatio:1,kind:'fill',
-    preset:resolveSurfaceMetalPreset(K.plan.look.material),theme:K.lum(fg)>.4?'dark':'light',neutral:false}):null;
+    preset:resolveSurfaceMetalPreset(material),theme:K.lum(fg)>.4?'dark':'light',neutral:false}):null;
   metalSheet?.draw(0);
   const metalTexture=metalSheet?new THREE.CanvasTexture(metalSheet.canvas):null;
   if(metalTexture){metalTexture.colorSpace=THREE.SRGBColorSpace;metalTexture.generateMipmaps=false;
@@ -203,7 +207,7 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   function createFinish({insetControl=false,edgeGlow=false,localUnit=1,opticalFrame=null}={}){
     // Control meshes are measured in slot heights. Express the same metal ring
     // width and shader crop in those coordinates as on the world-space card.
-    return createSurfaceMaterial({theme:K.plan.look?.material,fg,brand:K.plan.brand?.tokens,
+    return createSurfaceMaterial({theme:material,fg,brand:K.plan.brand?.tokens,
       metalTexture,scale:S/localUnit,insetControl,edgeGlow,opticalFrame});
   }
   function compositePanel(group){

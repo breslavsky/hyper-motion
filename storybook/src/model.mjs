@@ -157,7 +157,7 @@ export function makeFilm(entry, args = {}, globals = {}) {
   // A family the kit does not bundle (a stale link) is no choice: the brandbook's font stays.
   const font = FONTS.includes(globals.font) ? globals.font : DEFAULT_FONT;
   const picked = globals.material ?? 'example';
-  const material = picked === 'example' ? globals.exampleMaterial ?? 'glass' : picked;
+  const material = picked === 'example' ? globals.exampleMaterial ?? 'dark-glass' : picked;
   if (!FORMATS.includes(aspect)) throw new Error(`Unknown aspect: ${aspect}`);
   if (brandbook!==DEFAULT_BRANDBOOK&&!Object.hasOwn(BRANDBOOKS, brandbook)) throw new Error(`Unknown brandbook: ${brandbook}`);
   if (!MATERIALS.includes(material)) throw new Error(`Unknown material: ${material}`);
