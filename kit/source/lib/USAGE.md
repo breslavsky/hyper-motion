@@ -46,20 +46,30 @@ written.
 ### A glass scene over the film's own footage
 
 A film that already has footage on a track (a talking head, b-roll) lays a
-glass scene over it as it lays any graphic: give the scene `"over": true`, no
-`background`, and where its panel stands.
+glass scene over it as it lays any graphic: give the scene `"over": true`,
+where its panel stands, and as its `background` the clip it lies over, by the
+id of that footage's `<video>` on the page.
 
 ```json
 {"id": "like", "aspect": "9:16", "style": "editorial", "material": "dark-glass",
  "brand": {"name": "Nook"}, "start": 12.5, "track": 3,
- "scene": {"type": "glass-like", "beats": 6, "over": true, "place": "bottom-right", "size": "small", "text": "Like"}}
+ "scene": {"type": "glass-like", "beats": 6, "over": true, "background": {"clip": "footage"},
+           "place": "bottom-right", "size": "small", "text": "Like"}}
 ```
 
 The scene then draws only its glass on a clear frame: the footage plays on
-under it, with its own sound, and is seen frosted through the pane. Put the
-clip on a track above the footage. `dark-glass` reads best over a busy
-picture. The glass does not bend the footage at its edge in this mode; that
-needs the scene to be given the picture itself (`background`).
+under it, with its own sound. Put the scene on a track above the footage.
+`dark-glass` reads best over a busy picture.
+
+The glass bends the footage as real glass would. It takes the clip's frame
+of this moment and the clip's own place on the page (its box, `object-fit`,
+`object-position`, and any move or zoom the film gives it), so what is seen
+in the pane lies exactly over what is under it. The clip must be on the
+film's own page, with that id, before the scene.
+
+Leave `background` out and the pane only frosts the footage: a blur of what
+lies under it, with no bending at the edge. Use that over anything that is
+not one `<video>`: a still, several clips, a page.
 
 ## Put it on the page
 

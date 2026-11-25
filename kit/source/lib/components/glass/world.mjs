@@ -166,17 +166,22 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     ?new THREE.MeshBasicMaterial({map:mediaTexture,toneMapped:false,transparent:true,depthWrite:false})
     :backgroundMaterial({bg,fg,accent,accent2:K.plan.brand?.tokens?.accent2??palette.coral??palette.lilac??accent,W,H,referencePalette});
   const backgroundPlane=new THREE.Mesh(new THREE.PlaneGeometry(2,2),background);bgScene.add(backgroundPlane);
-  if(over){backgroundPlane.visible=false;bgScene.background=new THREE.Color(0x000000);}
+  // Given the footage's own picture as well (`background`), the glass looks at
+  // it as it does at any backdrop and bends it; the frame around the glass
+  // stays clear, and the footage itself is the film's.
+  const refracts=over&&Boolean(media);
+  if(over&&!refracts){backgroundPlane.visible=false;bgScene.background=new THREE.Color(0x000000);}
   // The last pass of a world over footage: every pixel as bright as it was drawn, and as clear as it is dark.
   const lightOnly=over?(()=>{
     const target=new THREE.WebGLRenderTarget(renderW,renderH,{type:THREE.HalfFloatType,samples:4});
     const material=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,transparent:true,blending:THREE.NoBlending,uniforms:{map:{value:target.texture}},
       vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+      // A pane that shows the footage is as solid as it is drawn; the footage's colours are kept as they are.
       fragmentShader:`uniform sampler2D map;varying vec2 vUv;
-        void main(){gl_FragColor=vec4(texture2D(map,vUv).rgb,1.);
-          #include <tonemapping_fragment>
+        void main(){vec4 seen=texture2D(map,vUv);gl_FragColor=vec4(seen.rgb,1.);
+          ${refracts?'':'#include <tonemapping_fragment>'}
           #include <colorspace_fragment>
-          gl_FragColor.a=max(gl_FragColor.r,max(gl_FragColor.g,gl_FragColor.b));}`});
+          gl_FragColor.a=max(${refracts?'seen.a':'0.'},max(gl_FragColor.r,max(gl_FragColor.g,gl_FragColor.b)));}`});
     const quad=new THREE.Mesh(new THREE.PlaneGeometry(2,2),material),pass=new THREE.Scene();pass.add(quad);
     return {target,scene:pass,owned:[target,material,quad.geometry]};
   })():null;
@@ -426,7 +431,7 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
           {color:'#'+c.material.color.getHexString(),metalness:c.material.metalness,transmission:c.material.transmission,
             roughness:c.material.roughness,edgeMetalness:c.finish.edgeMaterial?.metalness??null})}}));
     audit.surfaces=surfaces.map(project);
-    if(over)for(const card of surfaces)frost(card);
+    if(over&&!refracts)for(const card of surfaces)frost(card);
     for(const update of optics)update();
     shared.size(renderW,renderH);renderer.setRenderTarget(target);renderer.render(bgScene,bgCamera);
     if(panelTarget){
@@ -446,7 +451,9 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     sendWave?.render(scene,camera);
     if(lightOnly){
       // The frame in full, then only its light on a clear frame: black is no light.
-      renderer.setRenderTarget(lightOnly.target);renderer.render(scene,camera);
+      // The frame around the glass is nothing: only what is drawn has a place in it.
+      const behind=scene.background;if(refracts)scene.background=null;
+      renderer.setRenderTarget(lightOnly.target);renderer.render(scene,camera);scene.background=behind;
       renderer.setRenderTarget(null);renderer.clear();renderer.render(lightOnly.scene,bgCamera);
       out.clearRect(0,0,renderW,renderH);
     }else renderer.render(scene,camera);

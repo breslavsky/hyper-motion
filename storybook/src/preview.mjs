@@ -39,25 +39,30 @@ try {
   if (sample && !options.assetUrls) options.assetUrls = {[background.image ?? background.video]: sample};
   // A scene's own sample video (the laptop's screen) comes from there too.
   if (SAMPLES[ps.scene.video]) options.assetUrls = {...options.assetUrls, [ps.scene.video]: SAMPLES[ps.scene.video]};
-  const ready = mountScene(root, {id: 'main', plan, ps, clipStart: 0, clipDuration: plan.duration, options}, {}, window.gsap).then(({timeline, instance}) => {
-    window.__timelines.main = timeline;
-    // A scene laid over footage (`over`) has none of its own: the preview plays
-    // a sample under it, in step with the scene's clock.
-    if (ps.scene.over) {
-      const footage = Object.assign(document.createElement('video'), {muted: true, loop: true, playsInline: true, crossOrigin: 'anonymous', src: SAMPLES['assets/talking-head.mp4']});
-      footage.dataset.previewFootage = '';
-      // It is a tall clip: a wide or square frame keeps the head, not the middle of the picture.
-      Object.assign(footage.style, {position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 20%'});
-      root.prepend(footage);
+  // A scene laid over footage (`over`) has none of its own: the preview plays
+  // a sample under it, as the film's clip "footage", in step with the scene.
+  let footage = null;
+  if (ps.scene.over) {
+    const video = Object.assign(document.createElement('video'), {muted: true, loop: true, playsInline: true, crossOrigin: 'anonymous', src: SAMPLES['assets/talking-head.mp4'], id: 'footage'});
+    video.dataset.previewFootage = '';
+    // It is a tall clip: a wide or square frame keeps the head, not the middle of the picture.
+    Object.assign(video.style, {position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 20%'});
+    root.prepend(video);
+    await new Promise(resolve => { video.addEventListener('loadeddata', resolve, {once: true}); video.addEventListener('error', resolve, {once: true}); });
+    footage = {follow(timeline) {
       let moved = 0;
       timeline.eventCallback('onUpdate', () => {
         moved = performance.now();
-        const at = timeline.time() % (footage.duration || 1);
-        if (Math.abs(footage.currentTime - at) > .3) footage.currentTime = at;
+        const at = timeline.time() % (video.duration || 1);
+        if (Math.abs(video.currentTime - at) > .3) video.currentTime = at;
       });
-      const pace = setInterval(() => { if (performance.now() - moved < 160) footage.play().catch(() => {}); else footage.pause(); }, 120);
+      const pace = setInterval(() => { if (performance.now() - moved < 160) video.play().catch(() => {}); else video.pause(); }, 120);
       window.addEventListener('pagehide', () => clearInterval(pace), {once: true});
-    }
+    }};
+  }
+  const ready = mountScene(root, {id: 'main', plan, ps, clipStart: 0, clipDuration: plan.duration, options}, {}, window.gsap).then(({timeline, instance}) => {
+    window.__timelines.main = timeline;
+    footage?.follow(timeline);
     window.__storybookComponent = {instance, plan, film};
     window.dispatchEvent(new Event('pk-preview-mounted'));
     window.addEventListener('pagehide', () => instance.dispose(), {once: true});

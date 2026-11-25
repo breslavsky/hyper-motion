@@ -15,11 +15,16 @@ const registryMediaProblems=paths=>{
   return paths.flatMap((path,i)=>projectPathProblems(path,`image path ${i+1}`));
 };
 function glassBackgroundProblems({background,over}){
-  // Over footage that plays on a track of the film's own, a scene draws no picture: it has none of its own.
-  if(over&&background!==undefined)return ['over: a scene laid over the film\'s own footage takes no background; give it one or the other'];
   if(background===undefined)return [];
   if(!background||typeof background!=='object'||Array.isArray(background))return ['background must contain either an image or a video'];
   const keys=Object.keys(background),kind=keys[0];
+  // A scene laid over the film's own footage (`over`) has no picture of its own. It may name the clip
+  // under it, to bend that footage in its glass: the id of the <video> on the film's page.
+  if(kind==='clip'&&keys.length===1){
+    if(!over)return ['background.clip: only a scene laid over the film\'s footage (over = true) looks at a clip of the film'];
+    return typeof background.clip==='string'&&/^[A-Za-z][\w-]*$/.test(background.clip)?[]:['background.clip must be the id of the footage\'s <video> on the film\'s page'];
+  }
+  if(over)return ['over: a scene laid over the film\'s own footage takes no picture of its own; name the clip under it as background.clip, or give no background'];
   if(keys.length!==1||!['image','video'].includes(kind))return ['background must contain exactly one of image or video'];
   const src=background[kind];
   // A fragment or query on its own refers to the composition HTML.
@@ -143,7 +148,7 @@ function glassComponent(definition){
     guide:(placed?signed(definition.guide):definition.guide)
       .replace(/(\d+(?:-\d+)? beats\.)$/,(placed?guidePlace+' ':'')+guideTiming+' $1'),
     hasAuthoredTiming,
-    fields:{...definition.fields,background:{kind:'object',optional:true,fields:{image:path,video:path}},over:{kind:'bool',optional:true},
+    fields:{...definition.fields,background:{kind:'object',optional:true,fields:{image:path,video:path,clip:path}},over:{kind:'bool',optional:true},
       ...(definition.placed===false?{}:{place:{kind:'enum',values:GLASS_PLACES,optional:true},size:{kind:'enum',values:GLASS_SIZES,optional:true}}),
       timing:{kind:'object',optional:true,fields:Object.fromEntries(actions)},speed:{kind:'number',min:.25,max:4,optional:true}},
     retime(scene,len,beat){return retimeGlass(definition,scene,len,beat);},

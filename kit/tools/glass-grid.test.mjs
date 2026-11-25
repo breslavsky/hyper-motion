@@ -114,5 +114,9 @@ test('a scene laid over the film\'s own footage takes no picture of its own', as
     assert.equal(definitions[type].fields.over.kind, 'bool', type);
   }
   assert.deepEqual(film.problems(recipe({...like, over: true, place: 'bottom-right', size: 'small'})), []);
-  assert.match(film.problems(recipe({...like, over: true, background: {video: 'assets/clip.mp4'}})).join('\n'), /takes no background/);
+  // It may name the film's clip under it, and bends that footage in its glass.
+  assert.deepEqual(film.problems(recipe({...like, over: true, background: {clip: 'footage'}})), []);
+  assert.match(film.problems(recipe({...like, background: {clip: 'footage'}})).join('\n'), /only a scene laid over/);
+  assert.match(film.problems(recipe({...like, over: true, background: {clip: 'not an id'}})).join('\n'), /must be the id/);
+  for (const own of [{video: 'assets/clip.mp4'}, {image: 'assets/photo.jpg'}]) assert.match(film.problems(recipe({...like, over: true, background: own})).join('\n'), /takes no picture of its own/);
 });

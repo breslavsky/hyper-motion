@@ -8,6 +8,7 @@ export async function loadGlassBackground(context,id){
   const {K,ps,stage,options}=context;
   const source=ps.scene.background;
   if(!source)return null;
+  if(source.clip)return loadClipSource(context,source.clip);
   const doc=stage.ownerDocument;
   const path=source.image??source.video;
   const url=options.assetUrls?.[path]??path;
@@ -113,4 +114,55 @@ export async function loadVideoSource(context,{path,inputId,width,height,label='
   }
   win.addEventListener('hf-seek',afterSeek);
   return {kind:'video',element,width:element.width,height:element.height,seek,onRepaint(callback){repaint=callback;}};
+}
+
+// The film's own footage as a scene's picture: the clip that plays under a
+// scene laid over it (`over`), named by its id on the film's page. The scene
+// sees it as the page shows it at this moment: the same frame (in a render,
+// the frame HyperFrames decoded for the clip), in the clip's own box, fit and
+// position, so what the glass bends lies exactly over what is under it,
+// through every reframe and zoom of the film.
+export async function loadClipSource(context,id){
+  const {K,stage}=context,doc=stage.ownerDocument,win=doc.defaultView;
+  const clip=doc.getElementById(id);
+  if(!clip||clip.tagName!=='VIDEO')throw new Error(`Glass over footage: the film's page has no <video id="${id}">`);
+  const element=doc.createElement('canvas');
+  element.width=Math.max(1,Math.round(K.W*K.previewScale));element.height=Math.max(1,Math.round(K.H*K.previewScale));
+  const ctx=element.getContext('2d',{alpha:false}),abort=new AbortController();
+  let repaint=null,last='';
+  const share=(value,fallback)=>{const n=Number.parseFloat(value);return Number.isFinite(n)&&String(value).trim().endsWith('%')?n/100:fallback;};
+  const held=()=>{const frame=clip.nextElementSibling;return frame?.classList.contains('__render_frame__')&&frame.complete&&frame.naturalWidth?frame:null;};
+  function paint(){
+    if(abort.signal.aborted)return;
+    const frame=held(),source=frame??clip,sw=frame?frame.naturalWidth:clip.videoWidth,sh=frame?frame.naturalHeight:clip.videoHeight;
+    if(!sw||!sh)return;
+    const page=stage.getBoundingClientRect(),box=clip.getBoundingClientRect(),style=win.getComputedStyle(clip);
+    if(!(page.width>0&&box.width>0))return;
+    const mark=[frame?frame.src:clip.currentTime,box.left-page.left,box.top-page.top,box.width,box.height,style.objectFit,style.objectPosition].join('|');
+    if(mark===last)return;
+    last=mark;
+    const k=element.width/page.width,bx=(box.left-page.left)*k,by=(box.top-page.top)*k,bw=box.width*k,bh=box.height*k;
+    const fit=style.objectFit,[px,py]=String(style.objectPosition).split(/\s+/);
+    const scale=fit==='contain'?Math.min(bw/sw,bh/sh):fit==='cover'?Math.max(bw/sw,bh/sh):null;
+    const dw=scale===null?bw:sw*scale,dh=scale===null?bh:sh*scale;
+    ctx.fillStyle='#000';ctx.fillRect(0,0,element.width,element.height);
+    ctx.save();ctx.beginPath();ctx.rect(bx,by,bw,bh);ctx.clip();
+    ctx.drawImage(source,bx+(bw-dw)*share(px,.5),by+(bh-dh)*share(py,.5),dw,dh);
+    ctx.restore();
+    repaint?.();
+  }
+  // In a render every seek brings a new decoded frame; wait for its picture, then take it.
+  const afterSeek=event=>{
+    const frame=clip.nextElementSibling;
+    const ready=frame?.classList.contains('__render_frame__')&&frame.decode?frame.decode().catch(()=>{}):Promise.resolve();
+    const taken=ready.then(paint);
+    K.waitFrame?.(taken);event.detail?.waitUntil?.(taken.then(()=>Promise.all([...context.frameWaits])));
+  };
+  for(const name of ['loadeddata','seeked','timeupdate'])clip.addEventListener(name,paint,{signal:abort.signal});
+  // A playing clip gives a frame at a time.
+  if(clip.requestVideoFrameCallback){const every=()=>{if(abort.signal.aborted)return;paint();clip.requestVideoFrameCallback(every);};clip.requestVideoFrameCallback(every);}
+  win.addEventListener('hf-seek',afterSeek,{signal:abort.signal});
+  K.onDispose(()=>{abort.abort();repaint=null;});
+  paint();
+  return {kind:'video',element,width:element.width,height:element.height,seek:paint,onRepaint(callback){repaint=callback;}};
 }
