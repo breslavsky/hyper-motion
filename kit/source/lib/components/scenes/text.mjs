@@ -6,6 +6,8 @@ const sceneFactories = {};
 // Every move speeds up and then slows down. `inOut` is even; `swift` gets up to speed in its first part and
 // takes the rest of its time to stop.
 const inOut = (k) => k * k * (3 - 2 * k);
+// The same with more of both: a move that is seen to gather itself and to brake.
+const firm = (k) => (k < 0.5 ? 4 * k ** 3 : 1 - (-2 * k + 2) ** 3 / 2);
 const swift = (k) => 1 - (1 - k ** 1.4) ** 3;
 // How much of a ring a spinning line takes, in radians: its ends are turned 40 degrees away.
 const ARC = 1.4;
@@ -568,12 +570,13 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		// The rest steps aside in one move, when the caret has come to its place.
 		const made = swift(at(t.carry + (t.drop - t.carry) * 0.58, t.carry + (t.drop - t.carry) * 0.78, l));
 		// With a clip the line opens: the words part by the strip's width and the whole line gives room.
-		const opened = hasClip ? smooth(at(t.open, t.placed, l)) : 0;
+		// The clip opens in a burst that takes its time to stop, and goes a little past its width and back.
+		const opening = hasClip ? at(t.open, t.placed, l) : 0, opened = swift(opening);
 		const room = opened * (stripW + sp);
 		const left = (which) => begins[which] + (ends[which] - begins[which]) * (which === "a" ? carried : made);
 		// Then the frame goes into the clip, faster and faster: the clip grows from its own middle and the
 		// words, growing with it, are carried out to the sides and leave the frame.
-		const gone = hasClip ? inOut(at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l)) : 0;
+		const gone = hasClip ? firm(at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l)) : 0;
 		const shift = (which) => (ends[which] > ends[which === "a" ? "b" : "a"] ? 1 : -1) * (room / 2 + gone * W * 0.12);
 		// As the line opens the words grow and go apart, out of the frame if they must: the clip takes the middle.
 		const grown = 1 + 0.24 * opened;
@@ -595,7 +598,7 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		if (strip) {
 			// A window that opens from the caret's own width and height to the strip's, wider first and then to
 			// its full height: the clip behind it fills the room as it comes.
-			const wide = caretW + (stripW - caretW) * opened, tall = caretH + (stripH - caretH) * smooth(at(0.25, 1, opened));
+			const wide = caretW + (stripW - caretW) * (opened + 0.05 * Math.sin(Math.PI * opening) * opened), tall = caretH + (stripH - caretH) * firm(at(0.2, 1, opened));
 			set(strip, { left: px(between - wide / 2), top: px((high - tall) / 2), width: px(wide), height: px(tall), opacity: opened > 0.001 ? "1" : "0" });
 			// The lights go once round the clip in three seconds, now quicker and now slower; the same turn at the
 			// same moment of the scene.
