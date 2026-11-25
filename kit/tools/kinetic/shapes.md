@@ -82,11 +82,11 @@ card.
 
 ```json
 { "aspect": "9:16", "style": "liquid", "brand": { "name": "Nook", "url": "nook.app" }, "scenes": [
-  { "type": "ask", "beats": 6, "text": "Fill my Tuesday class", "reply": "The waitlist is ready." },
-  { "type": "controls", "beats": 4, "title": "Autopilot", "toggles": ["Reminders", "Waitlist", "Payments"] },
-  { "type": "island", "beats": 3, "title": "Class is full", "body": "Waitlist updated", "icon": "check" },
+  { "type": "glass-ask", "beats": 6, "text": "Fill my Tuesday class", "reply": "The waitlist is ready." },
+  { "type": "glass-controls", "beats": 4, "title": "Autopilot", "toggles": ["Reminders", "Waitlist", "Payments"] },
+  { "type": "glass-island", "beats": 3, "title": "Class is full", "body": "Waitlist updated", "icon": "check" },
   { "type": "stack", "beats": 3, "words": ["FULLER", "CALMER", "NOOK"] },
-  { "type": "lens", "beats": 4, "text": "Every class, full." },
+  { "type": "glass-lens", "beats": 4, "text": "Every class, full." },
   { "type": "endcard", "beats": 5, "cta": "nook.app", "tagline": "Explore Nook" }
 ] }
 ```

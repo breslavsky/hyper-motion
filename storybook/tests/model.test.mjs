@@ -41,7 +41,7 @@ test('bundled stories, samples and toolbars use English copy', {skip: !!(process
   assertBundledCopy(preview.default.globalTypes, 'toolbar titles, descriptions and items');
   assert.equal(preview.default.globalTypes.brandbook.toolbar.items.find(item => item.value === DEFAULT_BRANDBOOK).title, 'Default');
   const userQuery = 'Занятия во вторник';
-  assert.equal(makeFilm(entry('search'), {query: userQuery}).scenes[0].query, userQuery);
+  assert.equal(makeFilm(entry('glass-search'), {query: userQuery}).scenes[0].query, userQuery);
 });
 
 test('source override selects the catalogue, semantic validation and portable runtime together', () => {
@@ -102,7 +102,7 @@ test('Liquid Glass stories expose native camera and morph controls with reusable
   const flow = entry('glass-flow');
   // A selected older template can still be catalogued without this port.
   if (!flow) return;
-  const island = entry('island'), lens = entry('lens');
+  const island = entry('glass-island'), lens = entry('glass-lens');
   assert.deepEqual(island.variants.map(variant => variant.args), [
     {camera: 'static'}, {camera: 'orbit'}, {exit: 'hold'}, {exit: 'collapse'},
   ]);
@@ -120,7 +120,7 @@ test('Liquid Glass stories expose native camera and morph controls with reusable
   assert.equal(compile(film).scenes[0].scene.type, 'glass-flow');
   assert.match(validateArgs(island, {camera: 'free'}).join('\n'), /camera.*choose/);
   assert.match(validateArgs(island, {exit: 'fly'}).join('\n'), /exit.*choose/);
-  const ask = entry('ask');
+  const ask = entry('glass-ask');
   if (ask?.renderMode === 'webgl') {
     assert.deepEqual(ask.variants.map(variant => variant.args), [{camera: 'static'}, {camera: 'orbit'}]);
     assert.equal(defaultArgs(ask).camera, 'orbit');
@@ -130,7 +130,7 @@ test('Liquid Glass stories expose native camera and morph controls with reusable
 });
 
 test('the long camera flight fits the requested four musical beats in a single 3D scene', () => {
-  const item = entry('send-prompt');
+  const item = entry('glass-send-prompt');
   if (!item) return;
   const {args} = item.examples.find(story => story.exportName === 'CameraFlight');
   const recipe = makeFilm(item, args, {aspect: '9:16'});
@@ -144,7 +144,7 @@ test('the long camera flight fits the requested four musical beats in a single 3
 });
 
 test('the send wave example launches on the click cue and settles on its authored beat', () => {
-  const item = entry('send-prompt');
+  const item = entry('glass-send-prompt');
   if (!item) return;
   const {args} = item.examples.find(story => story.exportName === 'SendWave');
   const film = makeFilm(item, {...defaultArgs(item), ...args}, {aspect: '9:16'});
@@ -172,7 +172,7 @@ test('every shipped component has one documented, serializable catalogue entry',
 });
 
 test('optical controls expose reusable camera examples without changing the existing content recipe',()=>{
-  const controls=entry('controls');
+  const controls=entry('glass-controls');
   // Source overrides may select a kit from before the optical controls port.
   if(!controls?.fields.camera)return;
   assert.equal(controls.renderMode,'webgl');
@@ -208,7 +208,7 @@ test('brandbooks supply the complete brand unchanged in every material and forma
     assert.ok(book.label && book.brand.name && book.brand.font);
     for (const role of ['background', 'foreground', 'accent', 'accent2']) assert.ok(book.brand.tokens[role], `${brandbook}/${role}`);
     for (const material of MATERIALS) for (const aspect of FORMATS) {
-      const film = makeFilm(entry('island'), {}, {brandbook, material, aspect});
+      const film = makeFilm(entry('glass-island'), {}, {brandbook, material, aspect});
       assert.deepEqual(problems(film), []);
       assert.deepEqual(film.brand, book.brand);
       assert.equal(film.style, 'glass'); assert.equal(film.material, material);
@@ -223,7 +223,7 @@ test('no brandbook restores native colours and typography without changing the s
   assert.ok(!Object.hasOwn(BRANDBOOKS,DEFAULT_BRANDBOOK));
   const {looks}=require(path.join(TEMPLATE,'source/lib/compiler/plan.cjs'));
   for(const material of MATERIALS)for(const aspect of FORMATS){
-    const native=makeFilm(entry('island'),{}, {brandbook:DEFAULT_BRANDBOOK,material,aspect});
+    const native=makeFilm(entry('glass-island'),{}, {brandbook:DEFAULT_BRANDBOOK,material,aspect});
     assert.deepEqual(native.brand,{name:'Nook',url:'nook.app'});
     assert.deepEqual(problems(native),[]);
     const plan=compile(native);
@@ -231,10 +231,10 @@ test('no brandbook restores native colours and typography without changing the s
     assert.deepEqual(plan.look.display,looks.glass.display,'Native typography must reach the renderer');
     for(const [role,color] of Object.entries(looks.glass.palette))assert.equal(plan.palette[role],color);
     assert.equal(plan.scenes[0].brandBase,undefined,'No compiled brand colour override may survive clearing the book');
-    const branded=makeFilm(entry('island'),{}, {brandbook:defaultBook,material,aspect});
+    const branded=makeFilm(entry('glass-island'),{}, {brandbook:defaultBook,material,aspect});
     assert.notDeepEqual(compile(branded).palette,plan.palette);
     for(const brandbook of [undefined,null,'',DEFAULT_BRANDBOOK]){
-      assert.deepEqual(makeFilm(entry('island'),{}, {brandbook,material,aspect}),native);
+      assert.deepEqual(makeFilm(entry('glass-island'),{}, {brandbook,material,aspect}),native);
     }
     assert.deepEqual(branded.brand,BRANDBOOKS[defaultBook].brand,'Clearing a book must not mutate it');
   }
@@ -292,7 +292,7 @@ test('material stories compare Glass, Dark Glass and Metal on each shared 3D com
   const expected = Object.entries(canonical)
     .filter(([, item]) => item.family === 'glass' && item.renderMode === 'webgl').map(([type]) => type);
   assert.deepEqual(MATERIAL_COMPONENTS,expected);
-  if (!process.env.PURE_KINETIC_TEMPLATE) assert.ok(expected.includes('ask'));
+  if (!process.env.PURE_KINETIC_TEMPLATE) assert.ok(expected.includes('glass-ask'));
   assert.deepEqual(themes.map(theme=>theme.type),MATERIAL_COMPONENTS);
   assert.equal(new Set(themes.map(theme => theme.type)).size, themes.length);
   for (const theme of themes) {
@@ -414,7 +414,7 @@ test('optional controls can be cleared without suppressing required fields', () 
 });
 
 test('Search exposes an editable Placeholder and preserves a deliberately empty hint', () => {
-  const search = entry('search');
+  const search = entry('glass-search');
   const control = argTypesFor(search).placeholder;
   assert.equal(control.name, 'Placeholder');
   assert.equal(control.control.type, 'text');
@@ -429,7 +429,7 @@ test('Search exposes an editable Placeholder and preserves a deliberately empty 
 });
 
 test('Glass preview authors a musical slot and synchronizes the send press at different tempos', () => {
-  const item = entry('ask');
+  const item = entry('glass-ask');
   const timing = {open: 0.5, type: 1, typed: 2.5, send: 3, reply: 4};
   for (const bpm of [90, 120, 150]) {
     const film = makeFilm(item, {bpm, beats: 6, speed: 1.5, timing});

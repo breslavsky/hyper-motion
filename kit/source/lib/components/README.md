@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `send-prompt`, `search`, `widgets` and `lens`: every scene of the `glass` family.
+The 3D group comprises `glass-ask`, `glass-island`, `glass-controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `glass-send-prompt`, `glass-search`, `glass-widgets` and `glass-lens`: every scene of the `glass` family.
 
 - Each Glass scene can supply its own background, for example
   `"background":{"image":"media/<assetId>/original.jpg"}` or
@@ -225,7 +225,7 @@ The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`,
   The back wall mirrors the studio light once more as a second, fainter
   highlight. A slab is 13% of its shorter side thick from its middle, up to 30
   design pixels, so only the edge of a low field is a lens. The quad follows
-  the card's size every frame and so every morph. The lens of `lens` is the
+  the card's size every frame and so every morph. The lens of `glass-lens` is the
   same slab, clear, as thick as its card is deep, with flat faces and a
   bevelled edge; it looks at the backdrop together with the lettering plane
   behind it, which the world draws into a target of its own each frame. The
@@ -250,7 +250,7 @@ The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`,
   A ripple is part of the shape (`slab.ripple`, the world's `addRipple`): the
   slab swells in a ring, and lettering handed in as a picture lies in the
   glass and slides with the tilt of the swelling face while the ring runs.
-  Search sends one from each click; on Metal it lays the light send-prompt
+  Search sends one from each click; on Metal it lays the light glass-send-prompt
   wave over the polygon field instead. A wave runs for up to 1.2 seconds,
   less when the beats it lies between are closer.
 - Dark Glass reflects a narrow strip light against a black studio environment.
@@ -269,7 +269,7 @@ The 3D group comprises `ask`, `island`, `controls`, `glass-flow`, `glass-steps`,
   same leading guide for related text. Centre a leading icon on the first
   text line. Zoom and orbit scale the complete layout together.
 - Project each panel's editable text and controls onto its 3D face through
-  `world.addCard`. In `lens`, the type sits on a plane behind the moving lens.
+  `world.addCard`. In `glass-lens`, the type sits on a plane behind the moving lens.
   Drive camera, geometry, text reveals and sound cues from the component's
   local timeline so seeking back to a time reproduces the same frame.
 - Let an optional brandbook supply colours and font. Omitted overrides use
@@ -326,9 +326,9 @@ is not moved. A panel as wide as the safe area cannot go left or right and
 stays centred, as a normal one in a 9:16 frame does.
 
 The fields belong to a scene that is one panel under a camera at rest:
-`island`, `controls`, `ask`, `search`, `widgets`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`. The others have
-neither (`placed:false` in their metadata), each for its reason: in `lens` the headline is the page's
-own type behind the lens, so only the lens would move; `send-prompt` stands
+`glass-island`, `glass-controls`, `glass-ask`, `glass-search`, `glass-widgets`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`. The others have
+neither (`placed:false` in their metadata), each for its reason: in `glass-lens` the headline is the page's
+own type behind the lens, so only the lens would move; `glass-send-prompt` stands
 close on the caret and pulls back, and a moved picture is cut by the frame;
 `glass-flow` flies from one card through to the next. A new scene gets the
 fields by being such a panel, and is looked at in a corner at small size
@@ -412,7 +412,7 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
 
 ### Component behaviour
 
-- `ask {text, reply?, camera?}` opens a round icon into a prompt on a 3D panel.
+- `glass-ask {text, reply?, camera?}` opens a round icon into a prompt on a 3D panel.
   The prompt types, the send button presses, and an optional reply opens below
   it on the same surface. Prompt, caret, send button and answer follow the
   camera together. The default camera orbits during typing and settles before
@@ -423,7 +423,7 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
   The arrow is printed on the pane in the ink of the text, with no lens and
   no colour of its own; a soft circle comes in under it as it is pressed.
 
-- `island {title, body?, icon?, camera?, exit?}` opens a capsule into a card.
+- `glass-island {title, body?, icon?, camera?, exit?}` opens a capsule into a card.
   `camera: "orbit"` (default) gives a gentle push and arc; `"static"` holds
   the view. `exit: "collapse"` folds and flies out; `"hold"` is the default.
   Optional `icon` accepts `check`, `info`, `alert`, `close`, `plus`, `star`,
@@ -434,7 +434,7 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
   Existing emoji input remains supported. The
   canonical sample uses `icon: "check"`.
   The editable DOM content follows the glass surface through a projective matrix.
-- `search {query, placeholder?}` shows the cursor clicking a Liquid Glass
+- `glass-search {query, placeholder?}` shows the cursor clicking a Liquid Glass
   field. The empty field displays `Search...` by default. Set `placeholder`
   to your own hint or to `""` to leave the field blank. The first typed
   character replaces the hint beside the magnifying glass. The cursor presses
@@ -447,7 +447,7 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
   place both clicks and typing on musical beats. Set `timing.collapse` to
   start closing the field, `timing.collapsed` to finish the fold and
   `timing.checked` to show the checkmark.
-- `send-prompt {text, chips?[]}` shows a user typing and sending a prompt.
+- `glass-send-prompt {text, chips?[]}` shows a user typing and sending a prompt.
   The camera follows the caret, then arcs backwards until the entire
   composer and its Send button are in view. The prompt remains on
   one projected surface. Set `"timing":{"pull":3,"landed":6}` to time the
@@ -467,11 +467,11 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
   renderer comes from [distortion-waves 0.1.0 by Jakub Antalik](https://libraries.dev/waves).
   The source revision, license and checksums for the six GLSL programs are
   recorded in [the vendor receipt](../vendor/distortion-waves/RECEIPT.json).
-- `lens {text, sub?, camera?}` moves across the fitted headline and optional
+- `glass-lens {text, sub?, camera?}` moves across the fitted headline and optional
   caption. The live type and the copy sampled through the lens share the same
   projection. Glass refracts lettering within the lens outline. Metal covers
   it there. `camera` defaults to `"static"`, with `"orbit"` also available.
-- `controls {title?, toggles[2-4], slider?, camera?}` opens an optical control
+- `glass-controls {title?, toggles[2-4], slider?, camera?}` opens an optical control
   panel. Its switches turn on in sequence and its optional slider fills on
   the existing sound-cue schedule. Each switch occupies a 52 × 26 unit slot.
   Both states use the same fixed-size housing and round thumb. The white off
@@ -499,9 +499,9 @@ capped at 1280 px. Island's icon slot is one fitted title em wide, followed
 by a 12-unit gap. The body aligns with the title. Glass-flow's two cards share
 the larger required height while keeping the same top inset on both.
 
-Individual `island` scenes retain independent clocks and cameras. Use
+Individual `glass-island` scenes retain independent clocks and cameras. Use
 `glass-flow` for this continuous two-card choreography; placing two independent
-island clips next to each other does not join their worlds. Metal changes the
+glass-island clips next to each other does not join their worlds. Metal changes the
 surface material in this same renderer: explicit material uses the original
 chromatic shader, while the legacy Metal look retains Silver, Gold and Chromatic
 variants. Neither path replaces component layout, typography or choreography.
@@ -600,7 +600,7 @@ hand only (`tools/test.sh`), every time, when packages and Chrome are available.
 
 The shared `typing.mjs` helper now owns immutable typed layouts in `title.sub`,
 `prompt`, both `ui-macro` input paths, `morph.search`, `ticket`, `code`, `browser`,
-`ask`, `trail`, `palette`, `bubbles`, `checklist`, `retype`, and `typewriter`.
+`glass-ask`, `trail`, `palette`, `bubbles`, `checklist`, `retype`, and `typewriter`.
 `pullback` already reveals fixed glyphs and retains that implementation. Chat
 waiting dots, word reveals and rolling counters are separate mechanisms.
 
@@ -611,7 +611,7 @@ font and constrained width; the helper supplies no design tokens or timing. Pass
 original `text` for ordinary copy so semantic SVG emoji survive. For syntax-
 coloured code, build raw text runs first and omit `text`, with `emojify:false`.
 The final scene-wide emoji pass must not replace these already measured runs.
-The default count unit is UTF-16 for legacy clocks; `ask` and `typewriter` opt into
+The default count unit is UTF-16 for legacy clocks; `glass-ask` and `typewriter` opt into
 codepoints. Neither policy reveals half a surrogate or part of a composed SVG.
 
 The browser address bar and explicit `ui-macro` target are scrolling single-line
@@ -701,7 +701,7 @@ a second after it, and a film that gives it fewer beats is refused
 
 `glass-like` (`glass/components.mjs`) is a button somebody presses: a glass
 pill grows out of a round seed with an icon and a word, a pointer comes up
-and clicks the icon, a ripple runs the pill from the click as in `search`,
+and clicks the icon, a ripple runs the pill from the click as in `glass-search`,
 and the icon fills with colour. The word stays as it is. The pill is the
 design system's field in its pill shape, the word a scene title (the grid's
 `action`), the icon the word's size. A word is twelve characters at most

@@ -40,7 +40,7 @@ def assert_glass_report(report):
     assert report["sourceAfter"]["aggregate"] == report["testedSourceReceipt"]["aggregate"] == report["sourceReceipt"]["aggregate"]
     assert report["failed"] == 0
     expected = {(case, aspect) for case in ["island-static", "island-orbit-collapse", "lens-static", "lens-orbit",
-                                            "glass-flow", "ask-orbit-reply", "ask-static-prompt", "send-prompt"]
+                                            "glass-flow", "ask-orbit-reply", "ask-static-prompt", "glass-send-prompt"]
                 for aspect in ["16:9", "9:16", "1:1"]}
     assert report["completed"] == report["total"] == len(expected)
     assert {(row["case"], row["aspect"]) for row in report["results"]} == expected
@@ -57,7 +57,7 @@ def assert_glass_report(report):
                 assert sample["lens"]["mechanism"] == "traced-slab"
         if row["case"] == "glass-flow":
             assert row["path"]["crossed"] and row["path"]["samples"] == 41
-        if row["case"] == "send-prompt":
+        if row["case"] == "glass-send-prompt":
             pullback = row["pullback"]
             assert 0 < pullback["typingCount"] < pullback["typedCount"]
             assert pullback["closeWidth"] > pullback["landedWidth"] * 1.5

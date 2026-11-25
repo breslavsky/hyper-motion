@@ -8,7 +8,7 @@ import {GLASS_GROUND, glassGround, glassColoursChosen} from '../source/lib/compo
 const require = createRequire(import.meta.url);
 const {compile} = require('../source/lib/compiler/plan.cjs');
 const definitions = require('../source/lib/components/metadata.cjs');
-const film = (style, extra = {}) => compile({aspect: '16:9', style, brand: {name: 'Nook'}, scenes: [definitions.island.sample], ...extra});
+const film = (style, extra = {}) => compile({aspect: '16:9', style, brand: {name: 'Nook'}, scenes: [definitions['glass-island'].sample], ...extra});
 
 test('the ground is the glass look\'s own first scene', () => {
   const plan = film('glass'), scene = plan.scenes[0];
@@ -24,7 +24,7 @@ test('a film\'s look does not reach a Glass scene; chosen colours do', () => {
     assert.equal(glassGround({scene: ps.scene, tokens: plan.brand?.tokens, style: compiled, compiled}), GLASS_GROUND, style);
     assert.equal(glassGround({scene: ps.scene, tokens: plan.brand?.tokens, style: {}, compiled}), GLASS_GROUND, style);
   }
-  const scene = definitions.island.sample;
+  const scene = definitions['glass-island'].sample;
   assert.equal(glassGround({scene: {...scene, bg: '#ffffff'}}), null);
   assert.equal(glassGround({scene: {...scene, fg: '#000000'}}), null);
   for (const key of ['background', 'foreground', 'accent', 'accent2']) assert.equal(glassGround({scene, tokens: {[key]: '#123456'}}), null, key);

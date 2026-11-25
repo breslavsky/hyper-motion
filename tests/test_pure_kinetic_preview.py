@@ -47,13 +47,13 @@ def test_a_metal_film_is_ready_in_the_live_preview():
 @AUDIT
 def test_the_live_preview_draws_for_the_stream_and_an_export_for_the_frame():
     # The film is 1080x1920 and the stream 1280 on its long side: two thirds.
-    glass = lambda result: next(scene for scene in result["scenes"].values() if scene["type"] == "search")  # noqa: E731
+    glass = lambda result: next(scene for scene in result["scenes"].values() if scene["type"] == "glass-search")  # noqa: E731
     live = measured("--play")
     assert glass(live)["canvases"][0] == "720x1280"  # the glass world; the button has a canvas of its own
     # Played, a scene draws the frames of the film's grid, 30 a second, though
     # the player moves its clock on every animation frame: a scene of 2.5 s and
     # its transitions is some 100 frames, never the 200 of every animation frame.
-    scene = next(stat for id, stat in live["played"]["scenes"].items() if live["scenes"][id]["type"] == "search")
+    scene = next(stat for id, stat in live["played"]["scenes"].items() if live["scenes"][id]["type"] == "glass-search")
     assert 60 <= scene["draws"] <= 125, scene
     # Without the hint (an export, a snapshot, a check) nothing is reduced.
     assert glass(measured("--export"))["canvases"][0] == "1080x1920"

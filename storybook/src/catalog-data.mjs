@@ -17,7 +17,7 @@ const timingExamples = {
     args: {text: 'Any openings on Tuesday?', reply: 'Three spots left.', beats: 6, bpm: 120, speed: 1,
       timing: {open: 0.5, type: 1, typed: 2.5, send: 3, reply: 4}},
   }],
-  'send-prompt': [{
+  'glass-send-prompt': [{
     exportName: 'CameraFlight', name: 'Long pullback',
     args: {bpm: 96, beats: 14, timing: {typed: 2.5, pull: 3, landed: 7, send: 7.25, sent: 13.25}},
   }, {

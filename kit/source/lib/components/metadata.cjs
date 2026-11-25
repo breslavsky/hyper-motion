@@ -128,9 +128,18 @@ function glassComponent(definition){
     key,Array.isArray(mark)?{kind:'array',of:{kind:'number',min:0},optional:true}:beat,
   ]);
   const names=actions.map(([key,spec])=>key+(spec.kind==='array'?'[]':''));
+  const placed=definition.placed!==false;
+  const guidePlace=`place = where the panel stands in the frame: ${GLASS_PLACES.join(' | ')} (default middle). size = normal (default) or small.`;
+  // The signature ends at the first "}: "; the fields go before `background?` or at its end.
+  const signed=guide=>{
+    const end=guide.indexOf('}: '),head=guide.slice(0,end),rest=guide.slice(end);
+    return head.includes('background?')?head.replace('background?','place?, size?, background?')+rest:head+', place?, size?'+rest;
+  };
   const guideTiming=`Optional speed (0.25–4×) and action positions in local beats from 0. timing supports ${names.join(', ')}.`;
   return {...definition,
-    guide:definition.guide.replace(/(\d+(?:-\d+)? beats\.)$/,guideTiming+' $1'),
+    // A placed scene says so in its signature and in a line of its guide.
+    guide:(placed?signed(definition.guide):definition.guide)
+      .replace(/(\d+(?:-\d+)? beats\.)$/,(placed?guidePlace+' ':'')+guideTiming+' $1'),
     hasAuthoredTiming,
     fields:{...definition.fields,background:{kind:'object',optional:true,fields:{image:path,video:path}},
       ...(definition.placed===false?{}:{place:{kind:'enum',values:GLASS_PLACES,optional:true},size:{kind:'enum',values:GLASS_SIZES,optional:true}}),
@@ -185,7 +194,7 @@ const definitions={
       if(s.body)cue(t.body,'tick',.22);
     },
   },
-"island":glassComponent({
+"glass-island":glassComponent({
 anchors(s,len){
   const collapse=s.exit==='collapse';
   const open=.3*(hasAuthoredTiming(s)?Math.min(1,len/1.25):1);
@@ -216,9 +225,9 @@ validate(s){return [['camera',['static','orbit']],['exit',['hold','collapse']]].
     "optional": true
   }
 },
-"guide":"island {title, body?, icon?, camera?, exit?, background?}: an optical glass capsule opens into a dimensional card; its editable title follows the surface. camera = orbit (default: gentle push and arc) or static. exit = hold (default) or collapse (fold to a capsule and leave the frame). Optional icon uses a monochrome SVG: check, info, alert, close, plus, star, heart, bell, sparkles, or arrow-right. Existing emoji input remains supported. Glass, Dark Glass and Metal share the same layout and camera. For continuous travel between two cards use glass-flow. 3-4 beats.",
+"guide":"glass-island {title, body?, icon?, camera?, exit?, background?}: an optical glass capsule opens into a dimensional card; its editable title follows the surface. camera = orbit (default: gentle push and arc) or static. exit = hold (default) or collapse (fold to a capsule and leave the frame). Optional icon uses a monochrome SVG: check, info, alert, close, plus, star, heart, bell, sparkles, or arrow-right. Existing emoji input remains supported. Glass, Dark Glass and Metal share the same layout and camera. For continuous travel between two cards use glass-flow. 3-4 beats.",
 "sample":{
-  "type": "island",
+  "type": "glass-island",
   "beats": 4,
   "title": "Class is full",
   "body": "12 of 12 booked, 3 on the waitlist",
@@ -558,7 +567,7 @@ validate(s){
       if((s.exit??"hold")==="collapse")cue(marks.collapse,"whoosh",.5);
     }
 }),
-"widgets":glassComponent({
+"glass-widgets":glassComponent({
 // A glass panel of figures that count up (glass/components.mjs).
 anchors(s,len){
   // The panel opens, then the figures come in one after another and count up to `settled`.
@@ -599,9 +608,9 @@ anchors(s,len){
   "camera":{"kind":"enum","values":["orbit","static"],"optional":true}
 },
 "previewVariants":["camera"],
-"guide":"widgets {items[{label, value} x2-4], title?, camera?, background?}: an optical glass panel of key figures: it grows out of a pill, its title comes in, then the figures one after another, each a label and a big number that counts up (\"Bookings\" \"1,240\", \"Rating\" \"4.9\", \"Faster\" \"3x\"). ONLY real figures the user gave. value: the figure as it is written, up to 10 characters, with its sign or unit (\"$12,400\", \"98%\"); label: what it counts, up to 20 characters. Columns in a wide frame, rows in a square or tall one, and rows too when the figures are long. camera = orbit (default) or static. Over a photo or a video of the user's it is a slide of a presentation or an overlay for b-roll. 4-8 beats.",
+"guide":"glass-widgets {items[{label, value} x2-4], title?, camera?, background?}: an optical glass panel of key figures: it grows out of a pill, its title comes in, then the figures one after another, each a label and a big number that counts up (\"Bookings\" \"1,240\", \"Rating\" \"4.9\", \"Faster\" \"3x\"). ONLY real figures the user gave. value: the figure as it is written, up to 10 characters, with its sign or unit (\"$12,400\", \"98%\"); label: what it counts, up to 20 characters. Columns in a wide frame, rows in a square or tall one, and rows too when the figures are long. camera = orbit (default) or static. Over a photo or a video of the user's it is a slide of a presentation or an overlay for b-roll. 4-8 beats.",
 "sample":{
-  "type": "widgets",
+  "type": "glass-widgets",
   "beats": 4,
   "title": "This week",
   "items": [
@@ -626,7 +635,7 @@ anchors(s,len){
 			cue(s.timing?.settled === undefined ? Math.min(len*.8,1.5) : marks.settled,"ping",.7);
 		}
 }),
-"controls":glassComponent({
+"glass-controls":glassComponent({
 anchors(s,len){
   const slider=s.slider?Math.max(.7,len*.66):undefined;
   return {open:.02,toggles:this.times(s,len),slider,sliderEnd:slider===undefined?undefined:slider+.7};
@@ -659,9 +668,9 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
     "optional": true
   }
 },
-"guide":"controls {title?, toggles[2-4], slider?, camera?, background?}: an optical glass control panel whose switches turn on one after another and whose slider fills. Its title, labels and controls follow the same 3D surface, with the shared card typography, padding and gaps used by island and glass-flow. camera = orbit (default: gentle push and arc) or static. Glass, Dark Glass and Metal use the same control geometry and timing. 4 beats.",
+"guide":"glass-controls {title?, toggles[2-4], slider?, camera?, background?}: an optical glass control panel whose switches turn on one after another and whose slider fills. Its title, labels and controls follow the same 3D surface, with the shared card typography, padding and gaps used by glass-island and glass-flow. camera = orbit (default: gentle push and arc) or static. Glass, Dark Glass and Metal use the same control geometry and timing. 4 beats.",
 "sample":{
-  "type": "controls",
+  "type": "glass-controls",
   "beats": 4,
   "title": "Autopilot",
   "toggles": [
@@ -678,7 +687,7 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
 			if (s.slider) cue(Math.max(0.7, len * 0.66), "sparkle", 0.6);
 		}
 }),
-"ask":glassComponent({
+"glass-ask":glassComponent({
 anchors(s,len){
   const marks=this.times(s,len);
   return {open:.32,...marks,reply:s.reply?marks.reply:undefined};
@@ -703,9 +712,9 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
     "optional": true
   }
 },
-"guide":"ask {text, reply?, camera?, background?}: a round icon opens into a 3D prompt bar. The request types, the send button presses and the same panel expands below the prompt for an optional reply. Both texts follow the panel. The camera defaults to orbit and can also be static. 5-6 beats.",
+"guide":"glass-ask {text, reply?, camera?, background?}: a round icon opens into a 3D prompt bar. The request types, the send button presses and the same panel expands below the prompt for an optional reply. Both texts follow the panel. The camera defaults to orbit and can also be static. 5-6 beats.",
 "sample":{
-  "type": "ask",
+  "type": "glass-ask",
   "beats": 6,
   "camera":"orbit",
   "text": "Fill my Tuesday class",
@@ -728,7 +737,7 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
 			if (s.reply) cue(t.reply + (s.timing?.reply === undefined ? .1 : 0), "chime", 0.8);
 		}
 }),
-"lens":glassComponent({
+"glass-lens":glassComponent({
 // The headline is the page's own type behind the lens: only the lens would move.
 placed:false,
 anchors(s,len){return {sweep:len*.2,sweepEnd:len*.85};},
@@ -751,9 +760,9 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
     "optional": true
   }
 },
-"guide":"lens {text, sub?, camera?, background?}: a lens glides across the fitted headline. Glass and Dark Glass refract the lettering. Dark Glass adds a smoked tint. Metal covers the lettering as it passes. camera = static (default) or orbit for a gentle changing angle. Copy stays editable through the component fields. 3-4 beats.",
+"guide":"glass-lens {text, sub?, camera?, background?}: a lens glides across the fitted headline. Glass and Dark Glass refract the lettering. Dark Glass adds a smoked tint. Metal covers the lettering as it passes. camera = static (default) or orbit for a gentle changing angle. Copy stays editable through the component fields. 3-4 beats.",
 "sample":{
-  "type": "lens",
+  "type": "glass-lens",
   "beats": 4,
   "text": "Every class, full.",
   "sub": "Without the chasing",
@@ -765,14 +774,14 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
 			cue(s.timing?.sweepEnd === undefined ? len*.8 : marks.sweepEnd,"sparkle",.6);
 		}
 }),
-search:glassComponent({
+'glass-search':glassComponent({
   opener:true,signature:true,copyFields:['query','placeholder'],
   fields:{
     query:{kind:'string',min:1,max:80},
     placeholder:{kind:'string',min:0,optional:true,default:'Search...'},
   },
-  guide:'search {query, placeholder?, background?, speed?, timing?}: use when a user enters and submits a search query. The empty field displays "Search..." until typing begins. Set placeholder to your own hint or to an empty string to leave it blank. The cursor clicks the field, types the query and clicks Enter (↵) inside its right edge. Each click sends a light wave through the field that bends its glass and the text under it. A wave runs for up to 1.2 seconds: the first has left by the search beat and the second by checked, so pinning those sets its pace. A spinner turns while the field folds into the round button. Pin collapse to the start of the fold, collapsed to its end and checked to the beat when the spinner becomes a checkmark. The checkmark holds through the end of the scene. 4-8 beats.',
-  sample:{type:'search',beats:6,query:'Tuesday classes'},
+  guide:'glass-search {query, placeholder?, background?, speed?, timing?}: use when a user enters and submits a search query. The empty field displays "Search..." until typing begins. Set placeholder to your own hint or to an empty string to leave it blank. The cursor clicks the field, types the query and clicks Enter (↵) inside its right edge. Each click sends a light wave through the field that bends its glass and the text under it. A wave runs for up to 1.2 seconds: the first has left by the search beat and the second by checked, so pinning those sets its pace. A spinner turns while the field folds into the round button. Pin collapse to the start of the fold, collapsed to its end and checked to the beat when the spinner becomes a checkmark. The checkmark holds through the end of the scene. 4-8 beats.',
+  sample:{type:'glass-search',beats:6,query:'Tuesday classes'},
   anchors(s,len){return {focus:.22*len,type:.28*len,typed:.54*len,search:.68*len,collapse:.80*len,collapsed:.90*len,checked:.96*len};},
   keys(s,marks){return typingKeys(s.query,marks);},
   sounds(s,len,cue){
@@ -782,7 +791,7 @@ search:glassComponent({
     cue(marks.search,'click',.9);
   },
 }),
-'send-prompt':glassComponent({
+'glass-send-prompt':glassComponent({
 // The camera stands close on the caret and pulls back: a moved picture is cut by the frame.
 placed:false,
   opener:true,signature:true,copyFields:['text','chips'],
@@ -790,8 +799,8 @@ placed:false,
     text:{kind:'string',min:1,max:90},
     chips:{kind:'array',of:{kind:'string',min:1,max:18},max:3,optional:true},
   },
-  guide:'send-prompt {text, chips?[], background?, speed?, timing?}: a user types and sends a prompt. The camera tracks the caret and pulls back to reveal the glass composer. An @mention in the prompt is highlighted once it is typed. Use chips for up to three author-supplied context labels above the prompt, such as the sections covered by a report. Omit chips to show just the prompt and controls. Pin pull and landed to music beats to set the duration of the camera move. The send beat launches a distortion wave from the button. The wave clears the composer by sent. 6-14 beats.',
-  sample:{type:'send-prompt',beats:14,text:'Summarize sales in @Nook',chips:['Sales','Subscriptions']},
+  guide:'glass-send-prompt {text, chips?[], background?, speed?, timing?}: a user types and sends a prompt. The camera tracks the caret and pulls back to reveal the glass composer. An @mention in the prompt is highlighted once it is typed. Use chips for up to three author-supplied context labels above the prompt, such as the sections covered by a report. Omit chips to show just the prompt and controls. Pin pull and landed to music beats to set the duration of the camera move. The send beat launches a distortion wave from the button. The wave clears the composer by sent. 6-14 beats.',
+  sample:{type:'glass-send-prompt',beats:14,text:'Summarize sales in @Nook',chips:['Sales','Subscriptions']},
   anchors(s,len){
     // Hold the established typing and camera pace in a longer slot. Short
     // compositions reserve part of their duration for the wave as well.
@@ -834,7 +843,7 @@ placed:false,
     "nextTitle":{"kind":"string","min":1,"max":36},
     "nextBody":{"kind":"string","min":1,"max":70,"optional":true}
   },
-  "guide":"glass-flow {title, body?, nextTitle, nextBody?, background?}: two optical glass cards in one persistent 3D world. A capsule opens into the first card, the camera pushes in with a small orbit and flies through its glass toward the second card. Both editable titles follow their surfaces. A continuous two-message reveal; use instead of joining separate island scenes when a single camera must travel between cards. 14-20 beats.",
+  "guide":"glass-flow {title, body?, nextTitle, nextBody?, background?}: two optical glass cards in one persistent 3D world. A capsule opens into the first card, the camera pushes in with a small orbit and flies through its glass toward the second card. Both editable titles follow their surfaces. A continuous two-message reveal; use instead of joining separate glass-island scenes when a single camera must travel between cards. 14-20 beats.",
   "sample":{"type":"glass-flow","beats":16,"title":"Liquid clarity.","body":"Layers move together.","nextTitle":"Pure motion.","nextBody":"One world. One continuous move."},
   times(s,len){return {open:len*.045,opened:len*.175,title:len*.135,titleShown:len*.195,flight:len*.465,cross:len*.63,land:len*.75,nextTitle:len*.685,nextTitleShown:len*.755};},
   sounds(s,len,cue){const t=this.anchors(s,len);cue(t.open,'pop',.5);cue(t.title,'chime',.5);cue(t.flight,'whoosh',.7);cue(t.cross,'sparkle',.5);cue(t.nextTitle,'chime',.5);}

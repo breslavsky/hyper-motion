@@ -53,7 +53,7 @@ test('invalid and misplaced material variants fail before build',()=>{
 test('material variants never become visible copy in review or the film storybook',()=>{
   const recipe=film({scenes:[
     {type:'title',text:'Точный свет',sub:'На каждой грани',beats:4,metalVariant:'silver'},
-    {type:'island',title:'Новая поверхность',body:'Сохраняем ваши слова.',beats:4,metalVariant:'gold'},
+    {type:'glass-island',title:'Новая поверхность',body:'Сохраняем ваши слова.',beats:4,metalVariant:'gold'},
     {type:'endcard',tagline:'Создано для вас.',cta:'Начать',beats:5,metalVariant:'chromatic'},
   ]});
   const plan=F.planOf(recipe),review=F.review(recipe,plan),book=F.book(recipe,plan);

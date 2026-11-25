@@ -10,8 +10,8 @@ const brand={name:'Nook',font:{family:'Nook Sans',src:'assets/nook.woff2',weight
 const recipe=more=>({aspect:'16:9',style:'glass',pace:'normal',brand,
   music:{bpm:108,kit:'soft'},scenes:[
     {type:'title',text:'Your next idea',beats:4},
-    {type:'controls',title:'Ready to go',toggles:['Save ideas','Share notes'],slider:'Volume',beats:4,look:'editorial'},
-    {type:'island',title:'All in one place',body:'Keep your words',beats:4,look:'metal'},
+    {type:'glass-controls',title:'Ready to go',toggles:['Save ideas','Share notes'],slider:'Volume',beats:4,look:'editorial'},
+    {type:'glass-island',title:'All in one place',body:'Keep your words',beats:4,look:'metal'},
     {type:'glass-flow',title:'First idea',nextTitle:'Next chapter',beats:16,look:'scifi'},
   ],...more});
 const withoutMaterial=plan=>{

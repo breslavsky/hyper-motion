@@ -16,9 +16,9 @@ export const fixtures=[
   {id:'code-max',scene:maximumScene('code')},
   {id:'browser-unicode',scene:{type:'browser',url:'пример.рф/🚀',beats:4}},
   {id:'browser-scroll',scene:{type:'browser',url:'www.'+'w'.repeat(31)+'.app',beats:5}},
-  {id:'ask-short',scene:{type:'ask',text:'Собери понятный ролик',reply:'Готово. Детали на своих местах.',beats:6}},
-  {id:'ask-wrap',scene:maximumScene('ask')},
-  {id:'ask-unicode',scene:{type:'ask',text:'Идея 🚀 становится понятным роликом ✨',beats:6}},
+  {id:'ask-short',scene:{type:'glass-ask',text:'Собери понятный ролик',reply:'Готово. Детали на своих местах.',beats:6}},
+  {id:'ask-wrap',scene:maximumScene('glass-ask')},
+  {id:'ask-unicode',scene:{type:'glass-ask',text:'Идея 🚀 становится понятным роликом ✨',beats:6}},
 ];
 const formats=['9:16','1:1','16:9'],fonts=['Geist','Instrument Serif'];
 
@@ -28,7 +28,7 @@ function countAt(scene,duration,time){
     return Math.min(total,Math.floor(clamp((time-.25)/Math.max(.3,end-.25))*total+hash(Math.floor(time*12))*.5));
   }
   if(scene.type==='browser')return Math.round(clamp((time-.15)/Math.max(.2,duration*.42-.15))*scene.url.length);
-  const t=metadata.ask.times(scene,duration);
+  const t=metadata['glass-ask'].times(scene,duration);
   return Math.round(clamp((time-t.type)/(t.typed-t.type))*[...scene.text].length);
 }
 function keyTimes(scene,duration){
@@ -38,7 +38,7 @@ function keyTimes(scene,duration){
     let t;
     if(scene.type==='code')t=.25+Math.max(.3,duration*.82-.25)*(n+.25)/total;
     else if(scene.type==='browser')t=.15+Math.max(.2,duration*.42-.15)*n/total;
-    else {const at=metadata.ask.times(scene,duration);t=at.type+(at.typed-at.type)*n/total;}
+    else {const at=metadata['glass-ask'].times(scene,duration);t=at.type+(at.typed-at.type)*n/total;}
     if(t<duration)times.add(+t.toFixed(9));
   }
   return [...times].sort((a,b)=>a-b);
@@ -69,7 +69,7 @@ export function readLayout(type){
   const hosts=[];
   try{
     for(const entry of entries){
-      const {host,id}=entry,anchor=entry.anchor??(type==='ask'?host.parentElement:host),origin=anchor.getBoundingClientRect();
+      const {host,id}=entry,anchor=entry.anchor??(type==='glass-ask'?host.parentElement:host),origin=anchor.getBoundingClientRect();
       const active=visible(host)>.01,units=rich?[...host.querySelectorAll('[data-typing-unit]')]:[];
       const glyphs=[];let index=0,lastVisible=null;
       const visit=(node,paint)=>{
@@ -81,10 +81,10 @@ export function readLayout(type){
         }else if(!node.matches?.('[data-typing-caret],.caret'))for(const child of node.childNodes)visit(child,paint);
       };
       if(rich){for(const node of units){const paint=active?visible(node)*(node.dataset.emoji?1:color(node)[3]):0;if(paint>0)visit(node,paint);else index+=[...semantic(node)].length;}}
-      else if(active&&type==='ask')visit(host.children[0],1);
+      else if(active&&type==='glass-ask')visit(host.children[0],1);
       else if(active)visit(host,1);
       const painted=glyphs.filter(g=>g.paint>0);
-      let caret=host.querySelector('[data-typing-caret]')??(type==='ask'?host.children[1]:type==='browser'?host.nextElementSibling:null);
+      let caret=host.querySelector('[data-typing-caret]')??(type==='glass-ask'?host.children[1]:type==='browser'?host.nextElementSibling:null);
       if(type==='code')caret=root.querySelector('[data-code-pages] .caret');
       let insertion=null;
       if(lastVisible){
@@ -150,7 +150,7 @@ export async function run({out,source=SOURCE,caseIds,aspects=formats,brandFonts=
         await page.shoot(ps.start+time/ps.speed);const layout=await page.evaluate(readLayout,scene.type),count=countAt(scene,ps.ldur,time);
         let remaining=count;
         for(const [i,host]of layout.hosts.entries()){
-          const full=scene.type==='code'?scene.lines[i]:scene.type==='browser'?scene.url:scene.text,unit=scene.type==='ask'?'codepoint':'utf16';
+          const full=scene.type==='code'?scene.lines[i]:scene.type==='browser'?scene.url:scene.text,unit=scene.type==='glass-ask'?'codepoint':'utf16';
           const n=scene.type==='code'?Math.max(0,Math.min(full.length,remaining)):count;remaining-=full.length;
           if(layout.rich)assert.equal(host.full,full,'Immutable full copy changed');
           if(host.active)assert.equal(host.text,prefix(full,n,unit),`Visible copy at ${time}, ${host.id}`);

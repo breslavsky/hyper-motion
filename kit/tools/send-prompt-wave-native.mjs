@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 import {createNativeBrowser,sharp} from './native-browser.mjs';
 import definitions from '../source/lib/components/metadata.mjs';
 
-const fixture={...definitions['send-prompt'].sample,beats:14,timing:{typed:2.5,pull:2.75,landed:4.5,send:5,sent:13}};
+const fixture={...definitions['glass-send-prompt'].sample,beats:14,timing:{typed:2.5,pull:2.75,landed:4.5,send:5,sent:13}};
 const browser=await createNativeBrowser({options:{previewScale:.5}});
 const page=await browser.newPage();
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');

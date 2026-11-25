@@ -49,8 +49,8 @@ def test_glass_background_checks_resolve_uploaded_images_and_videos(tmp_path):
     source.mkdir()
     (source / "lib").symlink_to(SOURCE / "lib", target_is_directory=True)
     film = {"aspect": "9:16", "brand": {"name": "Glass"}, "style": "glass", "scenes": [
-        {"type": "ask", "beats": 5, "text": "Book a class", "background": {"image": "assets/Экран%20%231.png"}},
-        {"type": "island", "beats": 4, "title": "Booked", "background": {"video": "media/clip/original.mp4"}},
+        {"type": "glass-ask", "beats": 5, "text": "Book a class", "background": {"image": "assets/Экран%20%231.png"}},
+        {"type": "glass-island", "beats": 4, "title": "Booked", "background": {"video": "media/clip/original.mp4"}},
     ]}
     (source / "film.json").write_text(json.dumps(film))
     checker = _checks()
@@ -272,7 +272,7 @@ def test_a_films_emoji_are_drawn_by_the_kits_own_set(tmp_path):
     assert len(packed["emoji"]) > 3000 and all(key in packed["emoji"] for key in "✅🔥📅")
 
     def change(film):
-        film["scenes"][1] = {"type": "island", "beats": 4, "title": "Class is full", "icon": "✅"}
+        film["scenes"][1] = {"type": "glass-island", "beats": 4, "title": "Class is full", "icon": "✅"}
 
     source = _project(tmp_path, change)
     stale = [d for d in _checks().check(source) if d["file"] == "assets/emoji.json"]

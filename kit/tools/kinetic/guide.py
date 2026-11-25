@@ -73,7 +73,7 @@ duration with repeated end cards, restated slogans or invented claims.
   not geometric shapes.
 - A final line held for two seconds needs its entrance time too: reserve
   at least 3.3 seconds for `endcard` at normal pace (6 beats at 108 BPM).
-- A person typing a search query and submitting it → `search`. Supply the
+- A person typing a search query and submitting it → `glass-search`. Supply the
   actual query. After submission, the field folds into a round button.
   Its spinner turns into a checkmark when the search completes.
 - An AI assistant thinking, searching, listening or composing → `thinking-orb`.
@@ -314,7 +314,7 @@ that it is the film the user requested.
   the start of that scene. Beat 0 is the cut. Fractions are allowed. At
   120 BPM and normal pace, this three-second scene opens at 0.25 s, types
   from 0.50 to 1.25 s, presses Send at 1.50 s and starts its reply at 2 s:
-  `{"type":"ask","beats":6,"text":"Ready?","reply":"All set.","timing":{"open":0.5,"type":1,"typed":2.5,"send":3,"reply":4}}`.
+  `{"type":"glass-ask","beats":6,"text":"Ready?","reply":"All set.","timing":{"open":0.5,"type":1,"typed":2.5,"send":3,"reply":4}}`.
   Specify just the actions that matter. Their order follows the component's
   choreography. Pinned actions keep their beats when `speed` changes.
   Between pins, the motion fits the interval. After the last pin, an
@@ -366,8 +366,8 @@ small; small is six tenths, so keep its texts short).
 Put the panel where the footage is quiet, not over a face. Over footage
 set the film's `material` to `"dark-glass"`: it is frosted and its text
 reads, while clear `"glass"` is all but transparent and a small panel of it
-is lost on a busy picture. `place` and `size` are fields of `island`,
-`controls`, `ask`, `search`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow` and `glass-call`; the other glass scenes fill
+is lost on a busy picture. `place` and `size` are fields of `glass-island`,
+`glass-controls`, `glass-ask`, `glass-search`, `glass-widgets`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow` and `glass-call`; the other glass scenes fill
 the frame and take neither:
 
 '''

@@ -16,7 +16,7 @@ export function ellipsisScene(type,long,base){
     scene.apps=long?['★',...scene.apps.slice(1)]:['★','Mail','Plan','Docs','Chat','Code'];
     scene.open=0;
   }
-  if(type==='widgets')scene.items=scene.items.slice(0,2);
+  if(type==='glass-widgets')scene.items=scene.items.slice(0,2);
   if(type==='prompt')scene.placeholder=long?'Ш'.repeat(fields.prompt.placeholder.max):'Describe the result';
   if(type==='compare'){
     scene.beforeLabel=long?'Ш'.repeat(fields.compare.beforeLabel.max):'Before';

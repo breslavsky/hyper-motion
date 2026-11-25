@@ -49,12 +49,12 @@ export function argTypesFor(entry) {
       const actions = Object.entries(spec.fields).map(([key, field]) => field.kind === 'array' ? key + '[]' : key);
       description = `Set events in beats from the start of the scene. Fractional beats are supported. Available events are ${actions.join(', ')}.`;
     }
-    const placeholder = entry.type === 'search' && name === 'placeholder';
+    const placeholder = entry.type === 'glass-search' && name === 'placeholder';
     return [name, {
       control, ...(spec.kind === 'enum' ? {options: [...spec.values]} : {}),
       ...(placeholder ? {name: 'Placeholder'} : {}),
       description: placeholder ? 'Text shown before typing. Clear it to hide the hint.' : description,
-      table: {category: timedGlass && ['timing', 'speed'].includes(name) ? 'Timing' : 'Component', type: {summary: spec.kind},
+      table: {category: timedGlass && ['timing', 'speed'].includes(name) ? 'Timing' : ['place', 'size'].includes(name) ? 'Placement' : 'Component', type: {summary: spec.kind},
         ...(Object.hasOwn(spec, 'default') ? {defaultValue: {summary: String(spec.default)}} : {})},
     }];
   }));

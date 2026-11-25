@@ -397,7 +397,7 @@
           "planUnchanged": true
         },
         {
-          "id": "widgets-9x16",
+          "id": "glass-widgets-9x16",
           "report": "motion-normal",
           "samples": 26,
           "visibleLeaves": 2,
@@ -406,7 +406,7 @@
           "planUnchanged": true
         },
         {
-          "id": "controls-9x16",
+          "id": "glass-controls-9x16",
           "report": "motion-normal",
           "samples": 26,
           "visibleLeaves": 2,
@@ -802,7 +802,7 @@
           "planUnchanged": true
         },
         {
-          "id": "widgets-1x1",
+          "id": "glass-widgets-1x1",
           "report": "motion-normal",
           "samples": 26,
           "visibleLeaves": 2,
@@ -811,7 +811,7 @@
           "planUnchanged": true
         },
         {
-          "id": "controls-1x1",
+          "id": "glass-controls-1x1",
           "report": "motion-normal",
           "samples": 26,
           "visibleLeaves": 2,
@@ -1207,7 +1207,7 @@
           "planUnchanged": true
         },
         {
-          "id": "widgets-16x9",
+          "id": "glass-widgets-16x9",
           "report": "motion-normal",
           "samples": 26,
           "visibleLeaves": 2,
@@ -1216,7 +1216,7 @@
           "planUnchanged": true
         },
         {
-          "id": "controls-16x9",
+          "id": "glass-controls-16x9",
           "report": "motion-normal",
           "samples": 26,
           "visibleLeaves": 2,
@@ -1620,7 +1620,7 @@
           "planUnchanged": true
         },
         {
-          "id": "widgets-9x16",
+          "id": "glass-widgets-9x16",
           "report": "motion-max",
           "samples": 26,
           "visibleLeaves": 2,
@@ -1629,7 +1629,7 @@
           "planUnchanged": true
         },
         {
-          "id": "controls-9x16",
+          "id": "glass-controls-9x16",
           "report": "motion-max",
           "samples": 26,
           "visibleLeaves": 2,
@@ -2025,7 +2025,7 @@
           "planUnchanged": true
         },
         {
-          "id": "widgets-1x1",
+          "id": "glass-widgets-1x1",
           "report": "motion-max",
           "samples": 26,
           "visibleLeaves": 2,
@@ -2034,7 +2034,7 @@
           "planUnchanged": true
         },
         {
-          "id": "controls-1x1",
+          "id": "glass-controls-1x1",
           "report": "motion-max",
           "samples": 26,
           "visibleLeaves": 2,
@@ -2430,7 +2430,7 @@
           "planUnchanged": true
         },
         {
-          "id": "widgets-16x9",
+          "id": "glass-widgets-16x9",
           "report": "motion-max",
           "samples": 26,
           "visibleLeaves": 2,
@@ -2439,7 +2439,7 @@
           "planUnchanged": true
         },
         {
-          "id": "controls-16x9",
+          "id": "glass-controls-16x9",
           "report": "motion-max",
           "samples": 26,
           "visibleLeaves": 2,

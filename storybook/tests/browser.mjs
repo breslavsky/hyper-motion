@@ -661,16 +661,16 @@ async function portraitGlassGutters(page, type) {
     try {
       // Also check the last readable hold after the camera has pushed in.
       // For glass-flow the two samples belong to different cards.
-      const firstHold = type === 'send-prompt' ? .84 : type === 'glass-flow' ? .32 : .45;
+      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-flow' ? .32 : .45;
       // Search finishes as a single button. Measure its full-width field
       // while the query is visible, before the capsule folds into the button.
-      return [firstHold, type === 'search' ? .78 : .94].map(fraction => {
+      return [firstHold, type === 'glass-search' ? .78 : .94].map(fraction => {
         draw(instance.ps.ldur * fraction);
-        const selector = type === 'lens' ? '.pk-glass-lens-layout'
-          : type === 'search' ? '.pk-glass-search-field'
-          : type === 'send-prompt' ? '[data-glass-surface]' : '[data-design-surface="card"]';
+        const selector = type === 'glass-lens' ? '.pk-glass-lens-layout'
+          : type === 'glass-search' ? '.pk-glass-search-field'
+          : type === 'glass-send-prompt' ? '[data-glass-surface]' : '[data-design-surface="card"]';
         const surfaces = [...instance.root.querySelectorAll(selector)]
-          .filter(node => type === 'lens' || Number(win.getComputedStyle(node).opacity) > .75);
+          .filter(node => type === 'glass-lens' || Number(win.getComputedStyle(node).opacity) > .75);
         if (!surfaces.length) throw new Error(type + ': missing readable body at ' + fraction);
         const layout = surfaces[0];
         const boxes = surfaces.map(node => node.getBoundingClientRect());
@@ -742,7 +742,7 @@ async function runCase(type, aspect, variant) {
   const row = {type, aspect, ...(variant ? {variant: variant.name, variantArgs: variant.args, ...(variant.globals ? {globals: variant.globals} : {})} : {}), passed: false}, started = performance.now();
   let session;
   try {
-    const brandbook = type === 'controls' && !variant ? DEFAULT_BRANDBOOK : defaultBook;
+    const brandbook = type === 'glass-controls' && !variant ? DEFAULT_BRANDBOOK : defaultBook;
     session = await openPage(type, {brandbook, ...variant?.globals, aspect}, undefined, variant);
     row.runtime = await ready(session.page);
     assert.deepEqual(row.runtime.dimensions, DIMENSIONS[aspect]);
@@ -769,7 +769,7 @@ async function runCase(type, aspect, variant) {
       assert.notEqual(middle.pixelHash, first.pixelHash, 'Retype seek did not visibly change the frame');
     }
     assert.deepEqual(again.canvasHashes, first.canvasHashes, 'Seeking backwards changed canvas pixels');
-    if (type === 'search') {
+    if (type === 'glass-search') {
       const insets = await session.page.$eval('hyperframes-player', player => {
         const field = player.iframeElement.contentWindow.__storybookComponent.instance.root.querySelector('.pk-glass-search-field');
         const box = field.getBoundingClientRect();
@@ -801,7 +801,7 @@ async function runCase(type, aspect, variant) {
           `${type} portrait hold ${fraction}: broad or cropped gutters (${left.toFixed(3)}, ${right.toFixed(3)})`);
       }
     }
-    if (type === 'controls') row.switchMotion = await checkSwitchMotion(session.page);
+    if (type === 'glass-controls') row.switchMotion = await checkSwitchMotion(session.page);
     if (variant?.globals?.material === 'dark-glass') {
       assert.equal(row.runtime.materialName, 'dark-glass');
       assert.equal(row.runtime.material.type, 'dark-glass');
@@ -813,7 +813,7 @@ async function runCase(type, aspect, variant) {
         assert.equal(finish.traced, true, 'Dark Glass must be traced glass that shows the scene');
         assert.ok(finish.tint, 'Dark Glass carries its tint');
       }
-      if (type === 'lens') assert.equal(native.textTexture.mechanism, 'traced-slab');
+      if (type === 'glass-lens') assert.equal(native.textTexture.mechanism, 'traced-slab');
       row.nativeMaterial = native;
     }
     if (type === 'thinking-orb') assert.notDeepEqual(middle.canvasHashes, first.canvasHashes, 'Orb variant did not animate under the native clock');
@@ -841,7 +841,7 @@ async function runCase(type, aspect, variant) {
           assert.equal(card.finish.transmission, 0, 'Metal surfaces must never refract the scene');
           assert.equal(card.finish.shaderPreset, 'chromatic', 'The shared surface must use the original MetalFx sheet');
         }
-        if (type === 'lens') {
+        if (type === 'glass-lens') {
           assert.equal(native.textTexture.mechanism, 'opaque-metal');
           const coversText = await session.page.evaluate(() => {
             const {instance} = document.querySelector('hyperframes-player').iframeElement.contentWindow.__storybookComponent;
@@ -1010,7 +1010,7 @@ async function metalToolbar() {
   const row = {name: 'material-toolbar-preserves-brandbook-motion-and-cleanup', passed: false};
   let session;
   try {
-    session = await openPage('island', {material: 'glass', brandbook: defaultBook});
+    session = await openPage('glass-island', {material: 'glass', brandbook: defaultBook});
     const initial = await ready(session.page), frames = new Map(), states = new Map();
     for (const [index, material] of [...MATERIALS, 'glass'].entries()) {
       if (index > 0) {
@@ -1085,7 +1085,7 @@ async function metalShell() {
   try {
     await page.setViewport({width: 1600, height: 1100, deviceScaleFactor: 1});
     await page.emulateMediaFeatures([{name: 'prefers-reduced-motion', value: 'reduce'}]);
-    const theme = themes.find(theme => theme.type === 'island');
+    const theme = themes.find(theme => theme.type === 'glass-island');
     const variant = theme.variants.find(variant => variant.globals.material === 'dark-glass') ?? theme.variants.at(-1);
     const url = new URL(BASE.endsWith('/') ? BASE : `${BASE}/`);
     url.searchParams.set('path', '/story/'+themeStories.get(`${theme.title}:${variant.exportName}`).id);
@@ -1108,7 +1108,7 @@ async function brandbookInvariance() {
   let session;
   try {
     for (const [brandbook, book] of Object.entries(BRANDBOOKS)) {
-      session = await openPage('island', {brandbook, material: 'metal',
+      session = await openPage('glass-island', {brandbook, material: 'metal',
         font: 'Missing Font', look: 'editorial', metalVariant: 'gold', brand: 'missing'},
         {brandName: 'Ignored name', brandBackground: '#999999', brandAccent: '#ff0000'});
       const runtime = await ready(session.page);
@@ -1122,12 +1122,12 @@ async function brandbookInvariance() {
       row.books.push({brandbook, brand: runtime.brand, finish: native.finish});
       checkRequests(session); await session.close(); session = null;
     }
-    session = await openPage('controls', {brandbook: DEFAULT_BRANDBOOK, material: 'metal'});
+    session = await openPage('glass-controls', {brandbook: DEFAULT_BRANDBOOK, material: 'metal'});
     row.unbrandedControls = await checkSwitchMotion(session.page);
     checkRequests(session);
     if (MATERIALS.includes('dark-glass')) {
       await session.close();
-      session = await openPage('controls', {brandbook: DEFAULT_BRANDBOOK, material: 'dark-glass'});
+      session = await openPage('glass-controls', {brandbook: DEFAULT_BRANDBOOK, material: 'dark-glass'});
       row.unbrandedDarkControls = await checkSwitchMotion(session.page);
       assert.ok(row.unbrandedDarkControls.emptyHousing);
       checkRequests(session);
@@ -1166,9 +1166,9 @@ async function glassMotion(type, aspect) {
     assert.equal(holdState.mode, type, 'The native factory did not mount its Liquid Glass renderer');
     assert.ok(holdState.audit, 'The glass instance must expose its own auditable camera state');
     assert.notDeepEqual(next.canvasHashes, start.canvasHashes, 'The native clock did not change the glass pixels');
-    if (type !== 'lens') {
+    if (type !== 'glass-lens') {
       assert.ok(holdState.surfaces.some(surface => surface.transform.startsWith('matrix3d(')), 'Editable text is not projected onto glass');
-      if (type === 'search') {
+      if (type === 'glass-search') {
         assert.deepEqual(nextState.audit.camera, startState.audit.camera, 'Search keeps the field stationary while typing and loading');
       } else {
         assert.notDeepEqual(holdState.surfaces.map(surface => surface.transform), startState.surfaces.map(surface => surface.transform), 'The camera did not update the projected text');
@@ -1186,7 +1186,7 @@ async function glassMotion(type, aspect) {
     assert.deepEqual(reverse.canvasHashes, hold.canvasHashes, 'Reverse seek changed the glass render');
     assert.deepEqual(reverseState, holdState, 'Reverse seek changed the private camera/projection state');
     row.states = {start: startState, hold: holdState, next: nextState};
-    if (type === 'send-prompt') {
+    if (type === 'glass-send-prompt') {
       const macro = startState.audit.camera.position;
       const wide = nextState.audit.camera.position;
       assert.ok(wide[2] > 1.8 * macro[2], 'The camera must physically pull away from the composer');
@@ -1220,12 +1220,12 @@ async function glassControlsAndCleanup() {
   try {
     for (const type of glassTypes) {
       session = await openPage(type, {aspect: '1:1', material: 'glass', brandbook: defaultBook});
-      const copy = type === 'lens' ? {text: 'Light through glass', camera: 'orbit'}
-        : type === 'island' ? {title: 'Glass in motion', body: 'Attached to the surface', camera: 'static', exit: 'collapse'}
-          : type === 'controls' ? {title: 'Controls in motion', slider: '', camera: 'static'}
-          : type === 'ask' ? {text: 'Which day?', reply: 'Tuesday', camera: 'static'}
-          : type === 'search' ? {query: 'Thursday workshops', timing: {search: 2.5, collapse: 4, collapsed: 5, checked: 5.65}}
-          : type === 'send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
+      const copy = type === 'glass-lens' ? {text: 'Light through glass', camera: 'orbit'}
+        : type === 'glass-island' ? {title: 'Glass in motion', body: 'Attached to the surface', camera: 'static', exit: 'collapse'}
+          : type === 'glass-controls' ? {title: 'Controls in motion', slider: '', camera: 'static'}
+          : type === 'glass-ask' ? {text: 'Which day?', reply: 'Tuesday', camera: 'static'}
+          : type === 'glass-search' ? {query: 'Thursday workshops', timing: {search: 2.5, collapse: 4, collapsed: 5, checked: 5.65}}
+          : type === 'glass-send-prompt' ? {text: 'Check with @Mira', chips: ['Inbox', 'Notes'], timing: {pull: 3, landed: 6}}
           : type === 'glass-steps' ? {title: 'Three steps', items: ['Shoot it', 'Cut it', 'Share it'], camera: 'static'}
           : type === 'glass-checklist' ? {title: 'Ready to post', items: ['Shot', 'Cut', 'Captioned'], camera: 'static'}
           : type === 'glass-like' ? {text: 'Follow', icon: 'heart'}
@@ -1233,7 +1233,7 @@ async function glassControlsAndCleanup() {
           : type === 'glass-message' ? {name: 'Sam Rivera', text: 'See you at six.', time: '2m ago'}
           : type === 'glass-follow' ? {network: 'instagram', handle: '@samrivera'}
           : type === 'glass-call' ? {name: 'Sam Rivera', status: 'Video call'}
-          : type === 'widgets' ? {title: 'This month', items: [{label: 'Orders', value: '320'}, {label: 'Rating', value: '4.8'}], camera: 'static'}
+          : type === 'glass-widgets' ? {title: 'This month', items: [{label: 'Orders', value: '320'}, {label: 'Rating', value: '4.8'}], camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {
         window.__previousStoryPlayer = document.querySelector('hyperframes-player');
@@ -1246,11 +1246,11 @@ async function glassControlsAndCleanup() {
       assert.deepEqual(current.brand, selectedBrand); assert.deepEqual(current.font, selectedBrand.font);
       const cleanup = await session.page.evaluate(() => ({connected: window.__previousStoryPlayer.isConnected, paused: window.__previousStoryPlayer.paused}));
       assert.deepEqual(cleanup, {connected: false, paused: true});
-      const frame = await seekSnapshot(session.page, ['glass-flow', 'ask'].includes(type) ? .85 : .45);
+      const frame = await seekSnapshot(session.page, ['glass-flow', 'glass-ask'].includes(type) ? .85 : .45);
       for (const name of ['title', 'body', 'nextTitle', 'nextBody', 'query']) if (copy[name]) assert.ok(frame.text.includes(copy[name]), `Edited ${name} disappeared`);
       const state = await glassState(session.page);
-      if (type === 'search') row.editedSearchCollapse = await checkSearchCollapse(session.page);
-      if (type === 'controls') {
+      if (type === 'glass-search') row.editedSearchCollapse = await checkSearchCollapse(session.page);
+      if (type === 'glass-controls') {
         const slider = await session.page.evaluate(() => {
           const {instance} = document.querySelector('hyperframes-player').iframeElement.contentWindow.__storybookComponent;
           return {slots: instance.root.querySelectorAll('[role="progressbar"]').length,
@@ -1258,17 +1258,17 @@ async function glassControlsAndCleanup() {
         });
         assert.deepEqual(slider, {slots: 0, meshes: 0}, 'Removing the optional slider must remove its visual and semantic controls');
       }
-      if (type === 'ask' || type === 'send-prompt') {
+      if (type === 'glass-ask' || type === 'glass-send-prompt') {
         for (const text of [copy.text, copy.reply, ...(copy.chips ?? [])].filter(Boolean)) {
           assert.ok(state.surfaces.some(surface => surface.text.includes(text) && surface.transform.startsWith('matrix3d(')),
             `Edited ask copy must be projected onto the glass: ${text}`);
         }
       }
-      if (type === 'lens') {
+      if (type === 'glass-lens') {
         assert.equal(state.textTexture.text, copy.text, 'Edited text did not rebuild the refracted texture');
         assert.ok(state.textTexture.sourceFont.includes(selectedFont), 'The brandbook font did not reach the refracted texture');
       }
-      if (type === 'island') {
+      if (type === 'glass-island') {
         await seekSnapshot(session.page, .96);
         const collapsed = await glassState(session.page);
         assert.ok(collapsed.audit.cards[0].width < state.audit.cards[0].width
@@ -1355,7 +1355,7 @@ async function askOnTheBeat() {
   const row = {name: 'ask-action-and-sound-on-the-beat', passed: false};
   let session;
   try {
-    session = await openPage('ask', {}, {}, variants.get('ask:OnTheBeat'));
+    session = await openPage('glass-ask', {}, {}, variants.get('ask:OnTheBeat'));
     await ready(session.page);
     const sample = await session.page.evaluate(() => {
       const win = document.querySelector('hyperframes-player').iframeElement.contentWindow;

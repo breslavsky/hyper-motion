@@ -346,7 +346,7 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   }
   function render(time,{warm=0,dive=0,travel=0}={}){
     if(disposed)return;
-    const environmentTime=mode==='ask'?0:time;
+    const environmentTime=mode==='glass-ask'?0:time;
     if(metalSheet&&metalTime!==environmentTime){metalSheet.draw(environmentTime);metalTexture.needsUpdate=true;metalTime=environmentTime;}
     scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);
     for(const card of cards){
@@ -444,6 +444,6 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   }
   K.onDispose(dispose);
   K.glass={audit:()=>structuredClone(audit),get textureCanvas(){return textureCanvas;},canvas,dispose,
-    inspect:()=>({scene,backdropScene:bgScene,camera,lens:mode==='lens'?cards[0]?.group:null,textPlane,sendWave,render:()=>render(audit.time)})};
+    inspect:()=>({scene,backdropScene:bgScene,camera,lens:mode==='glass-lens'?cards[0]?.group:null,textPlane,sendWave,render:()=>render(audit.time)})};
   return {scene,backdropScene:bgScene,camera,distance,U,canvas,addCard,addControls,addSendButton,addSendWave,addRipple,addTextTexture,render,prepare,dispose};
 }

@@ -158,7 +158,7 @@ try {
     await page.select('.pk-background select','component'); await ready(page);
     console.log(type+' image, video, reverse and reset passed');
   }
-  await page.goto(storyURL('glass-ask--preview','dark-glass')); await ready(page);
+  await page.goto(storyURL('glass-glass-ask--preview','dark-glass')); await ready(page);
   // A file of the visitor's own: the sample is fetched from our CDN and
   // uploaded as a local file.
   const mediaFile = path.join(mkdtempSync(path.join(tmpdir(),'glass-upload-')),'glass-street.mp4');
@@ -180,7 +180,7 @@ try {
   for (const material of ['glass','dark-glass']) {
     // With the camera at rest: an orbiting camera tilts the slab, which
     // carries the whole picture to one side and hides the rims' own bend.
-    await page.goto(storyURL('glass-ask--variant-camera-static',material)); await ready(page);
+    await page.goto(storyURL('glass-glass-ask--variant-camera-static',material)); await ready(page);
     await uploadStripeChart(page);
     const [left,right] = await imageRefraction(page);
     assert.ok(left.shift*right.shift<0 && Math.min(left.correlation,right.correlation)>.7,
@@ -189,16 +189,16 @@ try {
   }
   // Storybook can recreate its preview iframe during navigation. The selected
   // file belongs to this example and remains available when it is reopened.
-  const managerURL=new URL(base);managerURL.searchParams.set('path','/story/glass-ask--glass');
+  const managerURL=new URL(base);managerURL.searchParams.set('path','/story/glass-glass-ask--glass');
   await page.goto(managerURL.href);
   const preview=async ()=>(await page.waitForSelector('#storybook-preview-iframe')).contentFrame();
   let frame=await preview();await ready(frame);
   await (await frame.$('.pk-background input[type=file]')).uploadFile(mediaFile);
   await ready(frame,'video','assets/glass-street.mp4');
-  await page.click('#glass-ask--dark-glass');
+  await page.click('#glass-glass-ask--dark-glass');
   frame=await preview();await frame.waitForFunction(()=>document.querySelector('hyperframes-player')?.iframeElement.contentWindow.__storybookComponent?.film.material==='dark-glass');
   await ready(frame);
-  await page.click('#glass-ask--glass');
+  await page.click('#glass-glass-ask--glass');
   frame=await preview();await ready(frame,'video','assets/glass-street.mp4');
   assert.ok((await measure(frame,.7)).file.startsWith('blob:'));
   await frame.select('.pk-background select','component');await ready(frame);

@@ -15,25 +15,6 @@ const nodeDefinitions=require('../source/lib/components/metadata.cjs');
 const SOURCE=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../source/lib/components');
 const serialize=value=>JSON.stringify(value,(_,v)=>typeof v==='function'?v.toString():v);
 
-test('saved glass-pullback recipes and native hosts resolve to the same send-prompt scene',async()=>{
-  const film=require('../source/lib/film.cjs');
-  const current={...nodeDefinitions['send-prompt'].sample,timing:{pull:3,landed:6}};
-  const legacy={...current,type:'glass-pullback'};
-  const recipe=scene=>({aspect:'9:16',style:'glass',material:'metal',brand:{name:'Test'},scenes:[scene]});
-  assert.deepEqual(film.planOf(recipe(legacy)),film.planOf(recipe(current)));
-  assert.deepEqual(film.notes(recipe(legacy)),film.notes(recipe(current)));
-  assert.deepEqual(film.problems(recipe({...legacy,chips:[1]})),film.problems(recipe({...current,chips:[1]})));
-  assert.equal(legacy.type,'glass-pullback');
-  for(const [original,override] of [[legacy,current],[current,legacy],[legacy,{}]]){
-    assert.deepEqual(resolveContent(original,override),{scene:current,changed:[]});
-  }
-  assert.throws(()=>resolveContent(legacy,{type:'pullback'}),/changes the native component/);
-  const library=createComponentLibrary({W:1920,H:1080,S:1,plan:{look:{}},helpers:{maths,dom:{},moves:{},ui:{}}});
-  assert.ok(!library.types.includes(legacy.type) && library.types.includes(current.type));
-  assert.ok(library.has(legacy.type) && library.selfCamera.has(legacy.type));
-  assert.equal(await library.get(legacy.type),await library.get(current.type));
-});
-
 test('Node compiler and browser share every field and action/sound schedule',()=>{
   assert.equal(serialize(nodeDefinitions),serialize(browserDefinitions));
   const cjs=fs.readFileSync(path.join(SOURCE,'metadata.cjs'),'utf8');

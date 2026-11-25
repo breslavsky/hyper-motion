@@ -296,27 +296,27 @@
     "family": "studio",
     "renderMode": "dom"
   },
-  "island": {
+  "glass-island": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true
   },
-  "widgets": {
+  "glass-widgets": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true
   },
-  "controls": {
+  "glass-controls": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true
   },
-  "ask": {
+  "glass-ask": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true
   },
-  "lens": {
+  "glass-lens": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true
@@ -361,12 +361,12 @@
     "renderMode": "webgl",
     "owned": true
   },
-  "send-prompt": {
+  "glass-send-prompt": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true
   },
-  "search": {
+  "glass-search": {
     "family": "glass",
     "renderMode": "webgl",
     "owned": true

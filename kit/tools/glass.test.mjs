@@ -11,15 +11,15 @@ const require=createRequire(import.meta.url);
 const F=require('../source/lib/film.cjs');
 const definitions=require('../source/lib/components/metadata.cjs');
 const film=(scene,aspect='16:9')=>({aspect,style:'glass',grain:false,sparks:false,brand:{name:'Glass'},scenes:[scene]});
-const legacy={
-  ask:{type:'ask',text:'Fill my Tuesday class',beats:6},
-  island:{type:'island',title:'Everything together',body:'One clear message.',icon:'✦',beats:4},
-  lens:{type:'lens',text:'A clearer view.',sub:'Look a little closer.',beats:4},
-  controls:{type:'controls',title:'Autopilot',toggles:['Reminders','Waitlist','Payments'],slider:'Capacity',beats:4},
+const samples={
+  'glass-ask':{type:'glass-ask',text:'Fill my Tuesday class',beats:6},
+  'glass-island':{type:'glass-island',title:'Everything together',body:'One clear message.',icon:'✦',beats:4},
+  'glass-lens':{type:'glass-lens',text:'A clearer view.',sub:'Look a little closer.',beats:4},
+  'glass-controls':{type:'glass-controls',title:'Autopilot',toggles:['Reminders','Waitlist','Payments'],slider:'Capacity',beats:4},
 };
 
 test('existing glass recipes remain valid without the new camera controls',()=>{
-  for(const aspect of ['16:9','9:16','1:1'])for(const scene of Object.values(legacy)){
+  for(const aspect of ['16:9','9:16','1:1'])for(const scene of Object.values(samples)){
     assert.deepEqual(F.problems(film(scene,aspect)),[],`${scene.type}/${aspect}`);
     assert.equal(F.planOf(film(scene,aspect)).scenes[0].scene.type,scene.type);
   }
@@ -56,33 +56,33 @@ test('every Glass scene accepts one background asset in its recipe and native co
 });
 
 test('glass cameras and capsule exits have bounded recipe controls',()=>{
-  assert.deepEqual(definitions.island.fields.camera.values,['static','orbit']);
-  assert.deepEqual(definitions.lens.fields.camera.values,['static','orbit']);
-  assert.deepEqual(definitions.controls.fields.camera.values,['static','orbit']);
-  assert.deepEqual(definitions.ask.fields.camera.values,['static','orbit']);
-  assert.deepEqual(definitions.island.fields.exit.values,['hold','collapse']);
+  assert.deepEqual(definitions['glass-island'].fields.camera.values,['static','orbit']);
+  assert.deepEqual(definitions['glass-lens'].fields.camera.values,['static','orbit']);
+  assert.deepEqual(definitions['glass-controls'].fields.camera.values,['static','orbit']);
+  assert.deepEqual(definitions['glass-ask'].fields.camera.values,['static','orbit']);
+  assert.deepEqual(definitions['glass-island'].fields.exit.values,['hold','collapse']);
   for(const camera of ['static','orbit']){
-    for(const exit of ['hold','collapse'])assert.deepEqual(F.problems(film({...legacy.island,camera,exit})),[]);
-    assert.deepEqual(F.problems(film({...legacy.lens,camera})),[]);
-    assert.deepEqual(F.problems(film({...legacy.controls,camera})),[]);
-    assert.deepEqual(F.problems(film({...legacy.ask,camera})),[]);
+    for(const exit of ['hold','collapse'])assert.deepEqual(F.problems(film({...samples['glass-island'],camera,exit})),[]);
+    assert.deepEqual(F.problems(film({...samples['glass-lens'],camera})),[]);
+    assert.deepEqual(F.problems(film({...samples['glass-controls'],camera})),[]);
+    assert.deepEqual(F.problems(film({...samples['glass-ask'],camera})),[]);
   }
-  for(const scene of [{...legacy.island,camera:'free'},{...legacy.island,exit:'explode'},
-    {...legacy.lens,camera:'free'},{...legacy.lens,camera:0},{...legacy.island,exit:null},
-    {...legacy.controls,camera:'free'},{...legacy.controls,camera:null},{...legacy.controls,camera:0},
-    {...legacy.ask,camera:'free'},{...legacy.ask,camera:null}]){
+  for(const scene of [{...samples['glass-island'],camera:'free'},{...samples['glass-island'],exit:'explode'},
+    {...samples['glass-lens'],camera:'free'},{...samples['glass-lens'],camera:0},{...samples['glass-island'],exit:null},
+    {...samples['glass-controls'],camera:'free'},{...samples['glass-controls'],camera:null},{...samples['glass-controls'],camera:0},
+    {...samples['glass-ask'],camera:'free'},{...samples['glass-ask'],camera:null}]){
     assert.ok(F.problems(film(scene)).length,JSON.stringify(scene));
   }
 });
 
 test('ask preserves the code-point keyboard, send and optional reply sound cues',()=>{
-  const scene={...legacy.ask,text:'Book 🚀 now'},characters=[...scene.text].length,duration=3.25;
+  const scene={...samples['glass-ask'],text:'Book 🚀 now'},characters=[...scene.text].length,duration=3.25;
   const typed=Math.min(duration*.5,.5+characters/27);
   const times={type:.5,typed,send:typed+.2,reply:typed+.45};
   for(const reply of [undefined,'Booked.']){
     const ask={...scene,...(reply?{reply}:{})},cues=[];
-    assert.deepEqual(definitions.ask.times(ask,duration),times);
-    definitions.ask.sounds(ask,duration,(...cue)=>cues.push(cue));
+    assert.deepEqual(definitions['glass-ask'].times(ask,duration),times);
+    definitions['glass-ask'].sounds(ask,duration,(...cue)=>cues.push(cue));
     const expected=[[.2,'click',.8],[.32,'pop',.9]];
     for(let index=0;index<characters;index+=2)expected.push([.5+((typed-.5)*index)/characters,'type',.8]);
     expected.push([times.send,'click',.9]);
@@ -93,27 +93,27 @@ test('ask preserves the code-point keyboard, send and optional reply sound cues'
 
 test('controls preserve optional copy, switch bounds and click timing across the optical port',()=>{
   for(const aspect of ['16:9','9:16','1:1'])for(const toggles of [['One','Two'],['One','Two','Three','Four']]){
-    const scene={type:'controls',toggles,beats:4};
+    const scene={type:'glass-controls',toggles,beats:4};
     assert.deepEqual(F.problems(film(scene,aspect)),[]);
     const plan=F.planOf(film(scene,aspect));
     assert.deepEqual(plan.scenes[0].scene.toggles,toggles);
     assert.deepEqual(F.review(film(scene,aspect),plan).scenes[0].words,toggles);
     for(const duration of [1.25,2.25,6]){
-      const times=definitions.controls.times(scene,duration),cues=[];
-      definitions.controls.sounds(scene,duration,(...cue)=>cues.push(cue));
+      const times=definitions['glass-controls'].times(scene,duration),cues=[];
+      definitions['glass-controls'].sounds(scene,duration,(...cue)=>cues.push(cue));
       assert.equal(times.length,toggles.length);
       assert.equal(times[0],.5,'Keep the first switch on its existing sound cue');
       assert.ok(Math.abs(times.at(-1)-Math.max(.6,duration*.62))<1e-9);
       assert.ok(times.every((time,i)=>i===0||time>times[i-1]));
       assert.deepEqual(cues.map(([time,sound])=>[time,sound]),times.map(time=>[time,'click']));
       const withSlider=[];
-      definitions.controls.sounds({...scene,slider:'Capacity'},duration,(...cue)=>withSlider.push(cue));
+      definitions['glass-controls'].sounds({...scene,slider:'Capacity'},duration,(...cue)=>withSlider.push(cue));
       assert.deepEqual(withSlider.slice(0,toggles.length),cues);
       assert.deepEqual(withSlider.at(-1).slice(0,2),[Math.max(.7,duration*.66),'sparkle']);
     }
   }
   for(const toggles of [[],['One'],['One','Two','Three','Four','Five']]){
-    assert.ok(F.problems(film({...legacy.controls,toggles})).length,JSON.stringify(toggles));
+    assert.ok(F.problems(film({...samples['glass-controls'],toggles})).length,JSON.stringify(toggles));
   }
 });
 
@@ -133,9 +133,9 @@ test('the continuous glass composition preserves both supplied messages',()=>{
 });
 
 test('glass native edits retain fixed-slot contracts and exclude camera settings from copy',()=>{
-  for(const type of ['island','lens','controls','ask']){
-    const original={...legacy[type],camera:'static',...(type==='island'?{exit:'hold'}:{})};
-    const updated=resolveContent(original,{camera:'orbit',...(type==='island'?{exit:'collapse'}:{})});
+  for(const type of ['glass-island','glass-lens','glass-controls','glass-ask']){
+    const original={...samples[type],camera:'static',...(type==='glass-island'?{exit:'hold'}:{})};
+    const updated=resolveContent(original,{camera:'orbit',...(type==='glass-island'?{exit:'collapse'}:{})});
     assert.equal(updated.scene.camera,'orbit');
     const recipe=film(updated.scene),words=F.review(recipe,F.planOf(recipe)).scenes[0].words;
     assert.ok(!words.some(word=>['static','orbit','hold','collapse'].includes(word)),JSON.stringify(words));
@@ -143,15 +143,15 @@ test('glass native edits retain fixed-slot contracts and exclude camera settings
   }
   const original=definitions['glass-flow'].sample;
   assert.equal(resolveContent(original,{nextTitle:'A new destination'}).scene.nextTitle,'A new destination');
-  assert.throws(()=>resolveContent(original,{type:'island'}),/slot/);
+  assert.throws(()=>resolveContent(original,{type:'glass-island'}),/slot/);
 });
 
 test('direct Glass factory seeks retime the choreography while the backdrop and slot keep their clocks',()=>{
-  const original=definitions.lens.sample;
+  const original=definitions['glass-lens'].sample;
   const {scene,changed}=resolveContent(original,{timing:{sweep:1,sweepEnd:3}});
   assert.deepEqual(changed,['timing']);
   assert.deepEqual(resolveContent(original,{speed:2}).changed,['speed']);
-  const {lens}=timedGlassFactories({lens:()=> (motion,duration,background=motion)=>({motion,duration,background})});
+  const {'glass-lens':lens}=timedGlassFactories({'glass-lens':()=> (motion,duration,background=motion)=>({motion,duration,background})});
   const p={scene,dur:4,beatLen:1};
   const draw=lens({p});
   for(const [time,canonical] of [[1,.8],[3,3.4],[1,.8]]){

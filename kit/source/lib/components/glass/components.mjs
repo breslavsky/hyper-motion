@@ -15,14 +15,14 @@ import {socialIcons} from '../upstream/simple-icons/icons.mjs';
 
 function island(args){
   const {K,p}=args,s=p.scene;
-  const cameraMode=cameraOf(s,'island');
+  const cameraMode=cameraOf(s,'glass-island');
   const exit=enumValue(s.exit,['hold','collapse'],'hold','island.exit');
-  const {host,world}=makeWorld(args,'island');
+  const {host,world}=makeWorld(args,'glass-island');
   const copy=cardCopy(K,host,{title:s.title,body:s.body,icon:s.icon});
   const card=world.addCard({width:copy.width,height:copy.height,element:copy.surface});
   world.prepare();
   return (time,duration=p.dur,backdropTime=time)=>{
-    const marks=metadata.island.anchors(s,duration);
+    const marks=metadata['glass-island'].anchors(s,duration);
     const introScale=marks.open/.3;
     const n=clamp(time/duration),enter=phase(time,marks.open,Math.min(1.05,duration*.48));
     const close=exit==='collapse'?smoother(phase(time,marks.collapse,.9*duration)):0;
@@ -72,7 +72,7 @@ function clickRing(progress,reach,deep){
 
 function search(args){
   const {K,p,fg}=args,{el,set,px,design}=K,scene=p.scene;
-  const {host,world}=makeWorld(args,'search');
+  const {host,world}=makeWorld(args,'glass-search');
   const field=el('div','pk-glass-search-field',host);
   field.dataset.glassCopy=scene.query;
   const recipe=design.surface(field,'field',{shape:'pill'});
@@ -87,7 +87,7 @@ function search(args){
 
   const viewport=el('div','pk-glass-search-input',field);
   set(viewport,{position:'relative',minWidth:'0',flex:'1',overflow:'hidden'});
-  const hint=scene.placeholder??metadata.search.fields.placeholder.default;
+  const hint=scene.placeholder??metadata['glass-search'].fields.placeholder.default;
   viewport.setAttribute('role','searchbox');
   viewport.setAttribute('aria-label','Search');
   viewport.setAttribute('aria-placeholder',hint);
@@ -130,7 +130,7 @@ function search(args){
   // the pointer.
   const button=world.addSendButton(card,{slot,icon:'search',glyphSize:iconSize,ink:fg});
 
-  const definition=metadata.search, marks=definition.anchors(scene,p.dur), keys=definition.keys(scene,marks);
+  const definition=metadata['glass-search'], marks=definition.anchors(scene,p.dur), keys=definition.keys(scene,marks);
   const trigger=definition.retime(scene,p.dur,p.beatLen)?.cueTime(marks.search)??marks.search;
   const {pointer,cursor}=pointerOf(K,field,'pk-glass-search-pointer',iconSize,2);
   // The click lands where the text begins, right after the magnifier.
@@ -229,13 +229,13 @@ function search(args){
 
 function controls(args){
   const {K,p}=args,{el,set,px}=K,s=p.scene;
-  const cameraMode=cameraOf(s,'controls');
-  const {host,world}=makeWorld(args,'controls');
+  const cameraMode=cameraOf(s,'glass-controls');
+  const {host,world}=makeWorld(args,'glass-controls');
   const {surface,width,recipe}=cardSurface(K,host,[s.title,...s.toggles,s.slider]);
   surface.classList.add('pk-glass-controls');
   const contentW=width-recipe.paddingX*2,unit=K.design.unit;
   if(s.title)cardHeading(K,surface,s.title,contentW);
-  const marks=metadata.controls.anchors(s,p.dur);
+  const marks=metadata['glass-controls'].anchors(s,p.dur);
   const {railAccent}=controlColors(args);
   const tw=switchSize.width*unit,th=switchSize.height*unit;
   const rows=s.toggles.map((name,i)=>{
@@ -294,8 +294,8 @@ function controls(args){
 
 function ask(args){
   const {K,p,accent}=args,{el,set,px}=K,s=p.scene;
-  const camera=cameraOf(s,'ask');
-  const {host,world}=makeWorld(args,'ask');
+  const camera=cameraOf(s,'glass-ask');
+  const {host,world}=makeWorld(args,'glass-ask');
   const {surface,width,recipe}=cardSurface(K,host,[s.text,s.reply]);
   surface.classList.add('pk-glass-ask');
   const {unit}=K.design,iconSize=K.design.space(5),sendSize=K.design.space(6),seedSize=K.design.space(7);
@@ -339,7 +339,7 @@ function ask(args){
   // it. Illumination stays here as the edge advances to reveal the answer.
   card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
   card.group.scale.setScalar(fitScale);
-  const marks=metadata.ask.anchors(s,p.dur);
+  const marks=metadata['glass-ask'].anchors(s,p.dur);
   // Short films and long replies still reach their last word before the final hold.
   const wordDelay=reply?Math.min(.05,Math.max(0,p.dur-marks.reply-.43)/Math.max(1,words.length-1)):0;
   const showTyped=revealer(typing);
@@ -410,8 +410,8 @@ function pullbackCamera(K,world,prompt,typing,keys,marks,width,height,faceZ,zoom
 
 function sendPrompt(args) {
   const {K,p,fg,accent}=args,{el,set,px,design}=K,s=p.scene;
-  const cues=metadata['send-prompt'],marks=cues.anchors(s,p.dur),keys=cues.keys(s,marks);
-  const {world,host}=makeWorld(args,'send-prompt');
+  const cues=metadata['glass-send-prompt'],marks=cues.anchors(s,p.dur),keys=cues.keys(s,marks);
+  const {world,host}=makeWorld(args,'glass-send-prompt');
   const {surface,width,recipe}=cardSurface(K,host,[s.text,...(s.chips??[])]);
   surface.classList.add('pk-send-prompt');
   const contentWidth=width-recipe.paddingX*2,zoom=K.H>K.W?2.8:3.6,chips=[];
@@ -563,8 +563,8 @@ async function textTexture(K,line,text){
   return {canvas,receipt:{text,sourceFont:context.font,sourceColor:style.color,typography:entry}};
 }
 function lens(args){
-  const {K,p}=args,s=p.scene,cameraMode=cameraOf(s,'lens','static');
-  const {host,world}=makeWorld(args,'lens');
+  const {K,p}=args,s=p.scene,cameraMode=cameraOf(s,'glass-lens','static');
+  const {host,world}=makeWorld(args,'glass-lens');
   const projection=cameraMode==='orbit'?K.el('div','pk-glass-lens-projection',host):null;
   if(projection)K.set(projection,{position:'absolute',inset:'0',transformOrigin:'0 0'});
   const text=K.plain(s.text),wrap=K.el('div','pk-glass-lens-layout',projection??host);
@@ -591,7 +591,7 @@ function lens(args){
   K.defer(sourceReady);
   const travel=(portraitWidth??K.safe.w)*.62;
   return (time,duration=p.dur,backdropTime=time)=>{
-    const marks=metadata.lens.anchors(s,duration);
+    const marks=metadata['glass-lens'].anchors(s,duration);
     const n=clamp(time/duration),progress=smoother(phase(time,marks.sweep,marks.sweepEnd));
     card.group.position.set(mix(-travel,travel,progress)*world.U,(K.H/2-textTop-lineH/2)*world.U,.18);
     card.group.rotation.set(0,mix(-.13,.13,progress),-.025);
@@ -708,8 +708,8 @@ function glassSteps(args){
 const ROW_FIGURE=.62;
 function glassWidgets(args){
   const {K,p}=args,{el,set,px}=K,s=p.scene;
-  const cameraMode=cameraOf(s,'widgets');
-  const {host,world}=makeWorld(args,'widgets');
+  const cameraMode=cameraOf(s,'glass-widgets');
+  const {host,world}=makeWorld(args,'glass-widgets');
   const {surface,width}=cardSurface(K,host,[s.title,...s.items.flatMap(item=>[item.value,item.label])]);
   surface.classList.add('pk-glass-widgets');
   const G=glassGrid(K),count=s.items.length;
@@ -766,7 +766,7 @@ function glassWidgets(args){
   world.prepare();
   const T=G.time;
   return (time,duration=p.dur,backdropTime=time)=>{
-    const live=metadata.widgets.anchors(s,duration);
+    const live=metadata['glass-widgets'].anchors(s,duration);
     const n=clamp(time/duration),enter=phase(time,live.open,live.open+T.open);
     updateCard(card,world,width,copy.height,outBack(enter),outBack(phase(time,live.open+.04,live.open+T.open+.04)),smooth(enter));
     card.group.rotation.set(REST_TILT.x,REST_TILT.y,REST_TILT.z);
@@ -1426,4 +1426,4 @@ function glassLike(args){
   };
 }
 
-export const factories=timedGlassFactories({island,widgets:glassWidgets,controls,ask,search,lens,'glass-flow':glassFlow,'send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});
+export const factories=timedGlassFactories({'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-flow':glassFlow,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});

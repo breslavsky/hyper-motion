@@ -185,7 +185,7 @@ try {
       await page.setViewport({width:1100,height:820});
       const origin = process.env.STORYBOOK_URL ?? 'http://127.0.0.1:6006';
       const url = new URL('iframe.html',origin.endsWith('/') ? origin : origin + '/');
-      url.search = new URLSearchParams({id:'glass-ask--variant-camera-'+camera,viewMode:'story',
+      url.search = new URLSearchParams({id:'glass-glass-ask--variant-camera-'+camera,viewMode:'story',
         globals:'aspect:portrait;brandbook:__default__;material:'+material});
       await page.goto(url.href);
       await page.waitForFunction(() => document.querySelector('hyperframes-player')?.iframeElement?.contentWindow?.__renderReady === true);
@@ -195,7 +195,7 @@ try {
         return {scene:i.ps.scene,duration:i.ps.ldur,playerWidth:player.getBoundingClientRect().width};
       });
       assert.equal(scene.camera,camera);
-      const {reply,send} = definitions.ask.times(scene,duration);
+      const {reply,send} = definitions['glass-ask'].times(scene,duration);
       const button = await measureSend(page,send);
       console.log(material,camera,'send',JSON.stringify(button));
       assert.ok(button.slotError.every(v=>v<.03),'3D button must follow the projected layout slot throughout the send and reply');

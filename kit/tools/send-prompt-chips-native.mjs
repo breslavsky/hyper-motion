@@ -115,7 +115,7 @@ async function checkFocus(page,scale){
 }
 
 async function check(page,example,previewScale){
-  const scene={...definitions['send-prompt'].sample,chips:example.chips,beats:14,timing:{typed:2.5,pull:2.75,landed:4.5,send:5,sent:13}};
+  const scene={...definitions['glass-send-prompt'].sample,chips:example.chips,beats:14,timing:{typed:2.5,pull:2.75,landed:4.5,send:5,sent:13}};
   await page.play({aspect:'9:16',style:'glass',material:'glass',pace:'normal',brand:{name:'Nook'},
     music:{bpm:100},scenes:[scene]}, {options:{previewScale}});
   if(example.name==='sample'){

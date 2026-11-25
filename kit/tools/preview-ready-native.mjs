@@ -40,7 +40,7 @@ export const METAL_FILM={aspect:'9:16',style:'metal',metalVariant:'silver',brand
     {type:'slam',beats:4,lines:['AND I’M','COMING FOR YOU.'],in:'glide'},
     {type:'sentence',beats:4,text:'You’ve had the spotlight long enough.',in:'glide'},
     {type:'thinking-orb',beats:5,state:'listening',title:'Now watch closely.',in:'glide'},
-    {type:'search',beats:5,query:'One prompt.',placeholder:'',in:'glide'},
+    {type:'glass-search',beats:5,query:'One prompt.',placeholder:'',in:'glide'},
     {type:'shuffle',beats:5,from:'Words become motion.',to:'Shapes become stories.',in:'glide'},
     {type:'explode',beats:5,layers:['Ideas','Motion','Story'],title:'Ideas take over the screen.',in:'glide'},
     {type:'append',beats:4,base:'EVERY',words:['PIXEL','FRAME','MOVE'],in:'glide'},

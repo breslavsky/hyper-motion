@@ -23,9 +23,9 @@ node <kit>/scene.cjs recipe.json       # build it ("-" reads the recipe from std
 A recipe is a film of one scene:
 
 ```json
-{"id": "search", "aspect": "9:16", "style": "editorial", "material": "glass",
+{"id": "glass-search", "aspect": "9:16", "style": "editorial", "material": "glass",
  "brand": {"name": "Nook"}, "start": 4.5, "track": 3,
- "scene": {"type": "search", "beats": 6, "query": "Tuesday classes"}}
+ "scene": {"type": "glass-search", "beats": 6, "query": "Tuesday classes"}}
 ```
 
 - `id`: the composition's name, lowercase letters, digits and hyphens. Two

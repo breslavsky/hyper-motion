@@ -299,7 +299,7 @@
   4,
   6
  ],
- "island": [
+ "glass-island": [
   3,
   4
  ],
@@ -331,27 +331,27 @@
   6,
   12
  ],
- "widgets": [
+ "glass-widgets": [
   4,
   8
  ],
- "controls": [
+ "glass-controls": [
   4,
   4
  ],
- "ask": [
+ "glass-ask": [
   5,
   6
  ],
- "lens": [
+ "glass-lens": [
   3,
   4
  ],
- "search": [
+ "glass-search": [
   4,
   8
  ],
- "send-prompt": [
+ "glass-send-prompt": [
   6,
   14
  ],

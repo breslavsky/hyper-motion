@@ -170,7 +170,7 @@ class ComponentStory extends HTMLElement {
               if (settled || signal.aborted || !this.isConnected) return;
               settled = true; cleanup(); this.dataset.state = 'ready';
               status.textContent = `${player.compositionWidth} × ${player.compositionHeight} · ${player.duration.toFixed(2)} s`;
-              if (viewMode === 'story' && entry.type === 'send-prompt' && storyId.endsWith('--send-wave')) enableSendReplay(player);
+              if (viewMode === 'story' && entry.type === 'glass-send-prompt' && storyId.endsWith('--send-wave')) enableSendReplay(player);
               resolve({
                 get paused() { return player.paused; },
                 get currentTime() { return player.currentTime; },

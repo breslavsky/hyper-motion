@@ -69,13 +69,13 @@ test('a panel stands at one of nine places against the safe area, at one of two 
   const require = createRequire(import.meta.url);
   const definitions = require('../source/lib/components/metadata.cjs');
   // The film's field and the family's tokens name the same places and sizes.
-  assert.deepEqual(definitions.island.fields.place.values, GLASS_PLACES);
-  assert.deepEqual(definitions.island.fields.size.values, Object.keys(GLASS_SIZES));
+  assert.deepEqual(definitions['glass-island'].fields.place.values, GLASS_PLACES);
+  assert.deepEqual(definitions['glass-island'].fields.size.values, Object.keys(GLASS_SIZES));
   assert.equal(GLASS_PLACES.length, 9);
   assert.deepEqual(GLASS_SIZES, {normal: 1, small: .6});
   const placed = Object.keys(definitions).filter(type => definitions[type].fields?.place).sort();
-  assert.deepEqual(placed, ['ask', 'controls', 'glass-call', 'glass-checklist', 'glass-follow', 'glass-like', 'glass-message', 'glass-rating', 'glass-steps', 'island', 'search', 'widgets'], 'scenes that are one panel under a camera at rest');
-  for (const type of ['lens', 'send-prompt', 'glass-flow']) assert.equal(definitions[type].fields.size, undefined, type);
+  assert.deepEqual(placed, ['glass-ask', 'glass-call', 'glass-checklist', 'glass-controls', 'glass-follow', 'glass-island', 'glass-like', 'glass-message', 'glass-rating', 'glass-search', 'glass-steps', 'glass-widgets'], 'scenes that are one panel under a camera at rest');
+  for (const type of ['glass-lens', 'glass-send-prompt', 'glass-flow']) assert.equal(definitions[type].fields.size, undefined, type);
 
   const K = frame(1920, 1080), box = {w: 1000, h: 400};
   assert.deepEqual(glassPlacement(K, {}, box), {place: 'middle', size: 'normal', scale: 1, dx: 0, dy: 0, width: 1000, height: 400});

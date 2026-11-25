@@ -39,7 +39,7 @@ if(args.includes('--extended')){
     cases.push({id:`variant-${type}-${value}-${aspect.replace(':','x')}`,film:film([{...all.get(type),[key]:value}],aspect),compare:true});
   const states=['button','loader','check','toggle','slider','player','tabs','search','toast'];
   for(const aspect of aspects)cases.push({id:`variant-morph-all-${aspect.replace(':','x')}`,film:film([{...all.get('morph'),states}],aspect),stateSamples:states.length,compare:true});
-  for(const style of Object.keys(P.looks))cases.push({id:`look-${style}`,film:film([all.get('title'),all.get('controls')],'9:16',style),compare:true});
+  for(const style of Object.keys(P.looks))cases.push({id:`look-${style}`,film:film([all.get('title'),all.get('glass-controls')],'9:16',style),compare:true});
   for(const transition of Object.keys(P.transitions))cases.push({id:`transition-${transition}`,film:film([{...all.get('title'),beats:3},{...all.get('stack'),beats:3,in:transition}]),boundaries:true,compare:true});
   for(const type of ['ui-float','photo','cards3d','phone3d','laptop','browser'])cases.push({id:`image-${type}`,film:film([{...all.get(type),...(['cards3d','phone3d'].includes(type)?{images:['assets/migration-fixture.svg']}:{image:'assets/migration-fixture.svg'})}]),image:true,compare:type!=='ui-float',referenceException:type==='ui-float'?'Frozen engine throws NotFoundError for supplied ui-float image; native factory fixes insertion into camera wrapper.':null});
   for(const bpm of [72,120,180])cases.push({id:`timed-dial-${bpm}`,film:film([{...all.get('dial'),timing:{slide:{startBeat:1,endBeat:3}}}],'9:16','editorial',{music:{bpm}}),compare:false,timed:true});

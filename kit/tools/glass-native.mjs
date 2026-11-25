@@ -20,14 +20,14 @@ fs.mkdirSync(out,{recursive:true});
 const aspects=args.includes('--quick')?['16:9']:['16:9','9:16','1:1'];
 const portraitIslandBody='WorkspaceNotificationSynchronizationConfigurationIdentifier';
 const examples=[
-  {id:'island-static',scene:{type:'island',title:'One clear message',body:'A surface with depth.',icon:'✦',camera:'static',exit:'hold',beats:4}},
-  {id:'island-orbit-collapse',scene:{type:'island',title:'Всё на своём месте',body:'Текст движется вместе со стеклом.',camera:'orbit',exit:'collapse',beats:4}},
-  {id:'lens-static',scene:{type:'lens',text:'Clarity in motion.',sub:'Through real glass.',camera:'static',beats:4}},
-  {id:'lens-orbit',scene:{type:'lens',text:'Сквозь стекло',sub:'Свет, глубина, движение.',camera:'orbit',beats:4}},
+  {id:'island-static',scene:{type:'glass-island',title:'One clear message',body:'A surface with depth.',icon:'✦',camera:'static',exit:'hold',beats:4}},
+  {id:'island-orbit-collapse',scene:{type:'glass-island',title:'Всё на своём месте',body:'Текст движется вместе со стеклом.',camera:'orbit',exit:'collapse',beats:4}},
+  {id:'lens-static',scene:{type:'glass-lens',text:'Clarity in motion.',sub:'Through real glass.',camera:'static',beats:4}},
+  {id:'lens-orbit',scene:{type:'glass-lens',text:'Сквозь стекло',sub:'Свет, глубина, движение.',camera:'orbit',beats:4}},
   {id:'glass-flow',scene:{type:'glass-flow',title:'Liquid clarity.',body:'One continuous world.',nextTitle:'Pure motion.',nextBody:'A new point of view.',beats:16}},
-  {id:'ask-orbit-reply',scene:{type:'ask',text:'Book 🚀 for my Tuesday class',reply:'Booked. Tuesday is confirmed.',camera:'orbit',beats:6}},
-  {id:'ask-static-prompt',scene:{type:'ask',text:'Show all upcoming classes',camera:'static',beats:6}},
-  {id:'send-prompt',scene:{type:'send-prompt',text:'Plan a review with @Nook',chips:['Design','Review'],beats:8,
+  {id:'ask-orbit-reply',scene:{type:'glass-ask',text:'Book 🚀 for my Tuesday class',reply:'Booked. Tuesday is confirmed.',camera:'orbit',beats:6}},
+  {id:'ask-static-prompt',scene:{type:'glass-ask',text:'Show all upcoming classes',camera:'static',beats:6}},
+  {id:'glass-send-prompt',scene:{type:'glass-send-prompt',text:'Plan a review with @Nook',chips:['Design','Review'],beats:8,
     timing:{type:.25,typed:3,pull:3.5,chips:[4,4.75],landed:5.75,send:6.75,sent:7.5}}},
 ];
 const hash=buffer=>createHash('sha256').update(buffer).digest('hex');
@@ -111,7 +111,7 @@ function checkAsk(state,ps,fraction,words,key){
   const visible=state.surfaces.filter(surface=>surface.opacity>=.75&&surface.ask);
   assert.equal(visible.length,1,`${key}: visible typing field on a projected card`);
   const {ask}=visible[0],scene=ps.scene,chars=[...scene.text],time=ps.ldur*fraction;
-  const marks=definitions.ask.times(scene,ps.ldur);
+  const marks=definitions['glass-ask'].times(scene,ps.ldur);
   const count=Math.round(chars.length*Math.max(0,Math.min(1,(time-marks.type)/(marks.typed-marks.type))));
   assert.equal(ask.typed,chars.slice(0,count).join(''),`${key}: painted code-point prefix`);
   assert.equal(!!ask.reply,!!scene.reply,`${key}: optional answer belongs to the same card`);
@@ -342,10 +342,10 @@ async function opticalProbe(ps,id,safeBounds){
 
 function expectedCopy(scene,fraction){
   // Prompt glyphs are separate editable spans, verified as an exact prefix below.
-  if(scene.type==='ask')return fraction>.5?[scene.reply]:[];
-  if(scene.type==='send-prompt')return scene.chips;
+  if(scene.type==='glass-ask')return fraction>.5?[scene.reply]:[];
+  if(scene.type==='glass-send-prompt')return scene.chips;
   if(scene.type==='glass-flow')return fraction<.5?[scene.title,scene.body]:[scene.nextTitle,scene.nextBody];
-  return scene.type==='island'?[scene.title,scene.body]:[scene.text,scene.sub];
+  return scene.type==='glass-island'?[scene.title,scene.body]:[scene.text,scene.sub];
 }
 
 // Measure the two camera states relative to the actual independently retimed
@@ -449,7 +449,7 @@ try{
       const entry=cases[index],ps=plan.scenes[index],id=`s${index+1}`,key=`${entry.id}-${aspect.replace(':','x')}`;
       const row={id:key,case:entry.id,aspect,passed:false,samples:[],reverseExact:true};
       report.results.push(row);
-      const fractions={'glass-flow':[.32,.88],ask:[.25,.85],'send-prompt':[.78,.95]}[entry.scene.type]??[.45,.62];
+      const fractions={'glass-flow':[.32,.88],ask:[.25,.85],'glass-send-prompt':[.78,.95]}[entry.scene.type]??[.45,.62];
       for(const fraction of fractions){
         const time=ps.start+ps.dur*fraction;await page.shoot(time);
         const state=await snapshot(id),picture=Buffer.from(await page.screenshot({type:'png'}));
@@ -466,7 +466,7 @@ try{
         for(const copy of expectedCopy(entry.scene,fraction).filter(Boolean))assert.ok(words.includes(copy),`${key}: visible copy ${copy}`);
         assert.deepEqual(layoutFindings(state.texts,bounds),[],`${key}: readable native text`);
         assert.deepEqual(surfaceFindings(state.design),[],`${key}: semantic card surface spacing`);
-        if(entry.scene.type==='lens'){
+        if(entry.scene.type==='glass-lens'){
           // Glass, clear or smoked, traces its lens; metal covers the lettering.
           assert.equal(state.audit.lens?.mechanism,state.audit.cards[0].finish.kind==='metal'?'opaque-metal':'traced-slab');
           assert.equal(state.audit.lens.text,entry.scene.text);
@@ -477,8 +477,8 @@ try{
         }else{
           assert.ok(state.audit.surfaces.some(s=>s.opacity>=.75),'A projected text surface is visible');
           assert.ok(state.design.surfaces.some(surface=>surface.kind==='card'&&surface.visible),'Projected copy uses a semantic card surface');
-          if(entry.scene.type==='ask')checkAsk(state,ps,fraction,words,key);
-          else if(entry.scene.type==='send-prompt'){
+          if(entry.scene.type==='glass-ask')checkAsk(state,ps,fraction,words,key);
+          else if(entry.scene.type==='glass-send-prompt'){
             assert.ok(state.surfaces.some(surface=>surface.opacity>=.75&&surface.text.includes(entry.scene.text)),
               `${key}: editable prompt is attached to the projected panel`);
           }
@@ -520,11 +520,11 @@ try{
         await page.shoot(ps.start+ps.dur*.62);
       }
       if(entry.scene.type==='glass-flow')row.path=await checkFlowPath(ps,id);
-      if(entry.scene.type==='send-prompt')row.pullback=await checkPullback(ps,id);
-      if(entry.scene.type==='lens')row.optics=await opticalProbe(ps,id,bounds.safe);
+      if(entry.scene.type==='glass-send-prompt')row.pullback=await checkPullback(ps,id);
+      if(entry.scene.type==='glass-lens')row.optics=await opticalProbe(ps,id,bounds.safe);
       if(entry.id==='island-static'||entry.id==='ask-static-prompt')row.panelOptics=await panelOpticalProbe(ps,id);
       // Calibrate attachment checks against a detached caption, then restore.
-      if(entry.scene.type!=='lens'){
+      if(entry.scene.type!=='glass-lens'){
         const sampled=await snapshot(id);
         if(sampled.surfaces.length){
           const cardIndex=sampled.audit.surfaces.find(surface=>surface.opacity>=.75)?.cardIndex;

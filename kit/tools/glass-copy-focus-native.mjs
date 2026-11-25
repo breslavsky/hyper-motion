@@ -6,9 +6,9 @@ import catalog from '../source/lib/components/catalog.mjs';
 import {arrowElbowDownLeftBold, checkBold, circleNotchBold, magnifyingGlassBold} from '../source/lib/components/upstream/phosphor-icons/search-icons.mjs';
 
 const fixtures = [
-  {scene: {type: 'island', title: 'Upcoming classes', camera: 'orbit', beats: 6},
+  {scene: {type: 'glass-island', title: 'Upcoming classes', camera: 'orbit', beats: 6},
     probes: [[.48, '.pk-glass-heading']]},
-  {scene: {type: 'controls', toggles: ['Weekly updates', 'Reminders'], slider: 'Volume', beats: 6},
+  {scene: {type: 'glass-controls', toggles: ['Weekly updates', 'Reminders'], slider: 'Volume', beats: 6},
     probes: [[.48, '.pk-glass-control-label'], [.78, '.pk-glass-slider-row .pk-glass-control-label']]},
   {scene: {type: 'glass-steps', title: 'How it works', items: ['Upload your footage', 'Pick a style', 'Export in 4K'], beats: 6},
     probes: [[.48, '.pk-glass-heading'], [.8, '.pk-glass-step-text']]},
@@ -24,20 +24,20 @@ const fixtures = [
     probes: [[.3, '.pk-glass-follow-handle']]},
   {scene: {type: 'glass-call', name: 'Maya Chen', beats: 8},
     probes: [[.3, '.pk-glass-call-name'], [.9, '.pk-glass-call-clock']]},
-  {scene: {type: 'ask', text: 'Find my next class', reply: 'Tuesday is confirmed.', beats: 6},
+  {scene: {type: 'glass-ask', text: 'Find my next class', reply: 'Tuesday is confirmed.', beats: 6},
     probes: [[.35, '.pk-glass-ask-prompt'], [.85, '.pk-glass-ask-reply']]},
-  {scene: {type: 'search', query: 'Thursday workshops', beats: 6, timing: {focus: .5, type: 1, typed: 3, search: 4, collapse: 5, collapsed: 5.7, checked: 5.9}},
+  {scene: {type: 'glass-search', query: 'Thursday workshops', beats: 6, timing: {focus: .5, type: 1, typed: 3, search: 4, collapse: 5, collapsed: 5.7, checked: 5.9}},
     // Between the two click ripples, while the page's own text is what shows.
     probes: [[.6, '.pk-glass-search-query']]},
   {scene: {type: 'glass-flow', title: 'First message', nextTitle: 'Next message', beats: 16},
     probes: [[.32, '[data-glass-surface="0"] .pk-glass-heading'], [.88, '[data-glass-surface="1"] .pk-glass-heading']]},
-  {scene: {type: 'widgets', items: [{label: 'Bookings', value: '12'}, {label: 'Reviews', value: '24'}], beats: 4},
+  {scene: {type: 'glass-widgets', items: [{label: 'Bookings', value: '12'}, {label: 'Reviews', value: '24'}], beats: 4},
     probes: [[.9, '.pk-glass-widget-label']]},
-  {scene: {type: 'lens', text: 'Read every letter clearly', sub: 'Optical clarity', camera: 'orbit', beats: 6},
+  {scene: {type: 'glass-lens', text: 'Read every letter clearly', sub: 'Optical clarity', camera: 'orbit', beats: 6},
     probes: [[.1, '.pk-glass-lens-source'], [.525, '.pk-glass-lens-source'], [.955, '.pk-glass-lens-caption'], [.525, '.pk-glass-lens-source']]},
 ];
 // send-prompt has its own button, wave and chip pixel comparisons in this pytest suite.
-const covered = [...fixtures.map(({scene}) => scene.type), 'send-prompt'].sort();
+const covered = [...fixtures.map(({scene}) => scene.type), 'glass-send-prompt'].sort();
 assert.deepEqual(covered, Object.keys(catalog).filter(type => catalog[type].family === 'glass').sort(), 'Add a pixel probe for each glass component');
 const film = {aspect: '16:9', style: 'glass', grain: false, sparks: false,
   brand: {name: 'Focus', tokens: {background: '#131924', foreground: '#ffffff', accent: '#285386'}},
@@ -298,7 +298,7 @@ async function checkSearch(page, id, ps) {
 
 async function checkSearchPlaceholders(page) {
   const hints = [undefined, 'Find classes, instructors and workshops near you...', ''];
-  const base = fixtures.find(({scene}) => scene.type === 'search').scene;
+  const base = fixtures.find(({scene}) => scene.type === 'glass-search').scene;
   const scenes = hints.map(placeholder => ({...base, in: 'cut', ...(placeholder === undefined ? {} : {placeholder})}));
   const {plan} = await page.play({...film, brand: {name: 'Focus'}, aspect: '9:16', scenes});
   for (const [index, ps] of plan.scenes.entries()) {
@@ -349,7 +349,7 @@ async function measureInk(page, id, selector, previewScale) {
     const x = Math.max(0, Math.floor(box.x) - 2), y = Math.max(0, Math.floor(box.y) - 2);
     let right = Math.min(innerWidth, Math.ceil(box.right) + 2);
     // Measure the exposed headline left of the moving glass, including after a reverse seek.
-    if (instance.ps.scene.type === 'lens') {
+    if (instance.ps.scene.type === 'glass-lens') {
       const {lens, camera} = world.inspect();
       if (lens.visible) {
         const mesh = lens.children.find(node => node.isMesh), vertices = mesh.geometry.attributes.position;
@@ -395,7 +395,7 @@ try {
     const {plan} = await page.play(film, {options: {previewScale}});
     for (const [index, {scene, probes}] of fixtures.entries()) {
       const ps = plan.scenes[index];
-      if (scene.type === 'search') await checkSearch(page, 's' + (index + 1), ps);
+      if (scene.type === 'glass-search') await checkSearch(page, 's' + (index + 1), ps);
       for (const [sampleIndex, [fraction, selector]] of probes.entries()) {
         await page.shoot(ps.start + ps.dur * fraction);
         const id = 's' + (index + 1), focus = await measureInk(page, id, selector, previewScale);
@@ -405,7 +405,7 @@ try {
           const ratio = focus / reference.get(key);
           console.log(key, ratio);
           assert.ok(ratio >= .95 && ratio <= 1.05, key + ': preview/native glyph edge energy ' + ratio);
-          if (scene.type === 'island') {
+          if (scene.type === 'glass-island') {
             // Calibrate the same pixel metric against a deliberately softened live heading.
             const filter = await setStyle(page, id, selector, 'filter', 'blur(2px)');
             try {

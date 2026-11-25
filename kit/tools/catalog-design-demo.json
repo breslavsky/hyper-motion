@@ -12,7 +12,7 @@
   "music": {"bpm": 108, "track": "air", "kit": "soft", "volume": 0.32},
   "scenes": [
     {"type": "title", "text": "Одна *система*", "sub": "Каталог компонентов", "beats": 3, "in": "glide"},
-    {"type": "controls", "title": "Общие настройки", "toggles": ["Типографика", "Отступы", "Цвета"], "slider": "Интенсивность", "beats": 5, "in": "glide"},
+    {"type": "glass-controls", "title": "Общие настройки", "toggles": ["Типографика", "Отступы", "Цвета"], "slider": "Интенсивность", "beats": 5, "in": "glide"},
     {"type": "chart", "kind": "ring", "title": "Демонстрационные данные", "values": [72, 28], "labels": ["Содержание", "Акценты"], "beats": 5, "in": "glide"},
     {"type": "timeline", "title": "От идеи к ролику", "items": ["Идея", "Сценарий", "Движение", "Результат"], "beats": 6, "in": "glide"},
     {"type": "cards3d", "titles": ["Текст", "Графика", "Интерфейс"], "beats": 6, "in": "glide"},

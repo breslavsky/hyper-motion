@@ -39,7 +39,7 @@ ignored build directories. Rebuild when changing the selection.
   and **3D material** (As in the example, Glass, Dark Glass or Metal). A Glass
   scene's examples **Glass**, **Dark Glass** and **Metal** start on their own material and the
   toolbar switches all of them; elsewhere "As in the example" is Glass. The material applies to the shared
-  Liquid Glass components, currently `island`, `controls`, `ask`, `lens`, `glass-flow`, `send-prompt` and `search`.
+  Liquid Glass components, currently `glass-island`, `glass-controls`, `glass-ask`, `glass-lens`, `glass-flow`, `glass-send-prompt` and `glass-search`.
   Ordinary DOM typography, buttons and cards keep their normal appearance.
 - All Glass examples have a **Background** selector above the player. Pick
   **Photo** or **Video** to try the bundled media, or use **Upload file…**
@@ -74,13 +74,13 @@ ignored build directories. Rebuild when changing the selection.
 - Named examples appear beneath components whose canonical metadata opts in
   to enum variants. Thinking Orbs has one example for each of its nine states,
   alongside the general editable preview.
-- **Pure Kinetic / glass** includes the Three.js `island`, `controls`, `ask`, `lens`,
-  `glass-flow`, `search` and `send-prompt` components. In `search`, edit
+- **Pure Kinetic / glass** includes the Three.js `glass-island`, `glass-controls`, `glass-ask`, `glass-lens`,
+  `glass-flow`, `glass-search` and `glass-send-prompt` components. In `glass-search`, edit
   `query` to change the text typed into the field. The search button shows
   a spinner from the `timing.search` beat. The field begins folding into
   the button at `timing.collapse`. At `timing.collapsed` only the button
   and its spinner remain. At `timing.checked` the spinner becomes a
-  checkmark and holds. In `send-prompt`, the
+  checkmark and holds. In `glass-send-prompt`, the
   camera tracks the typing caret and pulls back in an arc to reveal the glass
   composer. Its optional `chips` label the topics or sources of the request
   above the prompt. Set `chips` to `[]` to hide this row. The `pull` and

@@ -22,7 +22,7 @@ const browser=await createNativeBrowser({source}),page=await browser.newPage();
 try{
   await page.play({aspect:'16:9',style:'glass',grain:false,sparks:false,pace:'normal',brand:{name:'Glass performance',font:'Geist',
     tokens:{background:'#101828',foreground:'#ffffff',accent:'#6366f1',accent2:'#ff6b35'}},
-    scenes:[{type:'island',title:'One clear message',body:'A surface with depth.',camera:'orbit',exit:'hold',beats:4}]},
+    scenes:[{type:'glass-island',title:'One clear message',body:'A surface with depth.',camera:'orbit',exit:'hold',beats:4}]},
   {options:buildOptions,transformProject:project=>{
     // Inspect only a private copied project. Production source remains intact.
     const file=path.join(project,'lib/components/glass/world.mjs');

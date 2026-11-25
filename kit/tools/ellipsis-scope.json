@@ -1082,7 +1082,7 @@
       }
     },
     {
-      "type": "island",
+      "type": "glass-island",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
@@ -1098,7 +1098,7 @@
       }
     },
     {
-      "type": "widgets",
+      "type": "glass-widgets",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
@@ -1114,7 +1114,7 @@
       }
     },
     {
-      "type": "controls",
+      "type": "glass-controls",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
@@ -1131,7 +1131,7 @@
       }
     },
     {
-      "type": "ask",
+      "type": "glass-ask",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
@@ -1146,7 +1146,7 @@
       }
     },
     {
-      "type": "lens",
+      "type": "glass-lens",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
@@ -1176,7 +1176,7 @@
       }
     },
     {
-      "type": "send-prompt",
+      "type": "glass-send-prompt",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
@@ -1191,7 +1191,7 @@
       }
     },
     {
-      "type": "search",
+      "type": "glass-search",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",
       "policy": "preserved",
