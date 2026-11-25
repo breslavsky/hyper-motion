@@ -128,7 +128,8 @@ export async function mountScene(host,config,variables={},gsap){
     // A scene laid over footage on a track of its own has no ground: the footage is seen through it.
     if(scene.over)sceneRoot.style.background='transparent';
     const decoration=helpers.decor.of({W,H,S,plan,stage,get M(){return M;}});
-    const decoDraw=decoration.decorate(sceneRoot,ps);
+    // The look's own ground (its coloured lights) belongs under a scene that fills the frame: over footage there is none.
+    const decoDraw=scene.over?()=>{}:decoration.decorate(sceneRoot,ps);
     const life=el('div','layer',sceneRoot),cam=el('div','cam',life);
     K.presentationScale=1;
     if(sourcePlan.look?.deco?.letterbox){const k=1-2*decoration.letterboxBar()/H;K.presentationScale=Number(k.toFixed(4));set(cam,{scale:k.toFixed(4),translate:`${px(W*(1-k)/2)} ${px(H*(1-k)/2)}`});}

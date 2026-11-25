@@ -32,6 +32,8 @@ try {
   const SAMPLES = {
     'assets/glass-bahamas.webp': 'https://motion-fab-share.b-cdn.net/components/glass/bahamas.webp',
     'assets/glass-street.mp4': 'https://motion-fab-share.b-cdn.net/components/glass/street.mp4',
+    // The presenter of Talking Head's own demo, without its sound: the footage under the B-Rolls.
+    'assets/talking-head.mp4': 'https://motion-fab-share.b-cdn.net/components/glass/talking-head.mp4',
   };
   const sample = background && SAMPLES[background.image ?? background.video];
   if (sample && !options.assetUrls) options.assetUrls = {[background.image ?? background.video]: sample};
@@ -42,9 +44,10 @@ try {
     // A scene laid over footage (`over`) has none of its own: the preview plays
     // a sample under it, in step with the scene's clock.
     if (ps.scene.over) {
-      const footage = Object.assign(document.createElement('video'), {muted: true, loop: true, playsInline: true, crossOrigin: 'anonymous', src: SAMPLES['assets/glass-street.mp4']});
+      const footage = Object.assign(document.createElement('video'), {muted: true, loop: true, playsInline: true, crossOrigin: 'anonymous', src: SAMPLES['assets/talking-head.mp4']});
       footage.dataset.previewFootage = '';
-      Object.assign(footage.style, {position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'cover'});
+      // It is a tall clip: a wide or square frame keeps the head, not the middle of the picture.
+      Object.assign(footage.style, {position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 20%'});
       root.prepend(footage);
       let moved = 0;
       timeline.eventCallback('onUpdate', () => {
