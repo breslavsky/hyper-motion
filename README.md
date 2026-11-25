@@ -11,11 +11,8 @@
 [![X](https://img.shields.io/badge/X-%40AntonBreslavsky-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/AntonBreslavsky)
 [![Storybook](https://img.shields.io/badge/storybook-live-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://breslavsky.github.io/hyper-motion/)
 [![Status](https://img.shields.io/badge/status-beta-orange?style=flat-square)](#status)
-[![Scenes](https://img.shields.io/badge/scenes-120%2B-0f9d58?style=flat-square)](https://breslavsky.github.io/hyper-motion/)
-[![For AI agents](https://img.shields.io/badge/for-AI%20agents-111111?style=flat-square)](kit/AGENTS.md)
 [![Renders with HyperFrames](https://img.shields.io/badge/renders%20with-HyperFrames-4f46e5?style=flat-square)](https://github.com/heygen-com/hyperframes)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Developed with Motion Fab](https://img.shields.io/badge/developed%20with-Motion%20Fab-2e5bff?style=flat-square)](https://www.motionfab.app)
 
 **Follow [@AntonBreslavsky](https://x.com/AntonBreslavsky) on X** for what comes next. Developed with **[Motion Fab](https://www.motionfab.app)**.
 

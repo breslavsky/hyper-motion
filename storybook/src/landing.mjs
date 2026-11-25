@@ -32,9 +32,7 @@ const BADGES = [
   ['X', '@AntonBreslavsky', 'https://x.com/AntonBreslavsky', '#000000'],
   ['status', 'beta', null, '#f08c00'],
   ['license', 'MIT', 'https://github.com/breslavsky/hyper-motion/blob/main/LICENSE', '#2463eb'],
-  ['for', 'AI agents', null, '#14161c'],
   ['renders with', 'HyperFrames', 'https://github.com/heygen-com/hyperframes', '#4f46e5'],
-  ['developed with', 'Motion Fab', 'https://www.motionfab.app', '#2e5bff'],
 ];
 
 // One scene playing: a small silent clip of it from our public CDN, rendered
@@ -74,7 +72,7 @@ export function renderLanding() {
   const total = catalog.length;
   hero.append(el('p', 'hm-facts', `${total} scenes for HyperFrames films, each one a recipe an agent can write: its fields, its limits and its sound cues are checked by code.`));
   const badges = el('p', 'hm-badges');
-  for (const [about, says, href, colour] of [...BADGES.slice(0, 2), ['scenes', String(total), null, '#0f9d58'], ...BADGES.slice(2)]) {
+  for (const [about, says, href, colour] of BADGES) {
     const badge = el(href ? 'a' : 'span', 'hm-shield');
     if (href) Object.assign(badge, {href, target: '_blank', rel: 'noopener'});
     const value = el('b', '', says); value.style.background = colour;
