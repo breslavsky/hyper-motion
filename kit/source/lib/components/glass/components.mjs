@@ -835,8 +835,7 @@ function glassStepper(args){
   const G=glassGrid(K),count=s.items.length;
   const tick=islandIconSource('check'),active=activeColor(args);
   // A pill is the family's field, as the search field is: one line of body text and its insets.
-  const pills=s.items.map((name,i)=>{
-    const text=`${i+1}: ${name}`;
+  const pills=s.items.map(text=>{
     const pill=el('div','pk-glass-copy pk-glass-stepper-pill',host);pill.dataset.glassCopy=text;
     const recipe=design.surface(pill,'field',{shape:'pill'});
     set(pill,{position:'absolute',display:'flex',alignItems:'center',color:fg,boxSizing:'border-box',width:'max-content'});
