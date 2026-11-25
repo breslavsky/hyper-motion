@@ -470,5 +470,9 @@
  "kinetic-swap-words": [
   4,
   6
+ ],
+ "kinetic-spin-words": [
+  3,
+  6
  ]
 }

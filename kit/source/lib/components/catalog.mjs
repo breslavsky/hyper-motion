@@ -532,6 +532,12 @@ export const catalog={
     "renderMode": "dom",
     "owned": true,
     "ground": "kinetic"
+  },
+  "kinetic-spin-words": {
+    "family": "text",
+    "renderMode": "dom",
+    "owned": true,
+    "ground": "kinetic"
   }
 };
 export default catalog;

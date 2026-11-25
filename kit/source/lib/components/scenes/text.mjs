@@ -3,6 +3,12 @@ import {typewriterTiming} from '../typewriter-timing.mjs';
 import {createTyping} from '../typing.mjs';
 import metadata from '../metadata.mjs';
 const sceneFactories = {};
+// Every move speeds up and then slows down. `inOut` is even; `swift` gets up to speed in its first part and
+// takes the rest of its time to stop.
+const inOut = (k) => k * k * (3 - 2 * k);
+const swift = (k) => 1 - (1 - k ** 1.4) ** 3;
+// How much of a ring a spinning line takes, in radians: its ends are turned 40 degrees away.
+const ARC = 1.4;
 
 /** Digits in a string roll like an odometer; everything else stays put. */
 const rollingNumber = (K, parent, text, size) => {
@@ -418,6 +424,20 @@ sceneFactories.comic = ({ p, cam, fg, K }) => {
 
 
 /**
+ * The sign of the Kinetic Text family: one tube of light, nearly white at its
+ * core in a glow of its own colour. `tube(k)` is its colour, the standing
+ * light at 0 and the other, of words that are taken or in motion, at 1.
+ */
+const kineticSign = (K, palette, accent, em) => {
+	const { px } = K;
+	const lights = [palette?.signTaken ?? accent, palette?.signStanding ?? palette?.brand2 ?? accent];
+	const tube = (k) => `color-mix(in srgb, ${lights[0]} ${(k * 100).toFixed(1)}%, ${lights[1]})`;
+	return { lights, tube,
+		core: (k) => `color-mix(in srgb, ${tube(k)} 12%, #fff)`,
+		glow: (k, strength = 1) => `0 0 ${px(em * 0.035)} #fff, 0 0 ${px(em * 0.11)} ${tube(k)}, 0 0 ${px(em * 0.3)} ${tube(k)}, 0 0 ${px(em * 0.75 * strength)} color-mix(in srgb, ${tube(k)} 70%, transparent)` };
+};
+
+/**
  * A line that is edited before the viewer, drawn as a sign of one tube of
  * light in a font of its own: it stands in the wrong order, the words that
  * are out of place are selected (they take the other light and lift off the
@@ -435,7 +455,7 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 	const t = def.times(s, length, p.beatLen);
 	const { moved, rest, first } = def.parts(s);
 	const hasClip = Boolean(s.image || s.video);
-	const smooth = (k) => k * k * (3 - 2 * k);
+	const smooth = inOut;
 	const at = (from, to, l) => clamp((l - from) / Math.max(1e-6, to - from), 0, 1);
 
 	const wrap = el("div", "center", cam);
@@ -464,12 +484,8 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 	// Where each part stands, from the line's left: in the order it ends in, and in the wrong one.
 	const ends = first ? { a: 0, b: wa + sp } : { a: wb + sp, b: 0 };
 	const begins = first ? { a: wb + sp, b: 0 } : { a: 0, b: wa + sp };
-	// The two lights of the sign: the first while the words are taken, the second standing.
-	const lights = [palette?.signTaken ?? accent, palette?.signStanding ?? palette?.brand2 ?? accent];
-	// The line is a sign of one tube of light with a core that is nearly white. Standing, it is the second
-	// light of the family; taken, the first.
-	const tube = (k) => `color-mix(in srgb, ${lights[0]} ${(k * 100).toFixed(1)}%, ${lights[1]})`;
-	const tubeGlow = (k, strength = 1) => `0 0 ${px(em * 0.035)} #fff, 0 0 ${px(em * 0.11)} ${tube(k)}, 0 0 ${px(em * 0.3)} ${tube(k)}, 0 0 ${px(em * 0.75 * strength)} color-mix(in srgb, ${tube(k)} 70%, transparent)`;
+	// The line is a sign of one tube of light: standing, the second light of the family; taken, the first.
+	const { lights, tube, core, glow: tubeGlow } = kineticSign(K, palette, accent, em);
 	// A tube does not come on at once: it flickers for the first third of a second, at 24 frames a second.
 	const START = [0, 0, 1, 0.15, 0, 0.7, 1, 0.3, 1];
 	const lit = (l) => START[Math.floor((l + 1e-6) * 24)] ?? 1;
@@ -534,9 +550,9 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 	// How the taken words travel, as a hand would carry them and never evenly: a quick pull towards the place,
 	// a hover over the line while the rest makes room, then the last of the way. `u` is the share of the carry.
 	const way = (u) => {
-		if (u < 0.28) return 0.56 * (1 - (1 - u / 0.28) ** 3);
-		if (u < 0.68) return 0.56 + 0.16 * smooth((u - 0.28) / 0.4);
-		return 0.72 + 0.28 * smooth((u - 0.68) / 0.32);
+		if (u < 0.28) return 0.56 * swift(u / 0.28);
+		if (u < 0.68) return 0.56 + 0.16 * inOut((u - 0.28) / 0.4);
+		return 0.72 + 0.28 * inOut((u - 0.68) / 0.32);
 	};
 	return (l) => {
 		const between = Math.min(ends.a, ends.b) + (first ? wa : wb) + sp / 2;
@@ -544,20 +560,20 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		const u = at(t.carry, t.drop, l);
 		// Down onto the line in the last tenth of the carry, a little past it, and back.
 		const fall = at(t.drop - 0.09, t.drop, l), settle = at(t.drop, t.drop + 0.14, l);
-		const held = taken * (1 - fall * fall);
+		const held = taken * (1 - inOut(fall));
 		const selected = taken * (1 - smooth(at(t.drop, t.drop + 0.08, l)));
 		// Higher in the middle of the way than at its ends: an arc over the rest of the line.
 		const height = lift * held * (1 + 0.6 * Math.sin(Math.PI * Math.min(1, u / 0.9))) - lift * 0.1 * Math.sin(Math.PI * settle) * (1 - settle);
 		const carried = way(u);
 		// The rest steps aside in one move, when the caret has come to its place.
-		const made = 1 - (1 - at(t.carry + (t.drop - t.carry) * 0.58, t.carry + (t.drop - t.carry) * 0.76, l)) ** 3;
+		const made = swift(at(t.carry + (t.drop - t.carry) * 0.58, t.carry + (t.drop - t.carry) * 0.78, l));
 		// With a clip the line opens: the words part by the strip's width and the whole line gives room.
 		const opened = hasClip ? smooth(at(t.open, t.placed, l)) : 0;
 		const room = opened * (stripW + sp);
 		const left = (which) => begins[which] + (ends[which] - begins[which]) * (which === "a" ? carried : made);
 		// Then the frame goes into the clip, faster and faster: the clip grows from its own middle and the
 		// words, growing with it, are carried out to the sides and leave the frame.
-		const gone = hasClip ? at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l) ** 2 : 0;
+		const gone = hasClip ? inOut(at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l)) : 0;
 		const shift = (which) => (ends[which] > ends[which === "a" ? "b" : "a"] ? 1 : -1) * (room / 2 + gone * W * 0.12);
 		// As the line opens the words grow and go apart, out of the frame if they must: the clip takes the middle.
 		const grown = 1 + 0.24 * opened;
@@ -566,13 +582,13 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 		set(a, { translate: `${px(left("a") + shift("a"))} ${px(-height)}`, scale: ((1 + 0.14 * held - 0.03 * Math.sin(Math.PI * settle)) * grown).toFixed(4), transformOrigin: opened > 0 ? `${ends.a < ends.b ? 100 : 0}% 60%` : "50% 60%",
 			rotate: `${(side * 2.4 * held * Math.sin(Math.PI * u)).toFixed(3)}deg`,
 			// Nearly white at the core, in a glow of the tube's own colour, wider while the words are taken.
-			color: `color-mix(in srgb, ${tube(selected)} 12%, #fff)`, textShadow: tubeGlow(selected, 1 + 0.3 * selected) });
-		set(b, { translate: `${px(left("b") + shift("b"))} 0`, scale: grown.toFixed(4), transformOrigin: `${ends.b < ends.a ? 100 : 0}% 60%`, opacity: ((1 - 0.55 * selected) * (1 - at(0.55, 1, gone)) * lit(l)).toFixed(3), color: `color-mix(in srgb, ${tube(0)} 12%, #fff)`, textShadow: tubeGlow(0) });
-		a.style.opacity = ((1 - at(0.55, 1, gone)) * lit(l)).toFixed(3);
+			color: core(selected), textShadow: tubeGlow(selected, 1 + 0.3 * selected) });
+		set(b, { translate: `${px(left("b") + shift("b"))} 0`, scale: grown.toFixed(4), transformOrigin: `${ends.b < ends.a ? 100 : 0}% 60%`, opacity: ((1 - 0.55 * selected) * (1 - inOut(at(0.55, 1, gone))) * lit(l)).toFixed(3), color: core(0), textShadow: tubeGlow(0) });
+		a.style.opacity = ((1 - inOut(at(0.55, 1, gone))) * lit(l)).toFixed(3);
 		// The caret stands where the words were taken from, then jumps to where they will be put: in front of
 		// the rest of the line, and it stays at that word's first letter while the word steps aside.
 		const from = begins.a - sp / 2, to = first ? left("b") + shift("b") - sp * 0.18 : ends.a - sp / 2;
-		const jumped = 1 - (1 - at(t.carry + (t.drop - t.carry) * 0.46, t.carry + (t.drop - t.carry) * 0.6, l)) ** 3;
+		const jumped = swift(at(t.carry + (t.drop - t.carry) * 0.46, t.carry + (t.drop - t.carry) * 0.62, l));
 		// With a clip the caret comes back between the words, and the clip grows out of it.
 		const waits = hasClip && l >= t.open - Math.min(0.3, (t.open - t.drop) * 0.5) && opened <= 0.001;
 		set(caret, { left: px(waits ? between - caretW / 2 : from + (to - from) * jumped), opacity: waits || (selected > 0.5 && Math.floor(l / 0.26) % 4 !== 3) ? "1" : "0" });
@@ -581,12 +597,75 @@ sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
 			// its full height: the clip behind it fills the room as it comes.
 			const wide = caretW + (stripW - caretW) * opened, tall = caretH + (stripH - caretH) * smooth(at(0.25, 1, opened));
 			set(strip, { left: px(between - wide / 2), top: px((high - tall) / 2), width: px(wide), height: px(tall), opacity: opened > 0.001 ? "1" : "0" });
-			// The lights go once round the clip in three seconds; the same turn at the same moment of the scene.
-			const edge = Math.max(2, em * 0.05), turn = ((l * 120) % 360).toFixed(1);
+			// The lights go once round the clip in three seconds, now quicker and now slower; the same turn at the
+			// same moment of the scene.
+			const edge = Math.max(2, em * 0.05), turn = (((l * 120 + 26 * Math.sin(l * 2.1)) % 360 + 360) % 360).toFixed(1);
 			const lightsRound = `conic-gradient(from ${turn}deg, ${lights[0]}, ${lights[1]}, #fff 52%, ${lights[1]}, ${lights[0]})`;
 			for (const [node, grow] of [[ring, edge], [halo, edge * 2.2]]) set(node, { left: px(between - wide / 2 - grow), top: px((high - tall) / 2 - grow), width: px(wide + 2 * grow), height: px(tall + 2 * grow),
 				borderRadius: px(em * 0.12 + grow), background: lightsRound, opacity: opened > 0.001 ? (node === halo ? "0.9" : "1") : "0" });
 			if (video && opened > 0.001) paint(video);
+		}
+	};
+};
+
+/**
+ * A line that spins, in real space: its letters stand upright on a ring, each
+ * turned to face outwards, and the ring turns about its upright axis under a
+ * camera with perspective. So the line swings off to one side, goes round
+ * behind, where it is seen from its back, mirrored and dim, and comes to the
+ * front again; a few fast turns that slow into place on a beat. The browser
+ * does the geometry (CSS 3D: one `rotateY` of the ring), nothing is faked by
+ * moving letters about; the scene only says how far the ring has turned and
+ * how much light each letter gets for the way it faces. In the film's own
+ * font and ink. Ours, after one move of Apple's Creator Studio film ("Loop
+ * it.", SOURCE.json).
+ */
+sceneFactories["kinetic-spin-words"] = ({ p, cam, fg, K }) => {
+	const { W, H, el, set, px, clamp } = K;
+	const s = p.scene;
+	const def = metadata["kinetic-spin-words"];
+	const t = def.times(s, p.ldur ?? p.dur, p.beatLen);
+	const wrap = el("div", "center", cam);
+	const line = el("div", "bold", wrap);
+	set(line, { position: "relative", whiteSpace: "nowrap", lineHeight: "1.15", color: fg });
+	const parts = def.units(s.text).map((unit) => {
+		const node = el("span", "", line, unit);
+		set(node, { display: "inline-block", whiteSpace: "pre" });
+		return { node };
+	});
+	K.design.fitSize(line, K.safe.w * 0.6, K.safe.h * (W > H * 1.2 ? 0.24 : 0.14), "display", { wrap: "nowrap" });
+	const em = parseFloat(getComputedStyle(line).fontSize) || 48, high = em * 1.15, scale = K.scale || 1;
+	const box = line.getBoundingClientRect();
+	for (const part of parts) {
+		const r = part.node.getBoundingClientRect();
+		part.width = r.width / scale;
+		part.middle = (r.left - box.left) / scale + part.width / 2;
+	}
+	const full = box.width / scale;
+	// The line takes ARC of the ring; the camera stands a few radii away, so the near side is a little
+	// larger than the far one.
+	const radius = full / ARC;
+	set(line, { width: px(full), height: px(high), perspective: px(radius * 4.2), perspectiveOrigin: "50% 50%" });
+	const ring = el("div", "", line);
+	set(ring, { position: "absolute", left: px(full / 2), top: "0", width: "0", height: px(high), transformStyle: "preserve-3d" });
+	for (const part of parts) {
+		part.angle = (part.middle - full / 2) / radius;
+		ring.append(part.node);
+		// Each letter is a plane on the ring, facing out; from behind it is seen mirrored, as a sign on glass is.
+		set(part.node, { position: "absolute", left: px(-part.width / 2), top: "0", backfaceVisibility: "visible",
+			transform: `rotateY(${part.angle.toFixed(5)}rad) translateZ(${px(radius)})` });
+	}
+	const whole = (t.turns + 0.5) * 2 * Math.PI;
+	return (l) => {
+		// It comes from behind, gets up to speed, and takes most of its time to slow into place. A turn to the
+		// left: what is in front goes left.
+		const turned = whole * (1 - swift(clamp((l - t.start) / Math.max(1e-6, t.land - t.start), 0, 1)));
+		// The ring's axis is its own radius behind the page, so the letters in front are at their own size.
+		set(ring, { transform: `translateZ(${px(-radius)}) rotateY(${turned.toFixed(5)}rad)` });
+		for (const part of parts) {
+			// Light by the way a letter faces: full when it faces the camera, little from behind.
+			const facing = Math.cos(part.angle + turned);
+			part.node.style.opacity = (facing > 0 ? 0.3 + 0.7 * facing ** 0.6 : 0.3 * (-facing) ** 0.5).toFixed(3);
 		}
 	};
 };

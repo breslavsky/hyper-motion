@@ -1591,6 +1591,20 @@
       }
     },
     {
+      "type": "kinetic-spin-words",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text"
+        ],
+        "reason": "One short line of one to four words, fitted to its width in one piece: every letter is a plane on the ring, so none can be cut."
+      }
+    },
+    {
       "type": "glass-steps",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",

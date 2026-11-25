@@ -2049,6 +2049,40 @@ validate(s){
       cue(t.select,'click',.5);cue(t.carry,'whoosh',.35);cue(t.drop,'pop',.7);
       if(t.clip){cue(t.open,'whoosh',.45);cue(t.placed,'chime',.6);cue(t.leave,'whoosh',.4);}
     }}
+,"kinetic-spin-words":{
+"section":"Kinetic Text",
+// A line that spins in real space (scenes/text.mjs): its letters stand on a ring
+// that turns about its upright axis under a camera, fast and then slowing into
+// place on a beat. Ours, after one move of Apple's Creator Studio film (SOURCE.json).
+"copyFields":["text"],
+"fields":{"text":{"kind":"string","min":2,"max":28},"turns":{"kind":"number","min":1,"max":4,"optional":true}},
+"guide":"kinetic-spin-words {text, turns?}: a short line spins in real 3D. Its letters stand upright on a ring, facing out, and the ring turns about its upright axis under a camera: the line swings off to one side, goes round behind, where it is seen from its back, mirrored and dim, and comes to the front again; a few fast turns that slow into place on a beat. Standing, the line keeps the curve of its ring: its ends are turned a little away. text = the line, 1-4 words, up to 28 characters (\"Loop it.\"). turns = how many times it goes round, 1 to 4 (default 2). In the film's own font, white on the black ground of its family. For a line about a loop, a repeat, a turn, a cycle, something that comes round again; its landing is the moment for a hit of the music. 3-6 beats.",
+"sample":{"type":"kinetic-spin-words","beats":4,"text":"Loop it."},
+// What turns as one: a letter, a space, or a whole word of a script whose letters join.
+"units":function units(text){
+      const joined=/[֐-ࣿऀ-෿יִ-﷿ﹰ-﻿]/u,segmenter=new Intl.Segmenter('und',{granularity:'grapheme'});
+      return String(text??'').trim().split(/(\s+)/u).filter(Boolean).flatMap(piece=>/^\s+$/u.test(piece)?[' ']:joined.test(piece)?[piece]:Array.from(segmenter.segment(piece),part=>part.segment));
+    },
+"validate":function validate(s){
+      const errors=[],words=String(s.text??'').trim().split(/\s+/u).filter(Boolean).length,turns=s.turns??2;
+      if(words<1||words>4)errors.push(`text: ${words} words; the line has 1 to 4`);
+      if(!Number.isInteger(turns))errors.push('turns: a whole number, 1 to 4');
+      else if(Number.isFinite(s.beats)&&s.beats<turns+1)errors.push(`beats: ${turns} turns need at least ${turns+1} beats`);
+      return errors;
+    },
+// The line starts to turn at once and stands on a beat, three quarters of a
+// beat a turn when the scene has room, with time left to be read.
+"times":function times(s,len,beat){
+      const b=Number.isFinite(beat)&&beat>0?beat:len/4,turns=s.turns??2;
+      const start=Math.min(b*.1,len*.03);
+      const land=Math.min(Math.max(b,Math.round((start+turns*b*.75)/b)*b),len*.72);
+      return {start,land,turns};
+    },
+"sounds":function sounds(s,len,cue,beat){
+      const t=this.times(s,len,beat);
+      for(let turn=0;turn<t.turns;turn++)cue(t.start+(t.land-t.start)*(1-Math.sqrt(1-(turn+.5)/(t.turns+.5))),'whoosh',.3);
+      cue(t.land,'pop',.7);
+    }}
 };
 export {definitions};
 export default definitions;

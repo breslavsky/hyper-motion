@@ -178,11 +178,11 @@
       "note": "The glass-stepper scene (glass/components.mjs): round numbered marks on a line, each with a pill that names its step, the ones done ticked and the one being done lit. Written here on our own optical glass from what the picture shows; the walk, the camera that goes down the line with the step being done and every measure are ours."
     },
     {
-      "name": "Apple Creator Studio film, the move of its line \"Edit a video.\"",
+      "name": "Apple Creator Studio film, the moves of its lines \"Edit a video.\" and \"Loop it.\"",
       "url": "https://www.apple.com/apple-creator-studio/",
       "taken": "followed",
       "date": "2026-11-25",
-      "note": "The scene kinetic-swap-words (scenes/text.mjs) is ours, written from scratch after watching one move of Apple's film for Creator Studio: a line stands in the wrong order, the words out of place are selected, carried behind a caret and dropped where they belong, then a strip of a clip is put between the words. Nothing of the film is taken: no frame, font, sound or code; the idea of the move only.",
+      "note": "The scene kinetic-swap-words (scenes/text.mjs) is ours, written from scratch after watching one move of Apple's film for Creator Studio: a line stands in the wrong order, the words out of place are selected, carried behind a caret and dropped where they belong, then a strip of a clip is put between the words. Nothing of the film is taken: no frame, font, sound or code; the idea of the move only. The scene kinetic-spin-words is ours in the same way, after the film's \"Loop it.\": a line that goes round and comes back mirrored behind. Ours is a ring in real 3D (CSS transforms), which the film's own move does not appear to be.",
       "license": "Public reference; no media or code copied"
     }
   ]

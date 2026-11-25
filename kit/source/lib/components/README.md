@@ -809,6 +809,20 @@ font of its own whatever the film's: Comfortaa, a rounded family drawn with
 one line and bundled with the kit (the definition's `font`; `fonts()` is what
 the runtime loads for a scene before it is measured).
 
+`kinetic-spin-words` is the family's second scene: a line that spins in real
+space. Every letter (`units`: a letter, a space, or a whole word of a script
+whose letters join) is a plane standing on a ring, turned to face outwards
+(`rotateY` by its place on the arc, `translateZ` by the radius), and the ring
+turns about its upright axis under a camera with perspective: one `rotateY`
+of the ring, set from the scene's time. The browser does the geometry, the
+depth and what hides what; the scene adds only the light each letter gets for
+the way it faces, so the back of the ring is dim and read mirrored. The line
+takes `ARC` of the ring and keeps that curve when it stands. A first version
+moved letters along a flat belt with a mirrored copy behind, which is what the
+film it follows appears to do; it was a trick, and was replaced. It is set in
+the film's own font and ink: the sign of tubes (`kineticSign`) is the edited
+line's.
+
 The family has a ground of its own (`kinetic-ground.mjs`, `"ground":
 "kinetic"` in the catalogue): black, with the two lights of the sign, and none
 of the look's decoration, whatever the film's style, unless the scene's or the
