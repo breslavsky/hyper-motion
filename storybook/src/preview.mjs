@@ -35,6 +35,8 @@ try {
   };
   const sample = background && SAMPLES[background.image ?? background.video];
   if (sample && !options.assetUrls) options.assetUrls = {[background.image ?? background.video]: sample};
+  // A scene's own sample video (the laptop's screen) comes from there too.
+  if (SAMPLES[ps.scene.video]) options.assetUrls = {...options.assetUrls, [ps.scene.video]: SAMPLES[ps.scene.video]};
   const ready = mountScene(root, {id: 'main', plan, ps, clipStart: 0, clipDuration: plan.duration, options}, {}, window.gsap).then(({timeline, instance}) => {
     window.__timelines.main = timeline;
     window.__storybookComponent = {instance, plan, film};

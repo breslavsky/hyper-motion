@@ -1,6 +1,6 @@
 import settings from '../generated/settings.json';
 import brandbooks from '../generated/brandbooks.json';
-import {DEFAULT_BRANDBOOK} from '../src/model.mjs';
+import {DEFAULT_BRANDBOOK, DEFAULT_FONT} from '../src/model.mjs';
 import '../src/story.css';
 
 export default {
@@ -11,13 +11,16 @@ export default {
     brandbook: {description: 'Brand colors and font', toolbar: {title: 'Brandbook', dynamicTitle: true,
       items: [{value:DEFAULT_BRANDBOOK,title:'Default'},
         ...Object.entries(brandbooks).map(([value,book])=>({value,title:book.label}))]}},
+    font: {description: 'Font family', toolbar: {title: 'Font', dynamicTitle: true,
+      // "As in the brandbook" keeps the brandbook's font, or the style's own when it names none.
+      items: [{value:DEFAULT_FONT,title:'Font: as in the brandbook'}, ...settings.fonts.map(value=>({value,title:value}))]}},
     material: {description: 'Surface material for 3D Liquid Glass components', toolbar: {title: '3D material', dynamicTitle: false,
       // "example" leaves each named material example on its own material; any
       // other choice switches every preview on the page.
       items: [{value:'example',title:'As in the example'},
         ...settings.materials.map(value=>({value,title:({glass:'Glass','dark-glass':'Dark Glass',metal:'Metal'})[value]??value}))]}},
   },
-  initialGlobals: {aspect: 'landscape', brandbook: DEFAULT_BRANDBOOK, material: 'example'},
+  initialGlobals: {aspect: 'landscape', brandbook: DEFAULT_BRANDBOOK, font: DEFAULT_FONT, material: 'example'},
   parameters: {
     layout: 'fullscreen',
     controls: {expanded: true, sort: 'requiredFirst'},

@@ -1,0 +1,761 @@
+{
+ "note": "Families of the font library a film may name in brand.font, with their faces; written by tools/font-library.mjs.",
+ "source": "Google Fonts",
+ "built": "2026-11-06",
+ "families": [
+  {
+   "id": "onest",
+   "family": "Onest",
+   "role": "sans",
+   "tags": [
+    "neo-grotesk",
+    "clean",
+    "modern",
+    "tech"
+   ],
+   "note": "Contemporary Russian-made grotesk; neutral headlines and body, the safe modern default.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    100,
+    900
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-onest.txt",
+   "version": "2026-08-25",
+   "designers": [
+    "Dmitri Voloshin",
+    "Andrey Kudryavtsev"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "100 900",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "onest-cyrillic-ext-normal.woff2",
+     "bytes": 10504,
+     "sha256": "8b55db3131aa41d0b0f25dd923c9e1494d7c930d4ca5a1b438b0badcc158f55e"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "100 900",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "onest-cyrillic-normal.woff2",
+     "bytes": 15828,
+     "sha256": "c3f4223046fb9623a0e92414d2834745cbebb260742e049aff103018b991fd47"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "100 900",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "onest-latin-ext-normal.woff2",
+     "bytes": 28428,
+     "sha256": "f72bdc75595bf844f68b15e18dae7eb4f5829b633c402201c8e036d1dfc5f17b"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "100 900",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "onest-latin-normal.woff2",
+     "bytes": 33808,
+     "sha256": "cc61cbd632bb677cd55f0eec9ebdd3e1525c5f30904cbf0769e2ac50d0fba992"
+    }
+   ]
+  },
+  {
+   "id": "manrope",
+   "family": "Manrope",
+   "role": "sans",
+   "tags": [
+    "geometric",
+    "modern",
+    "fintech"
+   ],
+   "note": "Semi-condensed modern sans; pairs with Unbounded titles.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    200,
+    800
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-manrope.txt",
+   "version": "2025-09-04",
+   "designers": [
+    "Mikhail Sharanda"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "200 800",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "manrope-cyrillic-ext-normal.woff2",
+     "bytes": 2592,
+     "sha256": "e8c0b39992f06b3dc9a9834494088014859f363bf6ca8792b6bb07e17c7965f3"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "200 800",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "manrope-cyrillic-normal.woff2",
+     "bytes": 14544,
+     "sha256": "95a493061fe0a8d0d027c2892747134ba747141112d3be4d5022e70ab7d3a1a6"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "200 800",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "manrope-latin-ext-normal.woff2",
+     "bytes": 15240,
+     "sha256": "ce093b341d9c10658ee1eaa85c5f8042ff3307bc6ccfc5f405616eb437f0009e"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "200 800",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "manrope-latin-normal.woff2",
+     "bytes": 24576,
+     "sha256": "e310b55a7fd9677f5e3555e6c6c4d064fa1f1d24393f0ddbe217cea12a8c432f"
+    }
+   ]
+  },
+  {
+   "id": "unbounded",
+   "family": "Unbounded",
+   "role": "display",
+   "tags": [
+    "wide",
+    "bold",
+    "crypto",
+    "tech"
+   ],
+   "note": "Very wide geometric display; big confident titles.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    200,
+    900
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-unbounded.txt",
+   "version": "2025-09-11",
+   "designers": [
+    "NaN"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "200 900",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "unbounded-cyrillic-ext-normal.woff2",
+     "bytes": 1816,
+     "sha256": "5501f713602e4960a52d096d6a4afb72b5d163c5bf27173e93da41a6837e3a2d"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "200 900",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "unbounded-cyrillic-normal.woff2",
+     "bytes": 31460,
+     "sha256": "c3880f0c5afb7890a102bc4b9c8257703664388f708b4be880ec5f5f68e8ea9d"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "200 900",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "unbounded-latin-ext-normal.woff2",
+     "bytes": 117648,
+     "sha256": "ed84482df7b95e6a56a113de1ba2a8d54337f499ba19d54ca697a7e15427ff5f"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "200 900",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "unbounded-latin-normal.woff2",
+     "bytes": 50892,
+     "sha256": "d7f07f8a308ce0a7287d79a65a85cfbc0f4741ef426bf1a3902d24392cc71723"
+    }
+   ]
+  },
+  {
+   "id": "oswald",
+   "family": "Oswald",
+   "role": "display",
+   "tags": [
+    "condensed",
+    "news",
+    "poster"
+   ],
+   "note": "Classic condensed gothic for news-style titles.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    200,
+    700
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-oswald.txt",
+   "version": "2025-09-11",
+   "designers": [
+    "Vernon Adams",
+    "Kalapi Gajjar",
+    "Cyreal"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "200 700",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "oswald-cyrillic-ext-normal.woff2",
+     "bytes": 19460,
+     "sha256": "21ed8938a5d26b3528f9442cad424b24c16f86495bd95d76ea35cc8905346418"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "200 700",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "oswald-cyrillic-normal.woff2",
+     "bytes": 15600,
+     "sha256": "56f1681a9ea64e97ff5de104e6d28c7cb7fdd059ec7ffa69117070ddc2555131"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "200 700",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "oswald-latin-ext-normal.woff2",
+     "bytes": 24048,
+     "sha256": "387bb9ea916076d47014c0db1c750b482547647f2ab9ad73ae585928377d12fa"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "200 700",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "oswald-latin-normal.woff2",
+     "bytes": 28456,
+     "sha256": "c36937da4c39049704f1def587f7837a24ad52d3bfd2d27d3b6eb9f4220b2e3a"
+    }
+   ]
+  },
+  {
+   "id": "tektur",
+   "family": "Tektur",
+   "role": "display",
+   "tags": [
+    "techno",
+    "sci-fi",
+    "gaming"
+   ],
+   "note": "Angular techno display with width; trending for gaming and sci-fi.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    400,
+    900
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-tektur.txt",
+   "version": "2025-09-16",
+   "designers": [
+    "Adam Jagosz"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "400 900",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "tektur-cyrillic-ext-normal.woff2",
+     "bytes": 9964,
+     "sha256": "44c90d1b3bf416b98d6be520ecc9917c14599dbd9e7b3221dedddf86247c52f0"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "400 900",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "tektur-cyrillic-normal.woff2",
+     "bytes": 13996,
+     "sha256": "1210e63dfa11576182a3aea8836cf314ac732daa72e32f5f6f0936168e0ba8e3"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "400 900",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "tektur-latin-ext-normal.woff2",
+     "bytes": 22216,
+     "sha256": "4203896423d882280a920569144e0dc9098914b3799cff995d4ed74fdbda623c"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "400 900",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "tektur-latin-normal.woff2",
+     "bytes": 19224,
+     "sha256": "7ca87c5edbba7708a35b00c9553b6db3e7e85b66203bfeb1260e19ff81829325"
+    }
+   ]
+  },
+  {
+   "id": "rubik",
+   "family": "Rubik",
+   "role": "sans",
+   "tags": [
+    "rounded",
+    "friendly",
+    "multiscript",
+    "arabic"
+   ],
+   "note": "Slightly rounded; one family for Latin, Cyrillic and Arabic text in the same video.",
+   "scripts": [
+    "arabic",
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    300,
+    900
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-rubik.txt",
+   "version": "2025-09-10",
+   "designers": [
+    "Hubert and Fischer",
+    "Meir Sadan",
+    "Cyreal",
+    "Daniel Grumer",
+    "Omaima Dajani"
+   ],
+   "faces": [
+    {
+     "subset": "arabic",
+     "style": "normal",
+     "weight": "300 900",
+     "unicodeRange": "U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1",
+     "file": "rubik-arabic-normal.woff2",
+     "bytes": 32480,
+     "sha256": "fa1623ef550cb4742dc8a7449d30385f9ed0b453e85eb9c49b07c3dfcf945540"
+    },
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "300 900",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "rubik-cyrillic-ext-normal.woff2",
+     "bytes": 12288,
+     "sha256": "79891522e6f702d4f365da6048b12acb0b453dd7b0705a431f2b10f4400896a4"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "300 900",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "rubik-cyrillic-normal.woff2",
+     "bytes": 15108,
+     "sha256": "963fc62d2cf3e59e6f338db71b85b5ea86dd009fff859116d51a31a9b98d1d30"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "300 900",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "rubik-latin-ext-normal.woff2",
+     "bytes": 19288,
+     "sha256": "b11446f4d0b897435488492cdc6cd612f33748e2b010ac79eff74ea861cf8970"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "300 900",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "rubik-latin-normal.woff2",
+     "bytes": 35324,
+     "sha256": "99ec7ccb40cf143f977c893649deece6cc2dcc7c0ff82ebf84b6584090f207ea"
+    }
+   ]
+  },
+  {
+   "id": "russo-one",
+   "family": "Russo One",
+   "role": "display",
+   "tags": [
+    "sport",
+    "bold",
+    "tech"
+   ],
+   "note": "Sporty heavy sans with a Russian feel.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    400
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-russo-one.txt",
+   "version": "2025-09-16",
+   "designers": [
+    "Jovanny Lemonad"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "russo-one-cyrillic-normal-400.woff2",
+     "bytes": 4528,
+     "sha256": "5649dd6a78b6f1989bd8ab96ee2da97a1d7d253f1f2a564d76f84e1cc348faac"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "russo-one-latin-ext-normal-400.woff2",
+     "bytes": 4368,
+     "sha256": "3d27bea878fc4351c18c064c38aa2574c85debbc8e128580575bf1cb94ca1e4c"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "russo-one-latin-normal-400.woff2",
+     "bytes": 7360,
+     "sha256": "53c9adb058b01d0143a6f23ada52a6719800bf0253edb1439285010eaaca5284"
+    }
+   ]
+  },
+  {
+   "id": "yeseva-one",
+   "family": "Yeseva One",
+   "role": "display",
+   "tags": [
+    "high-contrast",
+    "fashion",
+    "elegant"
+   ],
+   "note": "High-contrast display serif for fashion and beauty titles.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    400
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-yeseva-one.txt",
+   "version": "2025-09-16",
+   "designers": [
+    "Jovanny Lemonad"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "yeseva-one-cyrillic-ext-normal-400.woff2",
+     "bytes": 5300,
+     "sha256": "45cc0a24f15c81c149a8324050fa2fc84c057438dd8370aab6b5d007832c5b8b"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "yeseva-one-cyrillic-normal-400.woff2",
+     "bytes": 6688,
+     "sha256": "4e6c21a2d20410e608b18d3adef29ecf027cb03ad646cf716d6cb043356dfb34"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "yeseva-one-latin-ext-normal-400.woff2",
+     "bytes": 7800,
+     "sha256": "2d1951bbf6570a567a42789fc1e4d77c2c23e347f63b3dfad7ecca4d6a0ee0ac"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "yeseva-one-latin-normal-400.woff2",
+     "bytes": 10940,
+     "sha256": "0d4e9b9006711830cd022937fff816720833de4f5be1307480d881b2a2f9ab76"
+    }
+   ]
+  },
+  {
+   "id": "gloock",
+   "family": "Gloock",
+   "role": "serif",
+   "tags": [
+    "high-contrast",
+    "dramatic"
+   ],
+   "note": "Latin only. Dramatic high-contrast display serif.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    400
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-gloock.txt",
+   "version": "2025-09-08",
+   "designers": [
+    "Duarte Pinto"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "gloock-cyrillic-ext-normal-400.woff2",
+     "bytes": 1148,
+     "sha256": "c115fbb2205ddd3d99817562ecaafffd4dda6c6b1b120de3cc38a4cadbf4836c"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "gloock-latin-ext-normal-400.woff2",
+     "bytes": 9016,
+     "sha256": "89effc4607918017e5345a03fb8d29af3e1e4b6d28e0f42dfb9a074d370c9edb"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "gloock-latin-normal-400.woff2",
+     "bytes": 17576,
+     "sha256": "b862aac1a16f7dafbf1d2f0115a78f3d216c8a8a83ecd154eb4afb54ade82245"
+    }
+   ]
+  },
+  {
+   "id": "caveat",
+   "family": "Caveat",
+   "role": "script",
+   "tags": [
+    "handwriting",
+    "notes",
+    "casual"
+   ],
+   "note": "Natural handwriting for notes, arrows and annotations.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    400,
+    700
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-caveat.txt",
+   "version": "2025-09-04",
+   "designers": [
+    "Impallari Type"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "400 700",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "caveat-cyrillic-ext-normal.woff2",
+     "bytes": 42888,
+     "sha256": "b959ec00d64ac7dcf5c3a17641f7d7704c1fedbfe2e8bb0a7e11bd3e9b67ca86"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "400 700",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "caveat-cyrillic-normal.woff2",
+     "bytes": 77224,
+     "sha256": "cb0aa78eef73dfb083068a56ba321a4a5cc9841721d261ea8ab5f549db8c7e18"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "400 700",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "caveat-latin-ext-normal.woff2",
+     "bytes": 29528,
+     "sha256": "93b3fdd6ded70837e67eb686a5ed3a896b03d0cd5f7e4be62f07a4efeaebfcfd"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "400 700",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "caveat-latin-normal.woff2",
+     "bytes": 74572,
+     "sha256": "7a0049db01fdd8fc7af7ef36675862a72a5c76d0cb45ae63c9f5b6f1b769dac7"
+    }
+   ]
+  },
+  {
+   "id": "jetbrains-mono",
+   "family": "JetBrains Mono",
+   "role": "mono",
+   "tags": [
+    "code",
+    "developer"
+   ],
+   "note": "Developer monospace with code ligatures; code and terminal text.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    100,
+    800
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-jetbrains-mono.txt",
+   "version": "2025-09-11",
+   "designers": [
+    "JetBrains",
+    "Philipp Nurullin",
+    "Konstantin Bulenkov"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "100 800",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "jetbrains-mono-cyrillic-ext-normal.woff2",
+     "bytes": 2020,
+     "sha256": "992eea2f70210457ddd1196de4df3240919ffe068ad188c79d985fba4565d3bf"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "100 800",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "jetbrains-mono-cyrillic-normal.woff2",
+     "bytes": 12064,
+     "sha256": "af7486955880be1c2b972e9c766acffb776768d669b6576ed9a0919ce72e7ca6"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "100 800",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "jetbrains-mono-latin-ext-normal.woff2",
+     "bytes": 15204,
+     "sha256": "7db7affbce1fdee69c1ffc2641bbca289b049867f524c9d861fe35ab6670bf29"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "100 800",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "jetbrains-mono-latin-normal.woff2",
+     "bytes": 40480,
+     "sha256": "1e06740a02a443fb7f3eeda8fcaa685a0f6c620e3f01e6666e847295469ce3ad"
+    }
+   ]
+  },
+  {
+   "id": "press-start-2p",
+   "family": "Press Start 2P",
+   "role": "display",
+   "tags": [
+    "pixel",
+    "8-bit",
+    "gaming"
+   ],
+   "note": "8-bit arcade pixel font; small sizes only look right at integer scales.",
+   "scripts": [
+    "cyrillic",
+    "latin"
+   ],
+   "weights": [
+    400
+   ],
+   "license": "OFL-1.1",
+   "licenseFile": "OFL-press-start-2p.txt",
+   "version": "2025-09-16",
+   "designers": [
+    "CodeMan38"
+   ],
+   "faces": [
+    {
+     "subset": "cyrillic-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+     "file": "press-start-2p-cyrillic-ext-normal-400.woff2",
+     "bytes": 2488,
+     "sha256": "5b109787a8340d7601ac9862c460c26203482b8080b2b091bbbdb1134abcd2fc"
+    },
+    {
+     "subset": "cyrillic",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+     "file": "press-start-2p-cyrillic-normal-400.woff2",
+     "bytes": 2656,
+     "sha256": "3d05f28995376b8282c084d6b115979a5503c1f1416fa57e7037d66ee787e91b"
+    },
+    {
+     "subset": "latin-ext",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "file": "press-start-2p-latin-ext-normal-400.woff2",
+     "bytes": 3704,
+     "sha256": "3e1ea894dba11389007b78e4f6ce1a1c70542fe66cda38f7de48deff0d89c372"
+    },
+    {
+     "subset": "latin",
+     "style": "normal",
+     "weight": "400",
+     "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "file": "press-start-2p-latin-normal-400.woff2",
+     "bytes": 4704,
+     "sha256": "42144b97bd2942ea606e5d880684eae0f7be5c804bdd57b1faac5a8d7699ae6e"
+    }
+   ]
+  }
+ ]
+}

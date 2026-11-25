@@ -10,9 +10,11 @@
       "files": [
         "three.module.min.js",
         "RoomEnvironment.js",
-        "RoundedBoxGeometry.js"
+        "RoundedBoxGeometry.js",
+        "GLTFLoader.js",
+        "BufferGeometryUtils.js"
       ],
-      "note": "As Kinetic ships it: the minified module with RoomEnvironment and RoundedBoxGeometry of its examples, for the 3D scenes (`../../components/scenes/three.mjs`)."
+      "note": "As Kinetic ships it: the minified module with RoomEnvironment and RoundedBoxGeometry of its examples, for the 3D scenes (`../../components/scenes/three.mjs`). GLTFLoader and the BufferGeometryUtils it imports are the same release's examples (the loader's import of the utilities points at the file beside it), for the scene that draws a model from a file (`../../components/scenes/laptop3d.mjs`)."
     }
   ]
 }

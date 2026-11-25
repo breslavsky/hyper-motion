@@ -8,6 +8,9 @@ export const FORMATS = Object.freeze(['16:9', '9:16', '1:1']);
 const freeze=value=>{for(const child of Object.values(value))if(child&&typeof child==='object')freeze(child);return Object.freeze(value);};
 export const BRANDBOOKS = freeze(brandbooks);
 export const MATERIALS = Object.freeze([...settings.materials]);
+// The toolbar's font: the brandbook's own (or the style's) unless a bundled family is picked.
+export const FONTS = Object.freeze([...settings.fonts]);
+export const DEFAULT_FONT = 'default';
 export const MATERIAL_COMPONENTS = Object.freeze([...settings.materialComponents]);
 // Outside the manifest ID pattern: a real book cannot shadow native defaults.
 export const DEFAULT_BRANDBOOK = '__default__';
@@ -151,6 +154,8 @@ export function makeFilm(entry, args = {}, globals = {}) {
   const brandbook = empty(globals.brandbook) ? DEFAULT_BRANDBOOK : globals.brandbook;
   // The toolbar's "example" keeps a material example on the material it is
   // named after (exampleMaterial); elsewhere it is plain glass.
+  // A family the kit does not bundle (a stale link) is no choice: the brandbook's font stays.
+  const font = FONTS.includes(globals.font) ? globals.font : DEFAULT_FONT;
   const picked = globals.material ?? 'example';
   const material = picked === 'example' ? globals.exampleMaterial ?? 'glass' : picked;
   if (!FORMATS.includes(aspect)) throw new Error(`Unknown aspect: ${aspect}`);
@@ -163,7 +168,7 @@ export function makeFilm(entry, args = {}, globals = {}) {
     aspect, style: 'glass', ...(MATERIAL_COMPONENTS.includes(entry.type)?{material}:{}), pace: 'normal',
     ...(glassTiming(entry) ? {music: {bpm: values.bpm}} : {}),
     // The validator requires sample identity, but no visual brand overrides.
-    brand: brandbook===DEFAULT_BRANDBOOK?{name:'Nook',url:'nook.app'}:clone(BRANDBOOKS[brandbook].brand),
+    brand: {...(brandbook===DEFAULT_BRANDBOOK?{name:'Nook',url:'nook.app'}:clone(BRANDBOOKS[brandbook].brand)), ...(font===DEFAULT_FONT?{}:{font})},
     scenes: [sceneFromArgs(entry, values)],
   };
 }

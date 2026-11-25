@@ -110,9 +110,14 @@ export async function mountScene(host,config,variables={},gsap){
     await loadImages(ctx);
     if(ps.scene.background)K.glassBackground=await bounded(loadGlassBackground(ctx,id),'Glass background');
     // A scene that plays videos inside its own picture asks for them here,
-    // in the size it draws them: K.videoSource(index,width,height).
+    // in the size it draws them: K.videoSource(index or path,width,height).
     K.sceneVideos=[];
-    K.videoSource=(index,width,height)=>{const source=loadVideoSource(ctx,{path:ps.scene.videos[index],inputId:`pk-video-${id}-${index}`,width,height});K.sceneVideos.push(source);return source;};
+    // By its place among the scene's videos, or by its path (a clip of the
+    // component's own, which the plan lists after the film's).
+    K.videoSource=(which,width,height)=>{
+      const list=ps.scene.videos??[],named=typeof which==='string';
+      const path=named?which:(list[which]??ps.scene.video),index=named?Math.max(0,list.indexOf(which)):which;
+      const source=loadVideoSource(ctx,{path,inputId:`pk-video-${id}-${index}`,width,height});K.sceneVideos.push(source);return source;};
     const sceneRoot=el('div',`scene on look-${plan.look?.id??'editorial'}`,stage);
     sceneRoot.style.visibility='visible';sceneRoot.style.zIndex=String(10+ps.index);
     const post=plan.look?.post??{};

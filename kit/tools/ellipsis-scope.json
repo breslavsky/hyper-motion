@@ -1560,6 +1560,28 @@
       }
     },
     {
+      "type": "laptop3d",
+      "file": "source/lib/components/scenes/laptop3d.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "The laptop shows a picture or a video on its screen and no words of the film: there is no text to cut."
+      }
+    },
+    {
+      "type": "synth3d",
+      "file": "source/lib/components/scenes/synth3d.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "reason": "words[] are hero words, one a hit, each fitted whole to the frame on one line; the screen shows a pattern and a level, no text."
+      }
+    },
+    {
       "type": "comic",
       "file": "source/lib/components/scenes/text.mjs",
       "renderMode": "dom",

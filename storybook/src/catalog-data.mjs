@@ -64,7 +64,10 @@ export function readCatalogOptions(catalog = read('source/lib/components/catalog
   if(!Array.isArray(materials)||!materials.includes('glass')||!materials.includes('metal'))throw new Error('The selected Pure Kinetic kit needs independent material support; update the kit before preparing Storybook');
   const materialComponents = Object.keys(catalog).filter(type =>
     catalog[type].family === 'glass' && catalog[type].renderMode === 'webgl');
-  return {looks: Object.keys(looks), metalVariants: [...metalVariants], materials:[...materials], materialComponents, previewPace: paces.normal};
+  // The families a film may name in brand.font: the toolbar offers them.
+  const {BUNDLED_FONTS: fonts} = require(path.join(source, 'lib/film.cjs'));
+  if(!Array.isArray(fonts)||!fonts.length)throw new Error('The selected Pure Kinetic kit names no bundled fonts; update the kit before preparing Storybook');
+  return {looks: Object.keys(looks), metalVariants: [...metalVariants], materials:[...materials], materialComponents, fonts:[...fonts], previewPace: paces.normal};
 }
 
 /** Material previews reuse production components, samples and field controls. */

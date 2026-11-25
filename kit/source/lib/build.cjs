@@ -79,7 +79,7 @@ function buildProject(source,film,plan,{options={}}={}) {
     const scene=plan.scenes[i].scene,src=scene.background?.video;
     // A scene's own videos (a wall of them) are textures too, one input each.
     return [...(src?[videoInput(`pk-background-${clip.id}`,src,clip,videoTrack++)]:[]),
-      ...(Array.isArray(scene.videos)?scene.videos:[]).map((path,k)=>videoInput(`pk-video-${clip.id}-${k}`,path,clip,videoTrack++))];
+      ...(Array.isArray(scene.videos)?scene.videos:typeof scene.video==='string'?[scene.video]:[]).map((path,k)=>videoInput(`pk-video-${clip.id}-${k}`,path,clip,videoTrack++))];
   });
   const hash=buildMark(film,plan);
   const rootConfig={id:'main',plan,sceneIds:clips.map(c=>c.id),options};

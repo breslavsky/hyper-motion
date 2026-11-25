@@ -68,7 +68,8 @@ const read = (file) => JSON.parse(fs.readFileSync(file === "-" ? 0 : file, "utf8
 const HEX = /^#[0-9a-fA-F]{3,8}$/;
 /** What every scene may carry besides its own fields, and what a film may carry. */
 const SCENE_KEYS = ["type", "beats", "bg", "fg", "in", "look", "metalVariant", "plain", "id", "halftone", "sound", "timing"];
-const BUNDLED_FONTS = ["Geist", "Archivo", "Geist Mono", "Instrument Serif"];
+// The components' own four families, then the font library's (fonts/library.json, tools/font-library.mjs).
+const BUNDLED_FONTS = ["Geist", "Archivo", "Geist Mono", "Instrument Serif", ...require("./fonts/library.json").families.map((family) => family.family)];
 const SOUND_KINDS = [...new Set([...Object.values(SOUNDS.kits).flatMap(Object.keys), "hit", "whoosh", "riser"])];
 const FILM_KEYS = ["aspect", "style", "material", "metalVariant", "pace", "palette", "brand", "app", "music", "scenes", "lang", "grain", "sparks", "seconds", "motion", "fps", "version"];
 const BRAND_KEYS = ["name", "url", "colors", "logo", "font", "tokens"];
@@ -308,7 +309,7 @@ for (const [type, def] of Object.entries(OWN)) {
 	if (def.typeOnly) TYPE_ONLY.add(type);
 }
 const BUZZWORD = /\b(revolutionary|seamless(ly)?|leverage|unlock|supercharge|game[- ]?changer|cutting[- ]edge|next[- ]level|synerg\w*|empower\w*|world[- ]class|best[- ]in[- ]class|robust)\b/i;
-const NOT_WORDS = /^(type|bg|fg|in|look|metalVariant|image|images|videos|path|tiles|mark|pill|kind|variant|shapes|axis|id|ease|sel|html|css)$/;
+const NOT_WORDS = /^(type|bg|fg|in|look|metalVariant|image|images|video|videos|path|tiles|mark|pill|kind|variant|shapes|axis|id|ease|sel|html|css)$/;
 
 /** Every text of a scene a viewer reads. */
 const wordsOf = (scene) => {
@@ -399,16 +400,19 @@ const pictures = (film) => {
 
 const videos = (film) => film.scenes.flatMap((scene, i) => [
 	...(typeof scene.background?.video === "string" ? [[`scenes[${i}].background.video`, scene.background.video]] : []),
+	...(typeof scene.video === "string" ? [[`scenes[${i}].video`, scene.video]] : []),
 	...(Array.isArray(scene.videos) ? scene.videos : []).flatMap((video, k) => typeof video === "string" ? [[`scenes[${i}].videos[${k}]`, video]] : []),
 ]);
 
 /**
- * A wall (lens-wall) plays the component's example videos in the places the film's own files leave:
- * the plan's scene gets them, by their public address, after its own videos. film.json is never changed.
+ * A scene plays files of its own beside the film's: a wall (lens-wall) the component's example videos
+ * in the places the film's files leave, a laptop (laptop3d) the clip of the hand that lifts its lid.
+ * The plan's scene gets them, by their public address, after its own videos. film.json is never changed.
  */
 const wallExamples = (plan) => {
-	const wall = require("./components/metadata.cjs")["lens-wall"];
-	for (const ps of plan.scenes) if (ps.scene.type === "lens-wall") ps.scene = wall.filled(ps.scene);
+	const definitions = require("./components/metadata.cjs");
+	const aspect = ["16:9", "9:16", "1:1"].find((name) => { const [w, h] = name.split(":").map(Number); return Math.abs(plan.width / plan.height - w / h) < .01; });
+	for (const ps of plan.scenes) if (typeof definitions[ps.scene.type]?.filled === "function") ps.scene = definitions[ps.scene.type].filled(ps.scene, aspect);
 	return plan;
 };
 
@@ -682,7 +686,7 @@ const changed = (film, change) => {
 	return { film: next, said: said.length ? said.join(", ") : "the brand's colours" };
 };
 
-module.exports = { problems, notes, review, pictures, videos, planOf, summary, soundMark, fitted, book, paletteOf, brandOf, changed, emojiOf, TRACKS };
+module.exports = { BUNDLED_FONTS, problems, notes, review, pictures, videos, planOf, summary, soundMark, fitted, book, paletteOf, brandOf, changed, emojiOf, TRACKS };
 
 if (require.main === module) {
 	const [command = "fit", file = path.join(SOURCE, "film.json")] = process.argv.slice(2);

@@ -514,6 +514,14 @@ export const catalog={
     "renderMode": "canvas",
     "owned": true
   },
+  "laptop3d": {
+    "family": "three",
+    "renderMode": "webgl"
+  },
+  "synth3d": {
+    "family": "three",
+    "renderMode": "webgl"
+  },
   "comic": {
     "family": "text",
     "renderMode": "dom",

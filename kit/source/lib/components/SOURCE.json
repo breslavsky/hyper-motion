@@ -160,6 +160,14 @@
       "taken": "followed",
       "date": "2026-11-24",
       "note": "The glass-call scene (glass/components.mjs): a glass panel with who calls, a button to decline and one to accept, and a line that counts the call's seconds once it is taken. Written here on our own optical glass from what the template's preview video shows; the template itself was not downloaded. The phone, the hang-up and the figure are Lucide's (upstream/lucide-static)."
+    },
+    {
+      "name": "MacBook Pro 13 inch 2020, a model by timblewee",
+      "url": "https://github.com/repalash/threepipe-device-mockup-codrops",
+      "license": "CC-BY-4.0",
+      "taken": "adapted",
+      "date": "2026-11-24",
+      "note": "The laptop of the laptop3d scene (scenes/laptop3d.mjs): the model by timblewee on Sketchfab, as the Codrops tutorial 'DeviceShowcase' ships it in the repository named here, packed again into one file. The file is not in this repository: the scene loads it from our public CDN (components/laptop3d/macbook.glb, named in metadata.cjs). The owner of this library states an agreement with the model's author; the author is credited here. Nothing else in laptop3d and synth3d is taken: the hand that opens the laptop and the two hands that play the machine are our own generations (Wan 3.0 over frames of our scenes, made again on a green screen and keyed, the laptop's frames interpolated by Topaz), and the synthesizer is built in code."
     }
   ]
 }

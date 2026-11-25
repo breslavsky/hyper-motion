@@ -77,11 +77,14 @@
     "rundown"
   ],
   "noText": [
-    "lens-wall"
+    "lens-wall",
+    "laptop3d"
   ],
   "noSurface": [
     "comic",
     "lens-wall",
+    "laptop3d",
+    "synth3d",
     "thinking-orb",
     "title",
     "highlight",

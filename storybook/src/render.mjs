@@ -110,7 +110,11 @@ class ComponentStory extends HTMLElement {
     try {
       let effectiveArgs = background ? {...args, background:background.background} : args;
       // A wall plays its own example videos in the places the story's files leave, as a project's does.
-      if (entry.type === 'lens-wall') effectiveArgs = definitions['lens-wall'].filled(effectiveArgs);
+      // A laptop plays the clip of the hand that lifts its lid, in the formats that have one.
+      const shape = {landscape: '16:9', portrait: '9:16', square: '1:1'}[globals.aspect] ?? globals.aspect ?? '16:9';
+      // A laptop with nothing of the story's on its screen plays the sample video.
+      if (entry.type === 'laptop3d' && effectiveArgs.image === undefined && effectiveArgs.video === undefined) effectiveArgs = {...effectiveArgs, video: 'assets/glass-street.mp4'};
+      if (typeof definitions[entry.type]?.filled === 'function') effectiveArgs = definitions[entry.type].filled(effectiveArgs, shape);
       const film = makeFilm(entry, effectiveArgs, globals);
       const ratio = {'16:9': 16/9, '9:16': 9/16, '1:1': 1}[film.aspect];
       const screen = element('div', 'pk-screen');

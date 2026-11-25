@@ -1,5 +1,5 @@
 {
-  "note": "The components' four bundled families (`../components/presentation.css`), as Kinetic ships them, and faces of our font library (fonts/, whose catalogue names each family's source) copied for the letters those lack; `../fonts.css` maps them onto the components' families.",
+  "note": "The components' four bundled families (`../components/presentation.css`), as Kinetic ships them, and faces of our font library (fonts/, whose catalogue names each family's source) copied for the letters those lack; `../fonts.css` maps them onto the components' families. The font library's families a film may name in brand.font are listed with their faces, versions and designers in `library.json` (`tools/font-library.mjs` copies them and writes `../fonts.css`'s library section); each carries its licence text, `OFL-<id>.txt`.",
   "sources": [
     {
       "name": "Geist, Geist Mono",
@@ -49,6 +49,94 @@
       "license": "OFL-1.1",
       "taken": "vendored",
       "note": "`amiri-arabic-*.woff2`, from fonts/amiri."
+    },
+    {
+      "name": "Manrope",
+      "url": "https://fonts.google.com/specimen/Manrope",
+      "ref": "2025-09-04",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`manrope-*.woff2` (upright faces), from fonts/manrope of the font library (Google Fonts, 2026-11-06); `OFL-manrope.txt`."
+    },
+    {
+      "name": "Unbounded",
+      "url": "https://fonts.google.com/specimen/Unbounded",
+      "ref": "2025-09-11",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`unbounded-*.woff2` (upright faces), from fonts/unbounded of the font library (Google Fonts, 2026-11-06); `OFL-unbounded.txt`."
+    },
+    {
+      "name": "Oswald",
+      "url": "https://fonts.google.com/specimen/Oswald",
+      "ref": "2025-09-11",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`oswald-*.woff2` (upright faces), from fonts/oswald of the font library (Google Fonts, 2026-11-06); `OFL-oswald.txt`."
+    },
+    {
+      "name": "Tektur",
+      "url": "https://fonts.google.com/specimen/Tektur",
+      "ref": "2025-09-16",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`tektur-*.woff2` (upright faces), from fonts/tektur of the font library (Google Fonts, 2026-11-06); `OFL-tektur.txt`."
+    },
+    {
+      "name": "Rubik",
+      "url": "https://fonts.google.com/specimen/Rubik",
+      "ref": "2025-09-10",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`rubik-*.woff2` (upright faces), from fonts/rubik of the font library (Google Fonts, 2026-11-06); `OFL-rubik.txt`."
+    },
+    {
+      "name": "Russo One",
+      "url": "https://fonts.google.com/specimen/Russo+One",
+      "ref": "2025-09-16",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`russo-one-*.woff2` (upright faces), from fonts/russo-one of the font library (Google Fonts, 2026-11-06); `OFL-russo-one.txt`."
+    },
+    {
+      "name": "Yeseva One",
+      "url": "https://fonts.google.com/specimen/Yeseva+One",
+      "ref": "2025-09-16",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`yeseva-one-*.woff2` (upright faces), from fonts/yeseva-one of the font library (Google Fonts, 2026-11-06); `OFL-yeseva-one.txt`."
+    },
+    {
+      "name": "Gloock",
+      "url": "https://fonts.google.com/specimen/Gloock",
+      "ref": "2025-09-08",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`gloock-*.woff2` (upright faces), from fonts/gloock of the font library (Google Fonts, 2026-11-06); `OFL-gloock.txt`."
+    },
+    {
+      "name": "Caveat",
+      "url": "https://fonts.google.com/specimen/Caveat",
+      "ref": "2025-09-04",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`caveat-*.woff2` (upright faces), from fonts/caveat of the font library (Google Fonts, 2026-11-06); `OFL-caveat.txt`."
+    },
+    {
+      "name": "JetBrains Mono",
+      "url": "https://fonts.google.com/specimen/JetBrains+Mono",
+      "ref": "2025-09-11",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`jetbrains-mono-*.woff2` (upright faces), from fonts/jetbrains-mono of the font library (Google Fonts, 2026-11-06); `OFL-jetbrains-mono.txt`."
+    },
+    {
+      "name": "Press Start 2P",
+      "url": "https://fonts.google.com/specimen/Press+Start+2P",
+      "ref": "2025-09-16",
+      "license": "OFL-1.1",
+      "taken": "vendored",
+      "note": "`press-start-2p-*.woff2` (upright faces), from fonts/press-start-2p of the font library (Google Fonts, 2026-11-06); `OFL-press-start-2p.txt`."
     }
   ]
 }

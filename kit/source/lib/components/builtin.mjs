@@ -1372,7 +1372,7 @@ const PLUS =
 		};
 
 		/** Scenes that drive their own camera. */
-		const SELF_CAMERA = new Set(["prompt", "ui-macro", "morph", "laptop", "browser", "dock", "ride", "lens-wall"]);
+		const SELF_CAMERA = new Set(["prompt", "ui-macro", "morph", "laptop", "browser", "dock", "ride", "lens-wall", "laptop3d", "synth3d"]);
 
 		return { SCENES, SELF_CAMERA, logoNode };
 

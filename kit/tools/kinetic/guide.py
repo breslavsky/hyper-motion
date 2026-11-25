@@ -20,6 +20,12 @@ TEMPLATE = HERE.parents[1]
 # Scenes of Kinetic's library that are not in the engine here (extract.py leaves their fields out).
 LEFT_OUT = ("freestyle", "clip", "props3d")
 
+def font_library() -> str:
+    """The font library's families as the guide names them: each with what it is for."""
+    families = json.loads((TEMPLATE / "source/lib/fonts/library.json").read_text())["families"]
+    return ", ".join(f'`"{family["family"]}"` {" ".join(family["tags"][:2])}' + ("" if "cyrillic" in family["scripts"] else ", Latin only") for family in families)
+
+
 HEAD = r'''## Template guide: Pure Kinetic (HyperFrames)
 
 A short motion-graphics film (a launch film, an ad, an announcement, an
@@ -46,8 +52,8 @@ font, colours and musical beats. Quoted copy stays exact. Choose scenes
 for those actions; ready shapes are optional starting points. Never pad a
 duration with repeated end cards, restated slogans or invented claims.
 
-- Font: `brand.font`, exactly `"Geist"`, `"Archivo"`, `"Geist Mono"` or
-  `"Instrument Serif"`; an uploaded font uses the object described below.
+- Font: `brand.font`, exactly one of the bundled families listed under
+  `brand.font` below; an uploaded font uses the object described there.
 - Exact colours for the whole film: `brand.tokens` with `background`,
   `foreground`, `accent`, `accent2`, each a #hex. Example:
   `"tokens": {"background":"#101828","foreground":"#f7f7f2","accent":"#b9f24a"}`.
@@ -265,7 +271,8 @@ that it is the film the user requested.
   the user said. A part left out is drawn as a grey bar: the kit never makes
   up a menu, a person or a figure.
 - `brand.font`: one font for the whole film. Use `"Geist"`, `"Archivo"`,
-  `"Geist Mono"` or `"Instrument Serif"`, or the user's uploaded brand font:
+  `"Geist Mono"` or `"Instrument Serif"`, a family of the font library
+  (@@FONT_LIBRARY@@), or the user's uploaded brand font:
   first copy the supplied font from the path shown by `harness assets` into
   `source/assets/fonts/` unchanged, keeping its extension, then write
   `{ "family": "Brand Sans", "src": "assets/fonts/brand.woff2",
@@ -436,7 +443,7 @@ def guide() -> str:
         "### Words\n\n" + "\n".join(_section(lines, "COPY RULES")),
         "### Films that are not a product launch\n\n" + "\n".join(beyond).replace("Long films have more scenes and hold each one longer.", "Long films have more scenes, each at its usual length.") + TAIL,
     ]
-    return "\n".join(_ours(line) for line in "\n\n".join(parts).split("\n"))
+    return "\n".join(_ours(line) for line in "\n\n".join(parts).split("\n")).replace("@@FONT_LIBRARY@@", font_library())
 
 
 def usual() -> dict[str, list[int]]:

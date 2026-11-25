@@ -110,6 +110,8 @@ export async function loadFonts(document,content,plan) {
     await cache.get(key);
   }
   await Promise.all(['900 100px "Archivo"','900 100px "Geist"','500 100px "Geist Mono"','400 100px "Instrument Serif"','italic 400 100px "Instrument Serif"'].map(font=>document.fonts.load(font,letters)));
+  // A bundled family named by the brand: its faces come by unicode-range, so the film's letters are asked for.
+  if(typeof font==='string')await document.fonts.load(`700 100px ${JSON.stringify(font)}`,letters);
   if(plan?.look?.display?.family)await document.fonts.load(`${plan.look.display.weight??400} 100px ${plan.look.display.family}`,letters);
   await document.fonts.ready;
 }

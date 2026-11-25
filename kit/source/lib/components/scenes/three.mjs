@@ -6,6 +6,8 @@
 import * as THREE from "../../vendor/three/three.module.min.js";
 import { RoomEnvironment } from "../../vendor/three/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "../../vendor/three/RoundedBoxGeometry.js";
+import { laptop3d } from "./laptop3d.mjs";
+import { synth3d } from "./synth3d.mjs";
 
 const sceneFactories = {};
 
@@ -627,5 +629,13 @@ sceneFactories.field = ({ p, cam, fg, accent, bg, K }) => {
 	};
 };
 
+// A laptop from a model file has a file of its own (./laptop3d.mjs), which
+// draws with the helpers exported below.
+sceneFactories.laptop3d = (given) => laptop3d(given);
+sceneFactories.synth3d = (given) => synth3d(given);
+
 export {sceneFactories};
+// What a scene of another file needs to draw in the same WebGL context
+// (scenes/laptop3d.mjs): the shared renderer, a scene's own canvas, the lights.
+export {shared as renderer3d, output as output3d, lights as lights3d, imageTexture};
 export default sceneFactories;

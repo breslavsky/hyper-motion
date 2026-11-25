@@ -570,8 +570,8 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 				cues.push(cue);
 			};
 			SOUNDS[scene.type]?.(scene, len, put);
-			// A scene of ours: (scene, its length and its beat in its own clock).
-			ours()[scene.type]?.sounds?.(scene, len, put, beat * speed);
+			// A scene of ours: (scene, its length and its beat in its own clock, how fast that clock runs).
+			ours()[scene.type]?.sounds?.(scene, len, put, beat * speed, speed);
 
 			if (scene.type === "fullbleed" || scene.type === "logo3d" || scene.type === "endcard") cues.push({ t: start, kind: "hit" });
 			else if (scene.type !== "slam") cues.push({ t: start, kind: "tick", strength: 0.5 });

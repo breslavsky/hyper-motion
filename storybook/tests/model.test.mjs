@@ -8,7 +8,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
 import {readCatalog, readCatalogOptions, readThemePreviews, previewVariantsFor, TEMPLATE} from '../src/catalog-data.mjs';
-import {argTypesFor, defaultArgs, validateArgs, makeFilm, FORMATS, BRANDBOOKS, MATERIALS, MATERIAL_COMPONENTS, DEFAULT_BRANDBOOK} from '../src/model.mjs';
+import {argTypesFor, defaultArgs, validateArgs, makeFilm, FORMATS, BRANDBOOKS, MATERIALS, MATERIAL_COMPONENTS, DEFAULT_BRANDBOOK, FONTS, DEFAULT_FONT} from '../src/model.mjs';
 import {readBrandbooks} from '../src/brandbook-data.mjs';
 
 const require = createRequire(import.meta.url);
@@ -387,6 +387,17 @@ test('stale toolbar globals and removed brand controls cannot override the selec
     assert.deepEqual(Object.keys(controls).sort(), [...new Set([...Object.keys(item.fields), ...filmFields])].sort());
     for (const name of Object.keys(oldArgs)) assert.equal(controls[name], undefined, `${item.type}/${name}`);
   }
+});
+
+test('the toolbar font names a bundled family over the brandbook, and leaves it alone by default', () => {
+  const item = entry('title'), plain = makeFilm(item, {}, {brandbook: defaultBook});
+  assert.deepEqual(makeFilm(item, {}, {brandbook: defaultBook, font: DEFAULT_FONT}), plain);
+  for (const font of FONTS) {
+    const film = makeFilm(item, {}, {brandbook: defaultBook, font});
+    assert.equal(film.brand.font, font);
+    assert.deepEqual({...film, brand: {...film.brand, font: plain.brand.font}}, {...plain, brand: {...plain.brand, font: plain.brand.font}});
+  }
+  assert.ok(FONTS.length > 1);
 });
 
 test('optional controls can be cleared without suppressing required fields', () => {

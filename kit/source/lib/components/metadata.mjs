@@ -1799,6 +1799,104 @@ placed:false,
       return errors;
     },
 "sounds":function sounds(s,len,cue){cue(Math.min(.08,len*.02),'whoosh',.35);}}
+,"laptop3d":{
+// A real laptop, a model from a file (SOURCE.json): it lies closed under a
+// camera that looks down at it, a hand lifts its lid, and the camera pulls
+// back to show the screen and the keyboard. The screen plays the film's
+// picture or video. The hand is a clip of ours with a matte, laid over the
+// picture; the lid follows the angles read from that clip, frame by frame.
+"signature":true,
+"fields":{
+  "image":{"kind":"string","min":1,"max":300,"optional":true},
+  "video":{"kind":"string","min":1,"max":300,"optional":true},
+  "hand":{"kind":"bool","optional":true}
+},
+"guide":"laptop3d {image?, video?, hand?}: a real 3D laptop (a space-grey MacBook) lies closed, seen from above; a real hand reaches in, takes the lid by its front edge and lifts it, the screen wakes, and the camera pulls back and down to show the screen and the keyboard, then drifts. image or video (one of them): what the screen shows, cropped to the screen's 16:10; a video plays on the screen by the film's clock. Without either the screen shows a soft wallpaper in the look's colours. hand: false and the lid rises by itself; the hand is in 16:9 films only, in other formats the lid always rises by itself. No words: put the line before or after it. Use to show a site, a web app, a dashboard or a recording of the product at work on a laptop. 6-12 beats.",
+"sample":{"type":"laptop3d","beats":8},
+// The model and the hand's clips at their public address, as every file a
+// component needs beyond its code.
+"public":"https://motion-fab-share.b-cdn.net/components/laptop3d",
+"model":"macbook.glb",
+// The lid's way up: its angle in every frame of the hand's clip (30 a second),
+// read from the clip itself, and how far it stands when the hand lets go.
+"lift":{"fps":30,"held":70,"angles":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.85, 3.33, 5.33, 10.37, 16.66, 18.58, 20.06, 31.52, 45.84, 49.49, 54.65, 59.84, 64.51, 66.17, 68.74, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0]},
+// The hand, per format: a clip whose left half is the colour and whose right
+// half is the matte, and where it lies in a frame of that format.
+"hands":{"16:9":{"file":"hand-16x9-3.mp4","frames":49,"frame":[1920, 1080],"crop":[794, 124, 544, 956]}},
+"handFor":function handFor(s,aspect){return s.hand===false?null:(this.hands[aspect]??null);},
+"own":function own(path){return typeof path==='string'&&Object.values(this.hands).some(hand=>path===`${this.public}/${hand.file}`);},
+// The scene as it is played: the hand's clip after the screen's own video.
+// film.json never holds it.
+"filled":function filled(s,aspect){
+      const hand=this.handFor(s,aspect);
+      return hand?{...s,videos:[...(typeof s.video==='string'?[s.video]:[]),`${this.public}/${hand.file}`]}:s;
+    },
+// Every time of the scene in its own clock, for the picture and for its
+// sounds: the lid's first move, the screen's waking, the hand's leaving and the
+// camera's way back. The hand's clip plays by the film's clock, which a scene's
+// own may outrun (`speed`), so the clip's moments are carried into it.
+"times":function times(s,len,speed=1){
+      const {fps,angles,held}=this.lift;
+      const open=angles.findIndex(angle=>angle>0)/fps*speed,up=angles.findIndex(angle=>angle>=held)/fps*speed,clip=angles.length/fps*speed;
+      const travel=Math.min(1.6,Math.max(.9,(len-clip)*.5));
+      // The camera starts the moment the hand lets go of the lid and begins to leave.
+      const leave=up+.25;
+      return {open,wake:up-.1,release:up+.25,finish:up+1.15,clip,leave,travel,settle:Math.min(len,leave+travel)};
+    },
+"validateMedia":function(s){
+      return [...(s.image===undefined?[]:projectPathProblems(s.image,'image path')),...(s.video===undefined?[]:projectPathProblems(s.video,'video path')),
+        ...(Array.isArray(s.videos)?s.videos.flatMap((path,i)=>this.own(path)||path===s.video?[]:[`videos[${i}]: the scene takes one video, in video`]):[])];
+    },
+"validate":function validate(s){
+      const errors=[...this.validateMedia(s)];
+      if(s.image!==undefined&&s.video!==undefined)errors.push('give the screen an image or a video, not both');
+      for(const [field,pattern,kinds] of [['image',/\.(jpe?g|png|webp|avif|gif|svg)$/i,'a picture (jpg, png, webp, avif, gif, svg)'],['video',/\.(mp4|mov|m4v|webm)$/i,'a video (mp4, mov, m4v, webm)']]){
+        if(typeof s[field]==='string'&&!pattern.test(s[field].split(/[?#]/,1)[0]))errors.push(`${field} must be ${kinds}`);
+      }
+      return errors;
+    },
+"sounds":function sounds(s,len,cue,beat,speed){const t=this.times(s,len,speed);cue(t.open,'whoosh',.4);cue(t.wake,'chime',.45);}}
+,"synth3d":{
+// A pocket beat machine of our own, built in code (scenes/synth3d.mjs): it
+// stands still and two hands play three of its pads, a word of the film with
+// each. The hands are one take, kept as frames; the film names the beats the
+// three hits fall on, and the take is played faster or slower between them.
+// The hits are worked out here, once, for the picture, the hands, the words
+// and the sounds.
+"signature":true,
+"copyFields":["words"],
+"fields":{
+  "hits":{"kind":"array","min":3,"max":3,"optional":true,"of":{"kind":"number","min":1,"max":12}},
+  "words":{"kind":"array","min":1,"max":3,"optional":true,"of":{"kind":"string","min":1,"max":14}},
+  "hands":{"kind":"bool","optional":true}
+},
+"guide":"synth3d {hits?, words?, hands?}: a pocket beat machine in real 3D, ours: a body of brushed space-grey aluminium with eight square glass pads in two rows, a wide screen, a speaker grille, a dial with a dimple for a fingertip and two round buttons. It stands still in half darkness on a dark ground, seen a little from above, so the lit pads are what shines. Two real hands come in from below, stretch out over the pads and play three of them, one after another: the left hand with its index finger, then the right hand with its index finger, then the right hand with another finger; then both hands leave. Each pad hit lights up brightly from below in a colour of its own and has its own sound, the screen shows the pattern and a level, the dial clicks round. After the last hit nothing more moves. hits: the three beats the hits fall on, counted from the scene's start (1 is one beat in; halves and quarters allowed), rising, at least half a beat apart, the last at least a beat before the scene ends. Put them on the music's accents: the hands are played faster or slower to land on them. Without hits: beats 2, 3 and 4 (1, 2, 3 in a scene of 4 beats; 1, 1.5, 2 in one of 3). The scene can be very short and fast: the hands come in as quickly as the first hit asks. words: 1-3 short words (up to 14 characters each), one a hit in order: each appears large with its hit and dissolves when the next comes, over the machine in a 16:9 film, above it in a square or 9:16 one. hands: false and nobody is seen: the pads press by themselves. Use for music, sound, rhythm, creative tools, or to land three words on three beats. 3-8 beats.",
+"sample":{"type":"synth3d","beats":6,"words":["Tap","The","Beat"]},
+// The hands' take at our public address, as every file a component needs beyond its code: two
+// pictures of one grid, the frames' colour and their matte. `crop` is where a frame lies in the
+// scene's own 16:9 frame (`plate`) it was cut from, `times` when each frame was in the take,
+// `hits` when the three fingers touch and `pads` which pads (0-3 the back row, 4-7 the front).
+"public":"https://motion-fab-share.b-cdn.net/components/synth3d",
+"play":{"colour":"hands.webp","matte":"hands-matte.webp","cols":9,"rows":10,"plate":[1920,1080],"crop":[252,428,1348,652],"fps":30,"times":[0.5,0.5333,0.5667,0.6,0.6333,0.6667,0.7,0.7333,0.7667,0.8,0.8333,0.8667,0.9,0.9333,0.9667,1.0,1.0667,1.1333,1.2,1.2667,1.3333,1.4,1.4667,1.5,1.5333,1.5667,1.6,1.6333,1.6667,1.7,1.7333,1.7667,1.8,1.8333,1.8667,1.9,1.9333,2.0,2.0667,2.1333,2.2,2.2667,2.3333,2.4,2.4667,2.5333,2.5667,2.6,2.6333,2.6667,2.7,2.7333,2.7667,2.8,2.8333,2.8667,2.9,2.9333,2.9667,3.0,3.0333,3.0667,3.1333,3.2,3.2667,3.3333,3.4,3.4667,3.5333,3.5667,3.6,3.6333,3.6667,3.7,3.7333,3.7667,3.8,3.8333,3.8667,3.9,3.9333,3.9667,4.0,4.0333,4.0667,4.1,4.1333,4.1667,4.2,4.2333],"hits":[1.6667,2.7667,3.7667],"pads":[1,3,7]},
+// The beats the three hits fall on when the film names none: later in a longer scene, so the hands come in at ease.
+"standard":function standard(s){const n=Number.isFinite(s.beats)?s.beats:6;return n>=5?[2,3,4]:n>=4?[1,2,3]:[1,1.5,2];},
+// Every hit of the scene in its own clock.
+"hits":function hits(s,len,beat){
+      return (Array.isArray(s.hits)?s.hits:this.standard(s)).map((at,i)=>({at:at*beat,pad:this.play.pads[i]}));
+    },
+"validate":function validate(s){
+      const errors=[],hits=Array.isArray(s.hits)?s.hits:this.standard(s);
+      hits.forEach((at,i)=>{
+        if(!Number.isFinite(at))return;
+        if(Math.abs(at*4-Math.round(at*4))>1e-6)errors.push(`hits[${i}]: ${at}; a hit falls on a quarter of a beat`);
+        if(i&&Number.isFinite(hits[i-1])&&at-hits[i-1]<.5-1e-6)errors.push(`hits[${i}]: ${at} follows ${hits[i-1]}; hits are at least half a beat apart, in rising order`);
+        if(Number.isFinite(s.beats)&&at>s.beats-1+1e-6)errors.push(`hits[${i}]: ${at}; the last hit is at least a beat before the scene's end (${s.beats} beats)`);
+      });
+      return errors;
+    },
+"sounds":function sounds(s,len,cue,beat){
+      for(const hit of this.hits(s,len,beat))cue(hit.at,hit.pad===7?'ping':hit.pad===1?'pop':'tick',.75);
+    }}
 ,"comic":{
 // Comic Glitch Text, ported from Pixel UI with the author's permission
 // (scenes/text.mjs, SOURCE.json): a paragraph glitches in word by word through
