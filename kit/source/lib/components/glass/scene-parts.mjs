@@ -23,7 +23,10 @@ export function makeWorld(args,mode){
   const referencePalette=p.scene.bg===undefined&&!['background','accent','accent2'].some(key=>tokens[key]!==undefined);
   // Where the film puts the panel over its picture, and how large (grid.mjs).
   const placement={place:p.scene.place??'middle',size:p.scene.size??'normal'};
-  return {host,world:createGlassWorld({K,parent:host,mode,bg,fg,accent,palette,referencePalette,placement})};
+  const world=createGlassWorld({K,parent:host,mode,bg,fg,accent,palette,referencePalette,placement,ride:Boolean(args.ride)});
+  // A ride moves the worlds of its steps (glass-ride).
+  args.ride?.worlds.push(world);
+  return {host,world};
 }
 // Optical panels use one card layout; camera motion does not pick a
 // different type scale, density or content inset.

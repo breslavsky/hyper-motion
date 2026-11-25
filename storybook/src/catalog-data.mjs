@@ -75,7 +75,8 @@ export function readCatalogOptions(catalog = read('source/lib/components/catalog
 // (Three.js and the wall under a lens) as 3D, and every other family as a
 // folder of Pure Kinetic.
 const SECTIONS = {glass: 'Glass', three: '3D', 'lens-wall': '3D'};
-export const storyTitle = entry => SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.family}/${entry.type}`;
+// A scene can name a section of its own (a ride: Rides).
+export const storyTitle = entry => entry.section ? `${entry.section}/${entry.type}` : SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.family}/${entry.type}`;
 
 // The materials a 3D Glass scene is shown in: named examples of the scene's
 // own page (Glass, Dark Glass, Metal), not a section of their own.
@@ -141,6 +142,7 @@ export function readCatalog() {
     return {
       type,
       family: metadata.family,
+      ...(definition?.section ? {section: definition.section} : {}),
       renderMode: metadata.renderMode,
       owned: Boolean(metadata.owned),
       description: definition?.guide ?? guide.get(type) ?? type,

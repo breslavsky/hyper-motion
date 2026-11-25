@@ -299,7 +299,8 @@ test('material stories compare Glass, Dark Glass and Metal on each shared 3D com
     const item = entry(theme.type);
     assert.equal(item.renderMode,'webgl');
     assert.ok(item.source.endsWith('/glass/components.mjs'));
-    assert.equal(theme.title,`Glass/${item.type}`);
+    // A scene with a section of its own (a ride) stands there, not under Glass.
+    assert.equal(theme.title,`${item.section ?? 'Glass'}/${item.type}`);
     const code = fs.readFileSync(path.join(tooling, 'generated', `${theme.type}.stories.mjs`), 'utf8');
     assert.ok(code.includes(`title: ${JSON.stringify(theme.title)}`));
     assert.deepEqual(theme.variants.map(variant => variant.globals), MATERIALS.map(material => ({material})));

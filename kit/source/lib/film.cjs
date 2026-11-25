@@ -309,7 +309,7 @@ for (const [type, def] of Object.entries(OWN)) {
 	if (def.typeOnly) TYPE_ONLY.add(type);
 }
 const BUZZWORD = /\b(revolutionary|seamless(ly)?|leverage|unlock|supercharge|game[- ]?changer|cutting[- ]edge|next[- ]level|synerg\w*|empower\w*|world[- ]class|best[- ]in[- ]class|robust)\b/i;
-const NOT_WORDS = /^(type|bg|fg|in|look|metalVariant|image|images|video|videos|path|tiles|mark|pill|kind|variant|shapes|axis|id|ease|sel|html|css)$/;
+const NOT_WORDS = /^(type|bg|fg|in|look|place|metalVariant|image|images|video|videos|path|tiles|mark|pill|kind|variant|shapes|axis|id|ease|sel|html|css)$/;
 
 /** Every text of a scene a viewer reads. */
 const wordsOf = (scene) => {

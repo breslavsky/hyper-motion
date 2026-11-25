@@ -1146,6 +1146,20 @@
       }
     },
     {
+      "type": "glass-ride",
+      "file": "source/lib/components/glass/components.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "steps[*] the fields of glass-search and glass-ask, each drawn by its own scene"
+        ],
+        "reason": "A ride plays the scenes themselves one after another; each keeps its own text contract."
+      }
+    },
+    {
       "type": "glass-lens",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",

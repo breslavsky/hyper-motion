@@ -321,6 +321,11 @@ export const catalog={
     "renderMode": "webgl",
     "owned": true
   },
+  "glass-ride": {
+    "family": "glass",
+    "renderMode": "webgl",
+    "owned": true
+  },
   "glass-flow": {
     "family": "glass",
     "renderMode": "webgl",

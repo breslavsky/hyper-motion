@@ -29,6 +29,8 @@ const fixtures = [
   {scene: {type: 'glass-search', query: 'Thursday workshops', beats: 6, timing: {focus: .5, type: 1, typed: 3, search: 4, collapse: 5, collapsed: 5.7, checked: 5.9}},
     // Between the two click ripples, while the page's own text is what shows.
     probes: [[.6, '.pk-glass-search-query']]},
+  {scene: {type: 'glass-ride', beats: 16, steps: [{type: 'glass-search', beats: 6, query: 'Yoga classes'}, {type: 'glass-ask', beats: 8, place: 'bottom', text: 'When is my next class?', reply: 'Tuesday at six.'}]},
+    probes: [[.2, '.pk-glass-search-query'], [.75, '.pk-glass-ask-prompt']]},
   {scene: {type: 'glass-flow', title: 'First message', nextTitle: 'Next message', beats: 16},
     probes: [[.32, '[data-glass-surface="0"] .pk-glass-heading'], [.88, '[data-glass-surface="1"] .pk-glass-heading']]},
   {scene: {type: 'glass-widgets', items: [{label: 'Bookings', value: '12'}, {label: 'Reviews', value: '24'}], beats: 4},

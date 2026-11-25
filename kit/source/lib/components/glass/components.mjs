@@ -71,7 +71,7 @@ function clickRing(progress,reach,deep){
 }
 
 function search(args){
-  const {K,p,fg}=args,{el,set,px,design}=K,scene=p.scene,G=glassGrid(K);
+  const {K,p,fg}=args,{el,set,px,design}=K,scene=p.scene,G=glassGrid(K),joined=Boolean(args.ride?.joined);
   const {host,world}=makeWorld(args,'glass-search');
   const field=el('div','pk-glass-search-field',host);
   field.dataset.glassCopy=scene.query;
@@ -210,8 +210,9 @@ function search(args){
       viewport.style.filter=unseen;icon.style.filter=unseen;
     }else drawWave(wave,from);
     set(field,{clipPath:fold>0?`inset(0 ${px(center-w/2)} round ${px(h/2)})`:'none'});
-    card.group.scale.setScalar(.02+.98*outBack(phase(time,marks.open-.05,marks.open+.13)));
-    card.opacity=smooth(phase(time,marks.open-.05,marks.open+.04));
+    // The drop pops in, unless a ride hands it over from the scene before.
+    card.group.scale.setScalar(joined?1:.02+.98*outBack(phase(time,marks.open-.05,marks.open+.13)));
+    card.opacity=joined?1:smooth(phase(time,marks.open-.05,marks.open+.04));
     set(viewport,{opacity:String(copyOpacity),visibility});
 
     // The scene's own icon stands in the middle of the drop and goes to the head of the field as it opens.
@@ -312,7 +313,7 @@ function ask(args){
   const {host,world}=makeWorld(args,'glass-ask');
   const {surface,width,recipe}=cardSurface(K,host,[s.text,s.reply]);
   surface.classList.add('pk-glass-ask');
-  const exit=enumValue(s.exit,['drop','hold'],'drop','glass-ask.exit');
+  const exit=enumValue(s.exit,['drop','hold'],'drop','glass-ask.exit'),joined=Boolean(args.ride?.joined);
   const {unit}=K.design,iconSize=K.design.space(5),sendSize=K.design.space(6),G=glassGrid(K),seedSize=G.drop;
   const contentWidth=width-recipe.paddingX*2,textInset=iconSize+recipe.gap;
   const row=el('div','pk-glass-ask-row',surface);
@@ -401,10 +402,11 @@ function ask(args){
     card.height=height;set(surface,{height:px(height)});
     updateCard(card,world,width,height,opening,opening,smooth(open)*(1-close),seedSize);
     const press=pulse(time,.2,marks.open);
-    card.group.scale.setScalar(fitScale*(.02+.98*outBack(phase(time,0,.18)))*(1-.12*press));
+    // The drop pops in, unless a ride hands it over from the scene before.
+    card.group.scale.setScalar(fitScale*(joined?1:.02+.98*outBack(phase(time,0,.18)))*(1-.12*press));
     // The drop stands in the middle; the open prompt rises to leave room for its reply.
     card.group.position.set(0,(fullHeight-height)*world.U*fitScale/2*smooth(open),0).applyQuaternion(card.group.quaternion);
-    card.opacity=smooth(phase(time,0,.09));
+    card.opacity=joined?1:smooth(phase(time,0,.09));
     const iconTravel=1-smooth(open)*(1-close);
     // The drop itself is clear: the icon comes up as it opens and goes as it folds.
     set(icon,{opacity:String(smooth(phase(open,.1,.6))*(1-smooth(phase(close,.25,.8)))),transform:`translate(${px(seedOffsetX*iconTravel)},${px(seedOffsetY(height)*iconTravel)})`});
@@ -1486,4 +1488,79 @@ function glassLike(args){
   };
 }
 
-export const factories=timedGlassFactories({'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-flow':glassFlow,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});
+// A ride: glass scenes one after another on one drop. A step's scene grows
+// out of the drop and folds back into it; the drop then travels to where the
+// next step stands and that scene grows out of it. Each step is the scene
+// itself, in its own world; the ride shows one at a time, moves the world of
+// the step that has ended, and hands the drop over where the two agree.
+function glassRide(args){
+  const {K,p,cam}=args,{el,set}=K,s=p.scene;
+  const plan=metadata['glass-ride'].plan(s,p.dur);
+  const steps=plan.map((part,i)=>{
+    const layer=el('div','pk-glass-ride-step',cam);
+    set(layer,{position:'absolute',inset:'0',visibility:'hidden'});
+    const ride={worlds:[],joined:i>0};
+    const draw=factories[part.scene.type]({...args,cam:layer,ride,p:{...p,scene:part.scene,dur:part.dur}});
+    const world=ride.worlds[0];
+    // The ride is the scene; its step says which scene the world draws.
+    world.canvas.dataset.glassStep=world.canvas.dataset.glass;world.canvas.dataset.glass='glass-ride';
+    return {...part,layer,draw,world};
+  });
+  // The ride's camera: every step is a slide of its own, more than a frame
+  // away from the one before, and the camera stands over the step that plays.
+  const SLIDE=1.25,WAY={right:[1,0],left:[-1,0],down:[0,1],up:[0,-1]};
+  steps.forEach((step,i)=>{
+    const [x,y]=WAY[step.scene.move??'right'],before=steps[i-1]?.camera??{x:0,y:0};
+    step.camera=i?{x:before.x+x*K.W*SLIDE,y:before.y+y*K.H*SLIDE}:before;
+  });
+  let shown=-1;
+  return (time,duration=p.dur,backdropTime=time)=>{
+    // The step that plays, or the one whose drop is on its way to the next.
+    let at=steps.findLastIndex(step=>time>=step.start);if(at<0)at=0;
+    const step=steps[at],next=steps[at+1],local=Math.min(step.dur,Math.max(0,time-step.start));
+    if(at!==shown){
+      // A step that is not seen stands as it begins or as it ended, whatever
+      // was last drawn in it: seeking back and forth leaves the same page.
+      steps.forEach((other,i)=>{
+        set(other.layer,{visibility:i===at?'visible':'hidden'});
+        if(i!==at){other.world.shift(0,0);other.world.pan(other.camera.x,other.camera.y,1);other.draw(i<at?other.dur:0,other.dur,i<at?other.start+other.dur:other.start);}
+      });
+      shown=at;
+    }
+    if(next&&time>step.start+step.dur){
+      // The drop leaps to the next slide and the camera goes after it: it
+      // sets off a moment later and arrives with the drop, in the middle of
+      // its frame again.
+      const go=phase(time,step.start+step.dur,next.start),from=step.world.stands(),to=next.world.stands();
+      const way={x:next.camera.x-step.camera.x,y:next.camera.y-step.camera.y},follow=smoother(phase(go,.12,1));
+      const leap=dropLeap(go,way.x+to.dx-from.dx,way.y+to.dy-from.dy,K.H);
+      // It pulls back while the drop is in the air, to take the whole leap in, and comes in again as it lands.
+      const near=1/(1+PULL_BACK*Math.sin(Math.PI*smoother(go)));
+      step.world.pan(step.camera.x+way.x*follow,step.camera.y+way.y*follow,1/near);
+      // Seen from further off, the drop is smaller and nearer the middle of the frame.
+      const seen={x:(from.dx+leap.dx-way.x*follow)*near-from.dx,y:(from.dy+leap.dy-way.y*follow)*near-from.dy};
+      step.world.shift(seen.x,seen.y,leap.sx*near,leap.sy*near);
+    }else{step.world.pan(step.camera.x,step.camera.y,1);step.world.shift(0,0);}
+    step.draw(local,step.dur,backdropTime);
+  };
+}
+// How the drop gets from one step's place to the next: two leaps, a high one
+// and a low one, stretched as it flies and squashed as it lands, and round
+// again where it sets off and where it arrives. `go` runs 0 to 1; the answer
+// is its place in frame pixels from where it set off, and its scale.
+// How much more the ride's camera sees at the height of a leap.
+const PULL_BACK=.6;
+const LEAPS=Object.freeze([{until:.62,height:.3},{until:1,height:.1}]);
+export function dropLeap(go,dx,dy,frameHeight){
+  if(go<=0)return {dx:0,dy:0,sx:1,sy:1};
+  if(go>=1)return {dx,dy,sx:1,sy:1};
+  const index=LEAPS.findIndex(leap=>go<leap.until),leap=LEAPS[index],from=index?LEAPS[index-1].until:0;
+  const fly=(go-from)/(leap.until-from),arc=4*fly*(1-fly);
+  // It lands between the leaps: flat for a moment, then off again.
+  const landing=index?1-smooth(phase(fly,0,.3)):smooth(phase(fly,.82,1));
+  const stretch=arc*(1-landing),squash=landing*.5;
+  return {dx:dx*go,dy:dy*go-leap.height*frameHeight*arc,
+    sx:1-.1*stretch+.3*squash,sy:1+.18*stretch-.28*squash};
+}
+
+export const factories=timedGlassFactories({'glass-ride':glassRide,'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-flow':glassFlow,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});

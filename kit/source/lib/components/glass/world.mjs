@@ -81,16 +81,16 @@ function backgroundMaterial({bg,fg,accent,accent2,W,H,referencePalette}){
         col=mix(col,a,vein*.055);col=mix(col,mix(uGround,vec3(1.),.28),uDive*.28*exp(-length(radial)*2.5));
       `;
   return new THREE.ShaderMaterial({depthTest:false,depthWrite:false,toneMapped:false,
-    uniforms:{uTime:{value:0},uAspect:{value:W/H},uWarm:{value:0},uDive:{value:0},uTravel:{value:0},
+    uniforms:{uTime:{value:0},uAspect:{value:W/H},uWarm:{value:0},uDive:{value:0},uTravel:{value:0},uPan:{value:new THREE.Vector2()},uWide:{value:1},
       uGround:{value:ground},uAccent:{value:new THREE.Color(accent)},uAccent2:{value:new THREE.Color(accent2)},uLight:{value:light?1:0},uInk:{value:ink}},
     vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
     fragmentShader:`precision highp float;varying vec2 vUv;
-      uniform float uTime,uAspect,uWarm,uDive,uTravel,uLight;uniform vec3 uGround,uAccent,uAccent2,uInk;
+      uniform float uTime,uAspect,uWarm,uDive,uTravel,uLight,uWide;uniform vec2 uPan;uniform vec3 uGround,uAccent,uAccent2,uInk;
       float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
       float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
       float fbm(vec2 p){float n=0.,a=.5;for(int i=0;i<4;i++){n+=a*noise(p);p=mat2(1.6,-1.2,1.2,1.6)*p;a*=.5;}return n;}
       void main(){vec2 uv=vUv,radial=uv-.5;uv+=radial*uDive*.15*sin(length(radial)*9.-uTravel*2.);
-        vec2 p=(uv-.5)*vec2(uAspect,1.)*3./(1.+uTravel*.075);float t=uTime*.13;
+        vec2 p=((uv-.5)*vec2(uAspect,1.)*3.*uWide+uPan)/(1.+uTravel*.075);float t=uTime*.13;
         vec2 q=vec2(fbm(p*.65+vec2(t,-t*.5)),fbm(p*.65+vec2(4.2-t*.4,1.7+t*.6)));
         vec2 r=vec2(fbm(p*.7+q*1.8+vec2(1.7,t*.4)),fbm(p*.7-q*1.3+vec2(-t*.3,3.1)));
         float f=fbm(p*.8+r*2.),fold=sin(p.x*1.8+p.y*2.+f*7.+t);
@@ -101,7 +101,7 @@ function backgroundMaterial({bg,fg,accent,accent2,W,H,referencePalette}){
   });
 }
 
-export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePalette=true,placement=null}){
+export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePalette=true,placement=null,ride=false}){
   const {W,H,S,el,set,px}=K,U=1/300;
   // Preview hosts may explicitly spend fewer pixels. Logical layout and text
   // projection retain the video size; exports omit this option and render 1:1.
@@ -146,6 +146,8 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     const ratio=(W/H)/(media.width/media.height);
     mediaTexture.repeat.set(Math.min(1,ratio),Math.min(1,1/ratio));
     mediaTexture.offset.set((1-mediaTexture.repeat.x)/2,(1-mediaTexture.repeat.y)/2);
+    // A ride's camera travels past the edge of the picture: it goes on as its own mirror image, with no seam.
+    if(ride)mediaTexture.wrapS=mediaTexture.wrapT=THREE.MirroredRepeatWrapping;
     mediaTexture.colorSpace=THREE.SRGBColorSpace;
     mediaTexture.generateMipmaps=false;
     mediaTexture.minFilter=THREE.LinearFilter;
@@ -346,7 +348,8 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   }
   function render(time,{warm=0,dive=0,travel=0}={}){
     if(disposed)return;
-    const environmentTime=mode==='glass-ask'?0:time;
+    // A step of a ride shares the ride's backdrop, which moves on with its time.
+    const environmentTime=mode==='glass-ask'&&!ride?0:time;
     if(metalSheet&&metalTime!==environmentTime){metalSheet.draw(environmentTime);metalTexture.needsUpdate=true;metalTime=environmentTime;}
     scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);
     for(const card of cards){
@@ -421,6 +424,29 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
     camera.projectionMatrix.premultiply(move);camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
     canvas.dataset.glassPlacement=JSON.stringify(placed);
   }
+  // A ride carries a panel on from where it stands: the same move of the
+  // projected world, by `dx` and `dy` frame pixels from its place, squashed or
+  // stretched by `sx` and `sy` about the panel's own middle.
+  let rest=null;
+  function shift(dx,dy,sx=1,sy=1){
+    rest??=camera.projectionMatrix.clone();
+    const cx=2*(placed?.dx??0)/W,cy=-2*(placed?.dy??0)/H;
+    camera.projectionMatrix.copy(rest).premultiply(new THREE.Matrix4().set(sx,0,0,cx*(1-sx)+2*dx/W, 0,sy,0,cy*(1-sy)-2*dy/H, 0,0,1,0, 0,0,0,1));
+    camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+  }
+  // The camera of a ride moves over one large backdrop: `x` and `y` frame
+  // pixels to the right and down from where the ride began, pulled back so
+  // that it sees `wide` times as much. A photo or a video of the user's is
+  // travelled the same way, mirrored beyond its edges.
+  const crop=mediaTexture?{repeat:mediaTexture.repeat.clone(),offset:mediaTexture.offset.clone()}:null;
+  function pan(x,y,wide=1){
+    if(!media){background.uniforms.uPan.value.set(3*x/H,-3*y/H);background.uniforms.uWide.value=wide;return;}
+    const {repeat,offset}=crop;
+    mediaTexture.repeat.set(repeat.x*wide,repeat.y*wide);
+    mediaTexture.offset.set(offset.x+repeat.x*(x/W-(wide-1)/2),offset.y-repeat.y*(y/H+(wide-1)/2));
+  }
+  // Where the panel's middle stands, in frame pixels from the frame's middle.
+  const stands=()=>({dx:placed?.dx??0,dy:placed?.dy??0});
   function prepare(){
     place();
     for(const {mesh,slab,opticalFrame} of cards){
@@ -445,5 +471,5 @@ export function createGlassWorld({K,parent,mode,bg,fg,accent,palette,referencePa
   K.onDispose(dispose);
   K.glass={audit:()=>structuredClone(audit),get textureCanvas(){return textureCanvas;},canvas,dispose,
     inspect:()=>({scene,backdropScene:bgScene,camera,lens:mode==='glass-lens'?cards[0]?.group:null,textPlane,sendWave,render:()=>render(audit.time)})};
-  return {scene,backdropScene:bgScene,camera,distance,U,canvas,addCard,addControls,addSendButton,addSendWave,addRipple,addTextTexture,render,prepare,dispose};
+  return {scene,backdropScene:bgScene,camera,distance,U,canvas,addCard,addControls,addSendButton,addSendWave,addRipple,addTextTexture,render,prepare,dispose,shift,stands,pan};
 }

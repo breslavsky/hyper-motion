@@ -59,9 +59,9 @@ async function fetchIndex() {
 const response = await fetchIndex();
 assert.ok(response.ok, `Storybook index returned HTTP ${response.status}`);
 const index = await response.json();
-const storyEntries = Object.values(index.entries).filter(entry => entry.type === 'story' && /^(Glass|3D|Pure Kinetic)\//.test(entry.title));
+const storyEntries = Object.values(index.entries).filter(entry => entry.type === 'story' && /^(Glass|Rides|3D|Pure Kinetic)\//.test(entry.title));
 const stories = new Map(Object.values(index.entries).filter(entry => entry.type === 'story'
-  && /^(Glass|3D|Pure Kinetic)\//.test(entry.title) && entry.exportName === 'Preview')
+  && /^(Glass|Rides|3D|Pure Kinetic)\//.test(entry.title) && entry.exportName === 'Preview')
   .map(entry => [entry.title.split('/').at(-1), entry]));
 assert.deepEqual([...stories.keys()].sort(), catalogue.map(entry => entry.type).sort(), 'Storybook index must cover the canonical catalogue exactly');
 const componentTitles = new Set([...stories.values()].map(entry => entry.title));
@@ -661,10 +661,11 @@ async function portraitGlassGutters(page, type) {
     try {
       // Also check the last readable hold after the camera has pushed in.
       // For glass-flow the two samples belong to different cards.
-      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-flow' ? .32 : .45;
+      // A ride is measured in its last step, the open panel of a question.
+      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-flow' ? .32 : type === 'glass-ride' ? .7 : .45;
       // Search finishes as a single button. Measure its full-width field
       // while the query is visible, before the capsule folds into the button.
-      return [firstHold, type === 'glass-search' ? .78 : .94].map(fraction => {
+      return [firstHold, type === 'glass-search' ? .78 : type === 'glass-ride' ? .85 : .94].map(fraction => {
         draw(instance.ps.ldur * fraction);
         const selector = type === 'glass-lens' ? '.pk-glass-lens-layout'
           : type === 'glass-search' ? '.pk-glass-search-field'
@@ -1236,6 +1237,7 @@ async function glassControlsAndCleanup() {
           : type === 'glass-message' ? {name: 'Sam Rivera', text: 'See you at six.', time: '2m ago'}
           : type === 'glass-follow' ? {network: 'instagram', handle: '@samrivera'}
           : type === 'glass-call' ? {name: 'Sam Rivera', status: 'Video call'}
+          : type === 'glass-ride' ? {steps: [{type: 'glass-search', beats: 6, query: 'Evening classes'}, {type: 'glass-ask', beats: 8, move: 'down', text: 'Is there a spot?', reply: 'Two are left.'}]}
           : type === 'glass-widgets' ? {title: 'This month', items: [{label: 'Orders', value: '320'}, {label: 'Rating', value: '4.8'}], camera: 'static'}
           : {title: 'First surface', nextTitle: 'Next surface', nextBody: 'One continuous camera'};
       await session.page.evaluate(({id, copy}) => {

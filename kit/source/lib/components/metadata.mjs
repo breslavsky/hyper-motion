@@ -830,6 +830,64 @@ placed:false,
     cue(marks.send,'click',.9);
   },
 }),
+"glass-ride":glassComponent({
+// Glass scenes one after another on one drop (glass/components.mjs glassRide).
+placed:false,
+// The scenes a ride can take: each begins and ends on the family's clear drop.
+rideable:['glass-search','glass-ask'],
+// Two beats between two steps, while the drop leaps to where the next one stands.
+travel:2,
+// Every step with its scene as the film would write it, when it starts and how long it runs.
+plan(s,len){
+  const beat=len/s.beats;let at=0;
+  return s.steps.map((step,i)=>{
+    const {beats,...scene}=step,part={scene:{...scene,beats,...(scene.type==='glass-ask'&&i<s.steps.length-1?{exit:'drop'}:{})},start:at*beat,dur:beats*beat};
+    at+=beats+this.travel;return part;
+  });
+},
+anchors(s,len){return {steps:this.plan(s,len).map(part=>part.start)};},
+validate(s){
+  if(!Array.isArray(s.steps)||!s.steps.every(step=>step&&typeof step==='object'))return [];
+  const errors=[];
+  s.steps.forEach((step,i)=>{
+    if(!this.rideable.includes(step.type))return;
+    for(const name of step.type==='glass-search'?['query']:['text'])if(typeof step[name]!=='string')errors.push(`steps[${i}].${name}: a ${step.type} step needs it`);
+    for(const name of step.type==='glass-search'?['text','reply']:['query','placeholder'])if(step[name]!==undefined)errors.push(`steps[${i}].${name}: not a field of ${step.type}`);
+    if(i===0&&step.move!==undefined)errors.push('steps[0].move: the first step is where the ride begins; move belongs to the steps after it');
+    if(step.type==='glass-ask'&&step.exit==='hold'&&i<s.steps.length-1)errors.push(`steps[${i}].exit: only the last step of a ride can hold; the others fold into the drop`);
+  });
+  const needs=s.steps.reduce((sum,step)=>sum+(Number(step.beats)||0),0)+this.travel*(s.steps.length-1);
+  if(!errors.length&&Number.isFinite(s.beats)&&s.beats!==needs)errors.push(`beats: a ride is as long as its steps and two beats of travel between them: ${needs} beats here`);
+  return errors;
+},
+"signature":true,
+"copyFields":["steps"],
+"section":"Rides",
+"fields":{
+  "steps":{"kind":"array","min":2,"max":4,"of":{"kind":"object","fields":{
+    "type":{"kind":"enum","values":["glass-search","glass-ask"]},
+    "beats":{"kind":"number","min":4,"max":16},
+    "place":{"kind":"enum","values":GLASS_PLACES,"optional":true},
+    "move":{"kind":"enum","values":["right","left","down","up"],"optional":true},
+    "query":{"kind":"string","min":1,"max":80,"optional":true},
+    "placeholder":{"kind":"string","min":0,"optional":true},
+    "text":{"kind":"string","min":1,"max":60,"optional":true},
+    "reply":{"kind":"string","min":1,"max":80,"optional":true},
+    "exit":{"kind":"enum","values":["drop","hold"],"optional":true}
+  }}}
+},
+"guide":"glass-ride {steps[{type, beats, move?, place?, ...the scene's own fields} x2-4], background?}: glass scenes one after another with no cut, on one clear drop of glass and under one camera: a step's scene grows out of the drop and folds back into it, the drop leaps to the next slide, stretched as it flies and squashed as it lands, the camera goes after it, and the next scene grows out of the drop in the middle of the frame. move = which way the next slide lies and the camera goes to reach this step: right (default) | left | down | up; not on the first step. type = glass-search (with query, placeholder?) or glass-ask (with text, reply?, exit? on the last step). place = where the step's panel stands (top-left | top | top-right | left | middle | right | bottom-left | bottom | bottom-right; default middle). Over a photo or a video of the user's the camera travels the picture the same way; past its edge the picture goes on as its mirror image. beats of the ride = the steps' beats and two beats of travel between each two (6 + 2 + 8 = 16); another number is refused with the one needed. Use it for one thought in two moves: somebody searches, then asks. 9-40 beats.",
+"sample":{"type":"glass-ride","beats":16,"steps":[
+  {"type":"glass-search","beats":6,"query":"Yoga classes near me"},
+  {"type":"glass-ask","beats":8,"text":"When is my next class?","reply":"Tuesday at 6 pm. One spot is left."}]},
+"sounds":function sounds(s,len,cue,beat){
+      const parts=this.plan(s,len);
+      parts.forEach((part,i)=>{
+        definitions[part.scene.type].sounds(part.scene,part.dur,(at,...sound)=>cue(part.start+at,...sound),len/s.beats);
+        if(i<parts.length-1)cue(part.start+part.dur,"whoosh",.4);
+      });
+    }
+}),
 "glass-flow":glassComponent({
 // The camera flies from one card through to the next: there is no one place for it.
 placed:false,

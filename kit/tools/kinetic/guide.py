@@ -76,6 +76,12 @@ duration with repeated end cards, restated slogans or invented claims.
 - A person typing a search query and submitting it → `glass-search`. Supply the
   actual query. After submission, the field folds into a round button.
   Its spinner turns into a checkmark when the search completes.
+- Somebody asking a question and getting an answer → `glass-ask`.
+- Two such moments that belong together, one after the other with no cut
+  (somebody searches, then asks) → one `glass-ride` whose `steps` are those
+  scenes, instead of two scenes with a transition between them. A ride takes
+  only the scenes its line below names; its `beats` are the steps' beats and
+  two beats of travel between each two.
 - An AI assistant thinking, searching, listening or composing → `thinking-orb`.
   Choose its state to match that action; pair it with the user's exact words.
   It illustrates a process and does not prove a result. Do not add it to
