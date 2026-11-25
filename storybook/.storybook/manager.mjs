@@ -1,7 +1,10 @@
 import {addons} from 'storybook/manager-api';
 import {create} from 'storybook/theming';
+import {isSceneName, words} from '../src/names.mjs';
 
 addons.setConfig({
+  // The sidebar shows a scene's or a family's name as words (src/names.mjs).
+  sidebar: {renderLabel: item => ['component', 'group'].includes(item.type) && isSceneName(item.name) ? words(item.name) : item.name},
   theme: create({base: 'light', brandTitle: 'Hyper Motion', brandUrl: './', brandTarget: '_self'}),
   panelPosition: 'bottom',
   layoutCustomisations: {

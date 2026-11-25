@@ -1,3 +1,4 @@
+import {words} from './names.mjs';
 import {makeFilm} from './model.mjs';
 import definitions from '../generated/metadata.mjs';
 import {createPreviewController, createVisibilityCoordinator} from './visibility.mjs';
@@ -88,7 +89,8 @@ class ComponentStory extends HTMLElement {
     this.dataset.viewMode = viewMode;
     const shell = element('main', 'pk-story');
     const heading = element('header', 'pk-heading'), title = element('div');
-    title.append(element('h1', '', entry.type), element('p', '', `${entry.family} · ${entry.renderMode} · HyperFrames 0.9.19`));
+    // The name as words, and under it the type a film writes.
+    title.append(element('h1', '', words(entry.type)), element('p', '', `${entry.type} · ${entry.family} · ${entry.renderMode} · HyperFrames 0.9.19`));
     const status = element('span', 'pk-status', 'Preview');
     status.setAttribute('role', 'status');
     heading.append(title);

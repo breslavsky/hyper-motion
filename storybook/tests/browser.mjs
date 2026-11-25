@@ -1,5 +1,6 @@
 // End-to-end acceptance of the real Storybook shell and pinned HyperFrames Player.
 // npm run test:browser -- --all checks every canonical component in all formats.
+import {words} from '../src/names.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -1335,7 +1336,8 @@ async function glassShell() {
     const runtime = await ready(preview);
     assert.equal(runtime.type, 'glass-island');
     await seekSnapshot(preview, .85);
-    await page.waitForFunction(names => names.every(name => document.body.innerText.includes(name)), {}, glassTypes);
+    // The sidebar shows a scene's name as words (src/names.mjs).
+    await page.waitForFunction(names => names.every(name => document.body.innerText.includes(name)), {}, glassTypes.map(words));
     row.screenshot = 'glass-storybook-shell.png';
     await page.screenshot({path: path.join(OUT, row.screenshot), fullPage: true});
     row.components = glassTypes; row.passed = true;
