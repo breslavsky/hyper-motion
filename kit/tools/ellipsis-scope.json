@@ -1605,6 +1605,20 @@
       }
     },
     {
+      "type": "kinetic-burst-words",
+      "file": "source/lib/components/scenes/kinetic3d.mjs",
+      "renderMode": "webgl",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text"
+        ],
+        "reason": "One short line of one to four words built as solids from glyph outlines: every letter is geometry, so none can be cut."
+      }
+    },
+    {
       "type": "glass-steps",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",

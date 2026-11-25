@@ -37,7 +37,7 @@ test('every compiler type resolves independently and unknown types fail',async()
   assert.equal(library.types.length,expected.length);
   for(const [type,entry] of Object.entries(catalog)){
     assert.equal(library.has(type),true);
-    if(entry.family!=='three')assert.equal(typeof await library.get(type),'function',type);
+    if(!['three','kinetic3d'].includes(entry.family))assert.equal(typeof await library.get(type),'function',type);
   }
   await assert.rejects(library.get('not-a-scene'),/Unknown component/);
   assert.equal(library.has('toString'),false);

@@ -538,6 +538,12 @@ export const catalog={
     "renderMode": "dom",
     "owned": true,
     "ground": "kinetic"
+  },
+  "kinetic-burst-words": {
+    "family": "kinetic3d",
+    "renderMode": "webgl",
+    "owned": true,
+    "ground": "kinetic"
   }
 };
 export default catalog;

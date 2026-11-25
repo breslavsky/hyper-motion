@@ -1,5 +1,5 @@
 {
-  "note": "The components' four bundled families (`../components/presentation.css`), as Kinetic ships them, and faces of our font library (fonts/, whose catalogue names each family's source) copied for the letters those lack; `../fonts.css` maps them onto the components' families. The font library's families a film may name in brand.font are listed with their faces, versions and designers in `library.json` (`tools/font-library.mjs` copies them and writes `../fonts.css`'s library section); each carries its licence text, `OFL-<id>.txt`.",
+  "note": "The components' four bundled families (`../components/presentation.css`), as Kinetic ships them, and faces of our font library (fonts/, whose catalogue names each family's source) copied for the letters those lack; `../fonts.css` maps them onto the components' families. The font library's families a film may name in brand.font are listed with their faces, versions and designers in `library.json` (`tools/font-library.mjs` copies them and writes `../fonts.css`'s library section); each carries its licence text, `OFL-<id>.txt`. `geometry/` holds glyph outlines written out from these same files for scenes that build letters as solids (`kit/tools/font-geometry.py`): derived data of the family named in each file, under that family's licence.",
   "sources": [
     {
       "name": "Geist, Geist Mono",

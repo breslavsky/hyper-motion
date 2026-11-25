@@ -823,6 +823,26 @@ a short word takes a small part of it and stands almost flat. It is set in the
 film's own font and ink: the sign of tubes (`kineticSign`) is the edited
 line's.
 
+`kinetic-burst-words` is the family's third scene and its first in real
+geometry (`scenes/kinetic3d.mjs`, a family of its own in the catalogue, so its
+font's outlines are loaded only by a film that has such a scene). A browser
+does not give a glyph's outline, so the letters are built from one font
+written out beforehand: Onest 600, Latin and Cyrillic, from the kit's own font
+files (`fonts/geometry/onest-600.mjs`, written by `kit/tools/font-geometry.py`;
+`--check` says when it is stale). `kinetic-burst.mjs` is the part that needs no
+renderer and is tested in Node: an outline as loops of points (`loops`), a
+shape cut by a straight line into whole pieces, closed along the cut (`half`),
+loops sorted into solids with their holes (`solids`), a glyph broken by one
+cut of its own (`shatter`; a glyph whose contours overlap stays whole), and a
+line laid out by its glyphs' advances (`lay`). The scene extrudes each solid
+with a small bevel, shows the whole letters while the line arrives and stands,
+and swaps them for their pieces at the burst. A piece flies out from the
+middle of the line and past the camera; the one nearest the middle goes
+straight at it and closes the frame. While the pieces fly a frame is sixteen
+moments of the flight added together, which is the blur of a shutter. The
+light around the letters is the same picture drawn again under itself,
+blurred. The scene ends on black.
+
 The family has a ground of its own (`kinetic-ground.mjs`, `"ground":
 "kinetic"` in the catalogue): black, with the two lights of the sign, and none
 of the look's decoration, whatever the film's style, unless the scene's or the

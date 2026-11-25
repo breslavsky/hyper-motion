@@ -2097,6 +2097,44 @@ validate(s){
       for(let turn=0;turn<t.turns;turn++)cue(t.start+(t.land-t.start)*(1-Math.sqrt(1-(turn+.5)/(t.turns+.5))),'whoosh',.3);
       cue(t.land,'pop',.7);
     }}
+,"kinetic-burst-words":{
+"section":"Kinetic Text",
+// A line that arrives, breathes, and breaks at the camera (scenes/kinetic-burst-words.mjs):
+// real extruded letters of one baked font (fonts/geometry), cut into pieces that fly
+// past the camera until the frame is black. Ours, after one move of Apple's Creator
+// Studio film (SOURCE.json).
+"copyFields":["text"],
+"fields":{"text":{"kind":"string","min":2,"max":18}},
+"guide":"kinetic-burst-words {text}: a short line arrives and bursts at the viewer, in real 3D. It comes large and glowing, its outer letters at once and its middle letters growing up to them, its words draw apart for a breath, then it snaps together, smaller and in one solid colour, and a quarter of a beat later, on the beat, its letters break into thick pieces that tumble and fly straight at the camera, changing colour as they come, until one fills the frame and the frame is black. text = the line, 1-4 words, up to 18 characters, Latin or Cyrillic letters, digits and common marks (\"Share it.\"). Always in the scene's own font, on the black ground of its family. The scene ends on black: put it last before a cut, a new part or the film's closing line, with its burst on a hit of the music: the burst is on the scene's last beat but one. 2-4 beats; with more than 2 the large glowing line is held longer before it snaps.",
+"sample":{"type":"kinetic-burst-words","beats":2,"text":"Share it."},
+// The font the letters are built from: its outlines are a file of the kit.
+"font":{"family":"Onest","weight":600,"file":"fonts/geometry/onest-600.mjs"},
+"validate":function validate(s){
+      const errors=[],text=String(s.text??'').trim(),words=text.split(/\s+/u).filter(Boolean).length;
+      if(words<1||words>4)errors.push(`text: ${words} words; the line has 1 to 4`);
+      const strange=[...new Set(Array.from(text).filter(ch=>!/[\p{Script=Latin}\p{Script=Cyrillic}\d\s.,!?:;'"&%$+\-()#@\/]/u.test(ch)))];
+      if(strange.length)errors.push(`text: ${strange.join(' ')} cannot be built; the line is Latin or Cyrillic letters, digits and common marks`);
+      if(Number.isFinite(s.beats)&&(s.beats<2||s.beats>4))errors.push('beats: 2 to 4');
+      return errors;
+    },
+// It arrives at once and bursts on the scene's last beat but one, a quarter of a beat
+// after it has snapped together: it stands only long enough to be read as standing.
+// The pieces are gone before the scene ends, which leaves black.
+"times":function times(s,len,beat){
+      const b=Number.isFinite(beat)&&beat>0?beat:len/3;
+      const start=0;
+      const burst=Math.max(b,Math.round((len-b)/b)*b);
+      const settle=burst-b*.25;
+      const grown=Math.min(b*.35,settle*.42),apart=Math.max(grown+b*.1,settle-b*.35);
+      const fly=Math.min(b*.85,len-burst-.02);
+      return {start,grown,apart,settle,burst,fly,gone:burst+fly};
+    },
+"sounds":function sounds(s,len,cue,beat){
+      const t=this.times(s,len,beat);
+      cue(t.start,'pop',.5);
+      cue(t.settle,'click',.6);
+      cue(t.burst,'whoosh',.9);
+    }}
 };
 export {definitions};
 export default definitions;

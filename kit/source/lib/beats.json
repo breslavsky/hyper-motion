@@ -474,5 +474,9 @@
  "kinetic-spin-words": [
   3,
   6
+ ],
+ "kinetic-burst-words": [
+  2,
+  4
  ]
 }
