@@ -2002,5 +2002,52 @@ validate(s){
       t.words.forEach((at,i)=>cue(at,'tick',i%4===0?.5:.32));
       cue(Math.min(len*.96,t.entered*t.tick),'pop',.6);
     }}
+,"kinetic-swap-words":{
+"section":"Kinetic Text",
+// A line edited before the viewer (scenes/text.mjs): the words out of place
+// are selected, carried and dropped where they belong, then a strip of the
+// film's clip is put between the words. Ours, after one move of Apple's
+// Creator Studio film (SOURCE.json).
+"copyFields":["text"],
+"fields":{"text":{"kind":"string","min":5,"max":40},"move":{"kind":"string","min":1,"max":32},"image":{"kind":"string","optional":true},"video":{"kind":"string","optional":true}},
+"guide":"kinetic-swap-words {text, move, image?, video?}: a short line is edited before the viewer. It stands in the wrong order (\"video. Edit a\"); the words out of place take the accent colour, glow and lift off the line, are carried over the rest behind a caret and dropped where they belong (\"Edit a video.\"). text = the line as it ends, 2-6 words, up to 40 characters. move = the words that start out of place, exactly as they stand in text, at its beginning or at its end and never all of it (\"Edit a\"). With image or video (one of them, a file of the user's) the line then opens and a strip of that clip, its frames over a band of sound in a selection of the accent, grows out of a caret between the words and takes its place there; a video plays in the strip; then the words leave to the sides and the clip stays alone in the frame, so the next scene can be that clip. Without either the scene ends on the line in order. The line is a sign of one tube of light, always set in the rounded one-line font Comfortaa whatever the film's font: letters nearly white at the core in a glow of one colour, another colour while they are taken, and a flicker as the sign comes on. For a line about editing, fixing, changing or putting something in its place; the drop of the words is the moment for a hit of the music. 4-6 beats, 6-8 with a clip.",
+"sample":{"type":"kinetic-swap-words","beats":6,"text":"Edit a video.","move":"Edit a"},
+"words":function words(text){return String(text??'').trim().split(/\s+/u).filter(Boolean);},
+// A tube of light is bent from one line: the sign is always set in Comfortaa, a rounded
+// monoline family of the kit (fonts/library.json), whatever the film's own font.
+"font":"Comfortaa",
+"fonts":function fonts(){return [`700 100px "${this.font}"`];},
+// The words that move and the rest, and whether the moved ones end first.
+"parts":function parts(s){
+      const all=this.words(s.text),moved=this.words(s.move),n=moved.length;
+      const first=all.slice(0,n).join(' ')===moved.join(' '),last=all.slice(-n).join(' ')===moved.join(' ');
+      return {moved:moved.join(' '),rest:(first?all.slice(n):all.slice(0,all.length-n)).join(' '),first,ok:n>0&&n<all.length&&(first||last)};
+    },
+"validate":function validate(s){
+      const errors=[],all=this.words(s.text);
+      if(all.length<2||all.length>6)errors.push(`text: ${all.length} words; the line has 2 to 6`);
+      if(typeof s.move!=='string'||!this.parts(s).ok)errors.push('move: the words that start out of place, exactly as they stand in text, at its beginning or at its end and not all of it');
+      if(s.image&&s.video)errors.push('image, video: one of them');
+      const clip=Boolean(s.image||s.video);
+      if(Number.isFinite(s.beats)&&s.beats<(clip?6:4))errors.push(`beats: the line needs at least ${clip?6:4} beats${clip?' with a clip':''}`);
+      return errors;
+    },
+// Every time of the scene, in its own seconds: the words are selected, taken
+// up, dropped on a beat, and with a clip the line opens on the beat after and
+// the words leave near the end.
+"times":function times(s,len,beat){
+      const b=Number.isFinite(beat)&&beat>0?beat:len/6,clip=Boolean(s.image||s.video);
+      const select=Math.min(b*.6,len*.12),carry=select+Math.min(b*.5,len*.08);
+      const drop=Math.max(carry+.3,Math.min(Math.round(len*(clip?.42:.6)/b)*b,len*(clip?.5:.7)));
+      const open=clip?Math.min(drop+b,len*.72):len,placed=clip?Math.min(open+Math.max(.28,b*.6),len*.9):len;
+      // With a clip the words then leave to the sides, and the clip stays.
+      const leave=clip?Math.min(Math.max(placed+b*.8,len*.8),len-.3):len;
+      return {select,carry,drop,open,placed,leave,clip};
+    },
+"sounds":function sounds(s,len,cue,beat){
+      const t=this.times(s,len,beat);
+      cue(t.select,'click',.5);cue(t.carry,'whoosh',.35);cue(t.drop,'pop',.7);
+      if(t.clip){cue(t.open,'whoosh',.45);cue(t.placed,'chime',.6);cue(t.leave,'whoosh',.4);}
+    }}
 };
 module.exports = definitions;

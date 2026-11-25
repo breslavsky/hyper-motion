@@ -26,6 +26,15 @@ const timingExamples = {
   }],
 };
 
+// A scene that takes a picture or a video of the user's is also shown with one: named examples with the
+// Storybook's own sample files (src/preview.mjs loads them from our public CDN).
+export const MEDIA_EXAMPLES = {
+  'kinetic-swap-words': [
+    {exportName: 'ExampleVideo', name: 'With a video', args: {beats: 8, video: 'assets/talking-head.mp4'}},
+    {exportName: 'ExampleImage', name: 'With a picture', args: {beats: 8, image: 'assets/glass-bahamas.webp'}},
+  ],
+};
+
 /** Named stories opt in through canonical metadata; values stay in its enum. */
 export function previewVariantsFor(type, fields, selected) {
   if (selected === undefined) return [];
@@ -149,7 +158,7 @@ export function readCatalog() {
       sample: clone(sample),
       fields,
       variants: previewVariantsFor(type, fields, definition?.previewVariants),
-      examples: fields.timing ? clone(timingExamples[type] ?? []) : [],
+      examples: [...(fields.timing ? clone(timingExamples[type] ?? []) : []), ...clone(MEDIA_EXAMPLES[type] ?? [])],
       beatRange: clone(beats[type] ?? [1, 30]),
       availableLooks: [...availableLooks],
       availableMetalVariants: [...availableMetalVariants],

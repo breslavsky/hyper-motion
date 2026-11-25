@@ -127,8 +127,12 @@ export async function loadImages(context) {
   if(context.ps?.scene.image)urls.add(context.ps.scene.image);
   for(const url of context.ps?.scene.images??[])if(url)urls.add(url);
   await Promise.all([...urls].map(src=>new Promise((resolve,reject)=>{
-    const img=new Image();img.onload=()=>{context.images[src]={src,w:img.naturalWidth,h:img.naturalHeight};resolve();};
-    img.onerror=()=>reject(new Error(`Unable to load component image: ${src}`));img.src=src;
+    // A host may say where a file of the film really is (the Storybook's samples on our CDN), as it does
+    // for a scene's backdrop and videos (`options.assetUrls`); the scene still knows it by its path.
+    const at=context.options?.assetUrls?.[src]??src;
+    const img=new Image();if(at!==src)img.crossOrigin='anonymous';
+    img.onload=()=>{context.images[src]={src:at,w:img.naturalWidth,h:img.naturalHeight};resolve();};
+    img.onerror=()=>reject(new Error(`Unable to load component image: ${src}`));img.src=at;
   })));
 }
 

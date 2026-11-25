@@ -11,7 +11,7 @@ import {fileURLToPath} from 'node:url';
 
 const lib = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../source/lib');
 const listFile = path.join(lib, 'fonts/library.json'), cssFile = path.join(lib, 'fonts.css');
-const FAMILIES = ['onest', 'manrope', 'unbounded', 'oswald', 'tektur', 'rubik', 'russo-one', 'yeseva-one', 'gloock', 'caveat', 'jetbrains-mono', 'press-start-2p'];
+const FAMILIES = ['onest', 'manrope', 'unbounded', 'oswald', 'tektur', 'rubik', 'russo-one', 'yeseva-one', 'gloock', 'caveat', 'jetbrains-mono', 'press-start-2p', 'comfortaa'];
 const START = '/* library:start (written by tools/font-library.mjs from fonts/library.json; do not edit) */', END = '/* library:end */';
 const sum = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const css = list => [START, ...list.families.flatMap(family => family.faces.map(face =>

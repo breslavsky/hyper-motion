@@ -792,6 +792,28 @@ one, in every frame shape (`tools/glass-call.test.mjs`).
 
 ## Comic
 
+`kinetic-swap-words` (`scenes/text.mjs`) is the first scene of the Kinetic
+Text family (its own section in the Storybook, `"section"` of its definition):
+a line whose words out of place are selected, carried on an uneven arc behind
+a caret and dropped where they belong; with a picture or a video a strip of
+that clip opens out of a caret between the words, a window over frames that
+are never stretched, and the frame then goes into the clip, which carries the
+words out to the sides. Every frame comes from the scene's time alone: the two
+orders are measured once.
+
+The line is a sign of one tube of light, and that is its only look: letters
+nearly white at the core in a glow of one colour (the second light of the
+ground standing, the first while the words are taken), which flickers on in
+the first third of a second. A tube is bent from one line, so the sign has a
+font of its own whatever the film's: Comfortaa, a rounded family drawn with
+one line and bundled with the kit (the definition's `font`; `fonts()` is what
+the runtime loads for a scene before it is measured).
+
+The family has a ground of its own (`kinetic-ground.mjs`, `"ground":
+"kinetic"` in the catalogue): black, with the two lights of the sign, and none
+of the look's decoration, whatever the film's style, unless the scene's or the
+brand's colours were chosen, as for Glass.
+
 `comic` (`scenes/text.mjs`) is Pixel UI's Comic Glitch Text, ported with its
 author's permission (`SOURCE.json`: the commit, the file and what was kept):
 a paragraph glitches in word by word through tilted colour panels with a

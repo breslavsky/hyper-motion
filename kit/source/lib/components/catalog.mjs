@@ -526,6 +526,12 @@ export const catalog={
     "family": "text",
     "renderMode": "dom",
     "owned": true
+  },
+  "kinetic-swap-words": {
+    "family": "text",
+    "renderMode": "dom",
+    "owned": true,
+    "ground": "kinetic"
   }
 };
 export default catalog;

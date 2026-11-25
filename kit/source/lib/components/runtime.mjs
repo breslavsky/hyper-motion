@@ -6,7 +6,9 @@ import {componentTiming,resolveContent} from './timing.mjs';
 import {resolveBrandStyle,surfaceForeground} from './brand-tokens.mjs';
 import {loadGlassBackground,loadVideoSource} from './glass/background.mjs';
 import {glassGround} from './glass/ground.mjs';
+import {kineticGround} from './kinetic-ground.mjs';
 import catalog from './catalog.mjs';
+import metadata from './metadata.mjs';
 export {mountFilm} from './presentation.mjs';
 
 const NS='http://www.w3.org/2000/svg';
@@ -91,6 +93,12 @@ export async function mountScene(host,config,variables={},gsap){
       const ground=glassGround({scene,tokens:sourcePlan.brand.tokens,style,compiled:{palette:sourcePs.palette??config.plan.palette,bg:sourcePs.bg,fg:sourcePs.fg,accent:sourcePs.accent}});
       if(ground){Object.assign(ps,{bg:ground.bg,fg:ground.fg,accent:ground.accent,palette:ground.palette});sourcePlan.palette=ground.palette;}
     }
+    // A Kinetic Text scene stands on its family's ground too: black, with no decoration of the look (kinetic-ground.mjs).
+    let plainGround=false;
+    if(catalog[scene.type]?.ground==='kinetic'){
+      const ground=kineticGround({scene,tokens:sourcePlan.brand.tokens,style,compiled:{palette:sourcePs.palette??config.plan.palette,bg:sourcePs.bg,fg:sourcePs.fg,accent:sourcePs.accent}});
+      if(ground){Object.assign(ps,{bg:ground.bg,fg:ground.fg,accent:ground.accent,palette:ground.palette});sourcePlan.palette=ground.palette;plainGround=true;}
+    }
     ps.explicitForeground=scene.fg!==undefined||sourcePlan.brand.tokens?.foreground!==undefined||(style.fg!==undefined&&style.fg!==sourcePs.fg);
     ps.explicitAccent=style.accent!==undefined&&style.accent!==sourcePs.accent;
     // Keep the compiled foreground role intact, but use readable implicit ink
@@ -107,6 +115,8 @@ export async function mountScene(host,config,variables={},gsap){
     for(const [side,value] of [['t',H*margin.top],['b',H*margin.bottom],['l',W*margin.left],['r',W*margin.right]])stage.style.setProperty(`--safe-${side}`,px(value));
     applyTypography(stage,plan.look);
     await loadFonts(host.ownerDocument,[plan.brand,plan.app,ps.scene],plan);
+    // A font a scene sets its words in whatever the film's own (a sign of tubes): asked for with the scene's letters.
+    for(const font of metadata[ps.scene.type]?.fonts?.(ps.scene)??[])await host.ownerDocument.fonts.load(font,[...new Set(JSON.stringify(ps.scene))].join(''));
     await loadImages(ctx);
     if(ps.scene.background)K.glassBackground=await bounded(loadGlassBackground(ctx,id),'Glass background');
     // A scene that plays videos inside its own picture asks for them here,
@@ -129,7 +139,7 @@ export async function mountScene(host,config,variables={},gsap){
     if(scene.over)sceneRoot.style.background='transparent';
     const decoration=helpers.decor.of({W,H,S,plan,stage,get M(){return M;}});
     // The look's own ground (its coloured lights) belongs under a scene that fills the frame: over footage there is none.
-    const decoDraw=scene.over?()=>{}:decoration.decorate(sceneRoot,ps);
+    const decoDraw=scene.over||plainGround?()=>{}:decoration.decorate(sceneRoot,ps);
     const life=el('div','layer',sceneRoot),cam=el('div','cam',life);
     K.presentationScale=1;
     if(sourcePlan.look?.deco?.letterbox){const k=1-2*decoration.letterboxBar()/H;K.presentationScale=Number(k.toFixed(4));set(cam,{scale:k.toFixed(4),translate:`${px(W*(1-k)/2)} ${px(H*(1-k)/2)}`});}

@@ -39,6 +39,8 @@ try {
   if (sample && !options.assetUrls) options.assetUrls = {[background.image ?? background.video]: sample};
   // A scene's own sample video (the laptop's screen) comes from there too.
   if (SAMPLES[ps.scene.video]) options.assetUrls = {...options.assetUrls, [ps.scene.video]: SAMPLES[ps.scene.video]};
+  // And a scene's own sample picture.
+  if (SAMPLES[ps.scene.image]) options.assetUrls = {...options.assetUrls, [ps.scene.image]: SAMPLES[ps.scene.image]};
   // The scene's own sound cues (a key typed, a button clicked, a panel that
   // opens), played by small free sounds from our public CDN: one <audio> clip
   // a cue, which HyperFrames plays in step with the scene and the player's

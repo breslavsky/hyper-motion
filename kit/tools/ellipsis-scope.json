@@ -1577,6 +1577,20 @@
       }
     },
     {
+      "type": "kinetic-swap-words",
+      "file": "source/lib/components/scenes/text.mjs",
+      "renderMode": "dom",
+      "policy": "preserved",
+      "singleLine": [],
+      "inherits": [],
+      "preserved": {
+        "fields": [
+          "text"
+        ],
+        "reason": "One short line of two to six words, fitted to its width in one piece: its words change places, so none can be cut."
+      }
+    },
+    {
       "type": "glass-steps",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",

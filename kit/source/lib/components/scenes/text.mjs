@@ -415,5 +415,180 @@ sceneFactories.comic = ({ p, cam, fg, K }) => {
 		});
 	};
 };
+
+
+/**
+ * A line that is edited before the viewer, drawn as a sign of one tube of
+ * light in a font of its own: it stands in the wrong order, the words that
+ * are out of place are selected (they take the other light and lift off the
+ * line), carried over the rest behind a caret and dropped where
+ * they belong; then, with a picture or a video, a strip of that clip grows
+ * out of a caret between the words, and the words leave to the sides. Ours, after one move of Apple's
+ * Creator Studio film (SOURCE.json). Every frame comes from the scene's time
+ * alone: the two orders are measured once, and the words move between them.
+ */
+sceneFactories["kinetic-swap-words"] = ({ p, cam, fg, accent, palette, K }) => {
+	const { W, el, set, px, clamp } = K;
+	const s = p.scene;
+	const def = metadata["kinetic-swap-words"];
+	const length = p.ldur ?? p.dur;
+	const t = def.times(s, length, p.beatLen);
+	const { moved, rest, first } = def.parts(s);
+	const hasClip = Boolean(s.image || s.video);
+	const smooth = (k) => k * k * (3 - 2 * k);
+	const at = (from, to, l) => clamp((l - from) / Math.max(1e-6, to - from), 0, 1);
+
+	const wrap = el("div", "center", cam);
+	const line = el("div", "bold", wrap);
+	set(line, { position: "relative", whiteSpace: "nowrap", color: fg, lineHeight: "1.15" });
+
+	// The line as it ends, to fit and to measure: the moved words, a space, the rest.
+	const a = el("span", "", line, moved), gap = el("span", "", line, " "), b = el("span", "", line, rest);
+	if (!first) line.insertBefore(b, a), line.insertBefore(gap, a);
+	for (const node of [a, b]) set(node, { display: "inline-block", whiteSpace: "pre" });
+	set(gap, { display: "inline-block", whiteSpace: "pre" });
+	// A tube is bent from one line: the sign has a font of its own (the definition's `font`), set on the
+	// words themselves, since the line's own font is its role's.
+	for (const node of [a, gap, b]) set(node, { fontFamily: `"${def.font}", sans-serif`, fontWeight: "700" });
+	// The line reads as a line of an editor, not as a poster: a sixth of a wide frame's height at most, a
+	// tenth of a square or tall one, and with a clip between the words still inside the frame.
+	const { H } = K;
+	K.design.fitSize(line, K.safe.w * (hasClip ? 0.56 : 0.86), K.safe.h * (W > H * 1.2 ? 0.17 : 0.11), "sceneTitle", { wrap: "nowrap" });
+	const em = parseFloat(getComputedStyle(line).fontSize) || 48;
+	const wa = a.getBoundingClientRect().width / (K.scale || 1), wb = b.getBoundingClientRect().width / (K.scale || 1);
+	const sp = gap.getBoundingClientRect().width / (K.scale || 1), high = em * 1.15;
+	const full = wa + sp + wb;
+	gap.remove();
+	set(line, { width: px(full), height: px(high) });
+	for (const node of [a, b]) set(node, { position: "absolute", left: "0", top: "0", willChange: "transform" });
+	// Where each part stands, from the line's left: in the order it ends in, and in the wrong one.
+	const ends = first ? { a: 0, b: wa + sp } : { a: wb + sp, b: 0 };
+	const begins = first ? { a: wb + sp, b: 0 } : { a: 0, b: wa + sp };
+	// The two lights of the sign: the first while the words are taken, the second standing.
+	const lights = [palette?.signTaken ?? accent, palette?.signStanding ?? palette?.brand2 ?? accent];
+	// The line is a sign of one tube of light with a core that is nearly white. Standing, it is the second
+	// light of the family; taken, the first.
+	const tube = (k) => `color-mix(in srgb, ${lights[0]} ${(k * 100).toFixed(1)}%, ${lights[1]})`;
+	const tubeGlow = (k, strength = 1) => `0 0 ${px(em * 0.035)} #fff, 0 0 ${px(em * 0.11)} ${tube(k)}, 0 0 ${px(em * 0.3)} ${tube(k)}, 0 0 ${px(em * 0.75 * strength)} color-mix(in srgb, ${tube(k)} 70%, transparent)`;
+	// A tube does not come on at once: it flickers for the first third of a second, at 24 frames a second.
+	const START = [0, 0, 1, 0.15, 0, 0.7, 1, 0.3, 1];
+	const lit = (l) => START[Math.floor((l + 1e-6) * 24)] ?? 1;
+	const caret = el("span", "", line);
+	const caretW = Math.max(2, em * 0.035), caretH = high * 1.16;
+	set(caret, { position: "absolute", top: px(-high * 0.08), width: px(caretW), height: px(caretH), background: accent, borderRadius: px(em * 0.02), opacity: "0" });
+
+	// The clip between the words: a strip of its frames over a band of sound, in a selection of the accent.
+	const stripH = high * 1.5, stripW = hasClip ? Math.min(K.safe.w * 0.34, stripH * 4.2) : 0;
+	const sharp = hasClip ? Math.min(3, Math.max(1, (K.safe.w * 0.86) / stripW)) : 1;
+	let strip = null, ring = null, halo = null, paint = null;
+	if (hasClip) {
+		// The clip hangs in a tube of its own: a ring of the sign's two lights that run round it, and their glow.
+		halo = el("div", "", line);
+		ring = el("div", "", line);
+		for (const node of [halo, ring]) set(node, { position: "absolute", opacity: "0", pointerEvents: "none" });
+		set(halo, { filter: `blur(${px(em * 0.3)})` });
+		strip = el("div", "", line);
+		set(strip, { position: "absolute", top: px((high - stripH) / 2), height: px(stripH), width: px(stripW), borderRadius: px(em * 0.12), overflow: "hidden", opacity: "0",
+			background: "#0a0d14", transformOrigin: "50% 50%" });
+		const canvas = document.createElement("canvas");
+		// Drawn at the size it ends at, when the frame has gone into it, so it is sharp there.
+		const tiles = 4, th = Math.round(stripH * 0.74 * sharp), tw = Math.round(stripW * sharp / tiles);
+		canvas.width = tw * tiles; canvas.height = Math.round(stripH * sharp);
+		// The frames keep their own size and stand in the middle of the strip: the strip is a window that
+		// opens over them, so nothing is ever stretched.
+		set(canvas, { position: "absolute", left: "50%", top: "50%", width: px(stripW), height: px(stripH), translate: "-50% -50%" });
+		strip.append(canvas);
+		const g = canvas.getContext("2d");
+		// The band of sound under the frames: the same bars whenever it is drawn.
+		let seed = 0x2545f491 ^ Math.imul(String(s.text).length + 7, 0x9e3779b1);
+		const bars = Array.from({ length: 64 }, () => { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return ((seed >>> 0) % 1000) / 1000; });
+		paint = (source) => {
+			g.fillStyle = "#101a33"; g.fillRect(0, 0, canvas.width, canvas.height);
+			if (source) {
+				const sw = source.videoWidth || source.naturalWidth || source.width, sh = source.videoHeight || source.naturalHeight || source.height;
+				if (sw && sh) {
+					// Each frame of the strip is the clip cropped to its own shape.
+					const k = Math.max(tw / sw, th / sh), cw = tw / k, ch = th / k;
+					for (let i = 0; i < tiles; i++) g.drawImage(source, (sw - cw) / 2, (sh - ch) / 2, cw, ch, i * tw + sharp, 0, tw - 2 * sharp, th);
+				}
+			}
+			g.fillStyle = "#7f9bd6";
+			const room = canvas.height - th - 4 * sharp, step = canvas.width / bars.length;
+			bars.forEach((v, i) => { const h = Math.max(1, v * room * 0.9); g.fillRect(i * step, canvas.height - 2 * sharp - h, Math.max(1, step * 0.6), h); });
+		};
+		paint(null);
+		if (s.image && K.images[s.image]) {
+			const im = new Image();
+			im.crossOrigin = "anonymous";
+			im.onload = () => paint(im);
+			im.src = K.images[s.image].src;
+			K.defer(im.decode ? im.decode().then(() => paint(im)).catch(() => {}) : Promise.resolve());
+		}
+	}
+	let video = null;
+	if (s.video) K.defer(K.videoSource(0, Math.round(stripW * sharp / 4), Math.round(stripH * 0.74 * sharp)).then((source) => { video = source.element; }));
+
+	const lift = high * 0.62;
+	// How far the frame goes into the clip at the end: until the strip is most of the frame's width.
+	const ZOOM = hasClip ? Math.max(0.6, (K.safe.w * 0.86) / stripW - 1) : 0;
+	// How the taken words travel, as a hand would carry them and never evenly: a quick pull towards the place,
+	// a hover over the line while the rest makes room, then the last of the way. `u` is the share of the carry.
+	const way = (u) => {
+		if (u < 0.28) return 0.56 * (1 - (1 - u / 0.28) ** 3);
+		if (u < 0.68) return 0.56 + 0.16 * smooth((u - 0.28) / 0.4);
+		return 0.72 + 0.28 * smooth((u - 0.68) / 0.32);
+	};
+	return (l) => {
+		const between = Math.min(ends.a, ends.b) + (first ? wa : wb) + sp / 2;
+		const taken = smooth(at(t.select, t.select + 0.12, l));
+		const u = at(t.carry, t.drop, l);
+		// Down onto the line in the last tenth of the carry, a little past it, and back.
+		const fall = at(t.drop - 0.09, t.drop, l), settle = at(t.drop, t.drop + 0.14, l);
+		const held = taken * (1 - fall * fall);
+		const selected = taken * (1 - smooth(at(t.drop, t.drop + 0.08, l)));
+		// Higher in the middle of the way than at its ends: an arc over the rest of the line.
+		const height = lift * held * (1 + 0.6 * Math.sin(Math.PI * Math.min(1, u / 0.9))) - lift * 0.1 * Math.sin(Math.PI * settle) * (1 - settle);
+		const carried = way(u);
+		// The rest steps aside in one move, when the caret has come to its place.
+		const made = 1 - (1 - at(t.carry + (t.drop - t.carry) * 0.58, t.carry + (t.drop - t.carry) * 0.76, l)) ** 3;
+		// With a clip the line opens: the words part by the strip's width and the whole line gives room.
+		const opened = hasClip ? smooth(at(t.open, t.placed, l)) : 0;
+		const room = opened * (stripW + sp);
+		const left = (which) => begins[which] + (ends[which] - begins[which]) * (which === "a" ? carried : made);
+		// Then the frame goes into the clip, faster and faster: the clip grows from its own middle and the
+		// words, growing with it, are carried out to the sides and leave the frame.
+		const gone = hasClip ? at(t.leave, Math.max(t.leave + 0.2, length - 0.05), l) ** 2 : 0;
+		const shift = (which) => (ends[which] > ends[which === "a" ? "b" : "a"] ? 1 : -1) * (room / 2 + gone * W * 0.12);
+		// As the line opens the words grow and go apart, out of the frame if they must: the clip takes the middle.
+		const grown = 1 + 0.24 * opened;
+		set(line, { scale: (1 + ZOOM * gone).toFixed(4), transformOrigin: `${px(between)} 50%` });
+		const side = begins.a > ends.a ? -1 : 1;
+		set(a, { translate: `${px(left("a") + shift("a"))} ${px(-height)}`, scale: ((1 + 0.14 * held - 0.03 * Math.sin(Math.PI * settle)) * grown).toFixed(4), transformOrigin: opened > 0 ? `${ends.a < ends.b ? 100 : 0}% 60%` : "50% 60%",
+			rotate: `${(side * 2.4 * held * Math.sin(Math.PI * u)).toFixed(3)}deg`,
+			// Nearly white at the core, in a glow of the tube's own colour, wider while the words are taken.
+			color: `color-mix(in srgb, ${tube(selected)} 12%, #fff)`, textShadow: tubeGlow(selected, 1 + 0.3 * selected) });
+		set(b, { translate: `${px(left("b") + shift("b"))} 0`, scale: grown.toFixed(4), transformOrigin: `${ends.b < ends.a ? 100 : 0}% 60%`, opacity: ((1 - 0.55 * selected) * (1 - at(0.55, 1, gone)) * lit(l)).toFixed(3), color: `color-mix(in srgb, ${tube(0)} 12%, #fff)`, textShadow: tubeGlow(0) });
+		a.style.opacity = ((1 - at(0.55, 1, gone)) * lit(l)).toFixed(3);
+		// The caret stands where the words were taken from, then jumps to where they will be put: in front of
+		// the rest of the line, and it stays at that word's first letter while the word steps aside.
+		const from = begins.a - sp / 2, to = first ? left("b") + shift("b") - sp * 0.18 : ends.a - sp / 2;
+		const jumped = 1 - (1 - at(t.carry + (t.drop - t.carry) * 0.46, t.carry + (t.drop - t.carry) * 0.6, l)) ** 3;
+		// With a clip the caret comes back between the words, and the clip grows out of it.
+		const waits = hasClip && l >= t.open - Math.min(0.3, (t.open - t.drop) * 0.5) && opened <= 0.001;
+		set(caret, { left: px(waits ? between - caretW / 2 : from + (to - from) * jumped), opacity: waits || (selected > 0.5 && Math.floor(l / 0.26) % 4 !== 3) ? "1" : "0" });
+		if (strip) {
+			// A window that opens from the caret's own width and height to the strip's, wider first and then to
+			// its full height: the clip behind it fills the room as it comes.
+			const wide = caretW + (stripW - caretW) * opened, tall = caretH + (stripH - caretH) * smooth(at(0.25, 1, opened));
+			set(strip, { left: px(between - wide / 2), top: px((high - tall) / 2), width: px(wide), height: px(tall), opacity: opened > 0.001 ? "1" : "0" });
+			// The lights go once round the clip in three seconds; the same turn at the same moment of the scene.
+			const edge = Math.max(2, em * 0.05), turn = ((l * 120) % 360).toFixed(1);
+			const lightsRound = `conic-gradient(from ${turn}deg, ${lights[0]}, ${lights[1]}, #fff 52%, ${lights[1]}, ${lights[0]})`;
+			for (const [node, grow] of [[ring, edge], [halo, edge * 2.2]]) set(node, { left: px(between - wide / 2 - grow), top: px((high - tall) / 2 - grow), width: px(wide + 2 * grow), height: px(tall + 2 * grow),
+				borderRadius: px(em * 0.12 + grow), background: lightsRound, opacity: opened > 0.001 ? (node === halo ? "0.9" : "1") : "0" });
+			if (video && opened > 0.001) paint(video);
+		}
+	};
+};
 export {sceneFactories};
 export default sceneFactories;
