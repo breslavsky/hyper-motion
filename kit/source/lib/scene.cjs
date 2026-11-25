@@ -43,6 +43,17 @@ function buildScene(recipe, out = process.cwd()) {
   film.scenes = [scene];
   const refused = problems(film);
   if (refused.length) return {errors: refused};
+  // A scene that looks at a clip of the film (`background.clip`): the page must
+  // have that <video>, on a track under the scene's.
+  const under = scene.background?.clip;
+  if (under) {
+    const page = path.join(out, 'index.html');
+    const html = fs.existsSync(page) ? fs.readFileSync(page, 'utf8') : '';
+    const tag = (html.match(/<video\b[^>]*>/g) ?? []).find(text => new RegExp(`\\bid=["']${under}["']`).test(text));
+    if (!tag) return {errors: [`background.clip: index.html has no <video id="${under}">; name the footage's own id`]};
+    const below = Number(/\bdata-track-index=["'](\d+)["']/.exec(tag)?.[1]);
+    if (Number.isFinite(below) && track <= below) return {errors: [`track: the footage "${under}" is on track ${below}; put the scene on a track above it`]};
+  }
 
   const plan = compile(film), ps = plan.scenes[0], clip = nativeClips(plan)[0];
   // The kit's runtime as the page sees it: this folder, from the project's source.

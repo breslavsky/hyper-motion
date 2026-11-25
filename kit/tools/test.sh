@@ -74,6 +74,8 @@ case "$mode" in
     (cd "$template" && node --test tools/glass.test.mjs tools/glass-timing.test.mjs tools/material.test.mjs tools/brand-material.test.mjs)
     part "Glass and Metal: native acceptances"
     pytest tests/test_pure_kinetic_glass.py tests/test_pure_kinetic_metal.py
+    part "Glass over the film's own footage: a real render"
+    (cd "$template" && node tools/glass-over-native.mjs)
     run_storybook --glass --metal ask-optics.mjs glass-backgrounds.mjs
     ;;
   storybook)

@@ -121,7 +121,9 @@ export async function loadVideoSource(context,{path,inputId,width,height,label='
 // sees it as the page shows it at this moment: the same frame (in a render,
 // the frame HyperFrames decoded for the clip), in the clip's own box, fit and
 // position, so what the glass bends lies exactly over what is under it,
-// through every reframe and zoom of the film.
+// through every reframe and zoom of the film. A turned, masked or rounded
+// clip is not followed: only its place, its size, its fit, its filter and its
+// opacity.
 export async function loadClipSource(context,id){
   const {K,stage}=context,doc=stage.ownerDocument,win=doc.defaultView;
   const clip=doc.getElementById(id);
@@ -138,7 +140,7 @@ export async function loadClipSource(context,id){
     if(!sw||!sh)return;
     const page=stage.getBoundingClientRect(),box=clip.getBoundingClientRect(),style=win.getComputedStyle(clip);
     if(!(page.width>0&&box.width>0))return;
-    const mark=[frame?frame.src:clip.currentTime,box.left-page.left,box.top-page.top,box.width,box.height,style.objectFit,style.objectPosition].join('|');
+    const mark=[frame?frame.src:clip.currentTime,box.left-page.left,box.top-page.top,box.width,box.height,style.objectFit,style.objectPosition,style.filter,style.opacity].join('|');
     if(mark===last)return;
     last=mark;
     const k=element.width/page.width,bx=(box.left-page.left)*k,by=(box.top-page.top)*k,bw=box.width*k,bh=box.height*k;
@@ -147,6 +149,9 @@ export async function loadClipSource(context,id){
     const dw=scale===null?bw:sw*scale,dh=scale===null?bh:sh*scale;
     ctx.fillStyle='#000';ctx.fillRect(0,0,element.width,element.height);
     ctx.save();ctx.beginPath();ctx.rect(bx,by,bw,bh);ctx.clip();
+    // The film's own grade of the clip (a CSS filter) and its opacity: the glass sees the clip as the viewer does.
+    if(style.filter&&style.filter!=='none')ctx.filter=style.filter;
+    ctx.globalAlpha=Math.max(0,Math.min(1,Number(style.opacity)||0));
     ctx.drawImage(source,bx+(bw-dw)*share(px,.5),by+(bh-dh)*share(py,.5),dw,dh);
     ctx.restore();
     repaint?.();

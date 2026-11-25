@@ -68,9 +68,10 @@ for (const entry of catalog) {
 // (`over`), each where such an overlay usually stands. The preview lays a
 // sample video under them (src/preview.mjs).
 const BROLLS = [
+  // Over somebody who talks to the camera the face is the picture: a panel is small and stands in a corner or along an edge.
   ['glass-like', {place: 'bottom-right', size: 'small'}], ['glass-follow', {place: 'bottom-left', size: 'small'}],
-  ['glass-rating', {place: 'top-right', size: 'small'}], ['glass-message', {place: 'bottom'}], ['glass-call', {place: 'bottom'}],
-  ['glass-island', {place: 'top'}], ['glass-checklist', {place: 'right', size: 'small'}], ['glass-search', {place: 'bottom'}], ['glass-ask', {place: 'bottom'}],
+  ['glass-rating', {place: 'top-right', size: 'small'}], ['glass-message', {place: 'bottom-left', size: 'small'}], ['glass-call', {place: 'bottom-right', size: 'small'}],
+  ['glass-island', {place: 'top-left', size: 'small'}], ['glass-checklist', {place: 'right', size: 'small'}], ['glass-search', {place: 'bottom', size: 'small'}], ['glass-ask', {place: 'bottom', size: 'small'}],
 ];
 for (const [type, stands] of BROLLS) {
   if (!catalog.some(entry => entry.type === type)) continue;
