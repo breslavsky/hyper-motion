@@ -180,9 +180,10 @@
     {
       "name": "Apple Creator Studio film, the move of its line \"Edit a video.\"",
       "url": "https://www.apple.com/apple-creator-studio/",
-      "taken": "reference",
+      "taken": "followed",
       "date": "2026-11-25",
-      "note": "The scene kinetic-swap-words (scenes/text.mjs) is ours, written from scratch after watching one move of Apple's film for Creator Studio: a line stands in the wrong order, the words out of place are selected, carried behind a caret and dropped where they belong, then a strip of a clip is put between the words. Nothing of the film is taken: no frame, font, sound or code; the idea of the move only."
+      "note": "The scene kinetic-swap-words (scenes/text.mjs) is ours, written from scratch after watching one move of Apple's film for Creator Studio: a line stands in the wrong order, the words out of place are selected, carried behind a caret and dropped where they belong, then a strip of a clip is put between the words. Nothing of the film is taken: no frame, font, sound or code; the idea of the move only.",
+      "license": "Public reference; no media or code copied"
     }
   ]
 }
