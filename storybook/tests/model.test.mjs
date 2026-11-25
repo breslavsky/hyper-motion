@@ -99,9 +99,6 @@ test('invalid preview variant declarations fail preparation before stories are g
 });
 
 test('Liquid Glass stories expose native camera and morph controls with reusable recipes', () => {
-  const flow = entry('glass-flow');
-  // A selected older template can still be catalogued without this port.
-  if (!flow) return;
   const island = entry('glass-island'), lens = entry('glass-lens');
   assert.deepEqual(island.variants.map(variant => variant.args), [
     {camera: 'static'}, {camera: 'orbit'}, {exit: 'hold'}, {exit: 'collapse'},
@@ -111,13 +108,7 @@ test('Liquid Glass stories expose native camera and morph controls with reusable
   assert.deepEqual(argTypesFor(island).exit.options, ['hold', 'collapse']);
   assert.equal(defaultArgs(island).camera, 'orbit');
   assert.equal(defaultArgs(lens).camera, 'static');
-  for (const item of [island, lens, flow]) assert.equal(item.renderMode, 'webgl');
-  const film = makeFilm(flow, {title: 'First surface', nextTitle: 'Next surface'}, {material: 'glass', aspect: '9:16'});
-  assert.deepEqual(problems(film), []);
-  assert.equal(film.scenes.length, 1, 'The continuous fly-through belongs to one persistent native world');
-  assert.equal(film.scenes[0].title, 'First surface');
-  assert.equal(film.scenes[0].nextTitle, 'Next surface');
-  assert.equal(compile(film).scenes[0].scene.type, 'glass-flow');
+  for (const item of [island, lens]) assert.equal(item.renderMode, 'webgl');
   assert.match(validateArgs(island, {camera: 'free'}).join('\n'), /camera.*choose/);
   assert.match(validateArgs(island, {exit: 'fly'}).join('\n'), /exit.*choose/);
   const ask = entry('glass-ask');

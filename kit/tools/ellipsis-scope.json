@@ -1175,21 +1175,6 @@
       }
     },
     {
-      "type": "glass-flow",
-      "file": "source/lib/components/glass/components.mjs",
-      "renderMode": "webgl",
-      "policy": "preserved",
-      "singleLine": [],
-      "inherits": [],
-      "preserved": {
-        "fields": [
-          "title and nextTitle multiline cardTitle messages",
-          "body and nextBody supporting messages"
-        ],
-        "reason": "Both glass cards retain complete authored copy throughout the continuous camera move."
-      }
-    },
-    {
       "type": "glass-send-prompt",
       "file": "source/lib/components/glass/components.mjs",
       "renderMode": "webgl",

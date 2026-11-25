@@ -24,7 +24,6 @@ const examples=[
   {id:'island-orbit-collapse',scene:{type:'glass-island',title:'Всё на своём месте',body:'Текст движется вместе со стеклом.',camera:'orbit',exit:'collapse',beats:4}},
   {id:'lens-static',scene:{type:'glass-lens',text:'Clarity in motion.',sub:'Through real glass.',camera:'static',beats:4}},
   {id:'lens-orbit',scene:{type:'glass-lens',text:'Сквозь стекло',sub:'Свет, глубина, движение.',camera:'orbit',beats:4}},
-  {id:'glass-flow',scene:{type:'glass-flow',title:'Liquid clarity.',body:'One continuous world.',nextTitle:'Pure motion.',nextBody:'A new point of view.',beats:16}},
   {id:'ask-orbit-reply',scene:{type:'glass-ask',text:'Book 🚀 for my Tuesday class',reply:'Booked. Tuesday is confirmed.',camera:'orbit',beats:6}},
   {id:'ask-static-prompt',scene:{type:'glass-ask',text:'Show all upcoming classes',camera:'static',beats:6}},
   {id:'glass-send-prompt',scene:{type:'glass-send-prompt',text:'Plan a review with @Nook',chips:['Design','Review'],beats:8,
@@ -344,7 +343,6 @@ function expectedCopy(scene,fraction){
   // Prompt glyphs are separate editable spans, verified as an exact prefix below.
   if(scene.type==='glass-ask')return fraction>.5?[scene.reply]:[];
   if(scene.type==='glass-send-prompt')return scene.chips;
-  if(scene.type==='glass-flow')return fraction<.5?[scene.title,scene.body]:[scene.nextTitle,scene.nextBody];
   return scene.type==='glass-island'?[scene.title,scene.body]:[scene.text,scene.sub];
 }
 
@@ -386,35 +384,6 @@ async function checkPullback(ps,id){
   return {closeWidth:close.width,landedWidth:wide.width,typingCount:typing.count,typedCount:close.count};
 }
 
-async function checkFlowPath(ps,id){
-  const samples=[];
-  for(let i=0;i<=40;i++){
-    const fraction=.35+i*.0125;
-    await page.shoot(ps.start+ps.dur*fraction);
-    const audit=await page.evaluate(id=>window.__pkScenes[id].context.K.glass.audit(),id);
-    samples.push({fraction,camera:audit.camera,cards:audit.cards});
-  }
-  assert.ok(samples.every(s=>s.camera.position.every(Number.isFinite)&&s.camera.quaternion.every(Number.isFinite)),'Finite camera path');
-  const planeZ=samples[0].cards[0].position[2];
-  assert.ok(samples[0].camera.position[2]>planeZ,'Camera begins in front of first glass');
-  assert.ok(samples.at(-1).camera.position[2]<planeZ,'Camera actually passes the first glass');
-  let maxAngularStep=0,maxPositionStep=0;
-  for(let i=1;i<samples.length;i++){
-    const a=samples[i-1].camera,b=samples[i].camera;
-    const dot=Math.min(1,Math.abs(a.quaternion.reduce((sum,v,j)=>sum+v*b.quaternion[j],0)));
-    maxAngularStep=Math.max(maxAngularStep,2*Math.acos(dot));
-    maxPositionStep=Math.max(maxPositionStep,Math.hypot(...a.position.map((v,j)=>v-b.position[j])));
-    assert.ok(b.position[2]<=a.position[2]+1e-6,'Forward camera travel must not reset');
-  }
-  assert.ok(maxAngularStep<.08,`No orientation cut: ${maxAngularStep}`);
-  const travel=Math.hypot(...samples[0].camera.position.map((value,i)=>value-samples.at(-1).camera.position[i]));
-  const relativePositionStep=maxPositionStep/travel;
-  // The world-unit scale grows with portrait height. Bound travel per sample
-  // relative to this actual move, rather than imposing landscape-only units.
-  assert.ok(relativePositionStep<.1,`No camera teleport: ${relativePositionStep} of the complete path`);
-  return {samples: samples.length,planeZ,crossed:true,maxAngularStep,maxPositionStep,relativePositionStep};
-}
-
 async function isolation(aspect){
   const film={aspect,style:'glass',grain:false,sparks:false,brand:{name:'Independent glass'},
     scenes:[{...examples[0].scene,title:'First instance'},{...examples[0].scene,title:'Second instance',camera:'orbit'}]};
@@ -449,7 +418,7 @@ try{
       const entry=cases[index],ps=plan.scenes[index],id=`s${index+1}`,key=`${entry.id}-${aspect.replace(':','x')}`;
       const row={id:key,case:entry.id,aspect,passed:false,samples:[],reverseExact:true};
       report.results.push(row);
-      const fractions={'glass-flow':[.32,.88],ask:[.25,.85],'glass-send-prompt':[.78,.95]}[entry.scene.type]??[.45,.62];
+      const fractions={ask:[.25,.85],'glass-send-prompt':[.78,.95]}[entry.scene.type]??[.45,.62];
       for(const fraction of fractions){
         const time=ps.start+ps.dur*fraction;await page.shoot(time);
         const state=await snapshot(id),picture=Buffer.from(await page.screenshot({type:'png'}));
@@ -519,7 +488,6 @@ try{
         row.collapse={width:closed.cards[0].width,openWidth:width,x:closed.cards[0].position[0],copyHidden:true};
         await page.shoot(ps.start+ps.dur*.62);
       }
-      if(entry.scene.type==='glass-flow')row.path=await checkFlowPath(ps,id);
       if(entry.scene.type==='glass-send-prompt')row.pullback=await checkPullback(ps,id);
       if(entry.scene.type==='glass-lens')row.optics=await opticalProbe(ps,id,bounds.safe);
       if(entry.id==='island-static'||entry.id==='ask-static-prompt')row.panelOptics=await panelOpticalProbe(ps,id);

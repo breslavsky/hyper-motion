@@ -75,7 +75,7 @@ test('a panel stands at one of nine places against the safe area, at one of two 
   assert.deepEqual(GLASS_SIZES, {normal: 1, small: .6});
   const placed = Object.keys(definitions).filter(type => definitions[type].fields?.place).sort();
   assert.deepEqual(placed, ['glass-ask', 'glass-call', 'glass-checklist', 'glass-controls', 'glass-follow', 'glass-island', 'glass-like', 'glass-message', 'glass-rating', 'glass-search', 'glass-steps', 'glass-widgets'], 'scenes that are one panel under a camera at rest');
-  for (const type of ['glass-lens', 'glass-send-prompt', 'glass-flow']) assert.equal(definitions[type].fields.size, undefined, type);
+  for (const type of ['glass-lens', 'glass-send-prompt', 'glass-ride']) assert.equal(definitions[type].fields.size, undefined, type);
 
   const K = frame(1920, 1080), box = {w: 1000, h: 400};
   assert.deepEqual(glassPlacement(K, {}, box), {place: 'middle', size: 'normal', scale: 1, dx: 0, dy: 0, width: 1000, height: 400});

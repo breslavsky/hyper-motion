@@ -563,34 +563,6 @@ function sendPrompt(args) {
   };
 }
 
-function glassFlow(args){
-  const {K,p}=args,s=p.scene,{host,world}=makeWorld(args,'glass-flow');
-  const copies=[cardCopy(K,host,{title:s.title,body:s.body}),cardCopy(K,host,{title:s.nextTitle,body:s.nextBody})];
-  const width=copies[0].width;
-  const height=Math.max(...copies.map(c=>c.height));
-  for(const c of copies){c.height=height;K.set(c.surface,{height:K.px(height)});}
-  const depth=world.distance*1.45;
-  const cards=copies.map((c,i)=>world.addCard({width,height,element:c.surface,z:i?-depth:0}));
-  cards[0].group.rotation.set(.015,-.045,.005);cards[1].group.rotation.set(-.018,.045,-.008);
-  world.prepare();
-  return (time,duration=p.dur,backdropTime=time)=>{
-    const marks=metadata['glass-flow'].anchors(s,duration),enter=phase(time,marks.open,marks.opened);
-    updateCard(cards[0],world,width,height,outBack(phase(time,marks.open,marks.opened-.03*duration)),outBack(phase(time,marks.open+.015*duration,marks.opened)),smooth(enter));
-    updateCard(cards[1],world,width,height,1,1,1);
-    const orbit=smoother(phase(time,marks.open-.005*duration,marks.flight)),dive=smoother(phase(time,marks.flight,marks.land)),settle=smooth(phase(time,marks.land,duration));
-    const d=world.distance;
-    world.camera.position.set(mix(mix(-.09,.12,orbit)*d,.003*d,dive)-.05*d*settle,
-      mix(.032*d,.006*d,dive)+.015*d*settle,mix(mix(1.1,.96,orbit)*d,-depth+d*1.02,dive)-.04*d*settle);
-    world.camera.lookAt(.005*d*dive,0,-depth*smoother(phase(time,marks.flight-.02*duration,marks.cross-.04*duration)));
-    cards[0].group.visible=world.camera.position.z>-.35;
-    cards[1].group.visible=time>=marks.cross-.055*duration;
-    cards[0].opacity=smooth(phase(time,marks.title,marks.titleShown))*(1-smooth(phase(time,marks.flight+.015*duration,marks.flight+.07*duration)));
-    cards[1].opacity=smooth(phase(time,marks.nextTitle,marks.nextTitleShown));
-    const crossing=Math.exp(-Math.pow((world.camera.position.z-.04)/(d*.16),2));
-    world.render(backdropTime,{warm:smoother(phase(time,marks.cross-.015*duration,marks.cross+.065*duration)),dive:crossing,travel:dive});
-  };
-}
-
 // Paint the fitted browser text into a real texture which participates in
 // Three's transmission pass. Range measurements happen only during setup.
 async function textTexture(K,line,text){
@@ -1563,4 +1535,4 @@ export function dropLeap(go,dx,dy,frameHeight){
     sx:1-.1*stretch+.3*squash,sy:1+.18*stretch-.28*squash};
 }
 
-export const factories=timedGlassFactories({'glass-ride':glassRide,'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-flow':glassFlow,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});
+export const factories=timedGlassFactories({'glass-ride':glassRide,'glass-island':island,'glass-widgets':glassWidgets,'glass-controls':controls,'glass-ask':ask,'glass-search':search,'glass-lens':lens,'glass-send-prompt':sendPrompt,'glass-steps':glassSteps,'glass-checklist':glassChecklist,'glass-like':glassLike,'glass-rating':glassRating,'glass-message':glassMessage,'glass-follow':glassFollow,'glass-call':glassCall});

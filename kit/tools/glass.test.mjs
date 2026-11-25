@@ -121,21 +121,6 @@ test('controls preserve optional copy, switch bounds and click timing across the
   }
 });
 
-test('the continuous glass composition preserves both supplied messages',()=>{
-  const scene={...definitions['glass-flow'].sample,title:'Первое сообщение',body:'Стекло раскрывается.',nextTitle:'Второе сообщение',nextBody:'Камера проходит дальше.'};
-  for(const aspect of ['16:9','9:16','1:1']){
-    const recipe=film(scene,aspect);
-    assert.deepEqual(F.problems(recipe),[],aspect);
-    const plan=F.planOf(recipe),review=F.review(recipe,plan);
-    assert.equal(plan.scenes.length,1,'One persistent native composition');
-    assert.equal(plan.scenes[0].scene.nextTitle,scene.nextTitle);
-    for(const copy of [scene.title,scene.body,scene.nextTitle,scene.nextBody])assert.ok(review.scenes[0].words.includes(copy),copy);
-  }
-  for(const patch of [{title:''},{nextTitle:''},{nextTitle:undefined},{nextTitle:42}]){
-    assert.ok(F.problems(film({...scene,...patch})).length,JSON.stringify(patch));
-  }
-});
-
 test('glass native edits retain fixed-slot contracts and exclude camera settings from copy',()=>{
   for(const type of ['glass-island','glass-lens','glass-controls','glass-ask']){
     const original={...samples[type],camera:'static',...(type==='glass-island'?{exit:'hold'}:{})};
@@ -145,8 +130,8 @@ test('glass native edits retain fixed-slot contracts and exclude camera settings
     assert.ok(!words.some(word=>['static','orbit','hold','collapse'].includes(word)),JSON.stringify(words));
     assert.throws(()=>resolveContent(original,{beats:original.beats+1}),/slot/);
   }
-  const original=definitions['glass-flow'].sample;
-  assert.equal(resolveContent(original,{nextTitle:'A new destination'}).scene.nextTitle,'A new destination');
+  const original=definitions['glass-ask'].sample;
+  assert.equal(resolveContent(original,{reply:'A new answer'}).scene.reply,'A new answer');
   assert.throws(()=>resolveContent(original,{type:'glass-island'}),/slot/);
 });
 

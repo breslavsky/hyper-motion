@@ -12,7 +12,7 @@ const cues = (scene, len, beat) => {
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-8, `${actual} != ${expected}`);
 
 test('Glass choreography preserves its original frames and score when unset', () => {
-  for (const type of ['glass-island', 'glass-controls', 'glass-ask', 'glass-search', 'glass-widgets', 'glass-lens', 'glass-flow', 'glass-send-prompt']) {
+  for (const type of ['glass-island', 'glass-controls', 'glass-ask', 'glass-search', 'glass-widgets', 'glass-lens', 'glass-send-prompt']) {
     const def = definitions[type];
     const scene = def.sample;
     assert.equal(def.retime(scene, 4, .5), null);
@@ -31,7 +31,6 @@ test('explicit action beats control the graphic and matching SFX in every Glass 
     ['glass-search', {focus: .5, type: 1, typed: 3, search: 4, collapse: 5.5, collapsed: 7, checked: 7.5}, [[.5, 'click'], [1, 'type'], [4, 'click']]],
     ['glass-widgets', {items: [0, 1.5, 3], settled: 6}, [[0, 'pop'], [1.5, 'pop'], [3, 'pop'], [6, 'ping']]],
     ['glass-lens', {sweep: 2.25, sweepEnd: 6.5}, [[2.25, 'whoosh'], [6.5, 'sparkle']]],
-    ['glass-flow', {flight: 3, cross: 4.5, nextTitle: 6}, [[3, 'whoosh'], [4.5, 'sparkle'], [6, 'chime']]],
     ['glass-send-prompt', {type: .5, typed: 2.5, pull: 3, chips: [4, 5], landed: 6, send: 7},
       [[.5, 'type'], [2.5, 'type'], [3, 'whoosh'], [4, 'pop'], [5, 'pop'], [7, 'click']]],
   ];
@@ -113,8 +112,6 @@ test('all enabled actions remain ordered and reachable inside a single musical b
     'glass-search': {focus: 0, type: .2, typed: .5, search: .7, collapse: .8, collapsed: .9, checked: .95, clear: .98},
     'glass-widgets': {open: 0, items: [.05, .1, .3], settled: .9},
     'glass-lens': {sweep: .1, sweepEnd: .9},
-    'glass-flow': {open: 0, title: .1, opened: .2, titleShown: .3, flight: .4,
-      cross: .5, nextTitle: .6, land: .7, nextTitleShown: .9},
     'glass-send-prompt': {type: 0, typed: .3, pull: .4, chips: [.5, .6], landed: .7, send: .8, sent: 1},
   };
   for (const [type, timing] of Object.entries(pins)) {

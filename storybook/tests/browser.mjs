@@ -660,9 +660,8 @@ async function portraitGlassGutters(page, type) {
     const draw = time => instance.drawAt(instance.ps.start - instance.clipStart + time / instance.ps.speed);
     try {
       // Also check the last readable hold after the camera has pushed in.
-      // For glass-flow the two samples belong to different cards.
       // A ride is measured in its last step, the open panel of a question.
-      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-flow' ? .32 : type === 'glass-ride' ? .7 : .45;
+      const firstHold = type === 'glass-send-prompt' ? .84 : type === 'glass-ride' ? .7 : .45;
       // Search finishes as a single button. Measure its full-width field
       // while the query is visible, before the capsule folds into the button.
       return [firstHold, type === 'glass-search' ? .78 : type === 'glass-ride' ? .85 : .94].map(fraction => {
@@ -1198,21 +1197,6 @@ async function glassMotion(type, aspect) {
       assert.ok(width(startState) > 1.8 * width(nextState), 'The same panel must travel from close-up to a wide shot');
       assert.equal(startState.surfaces[0].text, nextState.surfaces[0].text);
     }
-    if (type === 'glass-flow') {
-      assert.ok(startState.audit.camera.position[2] > 0 && nextState.audit.camera.position[2] < 0,
-        'The camera did not physically cross the first glass surface');
-      assert.equal(nextState.audit.surfaces[0].opacity, 0, 'The first title must clear before the near-plane crossing');
-      assert.ok(nextState.audit.surfaces[1].opacity > .99, 'The second title did not reach its readable hold');
-      const frames = [];
-      // Inspect both sides of the dive, plus the second title's readable hold.
-      for (const fraction of [.45, .62, .66, .85]) {
-        const frame = await seekSnapshot(session.page, fraction);
-        const filename = `glass-flow-${aspect.replace(':', '-')}-${Math.round(fraction * 100)}.png`;
-        await capture(session.page, filename);
-        frames.push({time: frame.time, screenshot: filename, state: await glassState(session.page)});
-      }
-      row.frames = frames;
-    }
     checkRequests(session); row.passed = true;
   } catch (error) { row.error = String(error.stack ?? error); row.diagnostics = error.diagnostics ?? (session && await session.diagnostics(error)); failures.push(row); console.error(`FAIL glass motion ${type}/${aspect}: ${error.message}`); }
   finally { if (session) await session.close(); report.checks.push(row); }
@@ -1251,7 +1235,7 @@ async function glassControlsAndCleanup() {
       assert.deepEqual(current.brand, selectedBrand); assert.deepEqual(current.font, selectedBrand.font);
       const cleanup = await session.page.evaluate(() => ({connected: window.__previousStoryPlayer.isConnected, paused: window.__previousStoryPlayer.paused}));
       assert.deepEqual(cleanup, {connected: false, paused: true});
-      const frame = await seekSnapshot(session.page, ['glass-flow', 'glass-ask'].includes(type) ? .85 : .45);
+      const frame = await seekSnapshot(session.page, type === 'glass-ask' ? .85 : .45);
       for (const name of ['title', 'body', 'nextTitle', 'nextBody', 'query']) if (copy[name]) assert.ok(frame.text.includes(copy[name]), `Edited ${name} disappeared`);
       const state = await glassState(session.page);
       if (type === 'glass-search') row.editedSearchCollapse = await checkSearchCollapse(session.page);
@@ -1291,7 +1275,7 @@ async function glassIsolation() {
   const row = {name: 'glass-player-clocks-and-disposal', passed: false};
   let session;
   try {
-    session = await openPage('glass-flow', {aspect: '1:1', material: 'glass'});
+    session = await openPage('glass-island', {aspect: '1:1', material: 'glass'});
     await session.page.evaluate(() => {
       const first = document.querySelector('pk-component-story'), second = document.createElement('pk-component-story');
       second.id = 'glass-independent-story';
@@ -1340,13 +1324,13 @@ async function glassShell() {
     await page.setViewport({width: 1600, height: 1100, deviceScaleFactor: 1});
     await page.emulateMediaFeatures([{name: 'prefers-reduced-motion', value: 'reduce'}]);
     const url = new URL(BASE.endsWith('/') ? BASE : `${BASE}/`);
-    url.searchParams.set('path', '/story/'+stories.get('glass-flow').id);
+    url.searchParams.set('path', '/story/'+stories.get('glass-island').id);
     url.searchParams.set('globals', 'material:glass');
     await page.goto(url.href, {waitUntil: 'domcontentloaded'});
     await page.waitForSelector('#storybook-preview-iframe');
     const preview = await (await page.$('#storybook-preview-iframe')).contentFrame();
     const runtime = await ready(preview);
-    assert.equal(runtime.type, 'glass-flow');
+    assert.equal(runtime.type, 'glass-island');
     await seekSnapshot(preview, .85);
     await page.waitForFunction(names => names.every(name => document.body.innerText.includes(name)), {}, glassTypes);
     row.screenshot = 'glass-storybook-shell.png';
@@ -1415,7 +1399,7 @@ try {
     await orbIsolation();
     await orbShell();
   }
-  if (!METAL && glassTypes.includes('glass-flow')) {
+  if (!METAL && glassTypes.includes('glass-island')) {
     for (const type of glassTypes) for (const aspect of FORMATS) await glassMotion(type, aspect);
     await glassControlsAndCleanup();
     await glassIsolation();

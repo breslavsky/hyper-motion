@@ -39,7 +39,7 @@ ignored build directories. Rebuild when changing the selection.
   and **3D material** (As in the example, Glass, Dark Glass or Metal). A Glass
   scene's examples **Glass**, **Dark Glass** and **Metal** start on their own material and the
   toolbar switches all of them; elsewhere "As in the example" is Glass. The material applies to the shared
-  Liquid Glass components, currently `glass-island`, `glass-controls`, `glass-ask`, `glass-lens`, `glass-flow`, `glass-send-prompt` and `glass-search`.
+  Liquid Glass components, every scene of the Glass family and the rides made of them.
   Ordinary DOM typography, buttons and cards keep their normal appearance.
 - All Glass examples have a **Background** selector above the player. Pick
   **Photo** or **Video** to try the bundled media, or use **Upload file…**
@@ -75,7 +75,7 @@ ignored build directories. Rebuild when changing the selection.
   to enum variants. Thinking Orbs has one example for each of its nine states,
   alongside the general editable preview.
 - **Pure Kinetic / glass** includes the Three.js `glass-island`, `glass-controls`, `glass-ask`, `glass-lens`,
-  `glass-flow`, `glass-search` and `glass-send-prompt` components. In `glass-search`, edit
+  `glass-search` and `glass-send-prompt` components. In `glass-search`, edit
   `query` to change the text typed into the field. The search button shows
   a spinner from the `timing.search` beat. The field begins folding into
   the button at `timing.collapse`. At `timing.collapsed` only the button
@@ -99,9 +99,7 @@ ignored build directories. Rebuild when changing the selection.
   rows are 32 units tall, with their centres 44 units apart. The slider label
   sits 4 units above the thumb box. The track spans the same left and right
   guides as the switch rows.
-  `glass-flow` keeps two cards and one camera in a single native composition for a push, orbit,
-  and flight through the first card. Its two titles and bodies stay editable.
-  The optical Island, Controls, Ask and Glass-flow cards share typography, padding, gaps,
+  The optical Island, Controls and Ask cards share typography, padding, gaps,
   responsive width and minimum height. Text fits automatically on the same
   type scale and stays top-aligned; Island's optional Lucide icon adds a
   leading slot beside the title. These are the production card layouts.
@@ -296,7 +294,7 @@ variants in every format. It verifies native clock and reverse-seek pixels,
 projected editable text, the Lens text texture, Controls changes, and independent
 player cleanup. It records frames before/after the glass crossing and a real
 Storybook shell screenshot. These glass integration checks also join the
-regular short/full suite when the selected kit contains `glass-flow`.
+regular short/full suite.
 
 `tests/ask-optics.mjs` measures the phase of transmitted stripes as the reply
 panel grows. It checks that the existing upper face, its reflection and the

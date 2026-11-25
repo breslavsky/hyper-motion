@@ -165,7 +165,7 @@ gesture and sound schedule.
 
 ## Optical glass
 
-The 3D group comprises `glass-ask`, `glass-island`, `glass-controls`, `glass-flow`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `glass-send-prompt`, `glass-search`, `glass-widgets` and `glass-lens`: every scene of the `glass` family.
+The 3D group comprises `glass-ask`, `glass-island`, `glass-controls`, `glass-ride`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow`, `glass-call`, `glass-send-prompt`, `glass-search`, `glass-widgets` and `glass-lens`: every scene of the `glass` family.
 
 - Each Glass scene can supply its own background, for example
   `"background":{"image":"media/<assetId>/original.jpg"}` or
@@ -330,7 +330,7 @@ The fields belong to a scene that is one panel under a camera at rest:
 neither (`placed:false` in their metadata), each for its reason: in `glass-lens` the headline is the page's
 own type behind the lens, so only the lens would move; `glass-send-prompt` stands
 close on the caret and pulls back, and a moved picture is cut by the frame;
-`glass-flow` flies from one card through to the next. A new scene gets the
+`glass-ride` gives each of its steps a place of its own. A new scene gets the
 fields by being such a panel, and is looked at in a corner at small size
 before it keeps them.
 
@@ -488,27 +488,25 @@ PURE_KINETIC_TESTS=1 uv run pytest -q tests/test_pure_kinetic_glass.py
   push and arc; `"static"` holds the view. The editable title, labels and
   controls travel together on the projected surface. Dense panels fit as a
   whole inside the safe height, preserving text, control and spacing proportions.
-- `glass-flow {title, body?, nextTitle, nextBody?}` keeps two cards in one world
-  for a continuous push, orbit and flight through the first card toward the
-  second. Its usual length is 14–20 beats; the sample is 16. Both titles follow
-  their respective surfaces. Semantic sound cues use its normalized schedule.
+- `glass-ride {steps[...]}` plays glass scenes one after another on one drop
+  and under one camera: a step's scene folds into the family's clear drop,
+  the drop leaps to the next slide and the next scene grows out of it. Its
+  steps are `glass-search` and `glass-ask`; a scene joins them once it begins
+  and ends on the drop.
 
 At 1920 × 1080, the default card scale gives a 72/90 px title, 48/72 px body,
 48 px padding and 36 px gaps before projection. The common card width is
 capped at 1280 px. Island's icon slot is one fitted title em wide, followed
-by a 12-unit gap. The body aligns with the title. Glass-flow's two cards share
-the larger required height while keeping the same top inset on both.
+by a 12-unit gap. The body aligns with the title.
 
-Individual `glass-island` scenes retain independent clocks and cameras. Use
-`glass-flow` for this continuous two-card choreography; placing two independent
-glass-island clips next to each other does not join their worlds. Metal changes the
+Individual `glass-island` scenes retain independent clocks and cameras: placing
+two of them next to each other does not join their worlds. Metal changes the
 surface material in this same renderer: explicit material uses the original
 chromatic shader, while the legacy Metal look retains Silver, Gold and Chromatic
 variants. Neither path replaces component layout, typography or choreography.
 
 Storybook derives the camera and exit examples from canonical enum metadata.
-The `glass-flow` preview uses the same production factory and exposes both
-messages through ordinary controls, with format, brandbook and material in the
+Every preview uses the production factory, with format, brandbook and material in the
 toolbar. The brandbook supplies its font and colours together; **Default**
 restores native component defaults.
 Storybook passes `options.previewScale: 0.5` to reduce the optical buffer to

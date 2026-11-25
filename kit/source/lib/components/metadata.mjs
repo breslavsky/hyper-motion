@@ -225,7 +225,7 @@ validate(s){return [['camera',['static','orbit']],['exit',['hold','collapse']]].
     "optional": true
   }
 },
-"guide":"glass-island {title, body?, icon?, camera?, exit?, background?}: an optical glass capsule opens into a dimensional card; its editable title follows the surface. camera = orbit (default: gentle push and arc) or static. exit = hold (default) or collapse (fold to a capsule and leave the frame). Optional icon uses a monochrome SVG: check, info, alert, close, plus, star, heart, bell, sparkles, or arrow-right. Existing emoji input remains supported. Glass, Dark Glass and Metal share the same layout and camera. For continuous travel between two cards use glass-flow. 3-4 beats.",
+"guide":"glass-island {title, body?, icon?, camera?, exit?, background?}: an optical glass capsule opens into a dimensional card; its editable title follows the surface. camera = orbit (default: gentle push and arc) or static. exit = hold (default) or collapse (fold to a capsule and leave the frame). Optional icon uses a monochrome SVG: check, info, alert, close, plus, star, heart, bell, sparkles, or arrow-right. Existing emoji input remains supported. Glass, Dark Glass and Metal share the same layout and camera. 3-4 beats.",
 "sample":{
   "type": "glass-island",
   "beats": 4,
@@ -668,7 +668,7 @@ validate(s){return s.camera!==undefined&&!['static','orbit'].includes(s.camera)?
     "optional": true
   }
 },
-"guide":"glass-controls {title?, toggles[2-4], slider?, camera?, background?}: an optical glass control panel whose switches turn on one after another and whose slider fills. Its title, labels and controls follow the same 3D surface, with the shared card typography, padding and gaps used by glass-island and glass-flow. camera = orbit (default: gentle push and arc) or static. Glass, Dark Glass and Metal use the same control geometry and timing. 4 beats.",
+"guide":"glass-controls {title?, toggles[2-4], slider?, camera?, background?}: an optical glass control panel whose switches turn on one after another and whose slider fills. Its title, labels and controls follow the same 3D surface, with the shared card typography, padding and gaps used by glass-island. camera = orbit (default: gentle push and arc) or static. Glass, Dark Glass and Metal use the same control geometry and timing. 4 beats.",
 "sample":{
   "type": "glass-controls",
   "beats": 4,
@@ -887,30 +887,6 @@ validate(s){
         if(i<parts.length-1)cue(part.start+part.dur,"whoosh",.4);
       });
     }
-}),
-"glass-flow":glassComponent({
-// The camera flies from one card through to the next: there is no one place for it.
-placed:false,
-  anchors(s,len){
-    const marks=this.times(s,len);
-    // At this point in the smootherstep dive the camera reaches the first
-    // card's plane (z/distance goes from .96 to -.43). Preserve legacy cues.
-    if(s.timing?.cross!==undefined)marks.cross=marks.flight+(marks.land-marks.flight)*.60469891898916;
-    return marks;
-  },
-  "opener":true,
-  "signature":true,
-  "copyFields":["title","body","nextTitle","nextBody"],
-  "fields":{
-    "title":{"kind":"string","min":1,"max":36},
-    "body":{"kind":"string","min":1,"max":70,"optional":true},
-    "nextTitle":{"kind":"string","min":1,"max":36},
-    "nextBody":{"kind":"string","min":1,"max":70,"optional":true}
-  },
-  "guide":"glass-flow {title, body?, nextTitle, nextBody?, background?}: two optical glass cards in one persistent 3D world. A capsule opens into the first card, the camera pushes in with a small orbit and flies through its glass toward the second card. Both editable titles follow their surfaces. A continuous two-message reveal; use instead of joining separate glass-island scenes when a single camera must travel between cards. 14-20 beats.",
-  "sample":{"type":"glass-flow","beats":16,"title":"Liquid clarity.","body":"Layers move together.","nextTitle":"Pure motion.","nextBody":"One world. One continuous move."},
-  times(s,len){return {open:len*.045,opened:len*.175,title:len*.135,titleShown:len*.195,flight:len*.465,cross:len*.63,land:len*.75,nextTitle:len*.685,nextTitleShown:len*.755};},
-  sounds(s,len,cue){const t=this.anchors(s,len);cue(t.open,'pop',.5);cue(t.title,'chime',.5);cue(t.flight,'whoosh',.7);cue(t.cross,'sparkle',.5);cue(t.nextTitle,'chime',.5);}
 }),
 "stack":{
 "typeOnly":true,

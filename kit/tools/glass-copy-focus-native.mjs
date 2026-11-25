@@ -31,8 +31,6 @@ const fixtures = [
     probes: [[.6, '.pk-glass-search-query']]},
   {scene: {type: 'glass-ride', beats: 16, steps: [{type: 'glass-search', beats: 6, query: 'Yoga classes'}, {type: 'glass-ask', beats: 8, place: 'bottom', text: 'When is my next class?', reply: 'Tuesday at six.'}]},
     probes: [[.2, '.pk-glass-search-query'], [.75, '.pk-glass-ask-prompt']]},
-  {scene: {type: 'glass-flow', title: 'First message', nextTitle: 'Next message', beats: 16},
-    probes: [[.32, '[data-glass-surface="0"] .pk-glass-heading'], [.88, '[data-glass-surface="1"] .pk-glass-heading']]},
   {scene: {type: 'glass-widgets', items: [{label: 'Bookings', value: '12'}, {label: 'Reviews', value: '24'}], beats: 4},
     probes: [[.9, '.pk-glass-widget-label']]},
   {scene: {type: 'glass-lens', text: 'Read every letter clearly', sub: 'Optical clarity', camera: 'orbit', beats: 6},
