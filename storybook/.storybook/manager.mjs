@@ -15,8 +15,9 @@ addons.setConfig({
   },
 });
 
-// The library's own icon before its name. The sidebar's header is Storybook's
-// own, so the icon is added to it once it is there.
+// The library's own icon before its name, and a line under it that says what
+// the library is. The sidebar's header is Storybook's own, so both are added
+// to it once it is there.
 const credit = () => {
   const header = document.querySelector('.sidebar-header');
   if (!header) return false;
@@ -26,6 +27,13 @@ const credit = () => {
     const icon = Object.assign(document.createElement('img'), {id: 'hm-icon', src: './icon.svg', alt: '', width: 22, height: 22});
     icon.style.cssText = 'flex:none;margin-right:8px;border-radius:6px;vertical-align:-5px';
     name.prepend(icon);
+  }
+  // What the library is, in a line under its name. The line is drawn up into
+  // the header's own box, and is no link: it takes no clicks from the header.
+  if (!document.getElementById('hm-says')) {
+    const line = Object.assign(document.createElement('div'), {id: 'hm-says', textContent: 'After Effects alternative'});
+    line.style.cssText = 'margin:-9px 0 12px;padding:0 0 0 38px;font-size:12px;line-height:16px;color:#73828c;pointer-events:none';
+    header.after(line);
   }
   return true;
 };
