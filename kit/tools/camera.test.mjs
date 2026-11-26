@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {lookAt, travel, cameraPath, kick, drift, createCamera, smooth} from '../source/lib/components/camera/camera.mjs';
+import {cameraHits} from '../../components/camera/hits.mjs';
 
 const require = createRequire(import.meta.url);
 const {canonical, destination, files} = require('./sync-camera.cjs');
@@ -76,4 +77,12 @@ test('what it looks at stands on the eye, it shows its speed, and it is still on
   const state = camera.at(1.5), [sx, sy] = camera.seen(state, 300, 400);
   assert.ok(Math.abs(sx - (960 + (300 - state.x) * state.zoom)) < 1e-6 && Math.abs(sy - (540 + (400 - state.y) * state.zoom)) < 1e-6);
   assert.equal(smooth(0.5), 0.5);
+});
+
+test('the hits of a camera are the key hits of its track, from its start, never two too close', () => {
+  const map = {accents: [{t: 0.5, strength: 0.9, key: true}, {t: 0.62, strength: 1.2, key: true}, {t: 1, strength: 0.3, key: false}, {t: 2.5, strength: 0.8, key: true}, {t: 9, strength: 1, key: true}]};
+  assert.deepEqual(cameraHits(map), [0.62, 2.5, 9]);
+  assert.deepEqual(cameraHits(map, {start: 0.5, duration: 6}), [0.12, 2]);
+  assert.deepEqual(cameraHits(map, {apart: 0.05}), [0.5, 0.62, 2.5, 9]);
+  assert.throws(() => cameraHits({bpm: 120}), /not a track map/);
 });

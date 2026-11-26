@@ -65,7 +65,9 @@ Every way speeds up and then slows down.
 
 - `hits`: moments, in seconds, when the camera takes a hit: the zoom jumps by
   `punch` (0.04) and comes down in `decay` seconds (0.3). Give it the key hits
-  of the track (`harness track-map`), not every beat.
+  of the track, not every beat: `node <kit>/hits.mjs <track map .json>
+  --start S --duration D` prints them, counted from the camera's start, from
+  the map `harness track-map --json` writes.
 - `life`: `{amount, rate, seed}`, the wander of a hand that holds the camera,
   `amount` in px (4 to 8 reads as alive, 0 is a tripod).
 - `blur`: seconds of shutter, 0.0025 unless given: the faster the camera
