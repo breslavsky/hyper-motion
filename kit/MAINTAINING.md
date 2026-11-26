@@ -20,3 +20,35 @@ limits, and `for`, two to five kinds of shot it is a start for, in the words
 somebody planning a film would use ("a customer quote", "an end card"). A
 search and a model choose scenes by the cards, so write them for a reader who
 has not seen the scene.
+
+## Legacy
+
+What the kit carries from before it was laid on music, to be cleaned before
+more is built on it. Each has its measure, so the list shrinks on purpose.
+
+**Scenes that do not keep the film's beat.** A film on a track has its beat
+from the track, and `fit` begins its scenes on what the track does. A scene
+whose own moments stand on beats then follows the music all the way through;
+one whose moments stand on seconds follows it with its first frame only.
+`tools/scene-clocks.cjs` measures it from every scene's sample at two tempos
+(by the moments the scene sounds on, not by its pixels) and
+`tools/scene-clocks.json` is the record, held by `scene-clocks.test.mjs`:
+
+- on beats (30): the standard. A new scene is written so.
+- on seconds (24): `notify`, `faces`, `overlay`, `knockout`, `assemble`, `hive`, `scatter`, `pack`, `tiles`, `mosaic`, `glass-island`, `glass-ask`, `glass-steps`, `glass-checklist`, `glass-rating`, `glass-call`, `connect`, `chips`, `cards3d`, `icon3d`, `before-after-wipe`, `chart-story`, `testimonial-proof-card`, `laptop3d`.
+- mixed (40), some moments on beats and some not: `steps`, `append`, `timeline`, `chat`, `callouts`, `journey`, `shuffle`, `between`, `drag`, `arc`, `orb`, `particles`, `wave`, `agent`, `palette`, `picker`, `web`, `split`, `swarm`, `inline`, `bubbles`, `retype`, `roll`, `dot`, `pullback`, `glass-widgets`, `glass-controls`, `glass-ride`, `glass-stepper`, `glass-like`, `glass-message`, `glass-follow`, `underline`, `winner`, `tabs`, `dial`, `gather`, `thinking-orb`, `modal-morph`, `comic`.
+- on a share of its length (1): `flip`.
+- 29 scenes sound on nothing between their first frame and their last, and the
+  measure says nothing of them.
+
+To clean one: give its moments in beats of the film (`p.beatLen`), as the
+scenes on beats do, run `node kit/tools/scene-clocks.cjs --write`, and commit
+the record with the scene. A moment that is physics (a ball's fall) stays in
+seconds and its landing is put on a beat.
+
+**Scenes that draw a frame by what was drawn before it.** A render's workers
+take frames in no order. `dot` kept the plate of its last phase over its word
+when an early frame was drawn after a late one, a white rectangle nobody saw
+while the scene was shorter than that phase. It is fixed; no test draws a
+frame after a later one and holds it against the same frame drawn first, so
+other scenes may do the same. That test comes before any scene is changed.

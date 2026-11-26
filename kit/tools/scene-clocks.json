@@ -1,0 +1,590 @@
+{
+ "title": {
+  "clock": "none",
+  "moments": 0
+ },
+ "highlight": {
+  "clock": "none",
+  "moments": 0
+ },
+ "swap": {
+  "clock": "none",
+  "moments": 0
+ },
+ "fullbleed": {
+  "clock": "none",
+  "moments": 0
+ },
+ "grid": {
+  "clock": "none",
+  "moments": 0
+ },
+ "wall": {
+  "clock": "none",
+  "moments": 0
+ },
+ "prompt": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "ui-macro": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "ui-float": {
+  "clock": "none",
+  "moments": 0
+ },
+ "counter": {
+  "clock": "none",
+  "moments": 0
+ },
+ "toggle": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "logo3d": {
+  "clock": "none",
+  "moments": 0
+ },
+ "endcard": {
+  "clock": "none",
+  "moments": 0
+ },
+ "slam": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "morph": {
+  "clock": "beats",
+  "moments": 5,
+  "onBeats": 5
+ },
+ "steps": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 0
+ },
+ "ticket": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "marquee": {
+  "clock": "none",
+  "moments": 0
+ },
+ "phones": {
+  "clock": "none",
+  "moments": 0
+ },
+ "caption": {
+  "clock": "none",
+  "moments": 0
+ },
+ "typewriter": {
+  "clock": "none",
+  "moments": 0
+ },
+ "sentence": {
+  "clock": "none",
+  "moments": 0
+ },
+ "append": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 0
+ },
+ "countdown": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "stat": {
+  "clock": "none",
+  "moments": 0
+ },
+ "chart": {
+  "clock": "none",
+  "moments": 0
+ },
+ "timeline": {
+  "clock": "mixed",
+  "moments": 5,
+  "onBeats": 1
+ },
+ "pricing": {
+  "clock": "none",
+  "moments": 0
+ },
+ "globe": {
+  "clock": "none",
+  "moments": 0
+ },
+ "code": {
+  "clock": "none",
+  "moments": 0
+ },
+ "chat": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "notify": {
+  "clock": "seconds",
+  "moments": 1,
+  "onBeats": 0
+ },
+ "dock": {
+  "clock": "none",
+  "moments": 0
+ },
+ "chaos": {
+  "clock": "none",
+  "moments": 0
+ },
+ "laptop": {
+  "clock": "none",
+  "moments": 0
+ },
+ "browser": {
+  "clock": "none",
+  "moments": 0
+ },
+ "callouts": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 0
+ },
+ "compare": {
+  "clock": "none",
+  "moments": 0
+ },
+ "journey": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 1
+ },
+ "faces": {
+  "clock": "seconds",
+  "moments": 6,
+  "onBeats": 0
+ },
+ "shuffle": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "overlay": {
+  "clock": "seconds",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "trail": {
+  "clock": "none",
+  "moments": 0
+ },
+ "between": {
+  "clock": "mixed",
+  "moments": 6,
+  "onBeats": 1
+ },
+ "drag": {
+  "clock": "mixed",
+  "moments": 9
+ },
+ "knockout": {
+  "clock": "seconds",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "assemble": {
+  "clock": "seconds",
+  "moments": 10,
+  "onBeats": 1
+ },
+ "hive": {
+  "clock": "seconds",
+  "moments": 10,
+  "onBeats": 0
+ },
+ "scatter": {
+  "clock": "seconds",
+  "moments": 10,
+  "onBeats": 2
+ },
+ "arc": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 1
+ },
+ "orb": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 1
+ },
+ "particles": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 1
+ },
+ "wave": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 1
+ },
+ "agent": {
+  "clock": "mixed",
+  "moments": 4,
+  "onBeats": 0
+ },
+ "palette": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "picker": {
+  "clock": "mixed",
+  "moments": 4,
+  "onBeats": 0
+ },
+ "montage": {
+  "clock": "beats",
+  "moments": 5,
+  "onBeats": 5
+ },
+ "web": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "split": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 1
+ },
+ "pack": {
+  "clock": "seconds",
+  "moments": 6,
+  "onBeats": 0
+ },
+ "swarm": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 2
+ },
+ "inline": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 1
+ },
+ "bubbles": {
+  "clock": "mixed",
+  "moments": 11,
+  "onBeats": 4
+ },
+ "retype": {
+  "clock": "mixed",
+  "moments": 1,
+  "onBeats": 0
+ },
+ "orbit": {
+  "clock": "none",
+  "moments": 0
+ },
+ "checklist": {
+  "clock": "beats",
+  "moments": 4,
+  "onBeats": 3
+ },
+ "tiles": {
+  "clock": "seconds",
+  "moments": 7,
+  "onBeats": 1
+ },
+ "mosaic": {
+  "clock": "seconds",
+  "moments": 6,
+  "onBeats": 0
+ },
+ "photo": {
+  "clock": "none",
+  "moments": 0
+ },
+ "stream": {
+  "clock": "none",
+  "moments": 0
+ },
+ "roll": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "dot": {
+  "clock": "mixed",
+  "moments": 9
+ },
+ "flip": {
+  "clock": "share",
+  "moments": 4,
+  "onBeats": 0
+ },
+ "pullback": {
+  "clock": "mixed",
+  "moments": 2
+ },
+ "glass-island": {
+  "clock": "seconds",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "glass-widgets": {
+  "clock": "mixed",
+  "moments": 4,
+  "onBeats": 1
+ },
+ "glass-controls": {
+  "clock": "mixed",
+  "moments": 4,
+  "onBeats": 2
+ },
+ "glass-ask": {
+  "clock": "seconds",
+  "moments": 5,
+  "onBeats": 0
+ },
+ "glass-lens": {
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
+ },
+ "glass-ride": {
+  "clock": "mixed",
+  "moments": 13,
+  "onBeats": 9
+ },
+ "glass-steps": {
+  "clock": "seconds",
+  "moments": 5,
+  "onBeats": 1
+ },
+ "glass-stepper": {
+  "clock": "mixed",
+  "moments": 8,
+  "onBeats": 1
+ },
+ "glass-checklist": {
+  "clock": "seconds",
+  "moments": 6,
+  "onBeats": 1
+ },
+ "glass-like": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 2
+ },
+ "glass-rating": {
+  "clock": "seconds",
+  "moments": 7,
+  "onBeats": 1
+ },
+ "glass-message": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 1
+ },
+ "glass-follow": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 1
+ },
+ "glass-call": {
+  "clock": "seconds",
+  "moments": 5,
+  "onBeats": 1
+ },
+ "glass-send-prompt": {
+  "clock": "beats",
+  "moments": 4,
+  "onBeats": 4
+ },
+ "glass-search": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "stack": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "beatwords": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "underline": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 1
+ },
+ "rundown": {
+  "clock": "beats",
+  "moments": 4,
+  "onBeats": 4
+ },
+ "winner": {
+  "clock": "mixed",
+  "moments": 7,
+  "onBeats": 4
+ },
+ "connect": {
+  "clock": "seconds",
+  "moments": 6,
+  "onBeats": 1
+ },
+ "chips": {
+  "clock": "seconds",
+  "moments": 9,
+  "onBeats": 0
+ },
+ "tabs": {
+  "clock": "mixed",
+  "moments": 4,
+  "onBeats": 2
+ },
+ "dial": {
+  "clock": "mixed",
+  "moments": 7,
+  "onBeats": 0
+ },
+ "gather": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 0
+ },
+ "impact": {
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
+ },
+ "cards3d": {
+  "clock": "seconds",
+  "moments": 3,
+  "onBeats": 0
+ },
+ "icon3d": {
+  "clock": "seconds",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "phone3d": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "field": {
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
+ },
+ "polar": {
+  "clock": "beats",
+  "moments": 7,
+  "onBeats": 7
+ },
+ "letterflip": {
+  "clock": "beats",
+  "moments": 11,
+  "onBeats": 11
+ },
+ "accordion": {
+  "clock": "beats",
+  "moments": 7,
+  "onBeats": 7
+ },
+ "explode": {
+  "clock": "beats",
+  "moments": 4,
+  "onBeats": 4
+ },
+ "scan": {
+  "clock": "beats",
+  "moments": 20,
+  "onBeats": 20
+ },
+ "before-after-wipe": {
+  "clock": "seconds",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "screen-flow-carousel": {
+  "clock": "beats",
+  "moments": 4,
+  "onBeats": 4
+ },
+ "chart-story": {
+  "clock": "seconds",
+  "moments": 6,
+  "onBeats": 0
+ },
+ "testimonial-proof-card": {
+  "clock": "seconds",
+  "moments": 3,
+  "onBeats": 0
+ },
+ "thinking-orb": {
+  "clock": "mixed",
+  "moments": 3,
+  "onBeats": 1
+ },
+ "modal-morph": {
+  "clock": "mixed",
+  "moments": 2,
+  "onBeats": 1
+ },
+ "ride": {
+  "clock": "beats",
+  "moments": 12,
+  "onBeats": 12
+ },
+ "lens-wall": {
+  "clock": "beats",
+  "moments": 1,
+  "onBeats": 1
+ },
+ "laptop3d": {
+  "clock": "seconds",
+  "moments": 2,
+  "onBeats": 0
+ },
+ "synth3d": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "comic": {
+  "clock": "mixed",
+  "moments": 15,
+  "onBeats": 0
+ },
+ "kinetic-swap-words": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "kinetic-spin-words": {
+  "clock": "beats",
+  "moments": 3,
+  "onBeats": 3
+ },
+ "kinetic-burst-words": {
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
+ }
+}
