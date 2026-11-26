@@ -6,7 +6,9 @@
 // running a script, are the same words.
 // Where a scene stands in the sidebar (catalog-data.mjs storyTitle, which is for the build and not for a page).
 const SECTIONS = {glass: 'Glass', three: '3D', 'lens-wall': '3D'};
-const storyTitle = entry => entry.section ? `${entry.section}/${entry.type}` : SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.family}/${entry.type}`;
+// The folders of Pure Kinetic, by what the viewer sees (the kit's components/folders.json), as the sidebar names them.
+const FOLDERS = {words: 'Words', sentences: 'Sentences', screens: 'Screens', controls: 'Controls', data: 'Data', pictures: 'Pictures', brand: 'Brand', shapes: 'Shapes'};
+const storyTitle = entry => entry.section ? `${entry.section}/${entry.type}` : SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.folder ? FOLDERS[entry.folder] : entry.family}/${entry.type}`;
 // A story's id as Storybook writes it from its title.
 const idOf = title => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const docs = entry => `./?path=/docs/${idOf(storyTitle(entry))}--docs`;

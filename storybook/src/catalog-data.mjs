@@ -87,8 +87,10 @@ export function readCatalogOptions(catalog = read('source/lib/components/catalog
 // (Three.js and the wall under a lens) as 3D, and every other family as a
 // folder of Pure Kinetic.
 const SECTIONS = {glass: 'Glass', three: '3D', 'lens-wall': '3D'};
+// The folders of Pure Kinetic, by what the viewer sees (the kit's components/folders.json), as the sidebar names them.
+export const FOLDERS = {words: 'Words', sentences: 'Sentences', screens: 'Screens', controls: 'Controls', data: 'Data', pictures: 'Pictures', brand: 'Brand', shapes: 'Shapes'};
 // A scene can name a section of its own (a ride: Rides).
-export const storyTitle = entry => entry.section ? `${entry.section}/${entry.type}` : SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.family}/${entry.type}`;
+export const storyTitle = entry => entry.section ? `${entry.section}/${entry.type}` : SECTIONS[entry.family] ? `${SECTIONS[entry.family]}/${entry.type}` : `Pure Kinetic/${entry.folder ? FOLDERS[entry.folder] : entry.family}/${entry.type}`;
 
 // The materials a 3D Glass scene is shown in: named examples of the scene's
 // own page (Glass, Dark Glass, Metal), not a section of their own.
@@ -113,6 +115,9 @@ export function readCatalog() {
   const definitions = require(path.join(source, 'lib/compiler/definitions.cjs'));
   const beats = read('source/lib/beats.json');
   const limits = read('source/lib/limits.json').limits ?? {};
+  // Where each scene of the Pure Kinetic section stands: {type: folder}.
+  const folderOf = Object.fromEntries(Object.entries(read('source/lib/components/folders.json').folders)
+    .flatMap(([folder, types]) => types.map(type => [type, folder])));
   const guide = new Map([...fs.readFileSync(path.join(TEMPLATE, 'AGENTS.md'), 'utf8')
     .matchAll(/^- ([a-z0-9-]+) (.+)$/gm)].map(match => [match[1], `${match[1]} ${match[2]}`]));
   const samples = new Map();
@@ -154,6 +159,7 @@ export function readCatalog() {
     return {
       type,
       family: metadata.family,
+      ...(folderOf[type] ? {folder: folderOf[type]} : {}),
       ...(definition?.section ? {section: definition.section} : {}),
       renderMode: metadata.renderMode,
       owned: Boolean(metadata.owned),
