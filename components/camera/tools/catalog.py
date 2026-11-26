@@ -38,19 +38,20 @@ ENTRY = {
         "For an interface, a board, a page or a line of text looked at part by part in one continuous shot."
     ),
     "tags": [
-        "camera move", "continuous shot", "one take", "no cuts", "fly through", "pan and zoom", "zoom in",
+        "camera move", "continuous shot", "one take", "no cuts", "pan and zoom", "zoom in",
         "pull back", "punch in", "camera shake", "handheld", "motion blur", "tour of an interface", "ui walkthrough",
-        "движение камеры", "пролёт камеры", "без склеек", "один дубль", "наезд", "отъезд", "облёт интерфейса",
+        "движение камеры", "без склеек", "один дубль", "наезд", "отъезд", "облёт интерфейса",
     ],
+    # A flythrough in depth ("3D camera flythrough", "пролёт камеры") is Spatial Type's: this camera has no depth.
     "intentPhrases": [
         "camera move", "camera moves", "moving camera", "flying camera", "one continuous shot", "one take",
-        "without cuts", "no cuts", "pan and zoom", "camera fly through", "camera tour",
-        "движение камеры", "летающая камера", "пролёт камеры", "без склеек", "одним кадром", "один дубль",
+        "without cuts", "no cuts", "pan and zoom", "camera tour",
+        "движение камеры", "летающая камера", "без склеек", "одним кадром", "один дубль",
     ],
     "intentGroups": [
         ["camera", "shot", "take", "view", "камера", "камеры", "камерой", "кадр", "кадром", "дубль"],
-        ["move", "moves", "moving", "fly", "flies", "flying", "travel", "travels", "pan", "zoom", "push", "tour",
-         "walkthrough", "continuous", "seamless", "cuts", "движение", "летает", "летающая", "пролёт", "пролет",
+        ["move", "moves", "moving", "travel", "travels", "pan", "zoom", "push", "tour",
+         "walkthrough", "continuous", "seamless", "cuts", "движение", "летает", "летающая",
          "наезд", "отъезд", "панорама", "непрерывно", "бесшовно", "склеек"],
     ],
     "command": "hits.mjs",
