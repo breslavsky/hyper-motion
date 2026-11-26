@@ -70,13 +70,14 @@ def test_exact_roles_and_resolved_review_are_the_same_as_the_render_plan():
     assert result["scenes"][0]["words"] == ["One thing at a time"]
 
 
-def test_duration_repair_names_beats_instead_of_requesting_filler_scenes():
+def test_a_length_a_beat_off_is_shared_out_and_one_out_of_reach_is_repaired_in_scenes():
     film = recipe()
     film["scenes"][-1]["beats"] = 7
+    assert call("F.problems(f)", film) == []
+    film["seconds"] = 20
     errors = call("F.problems(f)", film)
     assert len(errors) == 1
-    assert "remove about 1 actual beats" in errors[0]
-    assert "never repeat the ending" in errors[0]
+    assert "add about 4 scenes" in errors[0] and "Leave the beats as they are" in errors[0]
 
 
 def test_review_omits_geometry_names_and_sound_controls_from_visible_copy():

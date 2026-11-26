@@ -357,8 +357,12 @@ def test_no_scene_falls_back_to_words_of_the_kit():
     # (an arrow) or nothing.
     fields = json.loads(_node("process.stdout.write(JSON.stringify(require(process.argv[1])))", str(COMPILER / "fields.cjs")))
     found, covered = [], set()
-    for file in ["builtin.mjs", *(f"scenes/{f.name}" for f in sorted((COMPONENTS / "scenes").glob("*.mjs")))]:
-        scene = None
+    # A scene in a folder of its own (scenes/<folder>/<type>.mjs) is named by its file.
+    for path in [COMPONENTS / "builtin.mjs", *sorted((COMPONENTS / "scenes").rglob("*.mjs"))]:
+        file = path.relative_to(COMPONENTS).as_posix()
+        scene = path.stem if file.count("/") == 2 and not file.startswith("scenes/_shared/") else None
+        if scene:
+            covered.add(scene)
         for n, line in enumerate((COMPONENTS / file).read_text(encoding="utf-8").splitlines(), 1):
             named = re.search(r'(?:SCENES|sceneFactories)(?:\.(\w+)|\["([\w-]+)"\])\s*=\s*\(', line)
             if named:
@@ -446,11 +450,12 @@ def test_a_brand_named_without_an_address_gets_its_own_site_only():
     assert not out["wall"]["ok"] and "bot check" in out["wall"]["why"]
 
 
-def test_a_length_asked_for_is_held_by_musical_beats_without_filler():
+def test_a_length_asked_for_is_shared_out_by_the_kit_and_a_film_too_far_from_it_is_told_in_scenes():
     # "A 30 second film": a real project's agent found the length by trial, three publishes, and
     # got there by holding eight scenes twice as long as they are made for. `"seconds"` names the
     # length; the check refuses a scene held far past its usual length (lib/beats.json, written
-    # from the guide) and gives a beat budget, without requiring filler scenes.
+    # from the guide). `fit` shares the beats out to the length asked for within each scene's
+    # usual lengths, so a film is told only when no such sharing reaches it, and then in scenes.
     scene = lambda kind, beats, **more: {"type": kind, "beats": beats, **more}  # noqa: E731
     short = [scene("typewriter", 5, text="Why drink more water?"), scene("steps", 6, steps=["Carries oxygen", "Cools you down"]), scene("endcard", 5, cta="One glass now")]
     films = {
@@ -466,9 +471,9 @@ def test_a_length_asked_for_is_held_by_musical_beats_without_filler():
         str(SOURCE / "lib" / "film.cjs"), json.dumps(films),
     ))
     assert len(out["held"]) == 1 and "11 beats is too long" in out["held"][0] and "5-7" in out["held"][0] and "at most 9" in out["held"][0]
-    assert len(out["short"]) == 1 and '"seconds" asks for 30' in out["short"][0] and "add about 44 actual beats" in out["short"][0] and "never repeat the ending" in out["short"][0]
+    assert len(out["short"]) == 1 and '"seconds" asks for 30' in out["short"][0] and "add about 8 scenes" in out["short"][0] and "Leave the beats as they are" in out["short"][0]
     assert out["fits"] == []
-    assert len(out["long"]) == 1 and "remove about 7 actual beats" in out["long"][0]
+    assert len(out["long"]) == 1 and "take out about 1 scene" in out["long"][0]
     assert any('"seconds" must be a number' in e for e in out["wrong"])
 
 
