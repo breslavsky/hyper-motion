@@ -10,7 +10,7 @@
 
 <br>
 
-[![Storybook](https://img.shields.io/badge/storybook-live-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://breslavsky.github.io/hyper-motion/)
+[![Storybook](https://img.shields.io/badge/storybook-live-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://hyper-motion.dev/)
 [![Status](https://img.shields.io/badge/status-beta-orange?style=flat-square)](#status)
 [![Renders with HyperFrames](https://img.shields.io/badge/renders%20with-HyperFrames-4f46e5?style=flat-square)](https://github.com/heygen-com/hyperframes)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
@@ -19,7 +19,7 @@
 
 Developed with &nbsp;[<img src="https://www.motionfab.app/brand/motionfab-logo.svg" alt="Motion Fab" height="22" align="center">](https://www.motionfab.app)
 
-[Storybook](https://breslavsky.github.io/hyper-motion/) &nbsp;·&nbsp; [What it is for](#what-it-is-for) &nbsp;·&nbsp; [The four kinds](#the-four-kinds) &nbsp;·&nbsp; [What is here](#what-is-here) &nbsp;·&nbsp; [Running it](#running-it) &nbsp;·&nbsp; [Status](#status) &nbsp;·&nbsp; [Licence](#licence)
+[Storybook](https://hyper-motion.dev/) &nbsp;·&nbsp; [What it is for](#what-it-is-for) &nbsp;·&nbsp; [The four kinds](#the-four-kinds) &nbsp;·&nbsp; [What is here](#what-is-here) &nbsp;·&nbsp; [Running it](#running-it) &nbsp;·&nbsp; [Status](#status) &nbsp;·&nbsp; [Licence](#licence)
 
 </div>
 
@@ -47,7 +47,7 @@ its own.
 | **Flat Motion** | Kinetic type, charts, interface mock-ups and transitions in forty-three looks: the scenes a launch film is cut from. |
 | **B-Rolls** | The same glass laid over your own footage, a talking head or b-roll, bending the video under it. |
 
-See every one of them play in the [Storybook](https://breslavsky.github.io/hyper-motion/).
+See every one of them play in the [Storybook](https://hyper-motion.dev/).
 
 ## Status
 
