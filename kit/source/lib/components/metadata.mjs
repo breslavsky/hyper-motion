@@ -1830,6 +1830,7 @@ validate(s){
       cue(t.settle,'chime',.8);
     }}
 ,"lens-wall":{
+"opener":true,
 // An endless wall of the film's pictures and videos under a lens, crossed by a
 // camera on one of a few paths. The wall is the shared component
 // components/lens-wall (lens-wall/wall.mjs here).
@@ -1872,6 +1873,7 @@ validate(s){
     },
 "sounds":function sounds(s,len,cue){cue(Math.min(.08,len*.02),'whoosh',.35);}}
 ,"laptop3d":{
+"opener":true,
 // A real laptop, a model from a file (SOURCE.json): it lies closed under a
 // camera that looks down at it, a hand lifts its lid, and the camera pulls
 // back to show the screen and the keyboard. The screen plays the film's
@@ -1970,6 +1972,7 @@ validate(s){
       for(const hit of this.hits(s,len,beat))cue(hit.at,hit.pad===7?'ping':hit.pad===1?'pop':'tick',.75);
     }}
 ,"comic":{
+"signature":true,
 // Comic Glitch Text, ported from Pixel UI with the author's permission
 // (scenes/text.mjs, SOURCE.json): a paragraph glitches in word by word through
 // comic panels, torn colour slices and print misregistration, at 24 frames a second.
@@ -2003,6 +2006,8 @@ validate(s){
       cue(Math.min(len*.96,t.entered*t.tick),'pop',.6);
     }}
 ,"kinetic-swap-words":{
+"opener":true,
+"signature":true,
 "section":"Kinetic Text",
 // A line edited before the viewer (scenes/text.mjs): the words out of place
 // are selected, carried and dropped where they belong, then a strip of the
@@ -2064,6 +2069,8 @@ validate(s){
       if(t.clip){cue(t.open,'whoosh',.45);cue(t.placed,'chime',.6);cue(t.leave,'whoosh',.4);}
     }}
 ,"kinetic-spin-words":{
+"opener":true,
+"signature":true,
 "section":"Kinetic Text",
 // A line that spins in real space (scenes/text.mjs): its letters stand on a ring
 // that turns about its upright axis under a camera, fast and then slowing into
@@ -2098,6 +2105,7 @@ validate(s){
       cue(t.land,'pop',.7);
     }}
 ,"kinetic-burst-words":{
+"signature":true,
 "section":"Kinetic Text",
 // A line that arrives, breathes, and breaks at the camera (scenes/kinetic-burst-words.mjs):
 // real extruded letters of one baked font (fonts/geometry), cut into pieces that fly

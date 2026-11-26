@@ -364,7 +364,7 @@ them (`compare`: `beforeLabel`, `afterLabel`; `drag`: `label`, `button`;
 
 OWN = r'''
 
-Liquid glass and scenes of this kit. A glass panel keeps its own ground in
+**Glass scenes.** A glass panel keeps its own ground in
 every look: a deep blue backdrop with light text, whatever `style` the film
 has. Give it the user's photo or video with `background`, or the brand's own
 colours, to change that; never pick a look for the sake of a glass scene.
@@ -381,8 +381,7 @@ keep the default `"dark-glass"`: it is frosted and its text reads, while
 clear `"glass"` is all but transparent and a small panel of it is lost on a
 busy picture. `place` and `size` are fields of `glass-island`,
 `glass-controls`, `glass-ask`, `glass-search`, `glass-widgets`, `glass-steps`, `glass-checklist`, `glass-like`, `glass-rating`, `glass-message`, `glass-follow` and `glass-call`; the other glass scenes fill
-the frame and take neither:
-
+the frame and take neither.
 '''
 
 TAIL = r'''
@@ -414,6 +413,8 @@ def _ours(line: str) -> str:
     line = re.sub(r" props\? = one 3D object per card from the props3d list[^.]*\.", "", line)
     line = line.replace("(cards3d, icon3d, phone3d, props3d, field)", "(cards3d, icon3d, phone3d, field)")
     line = line.replace("props3d with the mascot/astronaut/rocket, ", "")
+    line = line.replace("the scenes a motion designer would remember (pullback, dot, knockout, hive, orb, between, drag, field, flip, assemble, scatter, arc)",
+                        "the scenes the library lists first")
     # The header is the name and running dots: the kit writes no "working" of its own.
     line = line.replace('"<name> working..." with a spinner', "the product's name with a spinner and running dots")
     line = line.replace("only when the DIRECTION asks for it", "rarely: one scene that should stand apart")
@@ -435,23 +436,49 @@ def scenes(lines: list[str]) -> list[str]:
     return [line for line in lines if line.startswith("- ") and "{" in line.split(":")[0] and not line.startswith(tuple(f"- {name} " for name in LEFT_OUT))]
 
 
+SIGNATURE_HEAD = (
+    "**Signature moments**, the scenes a viewer remembers: one or two a film, three at most, where the story turns or on "
+    "the strongest hit of the music, with simple scenes around them. The kit's own come first.\n")
+OPENER_HEAD = "\n**Openers**: a film begins with one of these, or with a signature moment that says it opens a film.\n"
+REST_HEAD = "\n**Every other scene**: what carries the film from one moment to the next.\n"
+
+
+def by_role(kinetic: list[str], own: list[str], openers: list[str], signature: list[str]) -> str:
+    """The scene lines by the part a scene plays in a film, the strongest first. A flat list in the
+    order scenes were written put the kit's newest and strongest a hundred and fifty lines down,
+    and a writer took what stood first (HISTORY 395). The roles are the kit's own
+    (`film.cjs` `OPENERS`, `SIGNATURE`: a scene of ours says them in its metadata), so a scene
+    cannot be listed under a role it does not have."""
+    name = lambda line: re.match(r"- ([\w-]+)", line).group(1)  # noqa: E731
+    # Ours newest first, then Kinetic's in their own order.
+    lines = [*reversed(own), *kinetic]
+    groups: dict[str, list[str]] = {"signature": [], "opener": [], "rest": []}
+    for line in lines:
+        kind = "signature" if name(line) in signature else "opener" if name(line) in openers else "rest"
+        if kind == "signature" and name(line) in openers:
+            line += " Opens a film too."
+        groups[kind].append(line)
+    return (SIGNATURE_HEAD + "\n".join(groups["signature"]) + "\n" + OPENER_HEAD + "\n".join(groups["opener"]) + "\n"
+            + REST_HEAD + "\n".join(groups["rest"]))
+
+
 def guide() -> str:
     # The looks and the scenes of ours as the engine has them: Kinetic's looks and ours
     # (looks-own.cjs), and what each scene of ours says of itself (components/metadata.cjs).
     run = subprocess.run(
-        ["node", "-e", "const e = process.argv[1]; process.stdout.write(JSON.stringify({ looks: require(e + '/plan.cjs').looks, own: Object.values(require(e + '/definitions.cjs')).map((d) => d.guide) }))", str(TEMPLATE / "source" / "lib" / "compiler")],
+        ["node", "-e", "const e = process.argv[1], f = require(e + '/../film.cjs'); process.stdout.write(JSON.stringify({ looks: require(e + '/plan.cjs').looks, own: Object.values(require(e + '/definitions.cjs')).map((d) => d.guide), openers: [...f.OPENERS], signature: [...f.SIGNATURE] }))", str(TEMPLATE / "source" / "lib" / "compiler")],
         capture_output=True, text=True, check=True,
     )
     engine = json.loads(run.stdout)
     looks = engine["looks"]
-    own = "\n".join(f"- {line}" for line in engine["own"])
+    own = [f"- {line}" for line in engine["own"]]
     lines = (HERE / "scene-library.txt").read_text(encoding="utf-8").split("\n")
     shapes = (HERE / "shapes.md").read_text(encoding="utf-8")
     table = "\n".join(f"| `{look['id']}` | {look['hint']} | {look['track']}, {look['bpm']} |" for look in looks.values())
     common = [line for line in lines if line.startswith(("COMMON FIELDS", "Usually OMIT", "PALETTE names", "TRANSITIONS:", "3D HALFTONE"))]
     beyond = [line for line in _section(lines, "BRIEFS BEYOND") if not line.startswith('- A cinematic, realistic or "footage" request')]
     parts = [
-        HEAD.replace("### Looks\n", shapes + "\n### Looks\n") + table + LIBRARY + "\n".join(scenes(lines)) + OWN + own + "\n\n" + "\n".join(common),
+        HEAD.replace("### Looks\n", shapes + "\n### Looks\n") + table + LIBRARY + by_role(scenes(lines), own, engine["openers"], engine["signature"]) + OWN + "\n\n" + "\n".join(common),
         "### Rhythm\n\n" + "\n".join(_section(lines, "RHYTHM RULES")),
         "### Words\n\n" + "\n".join(_section(lines, "COPY RULES")),
         "### Films that are not a product launch\n\n" + "\n".join(beyond).replace("Long films have more scenes and hold each one longer.", "Long films have more scenes, each at its usual length.") + TAIL,

@@ -490,7 +490,7 @@ const notes = (film) => {
 	const scenes = film.scenes.map(canonicalScene);
 	const types = scenes.map((s) => s.type);
 	const out = [];
-	if (!OPENERS.has(types[0])) out.push(`Scene 1 (${types[0]}) is a weak opener: open with a hook that moves or asks in the first second (pullback, dot, knockout, caption, chat, typewriter, slam, scatter, between).`);
+	if (!OPENERS.has(types[0])) out.push(`Scene 1 (${types[0]}) is a weak opener: open with a hook that moves or asks in the first second: one of the scenes the guide marks as opening a film.`);
 	if (types[types.length - 1] !== "endcard") out.push("The film should end on an endcard.");
 	// A film longer than what is left of its own track ends in silence.
 	const own = trackOf(film);
@@ -860,7 +860,7 @@ const changed = (film, change) => {
 	return { film: next, said: said.length ? said.join(", ") : "the brand's colours" };
 };
 
-module.exports = { BUNDLED_FONTS, problems, notes, review, pictures, videos, planOf, summary, soundMark, fitted, book, paletteOf, brandOf, changed, emojiOf, layOf, TRACKS };
+module.exports = { BUNDLED_FONTS, problems, notes, review, pictures, videos, planOf, summary, soundMark, fitted, book, paletteOf, brandOf, changed, emojiOf, layOf, TRACKS, OPENERS, SIGNATURE };
 
 if (require.main === module) {
 	const [command = "fit", file = path.join(SOURCE, "film.json")] = process.argv.slice(2);
