@@ -8,7 +8,7 @@ from one to the other, for whoever writes the scene; a project's agent never run
 
     uv run python kit/tools/technique.py find "numbers that count up in a card"
     uv run python kit/tools/technique.py get <technique id>
-    uv run python kit/tools/technique.py new <technique id> <scene> --into cards
+    uv run python kit/tools/technique.py new <technique id> <scene> --into data
     uv run python kit/tools/technique.py accept <scene>
     uv run python kit/tools/technique.py list | record
 
@@ -17,10 +17,12 @@ from one to the other, for whoever writes the scene; a project's agent never run
 - `get` puts the technique's code and description into `tools/techniques/<id>/` to read. It is
   other people's code: git-ignored, read for the move, never pasted (it carries its own fonts,
   colours and words; its timeline must be adapted to the component contract).
-- `new` writes the scene's definition as a stub into `source/lib/components/scenes/<file>.mjs` (a
-  new file is registered in the component catalogue): its `from`, one text field, a line
-  for the guide, a sample and a build that sets the text in the middle. The stub passes the
-  checks, so the work starts from a scene that plays.
+- `new` writes the scene as a stub into a file of its own, `source/lib/components/scenes/<folder>/
+  <scene>.mjs`, in the folder `--into` names (one of `components/folders.json`: by what the viewer
+  sees), and adds it to that folder, to the component catalogue and to the list the kit imports
+  (`scenes/folders.mjs`): its `from`, one text field, a line for the guide, a sample and a build
+  that sets the text in the middle. The stub passes the checks, so the work starts from a scene
+  that plays.
 - `accept` is the gate. It fails unless the scene is defined whole (`from`, `fields`, `guide`,
   `sample`, `build`), its file reads no clock, timer or chance, its sample is a valid film, the
   picture audit finds no fault in it in five looks and three frames (`tools/audit.mjs`, with
@@ -81,12 +83,10 @@ STUB = """
 	}});
 """
 
-NEW_FILE = """// Native component factories adapted from community techniques. See ../README.md.
-import metadata from '../metadata.mjs';
-export function createFamily(K) {
-const sceneFactories = {};
-return {sceneFactories};
-}
+NEW_FILE = """// Native component factory adapted from a community technique. See ../../README.md.
+import metadata from '../../metadata.mjs';
+const {identifier} = {{...metadata[{name}], {build}}};
+export const factory = given => {identifier}.build(given);
 """
 
 
@@ -180,14 +180,13 @@ def new(args: argparse.Namespace) -> None:
     for name, scene in scenes.items():
         if scene["from"] == args.id:
             fail(f"the scene `{name}` was written from this technique")
-    if not NAME.match(args.into):
-        fail("--into names a family in source/lib/components/scenes/ without .mjs, such as cards")
+    folders_file = COMPONENTS / "folders.json"
+    folders = json.loads(folders_file.read_text(encoding="utf-8"))
+    if args.into not in folders["folders"]:
+        fail(f"--into names the folder the scene stands in, by what the viewer sees: {', '.join(folders['folders'])}")
     if not re.fullmatch(r"[A-Za-z0-9_-]+", args.id):
         fail("a technique id contains letters, digits, underscores or hyphens")
-    file = COMPONENTS / "scenes" / f"{args.into}.mjs"
-    code = file.read_text(encoding="utf-8") if file.is_file() else NEW_FILE
-    if "const sceneFactories" not in code:
-        fail(f"{file.name} does not expose the native sceneFactories contract")
+    file = COMPONENTS / "scenes" / args.into / f"{args.scene}.mjs"
     stub = STUB.format(scene=args.scene, technique=args.id)
     metadata = json.loads(node("const definitions={};const define=(name,def)=>definitions[name]=def;eval(process.argv[1]);process.stdout.write(JSON.stringify(definitions));", stub))
     canonical = COMPONENTS / "metadata.cjs"
@@ -197,20 +196,15 @@ def new(args: argparse.Namespace) -> None:
     canonical.write_text(content[:end].rstrip() + ",\n" + entry + "\n" + content[end:], encoding="utf-8")
     build = "build(" + stub.split("build(", 1)[1].rsplit("\n\t});", 1)[0].strip().rstrip(",")
     identifier = "definition_" + args.scene.replace("-", "_")
-    factory = f'const {identifier} = {{...metadata[{json.dumps(args.scene)}], {build}}};\nsceneFactories[{json.dumps(args.scene)}] = given => {identifier}.build(given);\n'
-    if "import metadata from" not in code:
-        code = "import metadata from '../metadata.mjs';\n" + code
-    if "export function createFamily" in code:
-        end = code.rindex("return {sceneFactories};")
-        code = code[:end] + factory + code[end:]
-    else:
-        code += "\n" + factory
-    file.write_text(code, encoding="utf-8")
+    file.write_text(NEW_FILE.format(identifier=identifier, name=json.dumps(args.scene), build=build), encoding="utf-8")
+    folders["folders"][args.into].append(args.scene)
+    folders_file.write_text(json.dumps(folders, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     catalog_file = COMPONENTS / "catalog.json"
     catalog = json.loads(catalog_file.read_text(encoding="utf-8"))
     catalog[args.scene] = {"family": args.into, "renderMode": "dom", "owned": True}
     catalog_file.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     (COMPONENTS / "catalog.mjs").write_text("export const catalog=" + json.dumps(catalog, indent=2) + ";\nexport default catalog;\n", encoding="utf-8")
+    subprocess.run(["node", str(TEMPLATE / "tools" / "scene-files.cjs"), "--write"], check=True, capture_output=True)
     subprocess.run(["node", str(TEMPLATE / "tools" / "sync-component-metadata.cjs")], check=True, capture_output=True)
     print(f"`{args.scene}` is a native factory in {file.relative_to(REPO)}. Its metadata lives in components/metadata.cjs. Write its fields, guide, sample and build, then:\n  uv run python kit/tools/technique.py accept {args.scene}")
 

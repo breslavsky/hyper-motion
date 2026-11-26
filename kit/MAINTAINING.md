@@ -33,6 +33,11 @@ name, from the list that writes (`scenes/folders.mjs`), because a module asked f
 arrives a moment later. Glass, 3D, Kinetic Text and `ride` have files of their own kind and are not in
 the folders.
 
+A scene written from a community technique starts the same way: `tools/technique.py new <technique>
+<scene> --into <folder>` writes its stub into the folder's own file and adds it to the folder, the
+catalogue and the list. `node source/lib/scene.cjs --list` names the scenes as the folders do, and the
+scenes outside them by their section.
+
 To check a change that must not change a frame, render the scene alone, lightly
 (`hyperframes render source -w 2 -q draft`), before and after: one scene on two workers is the same
 file twice, a film of many scenes on eight workers is not.

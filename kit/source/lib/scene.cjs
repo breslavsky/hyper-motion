@@ -91,18 +91,23 @@ function buildScene(recipe, out = process.cwd()) {
   };
 }
 
-// What the kit can build. A scene written for this kit says its fields in a
-// line of the guide and has a sample; the others are named with their family.
+// What the kit can build, as somebody choosing a scene finds it: in the folder it stands in, by
+// what the viewer sees (components/folders.json), or, for the scenes with a section of their own
+// (Glass, 3D, Kinetic Text, rides), in that section. A scene written for this kit says its fields
+// in a line of the guide and has a sample.
 function listScenes(type) {
   const own = require('./components/metadata.cjs'), catalog = require('./components/catalog.json');
+  const {folders} = require('./components/folders.json'), folderOf = {};
+  for (const [folder, names] of Object.entries(folders)) for (const name of names) folderOf[name] = folder;
   if (type === undefined) {
-    const families = {};
-    for (const [name, row] of Object.entries(catalog)) (families[row.family] ??= []).push(name);
-    return {families, described: Object.keys(own).filter(name => own[name].guide && own[name].sample)};
+    const sections = {};
+    for (const [name, row] of Object.entries(catalog)) if (!folderOf[name]) (sections[row.family] ??= []).push(name);
+    return {folders, sections, described: Object.keys(own).filter(name => own[name].guide && own[name].sample)};
   }
   if (!Object.hasOwn(catalog, type)) return {errors: [`there is no scene "${type}": --list names them`]};
   const definition = Object.hasOwn(own, type) ? own[type] : null;
-  return {type, ...catalog[type], guide: definition?.guide ?? null,
+  const {family, ...row} = catalog[type];
+  return {type, ...(folderOf[type] ? {folder: folderOf[type]} : {section: family}), ...row, guide: definition?.guide ?? null,
     recipe: definition?.sample ? {id: type, aspect: '9:16', style: 'editorial', brand: {name: 'Brand'}, start: 0, track: 1, scene: definition.sample} : null};
 }
 

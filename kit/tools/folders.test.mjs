@@ -20,3 +20,21 @@ test('one principle: every scene of the section is in exactly one of the eight f
   assert.deepEqual(due.filter(type => !placed.includes(type)), [], 'a new scene has no folder: put it where what the viewer sees says');
   assert.deepEqual(placed.filter(type => !due.includes(type)), [], 'a folder names a scene that is not of this section');
 });
+
+test('the list of scenes the kit prints names them as the folders do, and the others by their section', () => {
+  const {listScenes} = require('../source/lib/scene.cjs');
+  const listed = listScenes();
+  assert.deepEqual(listed.folders, folders);
+  const inFolders = new Set(Object.values(folders).flat()), inSections = Object.values(listed.sections).flat();
+  assert.deepEqual([...inFolders, ...inSections].sort(), Object.keys(catalog).sort());
+  assert.ok(inSections.every(name => !inFolders.has(name)));
+  assert.equal(listScenes('tabs').folder, 'data');
+  assert.equal(listScenes('ride').section, 'ride');
+  assert.equal(listScenes('tabs').family, undefined);
+});
+
+test('a scene from a technique goes into a folder of its own file', () => {
+  const tool = require('node:fs').readFileSync(new URL('./technique.py', import.meta.url), 'utf8');
+  assert.match(tool, /COMPONENTS \/ "scenes" \/ args\.into \/ f"\{args\.scene\}\.mjs"/);
+  assert.match(tool, /scene-files\.cjs/);
+});
