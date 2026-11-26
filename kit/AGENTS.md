@@ -279,8 +279,12 @@ that it is the film the user requested.
   The sounds of the picture (taps, whooshes, hits) are the look's own kit; for
   other sounds add `"kit": "soft" | "punch" | "tech" | "play" | "cinema"`.
   A track of the user's, or one a tool made, is `{ "file": "<its path>" }`
-  and nothing else: the film takes that track's tempo and starts on its first
-  beat, and the same one command lays the track under the picture. `harness
+  and nothing else: the film takes that track's tempo, starts where its music
+  comes in, and `fit` lays the scenes on it: it moves a scene's length by a
+  beat or two so that scenes begin where the music comes in, where it stops
+  and comes back, and on its key hits, and says which. Write the beats each
+  scene needs and leave the rest to it; `"lay": false` keeps the lengths as
+  written. The same one command lays the track under the picture. `harness
   assets` gives an upload's path; `"from": <seconds>` starts later in the
   track, `"bpm"` only when `fit` says the track has no steady tempo. A track
   the user asks you to have made is `generate_music`'s file, mapped once with

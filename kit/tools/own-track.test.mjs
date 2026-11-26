@@ -88,3 +88,57 @@ test('a film longer than what is left of its track is told so', () => {
   assert.ok(F.notes(late).some(note => /The track is 12\.0 s long and the film starts 10\.0 s into it/.test(note)));
   assert.ok(!F.notes(own({file: TRACK})).some(note => /The track is/.test(note)));
 });
+
+// A track with things in it: the music comes in at 2.0 s, stops from 6.0 to 6.5 s, and has key hits
+// at 4.0 and 9.0 s. At 120 bpm from 0 a beat is half a second, so those are beats 4, 13, 8 and 18.
+const LAID = 'media/laid-test.wav';
+const eventful = of => JSON.stringify({sound: true, seconds: 60, of, grid: {bpm: 120, beat: 0.5, firstBeat: 0, fit: 0.9},
+  accents: [{t: 4.0, strength: 0.8, key: true}, {t: 9.0, strength: 0.9, key: true}, {t: 3.0, strength: 0.2, key: false}],
+  parts: [{from: 0, to: 2, level: 'quiet'}, {from: 2, to: 60, level: 'loud'}], entries: [{t: 2.0, hit: null}], gaps: [{from: 6.0, to: 6.5}]});
+// Typed lines, whose usual length is four to six beats: room to move a beat either way.
+const scenes = beats => beats.map((count, i) => ({type: i === beats.length - 1 ? 'endcard' : 'typewriter', beats: count,
+  ...(i === beats.length - 1 ? {cta: 'nook.app'} : {text: 'A film laid on its own track.'})}));
+const starts = made => { const plan = F.planOf(made); return plan.scenes.map(scene => Number((scene.start / plan.beat).toFixed(2))); };
+
+test('scenes begin where the track does something, each moved two beats at most', () => {
+  put(LAID, 'sound');
+  put('derived/track/laid-test.json', eventful(LAID));
+  const base = {...film, music: {file: LAID, from: 0}, scenes: scenes([5, 5, 5, 5, 5])};
+  // As written the scenes begin on beats 5, 10, 15 and 20: none where the music comes in, hits or comes back.
+  assert.deepEqual(starts({...base, music: {...base.music, lay: false}}), [0, 5, 10, 15, 20]);
+  // Laid: on the entry (4), the key hit (8), the return after the stop (13), the key hit (18).
+  assert.deepEqual(starts(base), [0, 4, 8, 13, 18]);
+  const lay = F.layOf(base);
+  assert.deepEqual(lay.on.map(place => [place.scene, place.why]), [[2, 'the music comes in'], [3, 'a key hit'], [4, 'the music is back after a stop'], [5, 'a key hit']]);
+  assert.deepEqual(lay.changed.map(change => [change.scene, change.from, change.to]), [[1, 5, 4], [2, 5, 4]]);
+  // A scene is never laid outside its usual length: a sentence of four beats, at the top of its three to four, cannot grow.
+  const tight = {...film, music: {file: LAID, from: 0}, scenes: [{type: 'sentence', beats: 4, text: 'A film laid on its own track.'}, {type: 'sentence', beats: 4, text: 'It cannot grow.'}, ...scenes([5])]};
+  assert.ok(F.layOf(tight).changed.every(change => change.to <= 4 || change.type !== 'sentence'));
+  assert.equal(F.layOf({...base, music: {...base.music, lay: false}}), null);
+  // The same film is the same every time it is asked for.
+  assert.deepEqual(starts(base), starts(structuredClone(base)));
+});
+
+test('a laid film keeps the length it was asked for, and a scene its own timing', () => {
+  const asked = {...film, music: {file: LAID, from: 0}, scenes: scenes([5, 5, 5, 5, 5])};
+  const plain = F.planOf({...asked, music: {...asked.music, lay: false}});
+  asked.seconds = Number(plain.duration.toFixed(2));
+  assert.deepEqual(F.problems(asked), []);
+  assert.equal(F.planOf(asked).duration, plain.duration);
+  // Twenty-five beats in all still, with the beginnings moved onto the track.
+  assert.equal(starts(asked).length, 5);
+  assert.notDeepEqual(starts(asked), [0, 5, 10, 15, 20]);
+  // Never past a scene's usual length unless it was written so, and never more than two beats from what was written.
+  const lay = F.layOf(asked);
+  for (const change of lay.changed) assert.ok(Math.abs(change.to - change.from) <= 2, JSON.stringify(change));
+  // A slower pace stretches beats: such a film is not laid, its tempo is no longer the track's grid.
+  assert.equal(F.layOf({...asked, pace: 'chill'}), null);
+  assert.match(F.problems({...asked, music: {...asked.music, lay: 'yes'}})[0], /"music\.lay" is true or false/);
+});
+
+test('with no start given a film begins on the beat the music comes in on', () => {
+  const made = {...film, music: {file: LAID}, scenes: scenes([4, 4, 5])};
+  assert.equal(F.summary(made, F.planOf(made)).from, 2);
+  // A track whose music is there from the start begins on its first beat.
+  assert.equal(F.summary(own({file: TRACK}), F.planOf(own({file: TRACK}))).from, 0.31);
+});
