@@ -66,7 +66,7 @@
   "components": [
     {
       "type": "title",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/title.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -81,7 +81,7 @@
     },
     {
       "type": "highlight",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/highlight.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -96,7 +96,7 @@
     },
     {
       "type": "swap",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/swap.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -110,7 +110,7 @@
     },
     {
       "type": "fullbleed",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/fullbleed.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -125,7 +125,7 @@
     },
     {
       "type": "grid",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/grid.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -139,7 +139,7 @@
     },
     {
       "type": "wall",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/pictures/wall.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -154,7 +154,7 @@
     },
     {
       "type": "prompt",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/controls/prompt.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -171,7 +171,7 @@
     },
     {
       "type": "ui-macro",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/screens/ui-macro.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [
@@ -190,7 +190,7 @@
     },
     {
       "type": "ui-float",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/screens/ui-float.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [
@@ -208,7 +208,7 @@
     },
     {
       "type": "counter",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/data/counter.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -223,7 +223,7 @@
     },
     {
       "type": "toggle",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/controls/toggle.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -237,7 +237,7 @@
     },
     {
       "type": "logo3d",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/brand/logo3d.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -252,7 +252,7 @@
     },
     {
       "type": "endcard",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/brand/endcard.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -268,7 +268,7 @@
     },
     {
       "type": "slam",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/slam.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -283,7 +283,7 @@
     },
     {
       "type": "morph",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/controls/morph.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -303,7 +303,7 @@
     },
     {
       "type": "steps",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/data/steps.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -319,7 +319,7 @@
     },
     {
       "type": "ticket",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/controls/ticket.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -337,7 +337,7 @@
     },
     {
       "type": "marquee",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/words/marquee.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -351,7 +351,7 @@
     },
     {
       "type": "phones",
-      "file": "source/lib/components/builtin.mjs",
+      "file": "source/lib/components/scenes/screens/phones.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [

@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- split: one word on a panel, a grid of what it means --------------------------------------------------
 // A coloured panel holds one big word that swaps ("Posters." "Covers." "Merch."), and beside it a
 // grid of tiles reshuffles with every word, a tile at a time. Seen in Higgsfield's "rastr" film.

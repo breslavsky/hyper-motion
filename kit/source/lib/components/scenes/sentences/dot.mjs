@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/studio.mjs';
+import {DOUBLE} from '../_shared/words.mjs';
 // ---- dot: one ball carries the scene ------------------------------------------------------------
 // "Reduce Motion": the lead word's letters tumble away, a ball drops in and bounces into place as
 // the dot of the i (or a full stop), then rolls off, floods the frame, morphs through shapes and

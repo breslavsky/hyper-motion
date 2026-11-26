@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- web: the words around the product, joined to it --------------------------------------------------
 // The product's mark in the middle; the words that describe it arrive on rings around it, each joined
 // by a hairline; the camera turns slowly in 3D and the key words light up in turn. Seen in ab_works'

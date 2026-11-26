@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/studio.mjs';
+import {DOUBLE} from '../_shared/words.mjs';
 // ---- flip: "Explore [card] history" ---------------------------------------------------------------
 export const factory = ({ p, cam, fg, accent, palette, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, hash, alpha, mixHex, images, ease: E } = K;

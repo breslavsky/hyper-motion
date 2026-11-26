@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE, paintGround} from '../_shared/hands.mjs';
+import {DOUBLE, paintGround} from '../_shared/ground.mjs';
 // ---- drag: files go into the product ---------------------------------------------------------------
 // Files lie on the desk; the cursor picks each one up (it lifts, tilts with the move), drops it
 // into the product's drop zone, where it uploads and gets a check. Each drag is quicker than the

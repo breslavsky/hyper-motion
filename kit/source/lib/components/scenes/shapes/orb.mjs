@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- orb: a living gradient sphere and a few calm lines -------------------------------------------
 // A glowing sphere of the brand's colours, the colours turning slowly inside it, breathing; it
 // arrives soft and oversized, pulses as each short line takes its turn below it. Seen in

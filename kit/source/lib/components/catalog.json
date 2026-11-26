@@ -1,79 +1,79 @@
 {
   "title": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "highlight": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "swap": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "fullbleed": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "grid": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "wall": {
-    "family": "builtin",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "prompt": {
-    "family": "builtin",
+    "family": "controls",
     "renderMode": "dom"
   },
   "ui-macro": {
-    "family": "builtin",
+    "family": "screens",
     "renderMode": "dom"
   },
   "ui-float": {
-    "family": "builtin",
+    "family": "screens",
     "renderMode": "dom"
   },
   "counter": {
-    "family": "builtin",
+    "family": "data",
     "renderMode": "dom"
   },
   "toggle": {
-    "family": "builtin",
+    "family": "controls",
     "renderMode": "dom"
   },
   "logo3d": {
-    "family": "builtin",
+    "family": "brand",
     "renderMode": "dom"
   },
   "endcard": {
-    "family": "builtin",
+    "family": "brand",
     "renderMode": "dom",
     "surface": "sky"
   },
   "slam": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "morph": {
-    "family": "builtin",
+    "family": "controls",
     "renderMode": "dom"
   },
   "steps": {
-    "family": "builtin",
+    "family": "data",
     "renderMode": "dom"
   },
   "ticket": {
-    "family": "builtin",
+    "family": "controls",
     "renderMode": "dom"
   },
   "marquee": {
-    "family": "builtin",
+    "family": "words",
     "renderMode": "dom"
   },
   "phones": {
-    "family": "builtin",
+    "family": "screens",
     "renderMode": "dom"
   },
   "caption": {

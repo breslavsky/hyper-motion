@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {accents, media} from '../_shared/reel.mjs';
+import {accents, media} from '../_shared/media.mjs';
 // ---- mosaic: a grid of panels with crosshairs and one word over it ------------------------------
 export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, expoOut, spring, hash, images, mockUI, alpha } = K;

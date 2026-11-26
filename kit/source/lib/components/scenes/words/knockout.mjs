@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- knockout: zoom through the type ---------------------------------------------------------------
 // The frame is the background with one giant word cut out of it; the product shows through the
 // letters. The camera dives into the thickest stroke of the word until the product fills the frame,

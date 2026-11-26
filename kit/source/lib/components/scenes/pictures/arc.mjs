@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- arc: photos on a curve under a small line -----------------------------------------------------
 // A short line sits high and small; below it a strip of photos rides an arc, the middle one biggest,
 // drifting sideways the whole time, while the line's *word* rolls through options. Seen in Enobase.

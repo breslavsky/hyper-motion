@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- picker: a grid where the selection hops and lands -------------------------------------------------
 // A big grid of icon tiles, close up; a selection ring hops from tile to tile while the grid slides to
 // keep it near the middle; on the last hop the pick lifts out, the rest dim, and its name lands.

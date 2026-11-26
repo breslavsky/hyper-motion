@@ -143,7 +143,7 @@ export function readCatalog() {
     const sample = samples.get(type);
     const definition = definitions[type];
     // A scene moved into its folder has a file of its own; the others lie in their family's file.
-    const familyFile = metadata.family === 'builtin' ? 'builtin.mjs' : FOLDERS[metadata.family] ? `scenes/${metadata.family}/${type}.mjs` : `scenes/${metadata.family}.mjs`;
+    const familyFile = FOLDERS[metadata.family] ? `scenes/${metadata.family}/${type}.mjs` : `scenes/${metadata.family}.mjs`;
     if (!sample) throw new Error(`Catalogue component ${type} has no canonical sample`);
     if (!written[type] && !definition?.fields) throw new Error(`Catalogue component ${type} has no field schema`);
     const fields = clone(definition?.fields ?? written[type]);

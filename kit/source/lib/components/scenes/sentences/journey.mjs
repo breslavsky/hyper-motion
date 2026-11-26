@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {focus} from '../_shared/flow.mjs';
+import {focus} from '../_shared/focus.mjs';
 /** Monotone cubic interpolation through (t, v) keys: a smooth path with no overshoot and no
  *  stops between keys, so a camera following it glides instead of stepping. */
 const glidePath = (keys) => {

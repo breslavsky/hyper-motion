@@ -1,6 +1,6 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
 import metadata from '../../metadata.mjs';
-import {kit} from '../_shared/cards.mjs';
+import {kit} from '../_shared/own-kit.mjs';
 export function create(K) {
 const { panel, orbs, figure, counted, spread, unit } = kit;
 const definition_chips={...metadata["chips"],build({ p, cam, fg, accent, palette, bg, K }){

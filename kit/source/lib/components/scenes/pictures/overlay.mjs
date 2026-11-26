@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {focus} from '../_shared/flow.mjs';
+import {focus} from '../_shared/focus.mjs';
 // ---- overlay: glass cards with rolling numbers over a photo ------------------------------------
 export const factory = ({ p, cam, fg, accent, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, expoOut, smooth, images, alpha } = K;

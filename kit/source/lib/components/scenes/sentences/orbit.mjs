@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {wordsOf} from '../_shared/reel.mjs';
+import {wordsOf} from '../_shared/media.mjs';
 // ---- orbit: a sentence inside line-art orbits ---------------------------------------------------
 export const factory = ({ p, cam, fg, accent, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, expoOut, quartOut, alpha, hash } = K;

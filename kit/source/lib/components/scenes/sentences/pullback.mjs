@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/studio.mjs';
+import {DOUBLE} from '../_shared/words.mjs';
 // ---- pullback: giant typing that pulls back to reveal the product -------------------------------
 export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, alpha, mixHex, lum, makeCursor, ease: E } = K;

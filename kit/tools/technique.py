@@ -117,7 +117,9 @@ def own() -> dict[str, dict]:
         for (const [type, def] of Object.entries(defs)) {
           let errors = ["no sample"];
           try { if (def.sample) errors = film.problems({ aspect: "9:16", style: "liquid", brand: { name: "Nook" }, scenes: [def.sample] }); } catch (err) { errors = [String(err.message)]; }
-          const file = catalog[type] ? `source/lib/components/scenes/${catalog[type].family}.mjs` : null;
+          // A scene in one of the folders has a file of its own; the others lie in their family's file.
+          const own = catalog[type] ? `source/lib/components/scenes/${catalog[type].family}/${type}.mjs` : null;
+          const file = !catalog[type] ? null : require("node:fs").existsSync(own) ? own : `source/lib/components/scenes/${catalog[type].family}.mjs`;
           let hasFactory = false;
           try { hasFactory = typeof await library.get(type) === "function"; } catch(error) { errors.push(String(error.message)); }
           out[type] = { keys: [...Object.keys(def), ...(hasFactory ? ["build"] : [])], file, from: def.from ?? null, guide: def.guide ?? "", sample: def.sample ?? null, errors };

@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- assemble: a ransom-note word resolves into one clean word -------------------------------------
 // Every letter arrives on its own scrap of paper in a different face (a serif italic, a condensed
 // black, a mono, a hairline), flickers through a couple more, then the scraps drop away and the

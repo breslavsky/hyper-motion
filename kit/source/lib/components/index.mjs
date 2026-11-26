@@ -18,7 +18,7 @@ export async function preloadFamilies(types){
 }
 export function createComponentLibrary(K){
  const builtin=createBuiltin(K);
- const factories={...builtin.SCENES,...text,
+ const factories={...text,
   // The scenes that have a file of their own, scenes/<folder>/<type>.mjs (scenes/folders.mjs lists them).
   ...ownPlain,...Object.fromEntries(Object.entries(ownMade).map(([type,create])=>[type,create(K)]))};
  const types=Object.keys(catalog);

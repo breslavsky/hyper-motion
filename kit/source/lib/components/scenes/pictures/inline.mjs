@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {accents, media, wordsOf} from '../_shared/reel.mjs';
+import {accents, media, wordsOf} from '../_shared/media.mjs';
 // ---- inline: "Inspiration [pictures] everywhere?" --------------------------------------------
 export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const { W, H, S, el, set, px, riseGlyphs, spring, clamp, prog, expoOut, hash, images } = K;

@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- agent: the product working through a job --------------------------------------------------------
 // "Meridian working…": a spinner and a status line; tasks arrive one under another, each spinning
 // until it checks off; then the header turns into the result ("Financial statements ready.") and a

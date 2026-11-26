@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {focus} from '../_shared/flow.mjs';
+import {focus} from '../_shared/focus.mjs';
 // ---- faces: real people floating at different depths around a short line ----------------------
 export const factory = ({ p, cam, fg, accent, palette, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, expoOut, smooth, hash, images, glyphText, alpha, textOn } = K;

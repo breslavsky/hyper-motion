@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- wave: a voice, its waveform and the words it says ---------------------------------------------
 // A player pill with a live waveform; the transcript appears under it word by word, the spoken word
 // lit, like karaoke. A small label sits above. Seen in Benji Taylor's Grok voice launch.

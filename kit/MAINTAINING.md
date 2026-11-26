@@ -21,6 +21,22 @@ somebody planning a film would use ("a customer quote", "an end card"). A
 search and a model choose scenes by the cards, so write them for a reader who
 has not seen the scene.
 
+## Where a scene's code lies
+
+A scene of the Pure Kinetic section has a file of its own, `source/lib/components/scenes/<folder>/<type>.mjs`,
+in the folder `components/folders.json` puts it in by what the viewer sees (words, sentences, screens,
+controls, data, pictures, brand, shapes). The file exports `factory`, or `create(K)` for a scene built
+over the kit's context. Its `family` in `catalog.json` is its folder. What several scenes use lies in
+`scenes/_shared/`, named by what it is; what one scene uses lies in that scene's file. After adding or
+moving a scene run `node kit/tools/scene-files.cjs --write`: the kit imports every scene at once, by
+name, from the list that writes (`scenes/folders.mjs`), because a module asked for when a scene mounts
+arrives a moment later. Glass, 3D, Kinetic Text and `ride` have files of their own kind and are not in
+the folders.
+
+To check a change that must not change a frame, render the scene alone, lightly
+(`hyperframes render source -w 2 -q draft`), before and after: one scene on two workers is the same
+file twice, a film of many scenes on eight workers is not.
+
 ## Legacy
 
 What the kit carries from before it was laid on music, to be cleaned before
@@ -52,3 +68,5 @@ when an early frame was drawn after a late one, a white rectangle nobody saw
 while the scene was shorter than that phase. It is fixed; no test draws a
 frame after a later one and holds it against the same frame drawn first, so
 other scenes may do the same. That test comes before any scene is changed.
+`drag` is one to look at: two renders of it from the same code differ in most
+of their frames, by a little.

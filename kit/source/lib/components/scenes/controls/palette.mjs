@@ -1,6 +1,6 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
 import {createTyping} from '../../typing.mjs';
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- palette: a command bar that filters as you type ---------------------------------------------------
 // A big search bar types the query; the results under it filter live as letters arrive, the selection
 // slides to the match, Enter presses and the picked row opens. The camera starts close on the bar and

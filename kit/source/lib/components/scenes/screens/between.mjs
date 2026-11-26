@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE, paintGround} from '../_shared/hands.mjs';
+import {DOUBLE, paintGround} from '../_shared/ground.mjs';
 /** A fingertip: arrives from oversize, presses, lifts and leaves a ring. */
 const makeTouch = (parent, K, size) => {
 	const { el, set, px, prog, clamp, ease: E } = K;

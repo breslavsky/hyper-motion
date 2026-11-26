@@ -1,6 +1,6 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
 import metadata from '../metadata.mjs';
-import {swift} from './_shared/text.mjs';
+import {swift} from './_shared/ease.mjs';
 const sceneFactories = {};
 // Every move speeds up and then slows down. `inOut` is even; `swift` gets up to speed in its first part and
 // takes the rest of its time to stop.

@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- pack: circles crowd round one word -------------------------------------------------------------------
 // Circles of every size pop in from oversize and pack the frame round a word in the biggest one, the
 // palette's colours with the ink; they breathe, then scatter outward. Seen in ab_works' "Pulse It".

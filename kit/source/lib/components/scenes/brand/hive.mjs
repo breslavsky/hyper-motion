@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {DOUBLE} from '../_shared/hands.mjs';
+import {DOUBLE} from '../_shared/ground.mjs';
 // ---- hive: the product's pieces gather around its mark ----------------------------------------------
 // A honeycomb of empty slots opens around the logo; the product's tools fly in from off frame and
 // land in their slots, a couple of them name themselves, then the whole hive pulls into the mark and

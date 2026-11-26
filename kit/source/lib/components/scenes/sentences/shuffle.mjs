@@ -1,5 +1,5 @@
 // Independent component support. Adapted with preserved source mathematics; see SOURCE.json.
-import {focus} from '../_shared/flow.mjs';
+import {focus} from '../_shared/focus.mjs';
 // ---- shuffle: a sentence breaks apart and its words fly to form the next one -------------------
 export const factory = ({ p, cam, fg, accent, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, expoOut, smooth, hash, alpha } = K;
