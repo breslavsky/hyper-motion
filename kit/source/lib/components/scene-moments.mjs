@@ -58,6 +58,28 @@ const MOMENTS = {
 	pack(s, len, beat) {
 		return { first: beat / 4, spread: beat, out: Math.max(beat * 2, Math.floor((len - 0.5) / beat + 1e-6) * beat) };
 	},
+	// The camera dives through the word and lands on a beat (`land`); the dive begins as long before
+	// as it takes, and the line under the word settles after it.
+	knockout(s, len, beat) {
+		const land = onBeat(Math.min(1, len * 0.28) + 0.8, beat, len * 0.7);
+		return { zoom: land - 0.8, land, settle: land + 0.3 };
+	},
+	// A tile lands every eighth of a beat from a quarter in (all of them within a beat and a quarter);
+	// each falls for `fall` seconds before it lands.
+	tiles(s, len, beat) {
+		const n = [...s.text].length;
+		return { first: beat / 4, every: Math.min(beat / 8, beat / Math.max(1, n)), fall: 0.2 };
+	},
+	// The first word arrives on the first beat and the words change on beats after it, as far apart as
+	// the scene's length gives each (half a second at the least).
+	split(s, len, beat) {
+		const n = s.words.length, half = beat / 2;
+		const least = Math.ceil(0.5 / half - 1e-6);
+		let halves = Math.max(least, Math.round((len - beat) / n / half));
+		// The last word is left at least most of a turn.
+		while (halves > least && beat + (n - 1) * halves * half > len - 0.6 * halves * half) halves--;
+		return { swaps: Array.from({ length: n }, (_, k) => beat + k * halves * half) };
+	},
 	// The tools fly in an eighth of a beat apart, a label lights on every beat, and the mark takes
 	// them all in on a beat (`pop`: the pull begins a moment before, as long as it takes).
 	hive(s, len, beat) {
@@ -68,6 +90,11 @@ const MOMENTS = {
 		return { icons, stagger, land, labels: Array.from({ length: labels }, (_, i) => first + i * beat), pull: pop - 0.36, pop };
 	},
 };
+
+/** The half beat nearest to `t`, never before the first. */
+function nearBeat(t, beat) {
+	return Math.max(1, Math.round(t / (beat / 2))) * (beat / 2);
+}
 
 /** Everything a scene is told about its moments: {marks, clickAt, at}, each only when the scene has it. */
 function sceneMoments(scene, len, beat) {

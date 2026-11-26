@@ -69,8 +69,8 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 			});
 			tiles.push({ t, faces, i, delay: hash(i * 7.7) * 0.22 });
 		}
-	const step = Math.max(0.55, (d0 - 0.5) / words.length);
-	const swapAt = words.map((_, k) => 0.3 + k * step);
+	// When each word arrives is the plan's, on the film's beats (components/scene-moments.cjs).
+	const swapAt = p.at.swaps;
 	return (l) => {
 		const pa = E.softLand(prog(l, 0, 0.5));
 		set(panel, { transform: vertical ? `translateY(${px(-(1 - pa) * panelH)})` : `translateX(${px(-(1 - pa) * panelW)})` });

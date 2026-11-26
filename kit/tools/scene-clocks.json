@@ -198,7 +198,7 @@
   "moments": 9
  },
  "knockout": {
-  "clock": "seconds",
+  "clock": "mixed",
   "moments": 2,
   "onBeats": 0
  },
@@ -263,9 +263,9 @@
   "onBeats": 0
  },
  "split": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 1
+  "onBeats": 2
  },
  "pack": {
   "clock": "beats",
@@ -302,9 +302,9 @@
   "onBeats": 3
  },
  "tiles": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 7,
-  "onBeats": 1
+  "onBeats": 7
  },
  "mosaic": {
   "clock": "seconds",

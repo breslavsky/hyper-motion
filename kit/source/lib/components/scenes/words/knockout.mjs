@@ -162,9 +162,10 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const capH = capBox.offsetHeight;
 
 	// Timing.
-	const tZoom = Math.min(1.0, d0 * 0.28);
+	// When the dive begins and when the line settles are the plan's, so that it lands on a beat
+	// (components/scene-moments.cjs); how long the dive takes is its own.
+	const { zoom: tZoom, settle: tSettle } = p.at;
 	const zDur = 0.85;
-	const tSettle = tZoom + zDur + 0.25;
 	const settleTo = line ? (vertical ? 0.8 : 0.76) : 0.86;
 	const settleY = line ? (vertical ? H * 0.06 : (capH + H * 0.07) / 2) : 0;
 

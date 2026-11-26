@@ -21,7 +21,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		set(t, { position: "absolute", left: px(W / 2 - total / 2 + (i % tileColumns) * size * 1.04), top: px((H - totalHeight) / 2 + Math.floor(i / tileColumns) * (size + D.space(2))), width: px(size), height: px(size), borderRadius: px(size * 0.12), background: c, color: textOn(accent), display: ch.trim() ? "grid" : "none", placeItems: "center", boxShadow: `0 ${px(size * 0.05)} 0 ${mixHex(c, "#000000", 0.28)}, 0 ${px(size * 0.16)} ${px(size * 0.3)} rgba(0,0,0,0.22)` });
 		D.forSurface(size / (D.unit * 48)).apply(t,"cardTitle");
 		t.textContent = ch;
-		return { t, r: (hash(i * 2.9 + p.index) - 0.5) * 10, y0: -(0.75 + hash(i * 3.3) * 0.4) * H, spin: (hash(i * 7.1) - 0.5) * 120, flip: 40 + hash(i * 1.1) * 60, at: -0.12 + i * Math.min(0.08, 0.6 / n) + hash(i * 8.8) * 0.06 };
+		return { t, r: (hash(i * 2.9 + p.index) - 0.5) * 10, y0: -(0.75 + hash(i * 3.3) * 0.4) * H, spin: (hash(i * 7.1) - 0.5) * 120, flip: 40 + hash(i * 1.1) * 60, at: p.at.first - p.at.fall + i * p.at.every + hash(i * 8.8) * 0.06 };
 	});
 	const start = p.start ?? 0;
 	return (l) => {

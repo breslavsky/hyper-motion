@@ -186,9 +186,9 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 	 * moment the picture also reads takes it from there, never from a number written twice.
 	 */
 	const SOUNDS = {
-		tiles(s, len, cue) {
+		tiles(s, len, cue, at) {
 			const n = [...s.text].length;
-			for (let i = 0; i < n; i++) cue(-0.12 + i * Math.min(0.08, 0.6 / Math.max(1, n)) + 0.2, "pop", 0.6);
+			for (let i = 0; i < n; i++) cue(at.first + i * at.every, "pop", 0.6);
 		},
 		inline(s, len, cue) {
 			const n = Math.max(1, Math.min(6, count(s, "images") || count(s, "items") || 4));
@@ -301,11 +301,9 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			cue(Math.max(1.2, len * 0.58), "whoosh", 0.9);
 			cue(Math.max(1.2, len * 0.58) + 0.3, "hit", 0.6);
 		},
-		split(s, len, cue) {
-			const n = s.words.length;
-			const step = Math.max(0.55, (len - 0.5) / n);
+		split(s, len, cue, at) {
 			cue(0.02, "whoosh", 0.5);
-			for (let i = 1; i < n; i++) cue(0.3 + i * step, "tick", 0.7);
+			for (const swap of at.swaps.slice(1)) cue(swap, "tick", 0.7);
 		},
 		montage(s, len, cue) {
 			const n = s.lines.length * 3;
@@ -371,11 +369,10 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			cue(at, "whoosh", 0.8);
 			cue(at + 0.75, "hit", 0.6);
 		},
-		knockout(s, len, cue) {
-			const at = Math.min(1, len * 0.28);
+		knockout(s, len, cue, at) {
 			cue(0.02, "hit", 0.6);
-			cue(at, "riser", 0.7);
-			cue(at + 0.8, "whoosh", 0.9);
+			cue(at.zoom, "riser", 0.7);
+			cue(at.land, "whoosh", 0.9);
 		},
 		assemble(s, len, cue) {
 			const n = [...s.word].length;
