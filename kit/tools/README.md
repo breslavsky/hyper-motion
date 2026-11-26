@@ -41,7 +41,7 @@ scope; a later source edit does not make their results current again.
   independent disposal.
   The canonical runtime's `tools/verify.mjs` compares directly with the pinned
   upstream renderer; it does not approximate the shader with CSS gradients.
-- `sync-component-metadata.cjs`, `sync-typewriter-timing.cjs` and
+- `sync-component-metadata.cjs`, `sync-typewriter-timing.cjs`, `sync-scene-moments.cjs` and
   `sync-brand-tokens.cjs` generate the
   browser ESM counterparts of canonical CJS data/functions. The Node compiler
   and browser need different module formats; these checked pairs are not

@@ -1,7 +1,9 @@
 // Component-local semantic timing. This does not compile a film or own a clock.
-// Keep equivalent to compiler/plan.cjs marks/click times; timing tests compare
-// every catalogue sample against the build-time compiler.
+// A scene's moments are the plan's own reckoning (scene-moments.cjs, written for the browser by
+// tools/sync-scene-moments.cjs), asked again here for a scene whose content was changed after the
+// film was built.
 import metadata from './metadata.mjs';
+import {sceneMoments} from './scene-moments.mjs';
 import aliases from './scene-aliases.json' with {type:'json'};
 
 const sceneAliases = new Map(Object.entries(aliases));
@@ -23,29 +25,7 @@ export function timedGlassFactories(factories){
   return wrapped;
 }
 
-export function componentTiming(scene,len,beat){
-  const spread=(count,from,to)=>{
-    const step=Math.min(beat,(to-from)/Math.max(1,count));
-    return Array.from({length:count},(_,i)=>from+i*step);
-  };
-  let marks;
-  switch(scene.type){
-    case 'slam':marks=spread(scene.lines.length,.02,len*.72);break;
-    case 'morph':marks=Array.from({length:scene.states.length},(_,i)=>i*len/scene.states.length);break;
-    case 'steps':marks=spread(scene.steps.length,.45,len*.82).map((t,i)=>t+i*.02);break;
-    case 'ticket':marks=[Math.max(.6,len*.66)];break;
-    case 'append':marks=spread(scene.words.length,.5,len*.85);break;
-    case 'countdown':marks=spread(scene.from+1,.02,len*.8);break;
-    case 'callouts':marks=spread(scene.notes.length,.55,len*.8);break;
-    case 'chat':marks=spread(scene.messages.length,.2,len*.8);break;
-    case 'notify':marks=spread(scene.items.length,.15,len*.7);break;
-    case 'timeline':marks=spread(scene.items.length,.35,len*.85);break;
-  }
-  let clickAt;
-  if((scene.type==='ui-macro'&&scene.click!==false)||scene.type==='prompt')clickAt=Math.min(len-.25,Math.max(.5,len*.74));
-  else if(scene.type==='toggle')clickAt=Math.max(.45,len*.42);
-  return {marks,clickAt};
-}
+export const componentTiming=sceneMoments;
 
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 export function resolveContent(original,override){

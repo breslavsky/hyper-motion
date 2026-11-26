@@ -65,9 +65,9 @@
   "onBeats": 5
  },
  "steps": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 0
+  "onBeats": 3
  },
  "ticket": {
   "clock": "beats",
@@ -208,9 +208,9 @@
   "onBeats": 1
  },
  "hive": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 10,
-  "onBeats": 0
+  "onBeats": 8
  },
  "scatter": {
   "clock": "seconds",
@@ -268,9 +268,9 @@
   "onBeats": 1
  },
  "pack": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 6,
-  "onBeats": 0
+  "onBeats": 6
  },
  "swarm": {
   "clock": "mixed",

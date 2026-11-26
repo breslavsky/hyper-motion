@@ -15,6 +15,7 @@ function canonicalScene(scene) {
   return type ? {...scene, type} : scene;
 }
 const {typewriterTiming}=require('../components/typewriter-timing.cjs');
+const {sceneMoments}=require('../components/scene-moments.cjs');
 const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.cjs');
 
 	const ASPECTS = {
@@ -176,36 +177,13 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 		return best;
 	};
 
-	/**
-	 * The moments inside a scene its parts land on (lines of a slam, states of a morph...), in the
-	 * scene's own clock: `len` its length there, `beat` a beat there.
-	 */
-	const marks = (scene, len, beat) => {
-		const spread = (count, from, to) => {
-			const step = Math.min(beat, (to - from) / Math.max(1, count));
-			return Array.from({ length: count }, (_, i) => from + i * step);
-		};
-		switch (scene.type) {
-			case "slam": return spread(scene.lines.length, 0.02, len * 0.72);
-			case "morph": return Array.from({ length: scene.states.length }, (_, i) => (i * len) / scene.states.length);
-			case "steps": return spread(scene.steps.length, 0.45, len * 0.82).map((t, i) => t + i * 0.02);
-			case "ticket": return [Math.max(0.6, len * 0.66)];
-			case "append": return spread(scene.words.length, 0.5, len * 0.85);
-			case "countdown": return spread(scene.from + 1, 0.02, len * 0.8);
-			case "callouts": return spread(scene.notes.length, 0.55, len * 0.8);
-			case "chat": return spread(scene.messages.length, 0.2, len * 0.8);
-			case "notify": return spread(scene.items.length, 0.15, len * 0.7);
-			case "timeline": return spread(scene.items.length, 0.35, len * 0.85);
-			default: return undefined;
-		}
-	};
-
 	const count = (scene, field) => (Array.isArray(scene[field]) ? scene[field].length : 0);
 
 	/**
-	 * The sounds inside a scene, by its type: (scene, len, cue), where `len` is the scene's length
-	 * in its own clock and cue(at, kind, strength) puts a sound `at` seconds into that clock. The
-	 * numbers follow what each scene draws (lib/components/).
+	 * The sounds inside a scene, by its type: (scene, len, cue, at), where `len` is the scene's length
+	 * in its own clock, cue(at, kind, strength) puts a sound `at` seconds into that clock, and `at`
+	 * is the scene's named moments (components/scene-moments.cjs) when it has them: a sound of a
+	 * moment the picture also reads takes it from there, never from a number written twice.
 	 */
 	const SOUNDS = {
 		tiles(s, len, cue) {
@@ -312,10 +290,10 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			cue(at, "whoosh", 0.7);
 			cue(at + 1.4, "click", 0.9);
 		},
-		pack(s, len, cue) {
+		pack(s, len, cue, at) {
 			cue(0.02, "pop", 0.8);
-			for (let i = 1; i < 6; i++) cue(0.12 + i * 0.1, "pop", 0.35);
-			cue(Math.max(1.6, len - 0.45), "whoosh", 0.7);
+			for (let i = 1; i < 6; i++) cue(at.first + (i - 1) * (at.spread / 4), "pop", 0.35);
+			cue(at.out, "whoosh", 0.7);
 		},
 		swarm(s, len, cue) {
 			cue(0.05, "riser", 0.5);
@@ -407,14 +385,11 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			cue(at, "whoosh", 0.6);
 			cue(at + 0.6, "chime", 0.7);
 		},
-		hive(s, len, cue) {
+		hive(s, len, cue, at) {
 			const n = Math.min(12, s.icons?.length || 8);
-			const step = Math.min(0.08, 0.9 / n);
-			for (let i = 0; i < n; i++) cue(0.35 + i * step + 0.3, "tick", 0.45);
-			const from = 0.35 + n * step + 0.35;
-			const at = Math.max(from + (s.labels?.length ?? 0) * 0.45 + 0.3, len * 0.62);
-			cue(at, "whoosh", 0.8);
-			cue(at + 0.36, "pop", 0.9);
+			for (let i = 0; i < n; i++) cue(at.icons + i * at.stagger + at.land, "tick", 0.45);
+			cue(at.pull, "whoosh", 0.8);
+			cue(at.pop, "pop", 0.9);
 		},
 		between(s, len, cue) {
 			const n = s.words.length;
@@ -542,16 +517,11 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 				...(own ? { look: own, palette: colours } : {}),
 				index, scene, start, dur, speed, ldur: len, bg, fg, accent, transition, trDur,
 				...(tokens ? {brandBase:{palette:colours,bg,fg,accent},...resolveBrandStyle({palette:colours,bg,fg,accent},tokens,scene)} : {}),
-				marks: marks(scene, len, beat * speed),
+				// When its parts land, its cursor presses and its named moments happen (components/scene-moments.cjs).
+				...sceneMoments(scene, len, beat * speed),
 			};
-
-			if ((scene.type === "ui-macro" && scene.click !== false) || scene.type === "prompt") {
-				planned.clickAt = Math.min(len - 0.25, Math.max(0.5, len * 0.74));
-				cues.push({ t: start + planned.clickAt / speed, kind: "click" });
-			} else if (scene.type === "toggle") {
-				planned.clickAt = Math.max(0.45, len * 0.42);
-				cues.push({ t: start + planned.clickAt / speed, kind: "click" });
-			}
+			if (planned.clickAt === undefined) delete planned.clickAt;
+			else cues.push({ t: start + planned.clickAt / speed, kind: "click" });
 
 			const markSound = MARK_SOUND[scene.type] ?? "tick";
 			const landed = planned.marks ?? [];
@@ -569,7 +539,7 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 				if (strength !== undefined) cue.strength = strength;
 				cues.push(cue);
 			};
-			SOUNDS[scene.type]?.(scene, len, put);
+			SOUNDS[scene.type]?.(scene, len, put, planned.at);
 			// A scene of ours: (scene, its length and its beat in its own clock, how fast that clock runs).
 			ours()[scene.type]?.sounds?.(scene, len, put, beat * speed, speed);
 

@@ -13,7 +13,7 @@ for(const [type,definition]of Object.entries(require('../source/lib/compiler/def
 test('native semantic timing matches every compiled sample at three speeds and tempos',()=>{
   for(const scene of samples.values())for(const pace of ['chill','normal','hyper'])for(const bpm of [72,120,180]){
     const plan=P.compile({aspect:'9:16',style:'editorial',pace,brand:{name:'Timing'},music:{bpm},scenes:[scene]}),ps=plan.scenes[0];
-    assert.deepEqual(componentTiming(scene,ps.ldur,plan.beat*ps.speed),{marks:ps.marks,clickAt:ps.clickAt},`${scene.type}/${pace}/${bpm}`);
+    assert.deepEqual(componentTiming(scene,ps.ldur,plan.beat*ps.speed),{marks:ps.marks,clickAt:ps.clickAt,...(ps.at?{at:ps.at}:{})},`${scene.type}/${pace}/${bpm}`);
   }
 });
 
@@ -59,4 +59,10 @@ test('typewriter erases astral characters as codepoints and shares their sound c
   const plan=P.compile({aspect:'9:16',style:'editorial',brand:{name:'Unicode'},scenes:[scene]});
   assert.equal(plan.audioEvents.filter(event=>event.kind==='type').length,7);
   assert.deepEqual(browserTyping(scene,2.5),schedule);
+});
+
+test("the browser's module of scene moments is the canonical one, written by its tool",()=>{
+  const fs=require('node:fs'),path=require('node:path'),dir=path.join(path.dirname(new URL(import.meta.url).pathname),'../source/lib/components');
+  const source=fs.readFileSync(path.join(dir,'scene-moments.cjs'),'utf8'),browser=fs.readFileSync(path.join(dir,'scene-moments.mjs'),'utf8');
+  assert.equal(browser,source.replace('module.exports = {sceneMoments, onBeat, landings};','export {sceneMoments, onBeat, landings};'),'run node kit/tools/sync-scene-moments.cjs');
 });

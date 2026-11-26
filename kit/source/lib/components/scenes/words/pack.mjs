@@ -39,10 +39,11 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	set(label, { position: "absolute", left: px(W / 2 - R0), width: px(R0 * 2), top: px(H / 2 - fs * 0.55), textAlign: "center", color: textOn(accent), zIndex: "6", whiteSpace: "nowrap" });
 	D.apply(label,"display");
 	D.fitSize(label, R0 * 1.7, R0 * 1.3, "display", { align: "center" });
-	const tOut = Math.max(1.6, d0 - 0.45);
+	// When the circles pop in and when they scatter are the plan's, on the film's beats (compiler/plan.cjs MOMENTS).
+	const { first, spread, out: tOut } = p.at;
 	return (l) => {
 		nodes.forEach(({ n, c, dist }, i) => {
-			const at = c.main ? 0 : 0.12 + (dist / maxD) * 0.55 + hash(i) * 0.1;
+			const at = c.main ? 0 : first + (dist / maxD) * spread + hash(i) * 0.1;
 			const a = E.softLand(prog(l, at, 0.4));
 			const breathe = 1 + Math.sin(l * 2.4 + i) * 0.025 * clamp((l - at - 0.4) / 0.4);
 			const out = c.main ? 0 : E.accelExit(prog(l, tOut + (1 - dist / maxD) * 0.1, 0.4));

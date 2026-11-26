@@ -77,10 +77,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const nameW = nameN.offsetWidth;
 	const gapN = tile * 0.35;
 
-	const tIcons = 0.35;
-	const stag = Math.min(0.08, 0.9 / icons.length);
-	const tLabels = tIcons + icons.length * stag + 0.35;
-	const tPull = Math.max(tLabels + labels.length * 0.45 + 0.3, p.dur * 0.62);
+	// When the tools fly in, when each label lights and when the mark takes them in are the plan's, on the
+	// film's beats (compiler/plan.cjs MOMENTS); how long each move takes is the scene's own, in seconds.
+	const { icons: tIcons, stagger: stag, labels: tLabel, pull: tPull } = p.at;
 
 	return (l) => {
 		const pull = E.accelExit(prog(l, tPull, 0.42));
@@ -101,8 +100,8 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		});
 		labelNs.forEach((n, k) => {
 			const t = tiles[k % tiles.length];
-			const on = E.snapSettle(prog(l, tLabels + k * 0.45, 0.3));
-			const off = E.accelExit(prog(l, tLabels + k * 0.45 + 0.75, 0.2));
+			const on = E.snapSettle(prog(l, tLabel[k], 0.3));
+			const off = E.accelExit(prog(l, tLabel[k] + 0.75, 0.2));
 			set(n, { opacity: (on * (1 - off)).toFixed(3), transform: `translate(${px(t.P.x + tile * 0.55)}, ${px(t.P.y - tile * 0.62)}) scale(${(0.9 + 0.1 * on).toFixed(4)})` });
 		});
 		// The mark: arrives first, then takes everything in and moves aside for the name.
