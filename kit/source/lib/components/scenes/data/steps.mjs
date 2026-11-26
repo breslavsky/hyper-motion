@@ -10,7 +10,7 @@ const { W, H, S, plan, glyphText, riseGlyphs, spring } = K;
 return ({ p, cam, fg, accent }) => {
 			const s = p.scene;
 			const n = s.steps.length;
-			const marks = p.marks ?? s.steps.map((_, i) => 0.4 + i * p.beatLen);
+			const marks = p.marks; // when each part lands: components/scene-moments.cjs
 			const vertical = H > W * 1.2;
 			const square = !vertical && W < H * 1.4;
 			const wrap = el("div", "center", cam);

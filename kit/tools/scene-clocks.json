@@ -95,9 +95,9 @@
   "moments": 0
  },
  "append": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 0
+  "onBeats": 3
  },
  "countdown": {
   "clock": "beats",
@@ -113,9 +113,9 @@
   "moments": 0
  },
  "timeline": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 5,
-  "onBeats": 1
+  "onBeats": 5
  },
  "pricing": {
   "clock": "none",
@@ -130,14 +130,14 @@
   "moments": 0
  },
  "chat": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 2
  },
  "notify": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 1,
-  "onBeats": 0
+  "onBeats": 1
  },
  "dock": {
   "clock": "none",
@@ -156,9 +156,9 @@
   "moments": 0
  },
  "callouts": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 0
+  "onBeats": 3
  },
  "compare": {
   "clock": "none",

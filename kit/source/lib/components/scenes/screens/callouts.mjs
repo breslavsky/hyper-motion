@@ -4,7 +4,7 @@ export const factory = ({ p, cam, fg, accent, palette, K }) => {
 	const { W, H, S, el, set, px, spring, clamp, images, mockUI, alpha, expoOut, prog } = K;
 	const s = p.scene;
 	const D=K.design;
-	const marks = p.marks ?? s.notes.map((_, i) => 0.55 + i * p.beatLen);
+	const marks = p.marks; // when each part lands: components/scene-moments.cjs
 	const img = s.image ? images[s.image] : null;
 	const vertical = W <= H * 1.2;
 	const gap=D.space(3);

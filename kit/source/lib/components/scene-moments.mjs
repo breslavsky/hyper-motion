@@ -33,12 +33,13 @@ function marks(scene, len, beat) {
 		case "morph": return Array.from({ length: scene.states.length }, (_, i) => (i * len) / scene.states.length);
 		case "steps": return landings(scene.steps.length, len, beat, 1, 0.82);
 		case "ticket": return [Math.max(0.6, len * 0.66)];
-		case "append": return spread(scene.words.length, 0.5, len * 0.85);
+		case "append": return landings(scene.words.length, len, beat, 1, 0.85);
 		case "countdown": return spread(scene.from + 1, 0.02, len * 0.8);
-		case "callouts": return spread(scene.notes.length, 0.55, len * 0.8);
-		case "chat": return spread(scene.messages.length, 0.2, len * 0.8);
-		case "notify": return spread(scene.items.length, 0.15, len * 0.7);
-		case "timeline": return spread(scene.items.length, 0.35, len * 0.85);
+		case "callouts": return landings(scene.notes.length, len, beat, 1, 0.8);
+		// The first message and the first card arrive half a beat in: the frame is theirs from the start.
+		case "chat": return landings(scene.messages.length, len, beat, 0.5, 0.8);
+		case "notify": return landings(scene.items.length, len, beat, 0.5, 0.7);
+		case "timeline": return landings(scene.items.length, len, beat, 1, 0.85);
 		default: return undefined;
 	}
 }

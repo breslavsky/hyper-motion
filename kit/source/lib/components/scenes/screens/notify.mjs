@@ -4,7 +4,7 @@ export const factory = ({ p, cam, fg, palette, K }) => {
 	const { W, H, S, el, set, px, spring, clamp, textOn, lum } = K;
 	const s = p.scene;
 	const D=K.design;
-	const marks = p.marks ?? s.items.map((_, i) => 0.15 + i * p.beatLen);
+	const marks = p.marks; // when each part lands: components/scene-moments.cjs
 	const vertical = H > W * 1.2;
 	const w = vertical ? W * 0.9 : Math.min(W * 0.58, 1160 * S);
 	const dark = lum(fg) > 0.5;

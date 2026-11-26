@@ -4,7 +4,7 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 	const { W, H, S, el, set, px, spring, clamp, textOn, alpha, prog, expoOut } = K;
 	const s = p.scene;
 	const D=K.design;
-	const marks = p.marks ?? s.messages.map((_, i) => 0.2 + i * p.beatLen * 1.5);
+	const marks = p.marks; // when each part lands: components/scene-moments.cjs
 	const vertical = H > W * 1.2;
 	const colW = vertical ? W * 0.88 : Math.min(W * 0.62, 1240 * S);
 	const col = el("div", "", cam);

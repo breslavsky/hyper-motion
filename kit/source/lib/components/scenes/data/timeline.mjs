@@ -3,7 +3,7 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 	const { W, H, S, el, set, px, expoOut, prog, clamp, spring, alpha } = K;
 	const s = p.scene;
 	const n = s.items.length;
-	const marks = p.marks ?? s.items.map((_, i) => 0.3 + i * p.beatLen);
+	const marks = p.marks; // when each part lands: components/scene-moments.cjs
 	const wrap = el("div", "center", cam);
 	if (s.title) {
 		const t = el("div", "display", wrap, s.title);

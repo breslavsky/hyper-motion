@@ -8,7 +8,7 @@ const { H, S, glyphText, riseGlyphs, misreg } = K;
 		/** Stacked poster lines, each slamming in on its beat; the last one echoes. Crumbs decode around it. */
 return ({ p, cam, fg, accent }) => {
 			const s = p.scene;
-			const marks = p.marks ?? s.lines.map((_, i) => i * p.beatLen);
+			const marks = p.marks; // when each part lands: components/scene-moments.cjs
 			const wrap = el("div", "center", cam);
 			const n = s.lines.length;
 			const lines = s.lines.map((text, i) => {
