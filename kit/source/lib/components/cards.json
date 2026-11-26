@@ -1,0 +1,1075 @@
+{
+  "title": {
+    "shows": "Two to four giant words fill the frame, every letter springing into place, with a tiny label above them.",
+    "for": [
+      "the title of a film or product",
+      "a name reveal",
+      "a short opening line",
+      "an introduction of what is coming"
+    ]
+  },
+  "highlight": {
+    "shows": "A line of big words lands and a marker stroke is swiped behind one of them.",
+    "for": [
+      "a claim with one word that matters",
+      "a headline with a highlighted word",
+      "a benefit said in one line"
+    ]
+  },
+  "swap": {
+    "shows": "A lead phrase stands still while its last word slides out and another springs in inside a coloured pill.",
+    "for": [
+      "a word replaced by another",
+      "not this but that",
+      "a correction of an expectation",
+      "a changing last word"
+    ]
+  },
+  "fullbleed": {
+    "shows": "One word in capitals fills the whole frame on a flat colour, or repeats in rows of outlined type.",
+    "for": [
+      "a single word as a punch",
+      "a full-frame word between scenes",
+      "a poster moment",
+      "a hard accent on a beat"
+    ]
+  },
+  "grid": {
+    "shows": "Three to six typographic tiles pop in one after another on half-beats and read together as one sentence.",
+    "for": [
+      "a sentence built word by word in tiles",
+      "a slogan on a grid",
+      "a rhythmic row of words"
+    ]
+  },
+  "wall": {
+    "shows": "The camera pulls back from one card to a tilted wall of many cards in 3D.",
+    "for": [
+      "many screenshots or pictures at once",
+      "everything you can make",
+      "a gallery of work",
+      "a reveal of scale from one item to many"
+    ]
+  },
+  "prompt": {
+    "shows": "A chat box in the middle of the frame: a request is typed into it letter by letter and a cursor clicks send.",
+    "for": [
+      "an opening where somebody asks an AI product for something",
+      "a prompt being typed",
+      "a chat input",
+      "the request that starts the story"
+    ]
+  },
+  "ui-macro": {
+    "shows": "An extreme close-up of one region of a screenshot where text is typed and a giant cursor clicks.",
+    "for": [
+      "a detail of an interface in close-up",
+      "one button or field of a product being used",
+      "a click on a real screenshot"
+    ]
+  },
+  "ui-float": {
+    "shows": "A screenshot floats as a tilted card over a blurred copy of itself with a caption above it.",
+    "for": [
+      "a product screen shown as a hero",
+      "a screenshot with a caption",
+      "a calm look at the interface"
+    ]
+  },
+  "counter": {
+    "shows": "One big number counts up to its value with a label under it.",
+    "for": [
+      "a real number counting up",
+      "a metric",
+      "a result in one figure",
+      "how many users, sales or percent"
+    ]
+  },
+  "toggle": {
+    "shows": "A giant switch, checkbox or slider is clicked by a cursor and turns on.",
+    "for": [
+      "a feature turned on",
+      "a setting switched",
+      "one tap to enable something",
+      "a toggle switch"
+    ]
+  },
+  "logo3d": {
+    "shows": "The logo turns as a 3D cube, lands flat and the name appears beside it.",
+    "for": [
+      "a logo reveal",
+      "the brand mark with its name",
+      "a short brand moment"
+    ]
+  },
+  "endcard": {
+    "shows": "The logo and the name assemble and a pill with the call to action, usually the address of the site, lands under them.",
+    "for": [
+      "the last scene of a film",
+      "an end card",
+      "a call to action with a link",
+      "logo and URL at the end",
+      "an outro"
+    ]
+  },
+  "slam": {
+    "shows": "A poster stack of short lines: each line slams in on its own beat and the last one echoes, with tiny fragments decoding around it.",
+    "for": [
+      "a few short lines hitting on the beat",
+      "a manifesto in three lines",
+      "a hard rhythmic statement",
+      "lines that slam in one by one"
+    ]
+  },
+  "morph": {
+    "shows": "One interface shape morphs through states, a button, a loader, a check, a switch, a slider, a player, tabs, a search field, a toast, one a beat, with a cursor clicking each change.",
+    "for": [
+      "an interface element changing state",
+      "a button that becomes a loader and then a check",
+      "a quick tour of interface controls",
+      "a morphing UI shape"
+    ]
+  },
+  "steps": {
+    "shows": "A progress ring fills while two to four numbered steps land one after another.",
+    "for": [
+      "how it works in steps",
+      "a process of three steps",
+      "an onboarding flow",
+      "numbered instructions"
+    ]
+  },
+  "ticket": {
+    "shows": "A ticket card types its rows of label and value, then a stamp of one or two words presses down on it.",
+    "for": [
+      "an order, a booking or a receipt",
+      "a task marked shipped or approved",
+      "a confirmation",
+      "a stamped card"
+    ]
+  },
+  "marquee": {
+    "shows": "Three ticker bands of big type slide across the frame in opposite directions.",
+    "for": [
+      "a list of what a product does",
+      "a running line of words",
+      "a call to action as a ticker",
+      "a loud typographic break"
+    ]
+  },
+  "phones": {
+    "shows": "Three phones fan out side by side with screens on them and a caption.",
+    "for": [
+      "a mobile app shown on phones",
+      "several screens of an app at once",
+      "on every feed"
+    ]
+  },
+  "caption": {
+    "shows": "A sentence with one chip inside it; a number in the chip rolls up to its value.",
+    "for": [
+      "a hook with a number in it",
+      "a sentence with one highlighted figure",
+      "an opening fact"
+    ]
+  },
+  "typewriter": {
+    "shows": "Text is typed on a blank page with a human rhythm; the end of it may be erased and typed again as something else.",
+    "for": [
+      "a line being typed",
+      "a thought written and corrected",
+      "a typed message or note",
+      "typing with a caret"
+    ]
+  },
+  "sentence": {
+    "shows": "A big sentence of up to eight words lands word by word, every other word in a colour.",
+    "for": [
+      "a statement said word by word",
+      "a line that carries the story on",
+      "a claim of one sentence"
+    ]
+  },
+  "append": {
+    "shows": "One fixed word stands still while the word after it changes on every beat.",
+    "for": [
+      "one word with a changing second word",
+      "a list said as pairs",
+      "zero this, zero that",
+      "a cycling word on the beat"
+    ]
+  },
+  "countdown": {
+    "shows": "The numbers three, two, one hit one a beat, then a word such as LIVE or NOW.",
+    "for": [
+      "a countdown before a launch",
+      "three two one",
+      "the build-up to a reveal"
+    ]
+  },
+  "stat": {
+    "shows": "Digits roll to a figure while a trend line draws itself under them.",
+    "for": [
+      "a metric with its growth",
+      "a real number with a rising curve",
+      "a result that grew"
+    ]
+  },
+  "chart": {
+    "shows": "A line, bar, pie or ring chart draws itself from real numbers.",
+    "for": [
+      "a chart",
+      "data shown as bars or a line",
+      "a share shown as a pie or a ring",
+      "growth over time"
+    ]
+  },
+  "timeline": {
+    "shows": "A roadmap line with milestones that land on it one after another.",
+    "for": [
+      "a roadmap",
+      "a history in dates",
+      "milestones",
+      "what happens when"
+    ]
+  },
+  "pricing": {
+    "shows": "A pricing card springs up, its features tick in one by one and a cursor clicks its button.",
+    "for": [
+      "a price and what it includes",
+      "a plan or a tariff",
+      "an offer with a buy button"
+    ]
+  },
+  "globe": {
+    "shows": "A globe of dots turns while arcs fly between points on it.",
+    "for": [
+      "used all over the world",
+      "a global network",
+      "connections between countries",
+      "works anywhere"
+    ]
+  },
+  "code": {
+    "shows": "A code editor in which lines of code are typed.",
+    "for": [
+      "a developer tool",
+      "an API in a few lines",
+      "code being written",
+      "a snippet"
+    ]
+  },
+  "chat": {
+    "shows": "A chat thread: bubbles pop in one after another with typing dots between them.",
+    "for": [
+      "a conversation in messages",
+      "a dialogue with a product or a person",
+      "a tiny story told in a chat",
+      "a messenger thread"
+    ]
+  },
+  "notify": {
+    "shows": "Notifications stack one over another on a dark lock screen.",
+    "for": [
+      "notifications arriving",
+      "too many alerts",
+      "a phone lock screen with messages",
+      "a product that notifies"
+    ]
+  },
+  "dock": {
+    "shows": "A macOS dock of app icons: a cursor sweeps along it magnifying them, clicks one and the camera dives into it.",
+    "for": [
+      "too many tools",
+      "choosing one app among many",
+      "a desktop with apps",
+      "opening an application"
+    ]
+  },
+  "chaos": {
+    "shows": "Browser windows pile up one over another around a phrase.",
+    "for": [
+      "the problem before the product",
+      "too many tabs and windows",
+      "a mess of tools",
+      "being overwhelmed"
+    ]
+  },
+  "laptop": {
+    "shows": "A laptop with a screenshot on its screen; the camera dives into the screen.",
+    "for": [
+      "a web product on a laptop",
+      "a screenshot shown on a device",
+      "a move from a device into the product"
+    ]
+  },
+  "browser": {
+    "shows": "A browser window: the address types into its bar and the page loads.",
+    "for": [
+      "a website being opened",
+      "a URL typed",
+      "a web page in a browser window",
+      "go to the site"
+    ]
+  },
+  "callouts": {
+    "shows": "A screenshot with labelled pills popping out of it and pointing at its parts.",
+    "for": [
+      "features pointed out on a screenshot",
+      "an annotated interface",
+      "what is where on a screen"
+    ]
+  },
+  "compare": {
+    "shows": "A before and after: a cursor drags a divider across the frame from one statement to the other.",
+    "for": [
+      "before and after",
+      "the old way against the new way",
+      "a comparison of two states",
+      "weeks turned into seconds"
+    ]
+  },
+  "journey": {
+    "shows": "The camera travels along one sentence with motion blur as its words arrive, the last word rolls through options like a wheel, then the camera pulls back to show the whole line.",
+    "for": [
+      "a cinematic opening sentence",
+      "a camera flying along text",
+      "a line with a rolling last word",
+      "a text fly-through"
+    ]
+  },
+  "faces": {
+    "shows": "Portraits of real people float at different depths, some out of focus, around a short line.",
+    "for": [
+      "the people a product serves",
+      "customers or a team",
+      "a community",
+      "many faces around one message"
+    ]
+  },
+  "shuffle": {
+    "shows": "A sentence breaks apart and its words fly in arcs to form the next one; shared words travel, the others blur away or arrive.",
+    "for": [
+      "one sentence turning into another",
+      "before and after in one move",
+      "a problem rewritten as a solution",
+      "words rearranged"
+    ]
+  },
+  "overlay": {
+    "shows": "A full-frame photo with one to three glass cards floating over it, the number on each rolling up.",
+    "for": [
+      "real figures over a photo",
+      "a result shown over the user's picture",
+      "stats on a photograph"
+    ]
+  },
+  "trail": {
+    "shows": "On black, glowing neon streaks of light sweep round an input pill in which a short line is typed.",
+    "for": [
+      "a striking hook of two seconds",
+      "a feature said in one line with light",
+      "neon light streaks",
+      "one tap to pay or send"
+    ]
+  },
+  "between": {
+    "shows": "A phone lands in the gap of a sentence, a finger taps through the app on it and the last word of the sentence changes with every tap.",
+    "for": [
+      "a mobile app used inside a sentence",
+      "book a table, book a ride",
+      "several things one app does",
+      "tapping through app screens"
+    ]
+  },
+  "drag": {
+    "shows": "Files lie on a desk and a cursor drags each of them into the product's drop zone, they upload and get ticks, then the cursor clicks a button.",
+    "for": [
+      "uploading files",
+      "drag and drop",
+      "feeding documents or footage to a product",
+      "an import step"
+    ]
+  },
+  "knockout": {
+    "shows": "One giant word is cut out of the frame and the product shows through its letters, then the camera dives through a letter until the product fills the frame.",
+    "for": [
+      "a zoom through a word into the product",
+      "a strong opener or reveal",
+      "a screenshot seen through letters"
+    ]
+  },
+  "assemble": {
+    "shows": "A ransom-note word: every letter lands on its own paper scrap in another typeface, then the scraps drop and the letters glide into one quiet serif word.",
+    "for": [
+      "one big idea as a crafted word",
+      "an editorial moment",
+      "a word assembled from cut-out letters"
+    ]
+  },
+  "hive": {
+    "shows": "A honeycomb of empty slots opens around the logo, the product's tools fly in and land in the slots, then the hive pulls into the mark.",
+    "for": [
+      "all your tools in one place",
+      "integrations",
+      "many functions inside one product"
+    ]
+  },
+  "scatter": {
+    "shows": "A sentence is spread loose over the frame in small type with little objects dropping into its gaps; then everything flies out but one key word, which glides to the centre and grows.",
+    "for": [
+      "a sentence that ends on one key word",
+      "a detailed line reduced to its point",
+      "words with small icons"
+    ]
+  },
+  "arc": {
+    "shows": "A short line set small and high, with a strip of photos riding an arc under it, the biggest in the middle.",
+    "for": [
+      "a calm human moment",
+      "photos of people or places with one line",
+      "a business that is different"
+    ]
+  },
+  "orb": {
+    "shows": "A glowing sphere of the brand's colours breathes while short calm lines take turns under it.",
+    "for": [
+      "an AI as a presence",
+      "a voice assistant",
+      "it listens, it remembers",
+      "a calm product moment"
+    ]
+  },
+  "particles": {
+    "shows": "A constellation of drifting dots joined by faint lines flies in, settles into a line of text and tightens into solid type.",
+    "for": [
+      "a big claim",
+      "an AI or intelligence moment",
+      "text forming out of particles"
+    ]
+  },
+  "wave": {
+    "shows": "A voice player: a live waveform in a pill and, under it, what the voice says appearing word by word, lit as it is spoken.",
+    "for": [
+      "voice or audio",
+      "a call or a voice assistant",
+      "speech turned into text",
+      "a transcript"
+    ]
+  },
+  "agent": {
+    "shows": "The product at work: its name with a spinner, tasks arrive one under another and are ticked off, then the header becomes the done line and a result card slides up.",
+    "for": [
+      "an AI agent doing tasks",
+      "automation running",
+      "a job done step by step by the product",
+      "progress and a result"
+    ]
+  },
+  "palette": {
+    "shows": "A command bar: a query types into a big search field, the results under it filter as the letters arrive, the selection slides to the match and Enter opens it.",
+    "for": [
+      "a launcher or a command palette",
+      "search with live results",
+      "a productivity tool",
+      "finding a command"
+    ]
+  },
+  "picker": {
+    "shows": "A big grid of icon tiles seen close: a selection ring hops from tile to tile, then one tile lifts out, the rest dim and a line lands under it.",
+    "for": [
+      "choice and variety",
+      "pick anything",
+      "templates, themes or emoji to choose from",
+      "selecting one of many"
+    ]
+  },
+  "montage": {
+    "shows": "Full-frame photos cut fast with a slow push on each, and between them short lines set small on plain cards.",
+    "for": [
+      "a brand film about people and the world",
+      "an emotional montage of photos",
+      "pictures and lines in turn",
+      "a cinematic sequence"
+    ]
+  },
+  "web": {
+    "shows": "The product's mark stands in the middle with the words that describe it on rings around it, each joined by a hairline, while the camera turns slowly in 3D.",
+    "for": [
+      "everything a product connects",
+      "an ecosystem",
+      "features around one centre",
+      "integrations"
+    ]
+  },
+  "split": {
+    "shows": "A coloured panel holds one big word that swaps, and beside it a grid of tiles reshuffles with each word.",
+    "for": [
+      "use cases",
+      "the kinds of output a product makes",
+      "everything you can make",
+      "a list of categories with pictures"
+    ]
+  },
+  "pack": {
+    "shows": "Circles of every size pop in and pack the frame around one word in the biggest circle, then scatter outward.",
+    "for": [
+      "abundance around one word",
+      "a category word",
+      "everything",
+      "many things of one kind"
+    ]
+  },
+  "swarm": {
+    "shows": "Dozens of pictures hang in 3D at every depth while the camera pushes through them, then they fly out past the lens and a line lands in the clearing.",
+    "for": [
+      "a library or a community",
+      "scale",
+      "every idea",
+      "a fly-through of many pictures"
+    ]
+  },
+  "inline": {
+    "shows": "A sentence with gaps between its words in which pictures open and stack up; with screenshots it ends by zooming into the last one.",
+    "for": [
+      "a sentence with pictures inside it",
+      "words and images in one line",
+      "a line that leads into a screenshot"
+    ]
+  },
+  "bubbles": {
+    "shows": "Chat-input pills with the questions people keep asking float in depth, then fly away as the answer is typed in the middle.",
+    "for": [
+      "the questions customers ask",
+      "a problem told as many questions",
+      "one answer to all the questions"
+    ]
+  },
+  "retype": {
+    "shows": "One big value is typed, then selected and typed over with another, as in an editor.",
+    "for": [
+      "a value changed to another",
+      "a price or a rate edited",
+      "anything can be edited",
+      "a number replaced"
+    ]
+  },
+  "orbit": {
+    "shows": "A calm sentence lands word by word inside thin line-art orbits with dots travelling along them.",
+    "for": [
+      "a big idea",
+      "a belief or a mission",
+      "a calm statement between fast scenes"
+    ]
+  },
+  "checklist": {
+    "shows": "A to-do list types in and a cursor ticks every item off.",
+    "for": [
+      "a list of tasks done",
+      "the busywork a product removes",
+      "a checklist",
+      "how it works as ticked steps"
+    ]
+  },
+  "tiles": {
+    "shows": "A short word on letter tiles that tumble from above and land in a row.",
+    "for": [
+      "a punchy name",
+      "a short call such as SHIP IT",
+      "a word spelled in tiles"
+    ]
+  },
+  "mosaic": {
+    "shows": "The frame splits into panels of screenshots and product screens with crosshairs, one big italic word over them all.",
+    "for": [
+      "everything in one place",
+      "many product screens at once",
+      "an overview of a product"
+    ]
+  },
+  "photo": {
+    "shows": "A full-frame photo or screenshot slowly pushes in while a caption arrives word by word in its lower third.",
+    "for": [
+      "a photo with a caption",
+      "a picture the user gave shown whole",
+      "a quiet moment over an image"
+    ]
+  },
+  "stream": {
+    "shows": "A river of screenshots or picture cards pours diagonally past one word in the middle.",
+    "for": [
+      "abundance",
+      "everything you make",
+      "a flow of content",
+      "many pictures passing by"
+    ]
+  },
+  "roll": {
+    "shows": "A fixed lead and a last word that rolls vertically through options like a slot machine between selection handles.",
+    "for": [
+      "one phrase with many endings",
+      "a pile of small jobs",
+      "a word that rolls through a list",
+      "a slot machine of words"
+    ]
+  },
+  "dot": {
+    "shows": "One ball carries the scene: it drops and bounces into place as the dot of a word, rolls off, floods the frame with colour, morphs through shapes and ends as a dot with words orbiting it.",
+    "for": [
+      "a signature motion-design moment",
+      "a bouncing ball that leads the eye",
+      "one shape morphing through forms",
+      "a playful brand moment"
+    ]
+  },
+  "flip": {
+    "shows": "A card in the gap of a sentence flips to a new face as the last word rolls to the next one, then the cards fan out and swing into a pinwheel.",
+    "for": [
+      "the range of what a product does",
+      "a sentence with a changing picture inside it",
+      "several use cases in one line"
+    ]
+  },
+  "pullback": {
+    "shows": "Giant typing fills the frame, then the camera pulls back to show it was typed inside the product's input box, chips land on it and a cursor clicks send.",
+    "for": [
+      "how an AI product is used",
+      "a prompt typed and sent",
+      "a reveal of the input box",
+      "an opener for a chat or agent product"
+    ]
+  },
+  "glass-island": {
+    "shows": "A capsule of optical glass opens into a card with an icon, a title and a line, as a notification does.",
+    "for": [
+      "a notification",
+      "a status message",
+      "a short announcement on a glass card",
+      "an alert over footage"
+    ]
+  },
+  "glass-widgets": {
+    "shows": "A panel of optical glass with two to four key figures, each a label and a big number that counts up.",
+    "for": [
+      "key figures of a product or a business",
+      "a dashboard of numbers",
+      "several metrics at once",
+      "results in numbers"
+    ]
+  },
+  "glass-controls": {
+    "shows": "A control panel of optical glass whose switches turn on one after another and whose slider fills.",
+    "for": [
+      "settings",
+      "features being switched on",
+      "a control panel",
+      "toggles and a slider"
+    ]
+  },
+  "glass-ask": {
+    "shows": "A drop of glass opens into a prompt bar with a question mark: a question is typed, the send button presses and the panel grows downward with the answer.",
+    "for": [
+      "a question and its answer",
+      "asking an assistant",
+      "a support question answered",
+      "an FAQ"
+    ]
+  },
+  "glass-lens": {
+    "shows": "A lens of glass glides across a headline and bends its letters as it passes.",
+    "for": [
+      "a headline with a glass lens over it",
+      "a title in the liquid glass look",
+      "a look closer at a line"
+    ]
+  },
+  "glass-ride": {
+    "shows": "Glass scenes one after another with no cut: each grows out of one drop of glass and folds back into it, the drop leaps to the next place and the camera goes after it.",
+    "for": [
+      "several interface moments in one continuous shot",
+      "a seamless sequence of glass panels",
+      "a story of search, question and result without cuts"
+    ]
+  },
+  "glass-steps": {
+    "shows": "A panel of optical glass grows out of a pill and explains a process: its title, then the steps one after another, each a numbered badge and a line.",
+    "for": [
+      "how it works in two to four steps",
+      "a process explained",
+      "numbered instructions on glass",
+      "an explainer over footage"
+    ]
+  },
+  "glass-stepper": {
+    "shows": "A long process walked step by step: up to ten glass pills down a line, the one being done lit, the ones before it ticked, the camera going down the line with it.",
+    "for": [
+      "a checkout or onboarding of many steps",
+      "progress through a long process",
+      "a wizard",
+      "where the user is now"
+    ]
+  },
+  "glass-checklist": {
+    "shows": "A panel of optical glass ticks a list off: every item an empty box, a line read word by word and a tick drawn into the box.",
+    "for": [
+      "a checklist",
+      "tasks completed",
+      "what is done and what is left",
+      "requirements met"
+    ]
+  },
+  "glass-like": {
+    "shows": "A glass button with an icon and a word grows out of a seed, a pointer clicks it, a ripple runs over it and the icon fills with colour.",
+    "for": [
+      "like, follow, subscribe or save",
+      "a call to press a button",
+      "a social call to action",
+      "a button being pressed"
+    ]
+  },
+  "glass-rating": {
+    "shows": "A panel of optical glass gives a rating: a question or a name, five stars filling with gold up to the rating and a line under them.",
+    "for": [
+      "a rating in stars",
+      "a review score",
+      "customer feedback",
+      "five stars"
+    ]
+  },
+  "glass-message": {
+    "shows": "A panel of optical glass is a message arriving: the sender's picture, their name, the time and what they wrote.",
+    "for": [
+      "an incoming message",
+      "a text from a person",
+      "a reply from a customer",
+      "a direct message"
+    ]
+  },
+  "glass-follow": {
+    "shows": "A panel of optical glass with the mark of a social network, a handle and a button that a pointer presses.",
+    "for": [
+      "follow us on a social network",
+      "a handle on Instagram, TikTok or YouTube",
+      "where to find somebody",
+      "a subscribe call at the end"
+    ]
+  },
+  "glass-call": {
+    "shows": "A panel of optical glass is a call coming in: who calls, a red and a green button with halos on every ring; a pointer accepts and the call's seconds count.",
+    "for": [
+      "an incoming call",
+      "a phone call accepted",
+      "a voice conversation starting"
+    ]
+  },
+  "glass-send-prompt": {
+    "shows": "A prompt is typed into a glass composer while the camera follows the caret, then pulls back to show the whole composer, and the prompt is sent with a wave.",
+    "for": [
+      "a prompt written and sent to an AI",
+      "a chat composer",
+      "a message being sent",
+      "a request with a mention and context chips"
+    ]
+  },
+  "glass-search": {
+    "shows": "A drop of glass opens into a search field: a cursor clicks it, a query is typed and Enter is pressed.",
+    "for": [
+      "a search",
+      "a query typed into a search field",
+      "looking something up",
+      "finding in a product"
+    ]
+  },
+  "stack": {
+    "shows": "Big single words stack down the frame one a beat; as each lands the ones above dim.",
+    "for": [
+      "three values, verbs or steps",
+      "a triad of words",
+      "faster, calmer, fuller",
+      "words stacking on the beat"
+    ]
+  },
+  "beatwords": {
+    "shows": "One word a beat, each alone and filling the frame, the ground flipping colour on every cut and each word entering another way.",
+    "for": [
+      "a slogan said one word at a time",
+      "a hook cut on the beat",
+      "fast full-frame words",
+      "a rhythmic cut of words"
+    ]
+  },
+  "underline": {
+    "shows": "One huge word whose letters rise from behind the baseline one after another, and an underline draws under it.",
+    "for": [
+      "a one-word punch after a build",
+      "an underlined word",
+      "the answer in one word"
+    ]
+  },
+  "rundown": {
+    "shows": "A list builds one line a beat, each new line the only lit one, then the whole list steps back and a big punch line lands under it.",
+    "for": [
+      "the busywork a product removes",
+      "what comes in the box",
+      "a list with a verdict",
+      "items and then the point"
+    ]
+  },
+  "winner": {
+    "shows": "A card counts its figure up and draws its curve, then three options rise under it and one is chosen: two fade and the winner lifts with a tick.",
+    "for": [
+      "a product that compares and chooses",
+      "the best option of three",
+      "a recommendation",
+      "a decision made for the user"
+    ]
+  },
+  "connect": {
+    "shows": "Pills on the left are joined one by one to a single tile on the right by dotted curves that draw themselves, with a light running along each.",
+    "for": [
+      "integrations flowing into one product",
+      "many sources into one place",
+      "channels connected",
+      "inputs and one output"
+    ]
+  },
+  "chips": {
+    "shows": "A headline with labelled chips all around it at different depths; they come into focus one by one, then fly past the camera.",
+    "for": [
+      "everything a product handles",
+      "features around one line",
+      "a cloud of tags"
+    ]
+  },
+  "tabs": {
+    "shows": "A card with three figures in a row: a lit panel hops from one to the next, each figure counts up and the chart under them bends into another shape.",
+    "for": [
+      "three numbers of a product in one shot",
+      "a dashboard with tabs",
+      "metrics compared"
+    ]
+  },
+  "dial": {
+    "shows": "A slider whose knob is dragged to a value out of a hundred, a bubble above it counting as it moves and the ticks it passes lighting up.",
+    "for": [
+      "one share or score shown as something moved",
+      "a percentage on a slider",
+      "a level being set"
+    ]
+  },
+  "gather": {
+    "shows": "Some fifteen hundred dots drifting over the frame fly together into one big word, it holds solid, then bursts and the dots are flung out of the frame.",
+    "for": [
+      "the name formed out of particles",
+      "the one word a film is about",
+      "an opener",
+      "the moment before the end card"
+    ]
+  },
+  "impact": {
+    "shows": "The drop: a ring of speed lines flies outward and a word slams in behind it, overshoots and springs to rest.",
+    "for": [
+      "the one thing a film announces",
+      "a word slammed on the drop of the music",
+      "a launch, a sale, a release",
+      "the hardest hit of the film"
+    ]
+  },
+  "cards3d": {
+    "shows": "Thick glossy cards cascade in one by one in real 3D, tilted in depth and lit like a product render.",
+    "for": [
+      "features as 3D cards",
+      "screenshots as glossy cards",
+      "a list of pains or features with depth",
+      "a premium product look"
+    ]
+  },
+  "icon3d": {
+    "shows": "The brand's app icon spins in as a glassy 3D tile with glossy shapes orbiting it, and the name lands below.",
+    "for": [
+      "an app icon reveal",
+      "a hero moment for the brand",
+      "the scene before the end card"
+    ]
+  },
+  "phone3d": {
+    "shows": "One to three phones in real 3D swing round from the side to face the viewer with screenshots on their screens.",
+    "for": [
+      "a mobile app on a 3D phone",
+      "app screens on devices",
+      "a phone turning to the camera"
+    ]
+  },
+  "field": {
+    "shows": "A floor of rounded tiles to the horizon in real 3D: a glowing bar sweeps across it, the tiles ripple, a row rises into bars and the camera cranes up over the field.",
+    "for": [
+      "a world rather than a slide",
+      "data as a landscape",
+      "an atmospheric 3D scene with one line"
+    ]
+  },
+  "polar": {
+    "shows": "One springy shape morphs through a circle, a triangle, a star and a square with turning echo outlines and smaller copies orbiting it.",
+    "for": [
+      "a change of state",
+      "an abstract identity of a product",
+      "a geometric interlude",
+      "shape morphing"
+    ]
+  },
+  "letterflip": {
+    "shows": "A short headline arrives letter by letter, each letter turning in perspective and flashing the accent colour on its back before it lands flat.",
+    "for": [
+      "a punchy opener",
+      "a feature name",
+      "a headline with flipping letters"
+    ]
+  },
+  "accordion": {
+    "shows": "Three to five named picture cards breathe like an accordion: a focus travels along them enlarging each in turn.",
+    "for": [
+      "features or stages shown one by one",
+      "a row of cards with a moving focus",
+      "parts of a product named"
+    ]
+  },
+  "explode": {
+    "shows": "One flat card tilts into depth and separates into three to five named layers, turns slowly while they are held apart, then closes again.",
+    "for": [
+      "what something is made of",
+      "layers of a product or a stack",
+      "an exploded view",
+      "the parts behind one surface"
+    ]
+  },
+  "scan": {
+    "shows": "A band of light scans a sheet of objects, a label and corner brackets appear on each as the band crosses it, then the objects fly into category cards.",
+    "for": [
+      "recognition and sorting",
+      "an AI that classifies things",
+      "a scan of a photo or a document",
+      "objects detected and grouped"
+    ]
+  },
+  "before-after-wipe": {
+    "shows": "A divider crosses the frame and reveals the after picture over the before picture, labels on both sides.",
+    "for": [
+      "before and after pictures",
+      "an edit, a retouch or a renovation compared",
+      "the result against the original"
+    ]
+  },
+  "screen-flow-carousel": {
+    "shows": "A rail of screens: it throws to the next screen and catches it gently while the neighbours step back, a label beside each.",
+    "for": [
+      "a walk through the screens of an app",
+      "a user flow",
+      "onboarding screens in order"
+    ]
+  },
+  "chart-story": {
+    "shows": "A chart of bars, a line, a donut or a progress bar builds, its labels arrive and one exact figure is singled out.",
+    "for": [
+      "a chart with a conclusion",
+      "data that proves a point",
+      "one number out of several emphasised"
+    ]
+  },
+  "testimonial-proof-card": {
+    "shows": "A quote rises line by line, its author appears with a portrait, and an underline is drawn under the words that matter.",
+    "for": [
+      "a customer quote",
+      "a testimonial",
+      "a review with a name",
+      "social proof"
+    ]
+  },
+  "thinking-orb": {
+    "shows": "A cloud of particles moves as a thinking mind does, working, searching, solving, listening, composing, with a title and a line under it.",
+    "for": [
+      "an AI thinking or working",
+      "a process running",
+      "listening to a voice",
+      "generation in progress"
+    ]
+  },
+  "modal-morph": {
+    "shows": "A compact card grows into a full panel in one move, its title staying in place while the body and the button arrive.",
+    "for": [
+      "a detail opened from a card",
+      "a dialog or a modal",
+      "an offer expanded with its button"
+    ]
+  },
+  "ride": {
+    "shows": "One white ball rides through real controls in one continuous camera move: it flips a switch, drags a slider, presses a button, ticks a box and steps a number up, then the camera pulls back over all of them.",
+    "for": [
+      "a tour of settings in one shot",
+      "controls used one after another without a cut",
+      "a playful interface walkthrough",
+      "a ball leading the camera"
+    ]
+  },
+  "lens-wall": {
+    "shows": "An endless wall of pictures and videos under a lens: whatever is in the centre swells and the rest curves away like the side of a sphere while the camera crosses the wall.",
+    "for": [
+      "a gallery of the user's photos and videos",
+      "a portfolio or a feed",
+      "many clips at once",
+      "a library of content"
+    ]
+  },
+  "laptop3d": {
+    "shows": "A real 3D laptop lies closed, a hand lifts its lid, the screen wakes with the user's picture or video and the camera pulls back.",
+    "for": [
+      "a product opened on a laptop",
+      "a website or an app on a real device",
+      "a cinematic device reveal"
+    ]
+  },
+  "synth3d": {
+    "shows": "A pocket beat machine in real 3D in half darkness: two hands come in and play its lit pads one after another, each press a hit.",
+    "for": [
+      "music being made by hand",
+      "pads played on the beat",
+      "a moment that shows the rhythm",
+      "three words struck like notes"
+    ]
+  },
+  "comic": {
+    "shows": "A paragraph glitches in word by word like a comic on the press: each word flickers through colour panels and halftone dots, its colours out of register, then settles into the line.",
+    "for": [
+      "a quote or a manifesto read whole",
+      "a punchy statement of a sentence or two",
+      "glitching text",
+      "a comic-book look"
+    ]
+  },
+  "kinetic-swap-words": {
+    "shows": "A short line is edited before the viewer: the words standing out of place glow, lift off, are carried behind a caret and dropped where they belong; a strip of the film's clip may open between the words.",
+    "for": [
+      "a line that corrects itself",
+      "editing as the subject",
+      "words put in the right order",
+      "a line that opens into footage"
+    ]
+  },
+  "kinetic-spin-words": {
+    "shows": "A short line spins in real 3D: its letters stand on a ring that turns a few fast times under a camera and slows into place on a beat.",
+    "for": [
+      "a line that spins in",
+      "a word turning in 3D",
+      "a fast kinetic accent",
+      "a short phrase arriving with a whirl"
+    ]
+  },
+  "kinetic-burst-words": {
+    "shows": "A short line arrives large and glowing, snaps together solid on a beat, then its letters break into thick 3D pieces that fly at the camera until the frame is black.",
+    "for": [
+      "a line that explodes at the viewer",
+      "the last words before a cut to black",
+      "a call such as Share it",
+      "letters shattering in 3D"
+    ]
+  }
+}

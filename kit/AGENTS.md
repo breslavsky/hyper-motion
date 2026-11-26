@@ -16,6 +16,12 @@ For 3D Liquid Glass components, follow the [optical glass rules](source/lib/comp
 for card spacing, projected text, camera, brand defaults and materials.
 When adding or changing any Glass scene, follow the [text sharpness rules](source/lib/components/README.md#text-sharpness)
 and run their native pixel checks. Local effects keep lettering sharp outside their footprint.
+Every scene type has a card in `source/lib/components/cards.json`, written with
+the scene: `shows`, what the viewer sees, in one sentence with no fields or
+limits, and `for`, two to five kinds of shot it is a start for, in the words
+somebody planning a film would use ("a customer quote", "an end card"). A
+search and a model choose scenes by the cards, so write them for a reader who
+has not seen the scene.
 
 ### Keep the request intact
 
