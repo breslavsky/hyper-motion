@@ -75,5 +75,8 @@ there. Pictures and videos a film names are paths inside that folder.
   belongs: `node lib/film.cjs plan` prints the film's length, tempo and sound
   cues as JSON, and any mixer can use them.
 - `tools/` holds the tests and acceptances (`tools/README.md`).
+- `MAINTAINING.md` is for whoever adds or changes a scene here: one factory a
+  component, the Glass rules, a card for every scene. A film's writer never
+  gets it.
 - `MIGRATION.md` and `SURFACES.md` are design notes: how the scenes became
   native compositions, and how the surfaces of the UI scenes are built.
