@@ -294,7 +294,8 @@ that it is the film the user requested.
   A track of the user's, or one a tool made, is `{ "file": "<its path>" }`
   and nothing else: the film takes that track's tempo, starts where its music
   comes in, and `fit` lays the scenes on it: it moves a scene's length by a
-  beat or two so that scenes begin where the music comes in, where it stops
+  beat or two so that scenes begin where a part of the music begins (its
+  intro ends, its drums come in, it breaks), where the music comes in, where it stops
   and comes back, and on its key hits, and says which. Write the beats each
   scene needs and leave the rest to it; `"lay": false` keeps the lengths as
   written. The same one command lays the track under the picture. `harness

@@ -97,7 +97,7 @@ const eventful = of => JSON.stringify({sound: true, seconds: 60, of, grid: {bpm:
   parts: [{from: 0, to: 2, level: 'quiet'}, {from: 2, to: 60, level: 'loud'}], entries: [{t: 2.0, hit: null}], gaps: [{from: 6.0, to: 6.5}]});
 // Typed lines, whose usual length is four to six beats: room to move a beat either way.
 const scenes = beats => beats.map((count, i) => ({type: i === beats.length - 1 ? 'endcard' : 'typewriter', beats: count,
-  ...(i === beats.length - 1 ? {cta: 'nook.app'} : {text: 'A film laid on its own track.'})}));
+  ...(i === beats.length - 1 ? {cta: 'nook.app'} : {text: `A film laid on its own track, line ${i + 1}.`})}));
 const starts = made => { const plan = F.planOf(made); return plan.scenes.map(scene => Number((scene.start / plan.beat).toFixed(2))); };
 
 test('scenes begin where the track does something, each moved two beats at most', () => {
@@ -153,4 +153,41 @@ test('a length a scene\'s own rules refuse is never chosen for it', () => {
   assert.ok(Math.abs(plan.duration - 14) <= plan.beat / 2 + 0.001);
   const burst = plan.scenes.find(scene => scene.scene.type === 'kinetic-burst-words').scene.beats;
   assert.ok(burst >= 2 && burst <= 4, String(burst));
+});
+
+test('scenes begin where a part of the music begins, before anywhere else', () => {
+  // A track whose map has its sections: the build begins at 3 s and the drums come in at 7 s, both sure;
+  // a border the map is unsure of stands at 10.5 s. Key hits are everywhere, on every second beat.
+  const file = 'media/parts-test.wav';
+  const accents = Array.from({length: 14}, (_, n) => ({t: 1 + n, strength: 0.6, kind: 'top', key: true}));
+  const section = (from, to, kind, sure = true) => ({from, to, kind, energy: 3, drums: true, bass: true, change: '', sure});
+  put(file, 'sound');
+  const map = {...JSON.parse(eventful(file)), accents, entries: [], gaps: [], parts: [],
+    sections: [section(0, 3, 'intro'), section(3, 7, 'build'), section(7, 10.5, 'drop'), section(10.5, 60, 'main', false)]};
+  put('derived/track/parts-test.json', JSON.stringify(map));
+  const made = {...film, music: {file, from: 0}, scenes: scenes([5, 5, 5, 5, 5, 5])};
+  assert.deepEqual(F.problems(made), []);
+  const begin = starts(made);
+  // 3 s and 7 s are beats 6 and 14: a scene begins on each, though a key hit stood a beat away from both.
+  assert.ok(begin.includes(6) && begin.includes(14), String(begin));
+  assert.ok(F.layOf(made).on.some(place => place.why === 'a new part of the music begins'));
+  // A grid half a beat off the music: the film's start moves so that the drums' entry is on a beat all the same.
+  const shifted = {...map, grid: {...map.grid, firstBeat: 0.25}, sections: [section(0, 3, 'intro'), {...section(3, 7.1, 'build'), drums: false}, section(7.1, 60, 'drop')]};
+  put('derived/track/parts-test.json', JSON.stringify(shifted));
+  const late = F.planOf({...film, music: {file}, scenes: scenes([5, 5, 5, 5, 5, 5])});
+  const from = F.layOf({...film, music: {file}, scenes: scenes([5, 5, 5, 5, 5, 5])}).from;
+  assert.ok(Math.abs(((7.1 - from) / late.beat) % 1) < 0.01 || Math.abs(((7.1 - from) / late.beat) % 1 - 1) < 0.01, String(from));
+  assert.ok(late.scenes.some(scene => Math.abs(scene.start + from - 7.1) < 0.01), JSON.stringify(late.scenes.map(scene => scene.start + from)));
+  put('derived/track/parts-test.json', JSON.stringify(map));
+  // The border the map is unsure of counts for nothing: without the sure ones no scene is drawn to 3 s.
+  put('derived/track/parts-test.json', JSON.stringify({...map, sections: map.sections.map(part => ({...part, sure: false}))}));
+  assert.ok(!(F.layOf(made)?.on ?? []).some(place => place.why === 'a new part of the music begins'));
+});
+
+test('the same scene written twice in a row is an error, the same type with other words is not', () => {
+  // A writer on a cheap model wrote one scene twice, and the viewer saw it stand twice as long.
+  const one = {type: 'typewriter', beats: 5, text: 'Made in a browser.'};
+  const twice = {...film, music: {track: 'drive', bpm: 128}, scenes: [one, {...one, beats: 4}, {type: 'endcard', beats: 5, cta: 'nook.app'}]};
+  assert.match(F.problems(twice)[0], /scenes\[0\] and scenes\[1\] \(typewriter\) are the same scene written twice/);
+  assert.deepEqual(F.problems({...twice, scenes: [one, {...one, text: 'Shipped as a file.'}, twice.scenes[2]]}), []);
 });

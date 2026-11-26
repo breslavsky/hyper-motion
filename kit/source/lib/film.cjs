@@ -108,11 +108,29 @@ const startOf = (map, bpm) => {
 	const first = map?.grid?.firstBeat ?? 0;
 	if (!bpm || !map?.grid) return first;
 	const beat = 60 / bpm, entry = (map.entries ?? []).map((e) => e.hit ?? e.t).find((t) => typeof t === "number" && t > first + beat / 2 && t <= 8);
-	return entry === undefined ? first : first + Math.round((entry - first) / beat) * beat;
+	const start = entry === undefined ? first : first + Math.round((entry - first) / beat) * beat;
+	// A grid measured on the mix can stand on the off beat, and then every part of the music begins half a
+	// beat from where a scene can. The film's beats are counted from where the drums come in instead, the
+	// border a listener is surest of: the start moves by under a beat so that a scene can begin exactly there.
+	const anchor = anchorOf(map);
+	if (anchor === null) return start;
+	const off = (((anchor - start) % beat) + beat) % beat;
+	const moved = off <= beat / 2 ? start + off : start + off - beat;
+	return moved >= 0 ? moved : moved + beat;
+};
+/** The border of the track's sections a film's beats are counted from: the first sure one where the drums come in, else the first sure one. */
+const anchorOf = (map) => {
+	const sections = map?.sections ?? [];
+	const sure = sections.map((section, i) => ({ ...section, before: sections[i - 1] })).filter((section) => section.before && section.sure);
+	const drums = sure.find((section) => section.drums && !section.before.drums);
+	return (drums ?? sure[0])?.from ?? null;
 };
 
 // What a beat of the track is worth as the place a scene begins, and how it is said.
 const PLACES = [
+	// Where a part of the music begins (its intro ends, its drums come in, it breaks): what a listener hears as
+	// the music changing, so the film changes there before anywhere else. Only the borders the map is sure of.
+	["a new part of the music begins", 6, (map) => (map.sections ?? []).filter((section, i) => i && section.sure).map((section) => section.from), true],
 	["the music comes in", 4, (map) => (map.entries ?? []).map((e) => e.hit ?? e.t), true],
 	["a loud part begins", 3, (map) => (map.parts ?? []).filter((part, i) => i && part.level === "loud").map((part) => part.from), true],
 	["the music is back after a stop", 2.5, (map) => (map.gaps ?? []).map((gap) => gap.to), true],
@@ -490,6 +508,11 @@ const problems = (film) => {
 			}
 		}
 	}
+	// The same scene written twice in a row is a slip of the writer, not a choice: the viewer sees one scene stand twice as long.
+	if (!out.length && Array.isArray(film.scenes)) film.scenes.forEach((scene, n) => {
+		const { beats: _a, ...one } = film.scenes[n - 1] ?? {}, { beats: _b, ...other } = scene ?? {};
+		if (n && JSON.stringify(one) === JSON.stringify(other)) out.push(`scenes[${n - 1}] and scenes[${n}] (${scene.type}) are the same scene written twice: take one out, or say something else in it`);
+	});
 	return out;
 };
 
