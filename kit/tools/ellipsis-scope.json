@@ -425,7 +425,7 @@
     },
     {
       "type": "stat",
-      "file": "source/lib/components/scenes/data.mjs",
+      "file": "source/lib/components/scenes/data/stat.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -438,7 +438,7 @@
     },
     {
       "type": "chart",
-      "file": "source/lib/components/scenes/data.mjs",
+      "file": "source/lib/components/scenes/data/chart.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -451,7 +451,7 @@
     },
     {
       "type": "timeline",
-      "file": "source/lib/components/scenes/data.mjs",
+      "file": "source/lib/components/scenes/data/timeline.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -462,7 +462,7 @@
     },
     {
       "type": "pricing",
-      "file": "source/lib/components/scenes/data.mjs",
+      "file": "source/lib/components/scenes/data/pricing.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -477,7 +477,7 @@
     },
     {
       "type": "globe",
-      "file": "source/lib/components/scenes/data.mjs",
+      "file": "source/lib/components/scenes/data/globe.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -488,7 +488,7 @@
     },
     {
       "type": "code",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/code.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -505,7 +505,7 @@
     },
     {
       "type": "chat",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/chat.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -519,7 +519,7 @@
     },
     {
       "type": "notify",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/notify.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -537,7 +537,7 @@
     },
     {
       "type": "dock",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/dock.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -556,7 +556,7 @@
     },
     {
       "type": "chaos",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/chaos.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -571,7 +571,7 @@
     },
     {
       "type": "laptop",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/laptop.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [
@@ -589,7 +589,7 @@
     },
     {
       "type": "browser",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/browser.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [
@@ -607,7 +607,7 @@
     },
     {
       "type": "callouts",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/screens/callouts.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [
@@ -626,7 +626,7 @@
     },
     {
       "type": "compare",
-      "file": "source/lib/components/scenes/ui.mjs",
+      "file": "source/lib/components/scenes/controls/compare.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -643,7 +643,7 @@
     },
     {
       "type": "journey",
-      "file": "source/lib/components/scenes/flow.mjs",
+      "file": "source/lib/components/scenes/sentences/journey.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -654,7 +654,7 @@
     },
     {
       "type": "faces",
-      "file": "source/lib/components/scenes/flow.mjs",
+      "file": "source/lib/components/scenes/pictures/faces.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -665,7 +665,7 @@
     },
     {
       "type": "shuffle",
-      "file": "source/lib/components/scenes/flow.mjs",
+      "file": "source/lib/components/scenes/sentences/shuffle.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -676,7 +676,7 @@
     },
     {
       "type": "overlay",
-      "file": "source/lib/components/scenes/flow.mjs",
+      "file": "source/lib/components/scenes/pictures/overlay.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -689,7 +689,7 @@
     },
     {
       "type": "trail",
-      "file": "source/lib/components/scenes/flow.mjs",
+      "file": "source/lib/components/scenes/sentences/trail.mjs",
       "renderMode": "canvas",
       "policy": "preserved",
       "singleLine": [],
@@ -700,7 +700,7 @@
     },
     {
       "type": "between",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/screens/between.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -715,7 +715,7 @@
     },
     {
       "type": "drag",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/controls/drag.mjs",
       "renderMode": "dom",
       "policy": "existing",
       "singleLine": [
@@ -728,7 +728,7 @@
     },
     {
       "type": "knockout",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/words/knockout.mjs",
       "renderMode": "dom",
       "policy": "inherited",
       "singleLine": [],
@@ -741,7 +741,7 @@
     },
     {
       "type": "assemble",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/words/assemble.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -752,7 +752,7 @@
     },
     {
       "type": "hive",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/brand/hive.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -765,7 +765,7 @@
     },
     {
       "type": "scatter",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/sentences/scatter.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -776,7 +776,7 @@
     },
     {
       "type": "arc",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/pictures/arc.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -802,7 +802,7 @@
     },
     {
       "type": "orb",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/shapes/orb.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -813,7 +813,7 @@
     },
     {
       "type": "particles",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/sentences/particles.mjs",
       "renderMode": "canvas",
       "policy": "preserved",
       "singleLine": [],
@@ -824,7 +824,7 @@
     },
     {
       "type": "wave",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/controls/wave.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -837,7 +837,7 @@
     },
     {
       "type": "agent",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/controls/agent.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -852,7 +852,7 @@
     },
     {
       "type": "palette",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/controls/palette.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -865,7 +865,7 @@
     },
     {
       "type": "picker",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/controls/picker.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -876,7 +876,7 @@
     },
     {
       "type": "montage",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/pictures/montage.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -887,7 +887,7 @@
     },
     {
       "type": "web",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/brand/web.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -900,7 +900,7 @@
     },
     {
       "type": "split",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/words/split.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -911,7 +911,7 @@
     },
     {
       "type": "pack",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/words/pack.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -922,7 +922,7 @@
     },
     {
       "type": "swarm",
-      "file": "source/lib/components/scenes/hands.mjs",
+      "file": "source/lib/components/scenes/pictures/swarm.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -933,7 +933,7 @@
     },
     {
       "type": "inline",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/pictures/inline.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -944,7 +944,7 @@
     },
     {
       "type": "bubbles",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/controls/bubbles.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -955,7 +955,7 @@
     },
     {
       "type": "retype",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/sentences/retype.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -968,7 +968,7 @@
     },
     {
       "type": "orbit",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/sentences/orbit.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -979,7 +979,7 @@
     },
     {
       "type": "checklist",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/controls/checklist.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -990,7 +990,7 @@
     },
     {
       "type": "tiles",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/words/tiles.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1001,7 +1001,7 @@
     },
     {
       "type": "mosaic",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/pictures/mosaic.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1014,7 +1014,7 @@
     },
     {
       "type": "photo",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/pictures/photo.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1025,7 +1025,7 @@
     },
     {
       "type": "stream",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/pictures/stream.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1036,7 +1036,7 @@
     },
     {
       "type": "roll",
-      "file": "source/lib/components/scenes/reel.mjs",
+      "file": "source/lib/components/scenes/sentences/roll.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1047,7 +1047,7 @@
     },
     {
       "type": "dot",
-      "file": "source/lib/components/scenes/studio.mjs",
+      "file": "source/lib/components/scenes/sentences/dot.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1058,7 +1058,7 @@
     },
     {
       "type": "flip",
-      "file": "source/lib/components/scenes/studio.mjs",
+      "file": "source/lib/components/scenes/sentences/flip.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1069,7 +1069,7 @@
     },
     {
       "type": "pullback",
-      "file": "source/lib/components/scenes/studio.mjs",
+      "file": "source/lib/components/scenes/sentences/pullback.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1205,7 +1205,7 @@
     },
     {
       "type": "stack",
-      "file": "source/lib/components/scenes/words.mjs",
+      "file": "source/lib/components/scenes/words/stack.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1216,7 +1216,7 @@
     },
     {
       "type": "beatwords",
-      "file": "source/lib/components/scenes/words.mjs",
+      "file": "source/lib/components/scenes/words/beatwords.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1227,7 +1227,7 @@
     },
     {
       "type": "underline",
-      "file": "source/lib/components/scenes/words.mjs",
+      "file": "source/lib/components/scenes/words/underline.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1240,7 +1240,7 @@
     },
     {
       "type": "rundown",
-      "file": "source/lib/components/scenes/words.mjs",
+      "file": "source/lib/components/scenes/words/rundown.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1251,7 +1251,7 @@
     },
     {
       "type": "winner",
-      "file": "source/lib/components/scenes/cards.mjs",
+      "file": "source/lib/components/scenes/data/winner.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1265,7 +1265,7 @@
     },
     {
       "type": "connect",
-      "file": "source/lib/components/scenes/cards.mjs",
+      "file": "source/lib/components/scenes/controls/connect.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1278,7 +1278,7 @@
     },
     {
       "type": "chips",
-      "file": "source/lib/components/scenes/cards.mjs",
+      "file": "source/lib/components/scenes/sentences/chips.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1291,7 +1291,7 @@
     },
     {
       "type": "tabs",
-      "file": "source/lib/components/scenes/cards.mjs",
+      "file": "source/lib/components/scenes/data/tabs.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1304,7 +1304,7 @@
     },
     {
       "type": "dial",
-      "file": "source/lib/components/scenes/cards.mjs",
+      "file": "source/lib/components/scenes/controls/dial.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1317,7 +1317,7 @@
     },
     {
       "type": "gather",
-      "file": "source/lib/components/scenes/bursts.mjs",
+      "file": "source/lib/components/scenes/words/gather.mjs",
       "renderMode": "canvas",
       "policy": "preserved",
       "singleLine": [],
@@ -1328,7 +1328,7 @@
     },
     {
       "type": "impact",
-      "file": "source/lib/components/scenes/bursts.mjs",
+      "file": "source/lib/components/scenes/words/impact.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],

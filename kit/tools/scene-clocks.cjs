@@ -69,7 +69,7 @@ function measure() {
   } finally { process.chdir(home); }
 }
 
-module.exports = {measure, RECORD};
+module.exports = {measure, samples, RECORD};
 
 if (require.main === module) {
   const found = measure();

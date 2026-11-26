@@ -117,183 +117,183 @@ export const catalog={
     "renderMode": "dom"
   },
   "code": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "chat": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "notify": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "dock": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "chaos": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "laptop": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "browser": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "callouts": {
-    "family": "ui",
+    "family": "screens",
     "renderMode": "dom"
   },
   "compare": {
-    "family": "ui",
+    "family": "controls",
     "renderMode": "dom"
   },
   "journey": {
-    "family": "flow",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "faces": {
-    "family": "flow",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "shuffle": {
-    "family": "flow",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "overlay": {
-    "family": "flow",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "trail": {
-    "family": "flow",
+    "family": "sentences",
     "renderMode": "canvas"
   },
   "between": {
-    "family": "hands",
+    "family": "screens",
     "renderMode": "dom"
   },
   "drag": {
-    "family": "hands",
+    "family": "controls",
     "renderMode": "dom"
   },
   "knockout": {
-    "family": "hands",
+    "family": "words",
     "renderMode": "dom"
   },
   "assemble": {
-    "family": "hands",
+    "family": "words",
     "renderMode": "dom"
   },
   "hive": {
-    "family": "hands",
+    "family": "brand",
     "renderMode": "dom"
   },
   "scatter": {
-    "family": "hands",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "arc": {
-    "family": "hands",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "orb": {
-    "family": "hands",
+    "family": "shapes",
     "renderMode": "dom"
   },
   "particles": {
-    "family": "hands",
+    "family": "sentences",
     "renderMode": "canvas"
   },
   "wave": {
-    "family": "hands",
+    "family": "controls",
     "renderMode": "dom"
   },
   "agent": {
-    "family": "hands",
+    "family": "controls",
     "renderMode": "dom"
   },
   "palette": {
-    "family": "hands",
+    "family": "controls",
     "renderMode": "dom"
   },
   "picker": {
-    "family": "hands",
+    "family": "controls",
     "renderMode": "dom"
   },
   "montage": {
-    "family": "hands",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "web": {
-    "family": "hands",
+    "family": "brand",
     "renderMode": "dom"
   },
   "split": {
-    "family": "hands",
+    "family": "words",
     "renderMode": "dom"
   },
   "pack": {
-    "family": "hands",
+    "family": "words",
     "renderMode": "dom"
   },
   "swarm": {
-    "family": "hands",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "inline": {
-    "family": "reel",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "bubbles": {
-    "family": "reel",
+    "family": "controls",
     "renderMode": "dom"
   },
   "retype": {
-    "family": "reel",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "orbit": {
-    "family": "reel",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "checklist": {
-    "family": "reel",
+    "family": "controls",
     "renderMode": "dom"
   },
   "tiles": {
-    "family": "reel",
+    "family": "words",
     "renderMode": "dom"
   },
   "mosaic": {
-    "family": "reel",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "photo": {
-    "family": "reel",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "stream": {
-    "family": "reel",
+    "family": "pictures",
     "renderMode": "dom"
   },
   "roll": {
-    "family": "reel",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "dot": {
-    "family": "studio",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "flip": {
-    "family": "studio",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "pullback": {
-    "family": "studio",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "glass-island": {
@@ -397,39 +397,39 @@ export const catalog={
     "owned": true
   },
   "winner": {
-    "family": "cards",
+    "family": "data",
     "renderMode": "dom",
     "owned": true,
     "surface": "glass"
   },
   "connect": {
-    "family": "cards",
+    "family": "controls",
     "renderMode": "dom",
     "owned": true
   },
   "chips": {
-    "family": "cards",
+    "family": "sentences",
     "renderMode": "dom",
     "owned": true
   },
   "tabs": {
-    "family": "cards",
+    "family": "data",
     "renderMode": "dom",
     "owned": true,
     "surface": "glass"
   },
   "dial": {
-    "family": "cards",
+    "family": "controls",
     "renderMode": "dom",
     "owned": true
   },
   "gather": {
-    "family": "bursts",
+    "family": "words",
     "renderMode": "canvas",
     "owned": true
   },
   "impact": {
-    "family": "bursts",
+    "family": "words",
     "renderMode": "dom",
     "owned": true
   },
