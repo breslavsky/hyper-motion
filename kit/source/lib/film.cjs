@@ -121,21 +121,66 @@ const PLACES = [
 /** How far a scene may be moved from the length its writer gave it, in beats, and what a beat of that costs. */
 const LAY_REACH = 2, LAY_COST = 0.35;
 
+/** The film as the recipe compiler takes it: on a track of its own it plays no kit track, at that track's tempo. */
+const recipeOf = (film, track) => {
+	if (!track) return film;
+	const { file: _file, from: _from, lay: _lay, ...music } = film.music;
+	return { ...film, music: { ...music, track: "none", ...(track.bpm ? { bpm: track.bpm } : {}) } };
+};
+
+/** Whether a scene of a film takes a length: the film's own checks, on that scene alone at that length. */
+const takes = (film, i, beats) => {
+	const { seconds: _seconds, music, ...rest } = film;
+	const { file: _file, from: _from, lay: _lay, ...plain } = music ?? {};
+	try {
+		return problems({ ...rest, ...(Object.keys(plain).length ? { music: plain } : {}), scenes: [{ ...film.scenes[i], beats }] }).length === 0;
+	} catch { return false; }
+};
+
 /**
- * A film laid on its own track: every scene's length in beats, chosen so that scenes begin where the
- * track does something, the way an editor cuts to music: where it comes in, where a loud part begins,
- * where it stops and comes back, on its key hits. A tempo alone puts every cut on a beat; this puts
- * them on the beats that matter. A scene keeps to its usual length (never past it unless its writer
- * went past it), moves two beats at most, and the film stays as long as it was written. Scenes with
- * a timing of their own are left alone. Returns {beats: [...], said: [...]}; null when nothing is laid.
+ * The length of every scene in beats, settled by the kit: what a writer used to work out by hand,
+ * trying one count after another until the film was as long as asked.
+ *
+ * - A film with `seconds` is made that long: its beats are shared out among the scenes, each inside
+ *   its usual length (or the one written, if that is outside it).
+ * - A film on a track of its own is laid on it: scenes begin where the track does something, the way
+ *   an editor cuts to music: where it comes in, where a loud part begins, where it stops and comes
+ *   back, on its key hits. With no length asked for, a scene moves two beats at most.
+ * - Every beat a scene is moved from what was written costs a little, so the lengths written stand
+ *   wherever they can.
+ *
+ * Scenes with a timing of their own are left alone; a film at another pace, or with `"lay": false`,
+ * is left as written. Returns {beats, wish, said, asked}; with `beats: null` and {low, high, target,
+ * beat, tail} when the scenes cannot be that long; null when nothing is settled.
  */
 const laid = (film, track) => {
-	const map = track?.map;
-	if (!map?.grid || !track.bpm || film.music?.lay === false || (film.pace ?? "normal") !== "normal" || !Array.isArray(film.scenes)) return null;
+	if (film.music?.lay === false || (film.pace ?? "normal") !== "normal" || !Array.isArray(film.scenes) || !film.scenes.length) return null;
+	const asked = typeof film.seconds === "number" && film.seconds >= 5 && film.seconds <= 120 ? film.seconds : null;
+	const map = track?.map?.grid && track.bpm ? track.map : null;
+	if (!map && asked === null) return null;
 	const scenes = film.scenes.map(canonicalScene), wish = scenes.map((scene) => scene.beats);
 	if (!wish.every((beats) => Number.isInteger(beats) && beats >= 1)) return null;
-	const beat = 60 / track.bpm, total = wish.reduce((sum, beats) => sum + beats, 0), span = total + LAY_REACH * scenes.length;
-	// What each beat of the film is worth, and why: the strongest thing the track does within a quarter of a beat of it.
+	const total = wish.reduce((sum, beats) => sum + beats, 0);
+	// The film's beat, and what it runs past its scenes' beats, as the recipe compiler has them.
+	let beat, tail;
+	try {
+		const plan = compileRecipe(recipeOf(film, track));
+		beat = plan.beat; tail = plan.duration - total * plan.beat;
+	} catch { return null; }
+	const target = asked === null ? null : Math.max(scenes.length, Math.round((asked - tail) / beat));
+	// A scene's lengths to choose from: its usual ones and the one written; without a length asked for, within reach of it.
+	const options = scenes.map((scene, i) => {
+		if (scene.timing !== undefined || scene.speed !== undefined) return [wish[i]];
+		const usual = USUAL[scene.type] ?? [Math.max(1, wish[i] - LAY_REACH), wish[i] + LAY_REACH];
+		let low = Math.max(1, Math.min(wish[i], usual[0])), high = Math.max(wish[i], usual[1]);
+		if (asked === null) { low = Math.max(low, wish[i] - LAY_REACH); high = Math.min(high, wish[i] + LAY_REACH); }
+		// A scene has rules of its own about its length (a burst of two to four beats, a last hit a beat
+		// before the end): only the lengths it takes are chosen from. The one written always stands.
+		return Array.from({ length: high - low + 1 }, (_, n) => low + n).filter((beats) => beats === wish[i] || takes(film, i, beats));
+	});
+	const least = options.reduce((sum, choices) => sum + choices[0], 0), span = options.reduce((sum, choices) => sum + choices.at(-1), 0);
+	if (target !== null && (target < least || target > span)) return { beats: null, wish, asked, low: least, high: span, target, beat, tail };
+	// What each beat of the film is worth as the place a scene begins, and why: the strongest thing the track does there.
 	const worth = new Array(span + 1).fill(0), why = new Array(span + 1).fill(null);
 	const put = (t, value, label, after = false) => {
 		if (typeof t !== "number") return;
@@ -146,55 +191,44 @@ const laid = (film, track) => {
 		if (k < 1 || k > span || Math.abs(at - k) > (after ? 0.75 : 0.26) || fair <= worth[k]) return;
 		worth[k] = fair; why[k] = label;
 	};
-	for (const hit of map.accents ?? []) if (hit.key) put(hit.t, 1 + Math.min(1, hit.strength ?? 0), "a key hit");
-	for (const [label, value, times, after] of PLACES) for (const t of times(map)) put(t, value, label, after);
-	// A scene's lengths to choose from: within its reach, never under its usual length nor over it unless it was written so.
-	const options = scenes.map((scene, i) => {
-		if (scene.timing !== undefined || scene.speed !== undefined) return [wish[i]];
-		const usual = USUAL[scene.type] ?? [wish[i], wish[i]];
-		const low = Math.max(1, wish[i] - LAY_REACH, Math.min(wish[i], usual[0])), high = Math.min(wish[i] + LAY_REACH, Math.max(wish[i], usual[1]));
-		return Array.from({ length: high - low + 1 }, (_, n) => low + n);
-	});
-	// The best lengths: the most worth under the scenes' beginnings, less what moving them costs. A film with a length
-	// asked for keeps its number of beats.
+	if (map) {
+		for (const hit of map.accents ?? []) if (hit.key) put(hit.t, 1 + Math.min(1, hit.strength ?? 0), "a key hit");
+		for (const [label, value, times, after] of PLACES) for (const t of times(map)) put(t, value, label, after);
+	}
+	// The best lengths: the most worth under the scenes' beginnings, less what moving them costs.
 	let best = new Map([[0, { score: 0, picks: [] }]]);
 	options.forEach((choices, i) => {
 		const next = new Map();
 		for (const [at, state] of best) for (const length of choices) {
 			const end = at + length, last = i === scenes.length - 1;
-			if (end > span) continue;
 			const score = state.score - LAY_COST * Math.abs(length - wish[i]) + (last ? 0 : worth[end]);
 			if (!next.has(end) || next.get(end).score < score) next.set(end, { score, picks: [...state.picks, length] });
 		}
 		best = next;
 	});
-	const ends = film.seconds === undefined ? [...best.entries()] : [...best.entries()].filter(([end]) => end === total);
-	if (!ends.length) return null;
+	const ends = [...best.entries()].filter(([end]) => target === null || end === target);
+	if (!ends.length) return { beats: null, wish, asked, low: least, high: span, target, beat, tail };
 	const [, found] = ends.reduce((a, b) => (b[1].score > a[1].score ? b : a));
 	const said = [];
 	let at = 0;
 	found.picks.forEach((beats, i) => {
-		if (i && why[at]) said.push({ scene: i + 1, type: scenes[i].type, at: Number((track.from + at * beat).toFixed(2)), why: why[at], ...(found.picks[i - 1] === wish[i - 1] ? {} : { moved: true }) });
+		if (i && why[at]) said.push({ scene: i + 1, type: scenes[i].type, at: Number((track.from + at * beat).toFixed(2)), why: why[at] });
 		at += beats;
 	});
-	return { beats: found.picks, wish, said };
+	return { beats: found.picks, wish, said, asked };
 };
-
-/** The film as the recipe compiler takes it: on its own track it plays no kit track, at that track's tempo. */
 const compile = (film) => {
-	const track = trackOf(film);
-	if (!track) return compileRecipe(film);
-	const { file: _file, from: _from, lay: _lay, ...music } = film.music;
-	const lay = laid(film, track);
-	const scenes = lay ? film.scenes.map((scene, i) => (lay.beats[i] === lay.wish[i] ? scene : { ...scene, beats: lay.beats[i] })) : film.scenes;
-	return compileRecipe({ ...film, scenes, music: { ...music, track: "none", ...(track.bpm ? { bpm: track.bpm } : {}) } });
+	const track = trackOf(film), lay = laid(film, track);
+	const scenes = lay?.beats ? film.scenes.map((scene, i) => (lay.beats[i] === lay.wish[i] ? scene : { ...scene, beats: lay.beats[i] })) : film.scenes;
+	return compileRecipe(recipeOf({ ...film, scenes }, track));
 };
-/** What laying a film on its track did, for whoever reads `fit`: the lengths that changed and what each scene now begins on. */
+/** What settling a film's lengths did, for whoever reads `fit`: the lengths that changed and what each scene now begins on. */
 const layOf = (film) => {
-	const track = trackOf(film), lay = track && laid(film, track);
-	if (!lay) return null;
+	const track = trackOf(film), lay = laid(film, track);
+	if (!lay?.beats) return null;
 	return {
-		from: track.from,
+		from: track ? track.from : null,
+		asked: lay.asked,
 		changed: lay.beats.map((beats, i) => (beats === lay.wish[i] ? null : { scene: i + 1, type: canonicalScene(film.scenes[i]).type, from: lay.wish[i], to: beats })).filter(Boolean),
 		on: lay.said,
 	};
@@ -349,7 +383,7 @@ const problems = (film) => {
 	if (film.music?.track !== undefined && !TRACKS.includes(film.music.track)) out.push(`"music.track" must be one of ${TRACKS.join(", ")}`);
 	if (film.music?.kit !== undefined && !Object.hasOwn(SOUNDS.kits, film.music.kit)) out.push(`"music.kit" must be one of ${Object.keys(SOUNDS.kits).join(", ")}`);
 	if (film.music !== undefined && (!film.music || typeof film.music !== "object" || Array.isArray(film.music))) out.push('"music" must be an object');
-	else for (const key of Object.keys(film.music ?? {})) if (!MUSIC_KEYS.includes(key)) out.push(`"music" has no field "${key}": it takes ${MUSIC_KEYS.filter((name) => !["offset", "lay"].includes(name)).join(", ")}`);
+	else for (const key of Object.keys(film.music ?? {})) if (!MUSIC_KEYS.includes(key)) out.push(`"music" has no field "${key}": it takes ${MUSIC_KEYS.filter((name) => !["offset", "lay", "pulse"].includes(name)).join(", ")}`);
 	const own = film.music?.file;
 	if (own !== undefined) {
 		if (typeof own !== "string" || !TRACK_FILE.test(own) || own.split("/").includes("..")) out.push('"music.file" must be a sound or a video of the project by its path: inputs/..., derived/..., assets/... or media/...');
@@ -440,6 +474,14 @@ const problems = (film) => {
 	if (film.seconds !== undefined) {
 		if (!(typeof film.seconds === "number" && film.seconds >= 5 && film.seconds <= 120)) out.push('"seconds" must be a number from 5 to 120: the length the user asked for');
 		else if (!out.length) {
+			// The kit shares the film's beats out among its scenes itself (`laid`): only scenes that cannot be
+			// that long, however they are shared, are the writer's to change.
+			const lay = laid(film, trackOf(film));
+			if (lay && !lay.beats) {
+				const few = lay.target < lay.low, by = Math.max(1, Math.round(Math.abs(lay.target - (few ? lay.low : lay.high)) / 5));
+				out.push(`"seconds" asks for ${film.seconds} and these ${film.scenes.length} scenes run ${(lay.low * lay.beat + lay.tail).toFixed(1)} to ${(lay.high * lay.beat + lay.tail).toFixed(1)} s at their usual lengths: ${few ? `take out about ${by} scene${by > 1 ? "s" : ""}` : `add about ${by} scene${by > 1 ? "s" : ""}`}. Leave the beats as they are: the kit shares them out.`);
+				return out;
+			}
 			const plan = compile(film);
 			const off = film.seconds - plan.duration;
 			if (Math.abs(off) > plan.beat * 0.5 + 0.001) {
@@ -960,11 +1002,12 @@ if (require.main === module) {
 		if (!fs.existsSync(drawn) || fs.readFileSync(drawn, "utf8") !== emoji) fs.writeFileSync(drawn, emoji);
 		console.log(`${plan.scenes.length} scenes, ${plan.duration.toFixed(2)} s, ${plan.width}x${plan.height}, look ${plan.style}, track ${trackOf(film) ? `${trackOf(film).file} from ${trackOf(film).from} s` : film.music?.track ?? plan.look.track} at ${plan.bpm} bpm`);
 		const lay = layOf(film);
-		if (lay) {
-			// Said so that nobody wonders why a scene is not the length written, and nobody lays a track by hand.
+		if (lay && (lay.changed.length || lay.on.length)) {
+			// Said so that nobody wonders why a scene is not the length written, and nobody shares beats out by hand.
 			const moved = lay.changed.map((c) => `scene ${c.scene} (${c.type}) ${c.from} -> ${c.to} beats`).join(", ");
 			const on = lay.on.map((o) => `scene ${o.scene} (${o.type}) at ${o.at} s: ${o.why}`).join("; ");
-			console.log(`Laid on the track from ${lay.from} s: ${moved || "every scene keeps its length"}.${on ? ` Scenes now begin where the track does something: ${on}.` : ""} "music.lay": false keeps the lengths as written.`);
+			const what = [lay.asked !== null ? `fitted to ${lay.asked} s` : null, lay.from !== null ? `laid on the track from ${lay.from} s` : null].filter(Boolean).join(" and ");
+			console.log(`The kit set the scenes' lengths (${what}): ${moved || "every scene keeps the length written"}.${on ? ` Scenes begin where the track does something: ${on}.` : ""} Write the beats a scene needs and leave the sharing out to it; "music.lay": false keeps the lengths as written.`);
 		}
 		console.log(`Review against the request (resolved recipe, not a visual inspection):\n${JSON.stringify(review(film, plan))}`);
 	} else {

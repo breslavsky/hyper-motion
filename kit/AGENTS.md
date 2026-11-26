@@ -22,11 +22,12 @@ duration with repeated end cards, restated slogans or invented claims.
   Omit roles not requested. This keeps one background and exact accents.
   `brand.colors` plus `palette:"brand"` instead adapts a look's palette;
   it preserves the look's changing backgrounds and creates related tints.
-- Exact duration: `seconds`. Start with `pace:"normal"`; at a supplied
-  BPM, target total scene beats = `seconds * BPM / 60 - 0.5`, rounded.
-  The extra half beat is the ending tail. Distribute that budget over the
-  requested actions, within each scene's limits. Give complex actions more
-  beats and the last card time to read. Do not add filler to meet the clock.
+- Exact duration: `seconds`, at `pace:"normal"`. Give every scene the beats
+  it usually takes and stop there: `fit` shares the film's beats out among
+  the scenes to make it that long, inside each scene's usual length, and
+  says what it set. Never work beat counts out yourself and write no script
+  that tries them. If `fit` says the scenes cannot be that long, add or take
+  out a scene as it says. Do not add filler to meet the clock.
 - Letter backs flipping into a line → `letterflip`; a circle changing
   into other shapes with echoes → `polar`; labels scanned into categories
   → `scan`; connected cards with travelling focus → `accordion`; a card
@@ -304,9 +305,9 @@ that it is the film the user requested.
   effects follow the actions. Use `fit` to check the recipe and rebuild the audio
   after an edit. The scene library lists the available actions for each type.
 - `seconds`: when the user names a length, always write the number.
-  `fit` checks the actual length and gives the beat difference if needed;
-  it does not silently retime the music. Adjust beats within the listed
-  bounds. Add a scene only when there is another meaningful action or fact.
+  `fit` makes the film that long by sharing its beats out among the scenes
+  and says which lengths it set; it does not retime the music. Add a scene
+  only when there is another meaningful action or fact.
 - Pictures (`image`, `images`) are only the user's own: the page picture of
   `screenshot_page` (`derived/generated/screenshots/<name>.png`) and their
   uploads (`media/<assetId>/original.<ext>`), as paths from `source/`. With
@@ -674,7 +675,7 @@ Edit `film.json` and run the same one command again:
 
 - **Another look**: change `style`. The words stay.
 - **Other words, another order, a scene more or less**: edit `scenes`.
-- **Length**: write `seconds` and add or remove scenes until `fit` passes;
+- **Length**: write `seconds`; `fit` shares the beats out, and says so if a scene must be added or taken out;
   `pace` for the same film faster or calmer.
 - **Frame**: `aspect`.
 - **Language**: write every text in the user's language.

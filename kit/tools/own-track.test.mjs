@@ -142,3 +142,15 @@ test('with no start given a film begins on the beat the music comes in on', () =
   // A track whose music is there from the start begins on its first beat.
   assert.equal(F.summary(own({file: TRACK}), F.planOf(own({file: TRACK}))).from, 0.31);
 });
+
+test('a length a scene\'s own rules refuse is never chosen for it', () => {
+  // A burst takes two to four beats: asked to give the film more, the kit lengthens the scenes around it.
+  const made = {...film, seconds: 14, music: {file: LAID, from: 0},
+    scenes: [{type: 'typewriter', beats: 4, text: 'A film laid on its own track.'}, {type: 'kinetic-burst-words', beats: 3, text: 'Share it.'},
+      {type: 'typewriter', beats: 4, text: 'And on.'}, ...scenes([4, 5]).slice(0, 1), {type: 'endcard', beats: 5, cta: 'nook.app'}]};
+  assert.deepEqual(F.problems(made), []);
+  const plan = F.planOf(made);
+  assert.ok(Math.abs(plan.duration - 14) <= plan.beat / 2 + 0.001);
+  const burst = plan.scenes.find(scene => scene.scene.type === 'kinetic-burst-words').scene.beats;
+  assert.ok(burst >= 2 && burst <= 4, String(burst));
+});
