@@ -223,7 +223,12 @@ sceneFactories.dot = ({ p, cam, fg, accent, bg, K }) => {
 		}
 		// 5. The ring of words orbits a small dot, in 3D (the back half seen mirrored, dimmer).
 		const ringK = E.softLand(prog(l, tRing - (hasShapes ? 0.05 : 0.3), 0.6));
-		if (!hasShapes && l > tRing - 0.5) set(shape, { opacity: "1", borderRadius: "0", width: px(W * 1.2), height: px(H * 1.2), left: px(-W * 0.1), top: px(-H * 0.1), transform: `scale(${E.whip(prog(l, tRing - 0.5, 0.45)).toFixed(4)})` });
+		// Hidden again before its moment: a frame is drawn for the time asked, whatever was drawn before it. Left as
+		// it was, the ink plate of a later frame stayed over the word when an earlier frame was drawn after it, which
+		// is what a render does (its workers take frames in no order).
+		if (!hasShapes) set(shape, l > tRing - 0.5
+			? { opacity: "1", borderRadius: "0", width: px(W * 1.2), height: px(H * 1.2), left: px(-W * 0.1), top: px(-H * 0.1), transform: `scale(${E.whip(prog(l, tRing - 0.5, 0.45)).toFixed(4)})` }
+			: { opacity: "0" });
 		set(ringBox, { opacity: ringK.toFixed(3), transform: `scale(${(1.6 - 0.6 * ringK).toFixed(4)})` });
 		set(ringInner, { transform: `rotateX(-16deg) rotateZ(-6deg) rotateY(${(-l * 46).toFixed(2)}deg)` });
 		for (let k = 0; k < ringNodes.length; k++) {
