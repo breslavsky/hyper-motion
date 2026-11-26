@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createRequire} from 'node:module';
-import {scanStatusState} from '../source/lib/components/scenes/community-scan.mjs';
+import {scanStatusState} from '../source/lib/components/scenes/pictures/scan.mjs';
 const require=createRequire(import.meta.url);
 const {compile}=require('../source/lib/compiler/plan.cjs');
 const {scan}=require('../source/lib/components/metadata.cjs');

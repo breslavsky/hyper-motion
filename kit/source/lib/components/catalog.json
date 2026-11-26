@@ -77,23 +77,23 @@
     "renderMode": "dom"
   },
   "caption": {
-    "family": "text",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "typewriter": {
-    "family": "text",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "sentence": {
-    "family": "text",
+    "family": "sentences",
     "renderMode": "dom"
   },
   "append": {
-    "family": "text",
+    "family": "words",
     "renderMode": "dom"
   },
   "countdown": {
-    "family": "text",
+    "family": "words",
     "renderMode": "dom"
   },
   "stat": {
@@ -450,57 +450,57 @@
     "renderMode": "webgl"
   },
   "polar": {
-    "family": "community-shapes",
+    "family": "shapes",
     "renderMode": "dom",
     "owned": true
   },
   "letterflip": {
-    "family": "community-shapes",
+    "family": "words",
     "renderMode": "dom",
     "owned": true
   },
   "accordion": {
-    "family": "community-depth",
+    "family": "pictures",
     "renderMode": "dom",
     "owned": true
   },
   "explode": {
-    "family": "community-depth",
+    "family": "pictures",
     "renderMode": "dom",
     "owned": true
   },
   "scan": {
-    "family": "community-scan",
+    "family": "pictures",
     "renderMode": "dom",
     "owned": true
   },
   "before-after-wipe": {
-    "family": "registry-content",
+    "family": "pictures",
     "renderMode": "dom",
     "owned": true
   },
   "screen-flow-carousel": {
-    "family": "registry-motion",
+    "family": "screens",
     "renderMode": "dom",
     "owned": true
   },
   "chart-story": {
-    "family": "registry-data",
+    "family": "data",
     "renderMode": "dom",
     "owned": true
   },
   "testimonial-proof-card": {
-    "family": "registry-content",
+    "family": "sentences",
     "renderMode": "dom",
     "owned": true
   },
   "thinking-orb": {
-    "family": "thinking-orbs",
+    "family": "shapes",
     "renderMode": "canvas",
     "owned": true
   },
   "modal-morph": {
-    "family": "registry-motion",
+    "family": "controls",
     "renderMode": "dom",
     "owned": true
   },
@@ -523,7 +523,7 @@
     "renderMode": "webgl"
   },
   "comic": {
-    "family": "text",
+    "family": "sentences",
     "renderMode": "dom",
     "owned": true
   },

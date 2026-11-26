@@ -1,7 +1,7 @@
 // Native scene around the unchanged MIT Thinking Orbs engine and canonical
 // clock-free adapter. See ../thinking-orbs/vendor/SOURCE.json and LICENSE.
-import {createOrb} from '../thinking-orbs/orb.mjs';
-import metadata from '../metadata.mjs';
+import {createOrb} from '../../thinking-orbs/orb.mjs';
+import metadata from '../../metadata.mjs';
 
 export const sceneFactories = {
   'thinking-orb': ({p,cam,fg,accent,palette,bg,K}) => {
@@ -51,3 +51,5 @@ export const sceneFactories = {
     };
   },
 };
+// The scene's factory (scenes/folders.mjs).
+export const factory = sceneFactories["thinking-orb"];

@@ -8,8 +8,8 @@
  * deterministic local-time sampling and explicit semantic audit attributes.
  * The upstream throw/catch and FLIP counter-scaling mathematics are retained.
  */
-import metadata from '../metadata.mjs';
-import {createDesignSystem} from '../design-system.mjs';
+import metadata from '../../metadata.mjs';
+import {createDesignSystem} from '../../design-system.mjs';
 
 const clamp=v=>Math.max(0,Math.min(1,v));
 const progress=(t,start,duration)=>clamp((t-start)/Math.max(.000001,duration));

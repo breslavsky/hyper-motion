@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {test} from 'node:test';
-import {samplePolarShape, polarPose, letterFlipPose} from '../source/lib/components/scenes/community-shapes.mjs';
+import {samplePolarShape, polarPose, letterFlipPose} from '../source/lib/components/scenes/_shared/community-shapes.mjs';
 
 const require = createRequire(import.meta.url);
 const definitions = require(process.env.PK_SHAPES_METADATA ?? '../source/lib/components/metadata.cjs');

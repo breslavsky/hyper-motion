@@ -29,7 +29,7 @@ test('portable Thinking Orbs files exactly mirror the canonical runtime and pinn
 });
 
 test('new native family resolves beside the original orb without additional packages',async()=>{
-  assert.deepEqual(catalog['thinking-orb'],{family:'thinking-orbs',renderMode:'canvas',owned:true});
+  assert.deepEqual(catalog['thinking-orb'],{family:'shapes',renderMode:'canvas',owned:true});
   const library=createComponentLibrary({W:1920,H:1080,S:1,plan:{look:{}},helpers:{maths:{},dom:{},moves:{},ui:{}}});
   assert.equal(typeof await library.get('thinking-orb'),'function');
   assert.equal(typeof await library.get('orb'),'function');

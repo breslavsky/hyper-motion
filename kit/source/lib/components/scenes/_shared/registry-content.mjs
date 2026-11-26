@@ -1,8 +1,8 @@
 // Modified from HyperFrames before-after-wipe and testimonial-proof-card (Apache-2.0).
 // Pinned originals, license and modification record: ../upstream/hyperframes-registry-01/RECEIPT.json.
 // Pure Kinetic supplies the only clock, content contract, assets and brand roles.
-import metadata from '../metadata.mjs';
-import {createDesignSystem} from '../design-system.mjs';
+import metadata from '../../metadata.mjs';
+import {createDesignSystem} from '../../design-system.mjs';
 
 const clamp = value => Math.max(0, Math.min(1, value));
 const out = value => 1 - (1 - clamp(value)) ** 4;

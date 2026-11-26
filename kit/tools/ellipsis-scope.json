@@ -370,7 +370,7 @@
     },
     {
       "type": "caption",
-      "file": "source/lib/components/scenes/text.mjs",
+      "file": "source/lib/components/scenes/sentences/caption.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -381,7 +381,7 @@
     },
     {
       "type": "typewriter",
-      "file": "source/lib/components/scenes/text.mjs",
+      "file": "source/lib/components/scenes/sentences/typewriter.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -392,7 +392,7 @@
     },
     {
       "type": "sentence",
-      "file": "source/lib/components/scenes/text.mjs",
+      "file": "source/lib/components/scenes/sentences/sentence.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -403,7 +403,7 @@
     },
     {
       "type": "append",
-      "file": "source/lib/components/scenes/text.mjs",
+      "file": "source/lib/components/scenes/words/append.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -414,7 +414,7 @@
     },
     {
       "type": "countdown",
-      "file": "source/lib/components/scenes/text.mjs",
+      "file": "source/lib/components/scenes/words/countdown.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -787,7 +787,7 @@
     },
     {
       "type": "thinking-orb",
-      "file": "source/lib/components/scenes/thinking-orbs.mjs",
+      "file": "source/lib/components/scenes/shapes/thinking-orb.mjs",
       "renderMode": "canvas",
       "policy": "preserved",
       "singleLine": [],
@@ -1387,7 +1387,7 @@
     },
     {
       "type": "polar",
-      "file": "source/lib/components/scenes/community-shapes.mjs",
+      "file": "source/lib/components/scenes/_shared/community-shapes.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1398,7 +1398,7 @@
     },
     {
       "type": "letterflip",
-      "file": "source/lib/components/scenes/community-shapes.mjs",
+      "file": "source/lib/components/scenes/_shared/community-shapes.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1409,7 +1409,7 @@
     },
     {
       "type": "accordion",
-      "file": "source/lib/components/scenes/community-depth.mjs",
+      "file": "source/lib/components/scenes/_shared/community-depth.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1422,7 +1422,7 @@
     },
     {
       "type": "explode",
-      "file": "source/lib/components/scenes/community-depth.mjs",
+      "file": "source/lib/components/scenes/_shared/community-depth.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1435,7 +1435,7 @@
     },
     {
       "type": "scan",
-      "file": "source/lib/components/scenes/community-scan.mjs",
+      "file": "source/lib/components/scenes/pictures/scan.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1451,7 +1451,7 @@
     },
     {
       "type": "before-after-wipe",
-      "file": "source/lib/components/scenes/registry-content.mjs",
+      "file": "source/lib/components/scenes/_shared/registry-content.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1462,7 +1462,7 @@
     },
     {
       "type": "screen-flow-carousel",
-      "file": "source/lib/components/scenes/registry-motion.mjs",
+      "file": "source/lib/components/scenes/_shared/registry-motion.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],
@@ -1473,7 +1473,7 @@
     },
     {
       "type": "chart-story",
-      "file": "source/lib/components/scenes/registry-data.mjs",
+      "file": "source/lib/components/scenes/data/chart-story.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1487,7 +1487,7 @@
     },
     {
       "type": "testimonial-proof-card",
-      "file": "source/lib/components/scenes/registry-content.mjs",
+      "file": "source/lib/components/scenes/_shared/registry-content.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1502,7 +1502,7 @@
     },
     {
       "type": "modal-morph",
-      "file": "source/lib/components/scenes/registry-motion.mjs",
+      "file": "source/lib/components/scenes/_shared/registry-motion.mjs",
       "renderMode": "dom",
       "policy": "direct",
       "singleLine": [
@@ -1564,7 +1564,7 @@
     },
     {
       "type": "comic",
-      "file": "source/lib/components/scenes/text.mjs",
+      "file": "source/lib/components/scenes/sentences/comic.mjs",
       "renderMode": "dom",
       "policy": "preserved",
       "singleLine": [],

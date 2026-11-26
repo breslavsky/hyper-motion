@@ -1,6 +1,6 @@
 // Scan, tag and sort into cards. Adapted from community technique
 // c8af3fb3-c765-49e9-b5d4-bd52713c3629-1-6; layout and clocks are instance-local.
-import metadata from '../metadata.mjs';
+import metadata from '../../metadata.mjs';
 
 // One background survives the text handoff. Busy copy leaves before the
 // completion cue; done copy enters on the cue and keeps its original full hold.
@@ -255,3 +255,5 @@ export function createFamily(K) {
   }};
   return {sceneFactories:{scan:given=>definition.build(given)}};
 }
+// The scene's factory for the kit's context (scenes/folders.mjs).
+export function create(K) { return createFamily(K).sceneFactories["scan"]; }

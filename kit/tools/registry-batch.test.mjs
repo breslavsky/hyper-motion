@@ -82,7 +82,10 @@ test('pinned registry provenance verifies originals, manifests, license and adap
     assert.equal(JSON.parse(fs.readFileSync(manifest,'utf8')).name,item.name);
     assert.ok(item.source.includes('/'+receipt.commit+'/'));
     const adapted=path.resolve(base,item.adaptedTo);
-    assert.equal(adapted,fileURLToPath(new URL(`../source/lib/components/scenes/${catalog[item.name].family}.mjs`,import.meta.url)));
+    // The adapted code is the scene's own file, or the file that one takes its factory from when two scenes share their parts.
+    const own=fileURLToPath(new URL(`../source/lib/components/scenes/${catalog[item.name].family}/${item.name}.mjs`,import.meta.url));
+    const shared=fs.readFileSync(own,'utf8').match(/from '(\.\.\/_shared\/[^']+)'/);
+    assert.equal(adapted,shared?path.resolve(path.dirname(own),shared[1]):own);
     const code=fs.readFileSync(adapted,'utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/[^\n]*/g,'');
     assert.doesNotMatch(code,/upstream\/|\.html\b|fetch\(/,'Runtime must not load upstream HTML');
   }

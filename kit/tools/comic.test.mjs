@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {comicEnter, comicFx, comicIdle} from '../source/lib/components/scenes/text.mjs';
+import {comicEnter, comicFx, comicIdle} from '../source/lib/components/scenes/sentences/comic.mjs';
 
 const require = createRequire(import.meta.url);
 const scene = require('../source/lib/components/metadata.cjs').comic;

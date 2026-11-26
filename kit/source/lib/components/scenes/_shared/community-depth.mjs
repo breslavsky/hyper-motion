@@ -1,6 +1,6 @@
 // Native adaptations of two community techniques. Provenance is in each definition.
 // Construction is instance-local; every pose, guide and tether comes from local time.
-import metadata from '../metadata.mjs';
+import metadata from '../../metadata.mjs';
 
 const clamp = value => Math.max(0,Math.min(1,value));
 const progress = (time,from,to) => clamp((time-from)/Math.max(.0001,to-from));

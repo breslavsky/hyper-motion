@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import plan from '../source/lib/compiler/plan.cjs';
 import definitions from '../source/lib/components/metadata.cjs';
-import {accordionFrame,explodeFrame,projectPlane} from '../source/lib/components/scenes/community-depth.mjs';
+import {accordionFrame,explodeFrame,projectPlane} from '../source/lib/components/scenes/_shared/community-depth.mjs';
 
 function frame(aspect) {
   const p=plan.compile({aspect,style:'editorial',brand:{name:'Nook'},scenes:[{type:'title',beats:6,text:'Test'}]});

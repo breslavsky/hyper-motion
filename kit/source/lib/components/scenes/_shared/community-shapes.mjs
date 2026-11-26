@@ -1,6 +1,6 @@
 // Community moves rebuilt for native clocks, instance-local DOM and the film's design tokens.
 // Provenance is in metadata.from and tools/techniques.json; no source-page styling is retained.
-import metadata from '../metadata.mjs';
+import metadata from '../../metadata.mjs';
 
 const TAU = Math.PI * 2;
 const clamp = value => Math.min(1, Math.max(0, value));
