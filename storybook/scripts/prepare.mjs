@@ -45,6 +45,16 @@ for(const book of Object.values(brandbooks)){
 }
 for (const name of ['hyperframes-player.global.js', 'hyperframe.runtime.iife.js']) fs.copyFileSync(path.join(hf, 'dist', name), path.join(output, name));
 for (const name of ['preview.html', 'preview.mjs']) fs.copyFileSync(path.join(here, 'src', name), path.join(output, name));
+// The camera's pages: a plain composition per example, its world and its recipe written into it.
+{
+  const {cameraExamples} = await import('../src/camera-examples.mjs');
+  const page = fs.readFileSync(path.join(here, 'src/camera-page.html'), 'utf8');
+  for (const example of cameraExamples) {
+    const recipe = {width: example.width, height: example.height, ...example.recipe};
+    fs.writeFileSync(path.join(output, `camera-${example.id}.html`), page.replaceAll('__W__', String(example.width)).replaceAll('__H__', String(example.height))
+      .replace('__DURATION__', String(recipe.duration)).replace('__STYLE__', () => example.style).replace('__WORLD__', () => example.world).replace('__RECIPE__', () => JSON.stringify(recipe)));
+  }
+}
 await build({entryPoints: [path.join(source, 'lib/compiler/plan.cjs')], outfile: path.join(output, 'compiler.mjs'), bundle: true, format: 'esm', platform: 'browser', target: 'es2022'});
 fs.writeFileSync(path.join(generated, 'catalog.json'), JSON.stringify(catalog, null, 2)+'\n');
 fs.writeFileSync(path.join(generated, 'settings.json'), JSON.stringify(settings, null, 2)+'\n');

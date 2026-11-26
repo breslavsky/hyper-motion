@@ -5,7 +5,7 @@ import {createPreviewController, createVisibilityCoordinator} from './visibility
 import {backgroundPicker} from './glass-background.mjs';
 
 let playerReady;
-function loadPlayer() {
+export function loadPlayer() {
   if (customElements.get('hyperframes-player')) return Promise.resolve();
   return playerReady ??= new Promise((resolve, reject) => {
     const script = document.createElement('script');
@@ -15,7 +15,7 @@ function loadPlayer() {
     document.head.append(script);
   });
 }
-const element = (tag, className, text) => {
+export const element = (tag, className, text) => {
   const el = document.createElement(tag);
   if (className) el.className = className;
   if (text !== undefined) el.textContent = text;

@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=__W__, height=__H__">
+<link rel="stylesheet" href="lib/fonts.css">
+<style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:__W__px;height:__H__px;overflow:hidden;background:#0b0b10}
+#root{position:relative;width:__W__px;height:__H__px;overflow:hidden;background:#0b0b10;font-family:Onest,Helvetica,Arial,sans-serif;color:#f5f5f7}
+#world{position:absolute;left:0;top:0}
+__STYLE__
+</style><script src="lib/vendor/gsap/gsap.min.js"></script></head><body>
+<div id="root" data-composition-id="main" data-width="__W__" data-height="__H__" data-duration="__DURATION__" data-fps="30">
+ <div id="world">__WORLD__</div>
+</div>
+<script>(function(){
+const recipe=__RECIPE__;
+const ready=Promise.all([import('./lib/components/camera/camera.mjs'),document.fonts.load('800 120px Onest'),document.fonts.load('600 40px Onest')]).then(([{mountCamera}])=>{
+  const timeline=window.gsap.timeline({paused:true});
+  window.__camera=mountCamera(document.getElementById('world'),recipe);
+  window.__camera.attach(timeline,0);
+  window.__timelines=window.__timelines||{};window.__timelines.main=timeline;
+});
+window.__hf??={};window.__hf.buildReady??={};window.__hf.buildReady.camera=ready;})();</script><script src="hyperframe.runtime.iife.js"></script></body></html>

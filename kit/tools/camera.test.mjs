@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
-import {lookAt, travel, cameraPath, kick, drift, createCamera, smooth} from '../source/lib/components/camera/camera.mjs';
+import {lookAt, travel, cameraPath, kick, drift, createCamera, mountCamera, smooth} from '../source/lib/components/camera/camera.mjs';
 import {cameraHits} from '../../components/camera/hits.mjs';
 
 const require = createRequire(import.meta.url);
@@ -85,4 +85,42 @@ test('the hits of a camera are the key hits of its track, from its start, never 
   assert.deepEqual(cameraHits(map, {start: 0.5, duration: 6}), [0.12, 2]);
   assert.deepEqual(cameraHits(map, {apart: 0.05}), [0.5, 0.62, 2.5, 9]);
   assert.throws(() => cameraHits({bpm: 120}), /not a track map/);
+});
+
+test('on a timeline the camera is drawn by every seek, with or without callbacks', () => {
+  // A page's world and GSAP's timeline, as much of them as the camera touches.
+  const world = {style: {}, offsetWidth: 3000, offsetHeight: 2000, querySelectorAll: () => []};
+  const timeline = {to(target, vars, start) { Object.assign(this, {target, vars, start}); return this; }};
+  const camera = mountCamera(world, {width: 1920, height: 1080, duration: 4, stops: [{at: 0, x: 500, y: 500, zoom: 1}, {at: 2, x: 2000, y: 1200, zoom: 2}]});
+  camera.attach(timeline, 1.5);
+  assert.equal(timeline.start, 1.5);
+  assert.deepEqual([timeline.vars.time, timeline.vars.duration, timeline.vars.ease], [4, 4, 'none']);
+  assert.equal(timeline.vars.onUpdate, undefined, 'a seek that suppresses callbacks must still draw');
+  // GSAP calls a function it finds on the target with the value, and with nothing to read it.
+  const rest = world.style.transform;
+  timeline.target.time(3);
+  assert.equal(timeline.target.time(), 3);
+  assert.notEqual(world.style.transform, rest);
+  assert.match(world.style.transform, /scale\(2\.00000\)/);
+  timeline.target.time(0);
+  assert.equal(world.style.transform, rest, 'back to where it was');
+  timeline.target.time(99);
+  assert.equal(timeline.target.time(), 4, 'never past its end');
+  assert.throws(() => mountCamera(world, {width: 1920, height: 1080, duration: 4, stops: [{at: 0, look: 'nothing'}]}), /nothing on the page has data-cam="nothing"/);
+});
+
+test('a rewind runs the whole way backwards at the end and lands where the camera began', () => {
+  const stops = [{at: 0, pose: {x: 0, y: 0, zoom: 1}}, {at: 2, pose: {x: 1000, y: 0, zoom: 2}, move: 1}, {at: 4, pose: {x: 1000, y: 600, zoom: 1}, move: 1}];
+  const plain = createCamera({view, stops}), camera = createCamera({view, stops, duration: 6, rewind: 1});
+  for (const l of [0, 1.5, 3.6, 4.9]) assert.deepEqual(camera.at(l), plain.at(l), `before the rewind nothing changes: ${l}`);
+  const end = camera.at(6), start = camera.at(0);
+  assert.deepEqual([end.x, end.y, end.zoom], [start.x, start.y, start.zoom]);
+  // It goes back through the stops in order and holds on none: half-way it is on the middle stop, at speed.
+  const half = camera.at(5.5);
+  assert.ok(Math.abs(half.x - 1000) < 1e-6 && Math.abs(half.y) < 1e-6 && Math.abs(half.zoom - 2) < 1e-6, JSON.stringify(half));
+  assert.ok(half.speed > 1500, `${half.speed}`);
+  assert.ok(camera.at(5.01).speed < half.speed / 3 && camera.at(5.99).speed < half.speed / 3, 'it gathers speed and brakes');
+  for (let l = 5.02; l < 5.97; l += 0.02) assert.ok(camera.at(l).speed > 0, `it never stands during the rewind: ${l}`);
+  assert.throws(() => createCamera({view, stops, rewind: 1}), /needs the camera's duration/);
+  assert.throws(() => createCamera({view, stops, duration: 4.5, rewind: 1}), /after the rewind begins/);
 });

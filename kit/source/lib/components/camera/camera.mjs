@@ -45,13 +45,25 @@ export function cameraPath(stops, {pull = 0.1} = {}) {
     const gap = i ? stop.at - stops[i - 1].at : 0;
     return {...stop, move: i ? clamp(stop.move ?? Math.min(gap * 0.7, 1.2), 0.05, gap) : 0};
   });
-  return l => {
+  const at = l => {
     let i = way.findIndex(stop => l < stop.at);
     if (i < 0) return {...way.at(-1).pose};
     if (i === 0) return {...way[0].pose};
     const to = way[i], from = way[i - 1];
     return travel(from.pose, to.pose, smooth((l - (to.at - to.move)) / to.move), to.pull ?? pull);
   };
+  // The same way run backwards in one go, `u` of it done (0 the last stop, 1 the first): it holds on no
+  // stop and slows at none, each leg taking the share of the way its own move took. The caller eases `u`.
+  const whole = way.reduce((sum, stop) => sum + stop.move, 0);
+  at.back = u => {
+    let left = clamp(u) * whole;
+    for (let i = way.length - 1; i > 0; i--) {
+      if (left <= way[i].move || i === 1) return travel(way[i].pose, way[i - 1].pose, clamp(left / way[i].move), way[i].pull ?? pull);
+      left -= way[i].move;
+    }
+    return {...way[0].pose};
+  };
+  return at;
 }
 
 /** How much a hit lifts the zoom at a moment: up at once and down slowly, smooth at both ends. 0..1. */
@@ -84,13 +96,19 @@ export function drift(l, {amount = 0, rate = 0.35, seed = 1} = {}) {
  *   hits   moments of the music the camera takes; `punch` how much (a share of the zoom), `decay` how long
  *   life   {amount (px), rate, seed}
  *   blur   how much of its speed the camera shows, in seconds of shutter (0 for none)
+ *   rewind with `duration`: the camera's last `rewind` seconds run its whole way backwards, fast, to where
+ *          it began, as a tape rewinds, so a film that loops comes round without a jump
  * `at(l)` gives `{x, y, zoom, roll, shift: {x, y}, speed, blur}`: speed in px of the frame a second.
  */
-export function createCamera({view, eye, stops, hits = [], punch = 0.04, decay = 0.3, life, blur = 0.0025, pull} = {}) {
+export function createCamera({view, eye, stops, hits = [], punch = 0.04, decay = 0.3, life, blur = 0.0025, pull, duration, rewind = 0} = {}) {
   if (!(view?.w > 0 && view?.h > 0)) throw new Error('camera: the view needs a size');
+  if (rewind && !(duration > rewind)) throw new Error('camera: a rewind needs the camera\'s duration, and less of it than the whole');
   const centre = eye ?? {x: view.w / 2, y: view.h / 2}, way = cameraPath(stops, {pull});
+  // Until the rewind begins the way runs with the clock; then it is run backwards whole, speeding up and slowing down.
+  const back = rewind ? duration - rewind : Infinity;
+  if (rewind && stops.at(-1).at > back) throw new Error(`camera: the last stop (${stops.at(-1).at} s) is after the rewind begins (${back} s)`);
   const bare = l => {
-    const pose = way(l), hand = drift(l, life);
+    const pose = l <= back ? way(l) : way.back(smooth((l - back) / rewind)), hand = drift(l, life);
     return {x: pose.x, y: pose.y, zoom: pose.zoom * (1 + punch * kick(l, hits, decay)), roll: (pose.roll ?? 0) * Math.PI / 180 + hand.roll, shift: {x: hand.x, y: hand.y}};
   };
   // Where a point of the world stands on the frame.
@@ -127,7 +145,7 @@ export function rectIn(world, node) {
  *   {at: 4, x: 900, y: 400, zoom: 2}     a pose given outright
  * with `roll` (degrees), `move` and `pull` as for cameraPath. Options:
  * `width`, `height`, `duration`, `hits`, `punch`, `decay`, `life`, `blur`,
- * `eye`. Returns `{draw(l), at(l), attach(timeline, start)}`: `attach` puts
+ * `rewind`, `eye`. Returns `{draw(l), at(l), attach(timeline, start)}`: `attach` puts
  * the camera on the page's own GSAP timeline.
  */
 export function mountCamera(world, {width, height, duration, stops, least = 0.2, most = 8, ...rest}) {
@@ -154,7 +172,7 @@ export function mountCamera(world, {width, height, duration, stops, least = 0.2,
     if (![pose.x, pose.y, pose.zoom].every(Number.isFinite)) throw new Error(`camera: stop ${i + 1} says neither what to look at nor a pose`);
     return {at: stop.at, move: stop.move, pull: stop.pull, pose: {...pose, roll: stop.roll ?? 0}};
   });
-  const camera = createCamera({view, stops: posed, ...rest});
+  const camera = createCamera({view, stops: posed, duration, ...rest});
   Object.assign(world.style, {transformOrigin: '0 0', willChange: 'transform'});
   const draw = l => {
     const state = camera.at(l);
@@ -162,10 +180,12 @@ export function mountCamera(world, {width, height, duration, stops, least = 0.2,
     world.style.filter = state.blur > 0.4 ? `blur(${Math.min(state.blur, 16).toFixed(2)}px)` : 'none';
     return state;
   };
-  // The page's clock is a function GSAP calls: a plain number tweened, the camera drawn on every update.
+  // The camera's clock is a function GSAP calls with the time, so a seek draws the camera too,
+  // whether or not the seek lets callbacks run.
   const attach = (timeline, start = 0) => {
-    const clock = {time: 0};
-    timeline.to(clock, {time: duration, duration, ease: 'none', onUpdate: () => draw(clock.time)}, start);
+    let now = 0;
+    const clock = {time(value) { if (value === undefined) return now; now = clamp(value, 0, duration); draw(now); }};
+    timeline.to(clock, {time: duration, duration, ease: 'none'}, start);
     draw(0);
     return timeline;
   };

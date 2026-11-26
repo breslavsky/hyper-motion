@@ -1,6 +1,6 @@
 :root { color-scheme: light; }
 body { margin: 0; }
-pk-component-story { display: block; color: #20232b; background: #f6f7f9; font: 14px/1.5 system-ui, sans-serif; }
+pk-component-story, .pk-page { display: block; color: #20232b; background: #f6f7f9; font: 14px/1.5 system-ui, sans-serif; }
 .pk-story { box-sizing: border-box; padding: 24px; min-height: 100vh; }
 .pk-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; max-width: 1280px; margin: 0 auto 16px; }
 .pk-heading h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -.02em; }

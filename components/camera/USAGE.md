@@ -73,6 +73,11 @@ Every way speeds up and then slows down.
 - `blur`: seconds of shutter, 0.0025 unless given: the faster the camera
   goes, the more the picture blurs; on a stop there is none. 0 for no blur.
 
+- `rewind`: seconds at the camera's end in which it runs its whole way
+  backwards, fast, to where it began, as a tape rewinds (0.8 to 1.2 reads as
+  a rewind). A film that loops then comes round without a jump. The last stop
+  must be before `duration - rewind`. Hits still land while it rewinds.
+
 ## What it gives back
 
 `mountCamera` returns `draw(l)` (set the camera for a moment by hand),
