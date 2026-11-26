@@ -1,10 +1,12 @@
 // One ball rides through a row of controls under one camera, never a cut.
+// The way between two poses is the shared camera's (../camera/camera.mjs), which was taken out of this scene.
 // Grown from components/ui-world (one switch, one jump, one slider,
 // camera poses set by hand per format): here the stops are a list, and the layout, the
 // hops and the camera are worked out from it. The world is laid out at the closing view
 // (zoom 1, every control inside the safe area, type at its own size); a close-up is that
 // world enlarged, so nothing is ever drawn smaller than it is laid out.
 import metadata from '../metadata.mjs';
+import {travel} from '../camera/camera.mjs';
 
 const clamp=(value,low=0,high=1)=>Math.max(low,Math.min(high,value));
 const mix=(a,b,k)=>a+(b-a)*k;
@@ -62,7 +64,7 @@ export function rideState(model,l) {
   if(next<=0&&next!==-1||current<0)camera=pose(0);
   else if(next>0&&l>=t.stops[next].leave-.08){
     const k=smooth((l-(t.stops[next].leave-.08))/(t.hop+.2)),a=pose(next-1),b=stops[next].pose;
-    camera={x:mix(a.x,b.x,k),y:mix(a.y,b.y,k),zoom:Math.max(1,mix(a.zoom,b.zoom,k)*(1-.1*Math.sin(Math.PI*k)))};
+    camera=travel(a,b,k,.1);camera.zoom=Math.max(1,camera.zoom);
   }else camera=pose(current);
   if(l>t.overview){
     const k=smooth((l-t.overview)/(t.settle-t.overview));

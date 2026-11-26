@@ -1,0 +1,4 @@
+{
+  "note": "Ours, written from scratch: the camera of the `ride` scene (kit/source/lib/components/scenes/ride.mjs), taken out so any page and any scene can use it. Nothing taken from elsewhere.",
+  "sources": []
+}
