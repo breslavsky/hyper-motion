@@ -121,16 +121,18 @@ const startOf = (map, bpm) => {
 /** The border of the track's sections a film's beats are counted from: the first sure one where the drums come in, else the first sure one. */
 const anchorOf = (map) => {
 	const sections = map?.sections ?? [];
-	const sure = sections.map((section, i) => ({ ...section, before: sections[i - 1] })).filter((section) => section.before && section.sure);
+	const sure = sections.map((section, i) => ({ ...section, before: sections[i - 1] })).filter((section) => section.before && bordered(section));
 	const drums = sure.find((section) => section.drums && !section.before.drums);
 	return (drums ?? sure[0])?.from ?? null;
 };
 
+/** Whether the map is sure where a section begins, which is another matter than what the section is called (`sure`). */
+const bordered = (section) => section.border ?? section.sure;
 // What a beat of the track is worth as the place a scene begins, and how it is said.
 const PLACES = [
 	// Where a part of the music begins (its intro ends, its drums come in, it breaks): what a listener hears as
 	// the music changing, so the film changes there before anywhere else. Only the borders the map is sure of.
-	["a new part of the music begins", 6, (map) => (map.sections ?? []).filter((section, i) => i && section.sure).map((section) => section.from), true],
+	["a new part of the music begins", 6, (map) => (map.sections ?? []).filter((section, i) => i && bordered(section)).map((section) => section.from), true],
 	["the music comes in", 4, (map) => (map.entries ?? []).map((e) => e.hit ?? e.t), true],
 	["a loud part begins", 3, (map) => (map.parts ?? []).filter((part, i) => i && part.level === "loud").map((part) => part.from), true],
 	["the music is back after a stop", 2.5, (map) => (map.gaps ?? []).map((gap) => gap.to), true],
@@ -138,6 +140,8 @@ const PLACES = [
 ];
 /** How far a scene may be moved from the length its writer gave it, in beats, and what a beat of that costs. */
 const LAY_REACH = 2, LAY_COST = 0.35;
+/** On a track a film may end this many beats from the length asked for, each costing LAY_OFF of a place's worth. */
+const LAY_SLACK = 2, LAY_OFF = 0.5;
 
 /** The film as the recipe compiler takes it: on a track of its own it plays no kit track, at that track's tempo. */
 const recipeOf = (film, track) => {
@@ -224,7 +228,12 @@ const laid = (film, track) => {
 		}
 		best = next;
 	});
-	const ends = [...best.entries()].filter(([end]) => target === null || end === target);
+	// As long as asked; on a track a beat or two off it, when that is what lets a scene begin where a part of the
+	// music does: a film a second longer that cuts on the drums' entry follows its music, one of the exact length
+	// that cuts beside it does not.
+	const slack = target !== null && map ? LAY_SLACK : 0;
+	const ends = [...best.entries()].filter(([end]) => target === null || Math.abs(end - target) <= slack)
+		.map(([end, state]) => [end, { ...state, score: state.score - (target === null ? 0 : LAY_OFF * Math.abs(end - target)) }]);
 	if (!ends.length) return { beats: null, wish, asked, low: least, high: span, target, beat, tail };
 	const [, found] = ends.reduce((a, b) => (b[1].score > a[1].score ? b : a));
 	const said = [];
@@ -502,7 +511,9 @@ const problems = (film) => {
 			}
 			const plan = compile(film);
 			const off = film.seconds - plan.duration;
-			if (Math.abs(off) > plan.beat * 0.5 + 0.001) {
+			// A film laid on its own track may end a beat or two from the length asked for, to stand on the track.
+			const room = lay?.beats && trackOf(film)?.map ? LAY_SLACK + 0.5 : 0.5;
+			if (Math.abs(off) > plan.beat * room + 0.001) {
 				const beats = Math.max(1, Math.round(Math.abs(off) / plan.beat));
 				out.push(`the film runs ${plan.duration.toFixed(2)} s and "seconds" asks for ${film.seconds}: ${off > 0 ? "add" : "remove"} about ${beats} actual beats across the requested actions, within each scene's limits; a beat is ${plan.beat.toFixed(3)} s at ${plan.bpm} BPM. Use normal pace for exact beat counts. Add a scene only for a new meaningful action; never repeat the ending to fill time.`);
 			}

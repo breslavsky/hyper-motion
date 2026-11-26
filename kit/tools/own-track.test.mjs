@@ -119,13 +119,13 @@ test('scenes begin where the track does something, each moved two beats at most'
   assert.deepEqual(starts(base), starts(structuredClone(base)));
 });
 
-test('a laid film keeps the length it was asked for, and a scene its own timing', () => {
+test('a laid film stays within two beats of the length asked for, and a scene keeps its own timing', () => {
   const asked = {...film, music: {file: LAID, from: 0}, scenes: scenes([5, 5, 5, 5, 5])};
   const plain = F.planOf({...asked, music: {...asked.music, lay: false}});
   asked.seconds = Number(plain.duration.toFixed(2));
   assert.deepEqual(F.problems(asked), []);
-  assert.equal(F.planOf(asked).duration, plain.duration);
-  // Twenty-five beats in all still, with the beginnings moved onto the track.
+  // To stand on what the track does a film may end a beat or two from what was asked, never more.
+  assert.ok(Math.abs(F.planOf(asked).duration - plain.duration) <= 2 * plain.beat + 0.001);
   assert.equal(starts(asked).length, 5);
   assert.notDeepEqual(starts(asked), [0, 5, 10, 15, 20]);
   // Never past a scene's usual length unless it was written so, and never more than two beats from what was written.
@@ -150,7 +150,7 @@ test('a length a scene\'s own rules refuse is never chosen for it', () => {
       {type: 'typewriter', beats: 4, text: 'And on.'}, ...scenes([4, 5]).slice(0, 1), {type: 'endcard', beats: 5, cta: 'nook.app'}]};
   assert.deepEqual(F.problems(made), []);
   const plan = F.planOf(made);
-  assert.ok(Math.abs(plan.duration - 14) <= plan.beat / 2 + 0.001);
+  assert.ok(Math.abs(plan.duration - 14) <= plan.beat * 2.5 + 0.001);
   const burst = plan.scenes.find(scene => scene.scene.type === 'kinetic-burst-words').scene.beats;
   assert.ok(burst >= 2 && burst <= 4, String(burst));
 });
@@ -178,6 +178,10 @@ test('scenes begin where a part of the music begins, before anywhere else', () =
   const from = F.layOf({...film, music: {file}, scenes: scenes([5, 5, 5, 5, 5, 5])}).from;
   assert.ok(Math.abs(((7.1 - from) / late.beat) % 1) < 0.01 || Math.abs(((7.1 - from) / late.beat) % 1 - 1) < 0.01, String(from));
   assert.ok(late.scenes.some(scene => Math.abs(scene.start + from - 7.1) < 0.01), JSON.stringify(late.scenes.map(scene => scene.start + from)));
+  put('derived/track/parts-test.json', JSON.stringify(map));
+  // A part whose name the map is unsure of and whose border it is sure of is cut on all the same.
+  put('derived/track/parts-test.json', JSON.stringify({...map, sections: map.sections.map(part => ({...part, sure: false, border: true}))}));
+  assert.ok(F.layOf(made).on.filter(place => place.why === 'a new part of the music begins').length >= 2, JSON.stringify(F.layOf(made).on));
   put('derived/track/parts-test.json', JSON.stringify(map));
   // The border the map is unsure of counts for nothing: without the sure ones no scene is drawn to 3 s.
   put('derived/track/parts-test.json', JSON.stringify({...map, sections: map.sections.map(part => ({...part, sure: false}))}));
