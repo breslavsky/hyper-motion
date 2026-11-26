@@ -306,6 +306,14 @@ that it is the film the user requested.
   it: `{ "track": "pulse" | "bounce" | "drive" | "air" | "space" | "none", "bpm": 120 }`.
   The sounds of the picture (taps, whooshes, hits) are the look's own kit; for
   other sounds add `"kit": "soft" | "punch" | "tech" | "play" | "cinema"`.
+  A track of the user's, or one a tool made, is `{ "file": "<its path>" }`
+  and nothing else: the film takes that track's tempo and starts on its first
+  beat, and the same one command lays the track under the picture. `harness
+  assets` gives an upload's path; `"from": <seconds>` starts later in the
+  track, `"bpm"` only when `fit` says the track has no steady tempo. A track
+  the user asks you to have made is `generate_music`'s file, mapped once with
+  `harness track-map <its path>` before `fit`. Never
+  cut, measure or mix a track yourself, and write no sound script of your own.
 - `scenes`: as many as the requested story needs. A beat is 60/bpm seconds
   (half a second at 120). At normal pace, 30 scene beats plus the half-beat
   tail run 15.25 seconds. `chill` expands and rounds each scene's beats by
@@ -401,7 +409,7 @@ Edit `film.json` and run the same one command again:
   `pace` for the same film faster or calmer.
 - **Frame**: `aspect`.
 - **Language**: write every text in the user's language.
-- **Music**: `music.track`, or `"none"` for the sounds of the picture alone;
+- **Music**: `music.track`, `music.file` for a track of their own, or `"none"` for the sounds of the picture alone;
   `music.kit` for other sounds on the picture.
 - **Export**: `harness export`; `--quality draft` for a quick look,
   `--resolution 4k` for 4K.

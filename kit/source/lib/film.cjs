@@ -26,7 +26,7 @@ const crypto = require("crypto");
 const path = require("path");
 const zlib = require("zlib");
 const { buildProject, nativeClips, buildMark } = require("./build.cjs");
-const { compile, canonicalScene, looks, metalVariants, aspects, paces, transitions } = require("./compiler/plan.cjs");
+const { compile: compileRecipe, canonicalScene, looks, metalVariants, aspects, paces, transitions } = require("./compiler/plan.cjs");
 const { materialProblems } = require("./compiler/material.cjs");
 const CATALOG = require("./components/catalog.json");
 const { surfaceForeground } = require("./components/brand-tokens.cjs");
@@ -61,6 +61,54 @@ const kitOf = (film) => film.music?.kit ?? SOUNDS.looks[film.style] ?? "soft";
 
 const SOURCE = path.resolve(__dirname, "..");
 const TRACKS = ["pulse", "bounce", "drive", "air", "space", "none"];
+// `offset` is in the films projects were started with and does nothing: it stays allowed so they keep building.
+const MUSIC_KEYS = ["track", "bpm", "kit", "volume", "file", "from", "offset"];
+
+// A film on a track of its own: a file the user uploaded or a tool made (`music.file`). The film
+// takes the track's tempo and starts on its first beat, both read from the track's map, which the
+// worker makes when a sound arrives (`harness track-map <file>` for any other file). The writer
+// names the file; nothing about the track is worked out by hand.
+const TRACK_FILE = /^(inputs|assets|media|derived)\/[\w./-]+\.(mp3|wav|m4a|aac|flac|ogg|opus|mp4|mov|m4v|webm)$/i;
+const WORKSPACE = path.resolve(SOURCE, "..");
+const trackPath = (rel) => [path.join(WORKSPACE, rel), path.join(SOURCE, rel)].find((file) => fs.existsSync(file)) ?? null;
+/** The name a file's map is kept by: an upload (inputs/<asset id>/original.<ext>) by its asset, any other by its own name. */
+const mapName = (rel) => {
+	const parts = rel.split("/"), stem = path.basename(rel, path.extname(rel));
+	return parts.length === 3 && parts[0] === "inputs" && stem === "original" ? parts[1] : stem;
+};
+const trackMap = (rel) => {
+	for (const root of [WORKSPACE, SOURCE]) {
+		try {
+			const map = JSON.parse(fs.readFileSync(path.join(root, "derived", "track", `${mapName(rel)}.json`), "utf8"));
+			if (map && typeof map === "object" && (map.of === undefined || map.of === rel)) return map;
+		} catch { /* no map there */ }
+	}
+	return null;
+};
+/** A track's tempo as a film's: the map's, doubled or halved into the tempos a film can have. */
+const tempoOf = (map) => {
+	let bpm = map?.grid?.bpm;
+	if (!(typeof bpm === "number" && bpm > 0)) return null;
+	while (bpm < 60) bpm *= 2;
+	while (bpm > 180) bpm /= 2;
+	return Math.round(bpm * 100) / 100;
+};
+/** What a film's own track gives it: {file, path, map, bpm, from, seconds}; null for a film on a kit track. */
+const trackOf = (film) => {
+	const file = film?.music?.file;
+	if (typeof file !== "string" || !TRACK_FILE.test(file) || file.split("/").includes("..")) return null;
+	const map = trackMap(file);
+	const from = typeof film.music.from === "number" ? film.music.from : (map?.grid?.firstBeat ?? 0);
+	return { file, path: trackPath(file), map, bpm: film.music.bpm ?? tempoOf(map), from: Math.max(0, Number(from.toFixed(3))), seconds: map?.seconds ?? null };
+};
+/** The film as the recipe compiler takes it: on its own track it plays no kit track, at that track's tempo. */
+const compile = (film) => {
+	const track = trackOf(film);
+	if (!track) return compileRecipe(film);
+	const { file: _file, from: _from, ...music } = film.music;
+	return compileRecipe({ ...film, music: { ...music, track: "none", ...(track.bpm ? { bpm: track.bpm } : {}) } });
+};
+const trackName = (film, look) => (trackOf(film) ? "file" : film.music?.track ?? look.track);
 const RESOLUTION = { "16:9": "landscape", "9:16": "portrait", "1:1": "square" };
 
 const read = (file) => JSON.parse(fs.readFileSync(file === "-" ? 0 : file, "utf8"));
@@ -209,6 +257,22 @@ const problems = (film) => {
 	if (bpm !== undefined && !(typeof bpm === "number" && bpm >= 60 && bpm <= 180)) out.push('"music.bpm" must be a number from 60 to 180');
 	if (film.music?.track !== undefined && !TRACKS.includes(film.music.track)) out.push(`"music.track" must be one of ${TRACKS.join(", ")}`);
 	if (film.music?.kit !== undefined && !Object.hasOwn(SOUNDS.kits, film.music.kit)) out.push(`"music.kit" must be one of ${Object.keys(SOUNDS.kits).join(", ")}`);
+	if (film.music !== undefined && (!film.music || typeof film.music !== "object" || Array.isArray(film.music))) out.push('"music" must be an object');
+	else for (const key of Object.keys(film.music ?? {})) if (!MUSIC_KEYS.includes(key)) out.push(`"music" has no field "${key}": it takes ${MUSIC_KEYS.filter((name) => name !== "offset").join(", ")}`);
+	const own = film.music?.file;
+	if (own !== undefined) {
+		if (typeof own !== "string" || !TRACK_FILE.test(own) || own.split("/").includes("..")) out.push('"music.file" must be a sound or a video of the project by its path: inputs/..., derived/..., assets/... or media/...');
+		else if (!trackPath(own)) out.push(`"music.file": there is no ${own} in the project`);
+		else {
+			const track = trackOf(film);
+			if (!track.map) out.push(`"music.file": ${own} is not mapped yet. Run: harness track-map ${own}`);
+			else if (!track.bpm) out.push(`"music.file": ${own} has no steady tempo to stand the scenes on; give "music.bpm" (60-180) yourself`);
+		}
+		if (film.music.track !== undefined) out.push('"music" names a file and a track: "file" for the user\'s or a generated track, or "track" for one of the kit\'s');
+	}
+	const from = film.music?.from;
+	if (from !== undefined && own === undefined) out.push('"music.from" is where a film starts in its own track: it needs "music.file"');
+	else if (from !== undefined && !(typeof from === "number" && from >= 0 && from <= 3600)) out.push('"music.from" must be seconds from the start of the track, 0 or more');
 	if (!Array.isArray(film.scenes) || !film.scenes.length) return [...out, '"scenes" must list at least one scene'];
 	film.scenes.forEach((input, i) => {
 		const scene = canonicalScene(input);
@@ -336,6 +400,12 @@ const notes = (film) => {
 	const out = [];
 	if (!OPENERS.has(types[0])) out.push(`Scene 1 (${types[0]}) is a weak opener: open with a hook that moves or asks in the first second (pullback, dot, knockout, caption, chat, typewriter, slam, scatter, between).`);
 	if (types[types.length - 1] !== "endcard") out.push("The film should end on an endcard.");
+	// A film longer than what is left of its own track ends in silence.
+	const own = trackOf(film);
+	if (own?.seconds) {
+		const length = compile(film).duration, left = own.seconds - own.from;
+		if (length > left + 0.05) out.push(`The track is ${own.seconds.toFixed(1)} s long and the film starts ${own.from.toFixed(1)} s into it: its last ${(length - left).toFixed(1)} s play with no music. Shorten the film, or start earlier with "music.from".`);
+	}
 	// What a scene's own definition has to say of how it was written (a ride given too few beats).
 	scenes.forEach((scene, i) => { const hint = OWN[scene.type]?.note?.(scene); if (hint) out.push(`Scene ${i + 1} (${scene.type}): ${hint}.`); });
 	for (let i = 1; i < types.length; i++) if (types[i] === types[i - 1]) out.push(`Scenes ${i} and ${i + 1} are both "${types[i]}": never the same scene twice in a row.`);
@@ -428,6 +498,15 @@ const planOf = (film) => {
  * music script writes it beside the track (assets/music.json), and a film whose mark differs has
  * a soundtrack made for another film. (File times do not say it: a checkout sets them anew.)
  */
+/** What of a film's own track a soundtrack was made from: the file as it is now, and where the film starts in it. */
+const trackMark = (film) => {
+	const track = trackOf(film);
+	if (!track) return {};
+	let size = null;
+	try { size = fs.statSync(track.path).size; } catch { /* a missing file is refused before anything is made */ }
+	return { file: track.file, size, from: track.from };
+};
+
 const soundMark = (film, plan) => {
 	const events = plan.audioEvents ?? plan.cues;
 	const end = plan.scenes.filter(scene => scene.scene.type === "endcard").at(-1);
@@ -435,7 +514,8 @@ const soundMark = (film, plan) => {
 	const made = {
 		mixVersion: 2, duration: Number(plan.duration.toFixed(3)), bpm: plan.bpm,
 		kit: kitOf(film), sounds: Object.fromEntries(kits.map(kit => [kit, SOUNDS.kits[kit]])),
-		track: film.music?.track ?? plan.look.track, volume: film.music?.volume ?? 0.9,
+		track: trackName(film, plan.look), volume: film.music?.volume ?? 0.9,
+		...trackMark(film),
 		cues: events.map(c => [Number(c.t.toFixed(6)), c.kind, c.strength ?? 1, c.gain ?? 1, c.kit ?? kitOf(film), c.scene ?? null]),
 		endcard: end ? { start: end.start, sound: end.scene.sound ?? {} } : null,
 	};
@@ -450,7 +530,9 @@ const summary = (film, plan) => ({
 	height: plan.height,
 	bpm: plan.bpm,
 	beat: plan.beat,
-	track: film.music?.track ?? plan.look.track,
+	track: trackName(film, plan.look),
+	// A film on its own track: where the file is, and the moment of it the film starts on.
+	...(trackOf(film) ? { file: trackOf(film).path, from: trackOf(film).from } : {}),
 	kit: kitOf(film),
 	volume: film.music?.volume ?? 0.9,
 	scenes: plan.scenes.map((s) => ({ type: s.scene.type, start: s.start, dur: s.dur, ...(s.scene.sound ? { sound: s.scene.sound } : {}) })),
@@ -486,7 +568,7 @@ const book = (film, plan) => {
 		if (rest.length) shot.text = cut(rest.join(" · "), 600);
 		return shot;
 	});
-	const track = film.music?.track ?? look.track;
+	const track = trackName(film, look);
 	const out = {
 		schema: "motionfab.storybook/1",
 		lang: film.lang ?? written(plan.scenes.flatMap((s) => wordsOf(s.scene)).join(" ")),
@@ -495,7 +577,7 @@ const book = (film, plan) => {
 		look: { text: cut(look.name, 600), palette },
 		episodes: [{ id: "film", title: cut(readable(film.brand.name) ? film.brand.name : "Film", 80), shots }],
 	};
-	if (track !== "none") out.sound = [{ id: "music", title: track[0].toUpperCase() + track.slice(1), kind: "music", text: `${plan.bpm} bpm`, status: "made" }];
+	if (track !== "none") out.sound = [{ id: "music", title: track === "file" ? "Track" : track[0].toUpperCase() + track.slice(1), kind: "music", text: `${plan.bpm} bpm`, status: "made" }];
 	return out;
 };
 
@@ -784,7 +866,7 @@ if (require.main === module) {
 		const drawn = path.join(SOURCE, "assets", "emoji.json");
 		fs.mkdirSync(path.dirname(drawn), { recursive: true });
 		if (!fs.existsSync(drawn) || fs.readFileSync(drawn, "utf8") !== emoji) fs.writeFileSync(drawn, emoji);
-		console.log(`${plan.scenes.length} scenes, ${plan.duration.toFixed(2)} s, ${plan.width}x${plan.height}, look ${plan.style}, track ${film.music?.track ?? plan.look.track} at ${plan.bpm} bpm`);
+		console.log(`${plan.scenes.length} scenes, ${plan.duration.toFixed(2)} s, ${plan.width}x${plan.height}, look ${plan.style}, track ${trackOf(film) ? `${trackOf(film).file} from ${trackOf(film).from} s` : film.music?.track ?? plan.look.track} at ${plan.bpm} bpm`);
 		console.log(`Review against the request (resolved recipe, not a visual inspection):\n${JSON.stringify(review(film, plan))}`);
 	} else {
 		console.error("usage: node lib/film.cjs fit | plan | check | review | book [film.json], or palette <picture>");

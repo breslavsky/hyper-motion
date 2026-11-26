@@ -10,7 +10,8 @@ harness audio source/music.py
 
 Tracks: `pulse` four on the floor with bright chords, `bounce` half-time with an 808, `drive`
 fast with an arpeggio, `air` calm plucks, `space` a drone with a ticking clock, `none` the sounds
-of the picture alone.
+of the picture alone. A film that names a file of its own (`music.file`: the user's track, or one a
+tool made) plays that instead, from the beat its plan starts on.
 """
 
 import json
@@ -130,8 +131,17 @@ def played(kind: str, i: int, strength: float, kit: str | None = None):
 
 
 track = Track(seconds=seconds, bpm=bpm)
-music = plan["track"] in BEDS
-if music:
+music = plan["track"] in BEDS or bool(plan.get("file"))
+if plan.get("file"):
+    # The film's own track (`music.file`): the stretch of it the film plays over, from the moment the
+    # plan starts on, at the film's volume. Any sound or video file: ffmpeg reads it.
+    heard = subprocess.run(
+        ["ffmpeg", "-v", "error", "-ss", str(plan["from"]), "-t", str(seconds), "-i", plan["file"], "-vn", "-ac", "2", "-ar", "48000", "-f", "f32le", "-"],
+        capture_output=True, check=True,
+    ).stdout
+    bed = np.frombuffer(heard, np.float32).reshape(-1, 2).T
+    track.add(bed, at=0, bus="music", gain_db=20 * math.log10(max(0.05, plan["volume"])))
+elif music:
     BEDS[plan["track"]](track)
     for name in ("drums", "bass", "keys", "drone", "hits"):
         if name in track.buses:
