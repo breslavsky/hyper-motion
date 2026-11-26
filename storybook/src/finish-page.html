@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=__W__, height=__H__">
+<link rel="stylesheet" href="lib/fonts.css">
+<style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:__W__px;height:__H__px;overflow:hidden;background:#0d0f18}
+#root{position:relative;width:__W__px;height:__H__px;overflow:hidden;background:#0d0f18;font-family:Onest,Helvetica,Arial,sans-serif;color:#f5f5f7}
+__STYLE__
+</style><script src="lib/vendor/gsap/gsap.min.js"></script></head><body>
+<div id="root" data-composition-id="main" data-width="__W__" data-height="__H__" data-duration="__DURATION__" data-fps="30">
+ <div id="stage" data-finish>__WORLD__</div>
+</div>
+<script>(function(){
+const recipe=__RECIPE__,beats=__BEATS__,last=__LAST__;
+const ready=Promise.all([import('./finish/finish.mjs'),document.fonts.load('800 120px Onest'),document.fonts.load('600 40px Onest')]).then(([{mountFinish}])=>{
+  const timeline=window.gsap.timeline({paused:true});
+  // The page's own film: a line, a card on each beat, a last word. Every move speeds up and slows down.
+  timeline.fromTo('#line',{opacity:0,y:60},{opacity:1,y:0,duration:0.6,ease:'power3.inOut'},0.1);
+  beats.forEach((at,i)=>timeline.fromTo('#card-'+(i+1),{opacity:0,scale:0.6,y:80},{opacity:1,scale:1,y:0,duration:0.24,ease:'power2.inOut'},at-0.2));
+  timeline.fromTo('#last',{opacity:0,scale:1.5},{opacity:1,scale:1,duration:0.2,ease:'power2.inOut'},last-0.18);
+  timeline.to({},{duration:__DURATION__},0);
+  if(recipe) window.__finish=mountFinish(document.getElementById('root'),{width:__W__,height:__H__,fps:30,duration:__DURATION__,...recipe}).attach(timeline,0);
+  window.__timelines=window.__timelines||{};window.__timelines.main=timeline;
+});
+window.__hf??={};window.__hf.buildReady??={};window.__hf.buildReady.finish=ready;})();</script><script src="hyperframe.runtime.iife.js"></script></body></html>

@@ -8,7 +8,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
 import {readCatalog, readCatalogOptions, readThemePreviews, previewVariantsFor, TEMPLATE} from '../src/catalog-data.mjs';
-import {argTypesFor, defaultArgs, validateArgs, makeFilm, FORMATS, BRANDBOOKS, MATERIALS, MATERIAL_COMPONENTS, DEFAULT_BRANDBOOK, FONTS, DEFAULT_FONT} from '../src/model.mjs';
+import {argTypesFor, defaultArgs, validateArgs, makeFilm, FORMATS, BRANDBOOKS, MATERIALS, MATERIAL_COMPONENTS, DEFAULT_BRANDBOOK, FONTS, DEFAULT_FONT, LOOKS, DEFAULT_LOOK} from '../src/model.mjs';
 import {readBrandbooks} from '../src/brandbook-data.mjs';
 
 const require = createRequire(import.meta.url);
@@ -40,6 +40,10 @@ test('bundled stories, samples and toolbars use English copy', {skip: !!(process
   const preview = await import('data:text/javascript;base64,' + Buffer.from(config.outputFiles[0].contents).toString('base64'));
   assertBundledCopy(preview.default.globalTypes, 'toolbar titles, descriptions and items');
   assert.equal(preview.default.globalTypes.brandbook.toolbar.items.find(item => item.value === DEFAULT_BRANDBOOK).title, 'Default');
+  // The look has a menu of its own: every look of the kit, each saying it is a look, Glass until one is picked.
+  assert.equal(preview.default.initialGlobals.look, DEFAULT_LOOK);
+  assert.deepEqual(preview.default.globalTypes.look.toolbar.items.map(item => item.value), [...LOOKS]);
+  assert.ok(preview.default.globalTypes.look.toolbar.items.every(item => item.title.startsWith('Look: ')));
   const userQuery = 'Занятия во вторник';
   assert.equal(makeFilm(entry('glass-search'), {query: userQuery}).scenes[0].query, userQuery);
 });
@@ -375,7 +379,8 @@ test('scene inputs and returned recipes are isolated; presentation controls neve
 
 test('stale toolbar globals and removed brand controls cannot override the selected brandbook or material', () => {
   const selected = {brandbook: defaultBook, material: 'glass', aspect: '1:1'};
-  const stale = {font: 'Missing Font', look: 'metal', metalVariant: 'gold', brand: 'missing'};
+  // A look is a choice again (the toolbar's Look); one the kit does not have is as stale as any other old link.
+  const stale = {font: 'Missing Font', look: 'missing', metalVariant: 'gold', brand: 'missing'};
   const oldArgs = {brandName: 'Wrong', brandBackground: '#000000', brandForeground: '#ffffff', brandAccent: '#ff0000', brandAccent2: '#00ff00'};
   assert.deepEqual(makeFilm(entry('title'), oldArgs, {...selected, ...stale}), makeFilm(entry('title'), {}, selected));
   for (const item of entries) {
@@ -475,4 +480,24 @@ test('controls reflect canonical field kinds, ranges and measured text limits', 
       if (spec.wide !== undefined) assert.ok(controls[name].description.includes(String(spec.wide)));
     }
   }
+});
+
+
+test('the toolbar picks the look a preview is drawn in; a brandbook never changes it', () => {
+  // A brandbook is colours and a font. The look is the kit's own: how text comes in, transitions and
+  // texture. With one fixed look, nobody could see letters that decode, or any other look at work.
+  const {looks} = createRequire(import.meta.url)(path.join(TEMPLATE, 'source/lib/compiler/plan.cjs'));
+  assert.deepEqual([...LOOKS], Object.keys(looks));
+  assert.equal(DEFAULT_LOOK, 'glass');
+  const title = entry('title');
+  assert.equal(makeFilm(title, {}).style, 'glass');
+  assert.equal(makeFilm(title, {}, {look: 'terminal'}).style, 'terminal');
+  assert.equal(looks.terminal.text, 'scramble');
+  // A look the kit does not have (a stale link) is no choice; a brandbook leaves the look alone.
+  assert.equal(makeFilm(title, {}, {look: 'nope'}).style, 'glass');
+  assert.equal(makeFilm(title, {}, {brandbook: 'terminal'}).style, 'glass');
+  assert.equal(makeFilm(title, {}, {look: 'terminal', brandbook: 'terminal'}).style, 'terminal');
+  // Every look gives a film the kit's own validator takes.
+  const {problems} = createRequire(import.meta.url)(path.join(TEMPLATE, 'source/lib/film.cjs'));
+  for (const look of LOOKS) assert.deepEqual(problems(makeFilm(title, {}, {look})), [], look);
 });

@@ -55,6 +55,18 @@ for (const name of ['preview.html', 'preview.mjs']) fs.copyFileSync(path.join(he
       .replace('__DURATION__', String(recipe.duration)).replace('__STYLE__', () => example.style).replace('__WORLD__', () => example.world).replace('__RECIPE__', () => JSON.stringify(recipe)));
   }
 }
+// The finish's pages: the component itself beside them (it is no part of the kit), and a composition per example.
+{
+  const {finishExamples} = await import('../src/finish-examples.mjs');
+  const page = fs.readFileSync(path.join(here, 'src/finish-page.html'), 'utf8');
+  fs.mkdirSync(path.join(output, 'finish'), {recursive: true});
+  fs.copyFileSync(path.resolve(here, '../components/finish/finish.mjs'), path.join(output, 'finish/finish.mjs'));
+  for (const example of finishExamples) {
+    fs.writeFileSync(path.join(output, `finish-${example.id}.html`), page.replaceAll('__W__', String(example.width)).replaceAll('__H__', String(example.height))
+      .replaceAll('__DURATION__', String(example.duration)).replace('__STYLE__', () => example.style).replace('__WORLD__', () => example.world)
+      .replace('__RECIPE__', () => JSON.stringify(example.recipe)).replace('__BEATS__', JSON.stringify(example.beats)).replace('__LAST__', String(example.last)));
+  }
+}
 await build({entryPoints: [path.join(source, 'lib/compiler/plan.cjs')], outfile: path.join(output, 'compiler.mjs'), bundle: true, format: 'esm', platform: 'browser', target: 'es2022'});
 fs.writeFileSync(path.join(generated, 'catalog.json'), JSON.stringify(catalog, null, 2)+'\n');
 fs.writeFileSync(path.join(generated, 'settings.json'), JSON.stringify(settings, null, 2)+'\n');

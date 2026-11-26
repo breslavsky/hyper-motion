@@ -14,6 +14,11 @@ export const DEFAULT_FONT = 'default';
 export const MATERIAL_COMPONENTS = Object.freeze([...settings.materialComponents]);
 // Outside the manifest ID pattern: a real book cannot shadow native defaults.
 export const DEFAULT_BRANDBOOK = '__default__';
+// The look a preview is drawn in. A brandbook is colours and a font and never changes how anything
+// moves; a look is the kit's own: how text comes in (a spring, a mask, a slam, letters that decode),
+// its transitions, its texture and its colours. Glass unless the toolbar picks another.
+export const LOOKS = Object.freeze([...settings.looks]);
+export const DEFAULT_LOOK = 'glass';
 const PALETTE = new Set(['paper', 'ink', 'lime', 'sage', 'peach', 'electric', 'coral', 'sky', 'lilac', 'butter', 'brand', 'brand2']);
 const clone = value => value === undefined ? undefined : structuredClone(value);
 const empty = value => value === undefined || value === null || value === '';
@@ -152,6 +157,8 @@ export function makeFilm(entry, args = {}, globals = {}) {
   // URL-safe toolbar values survive Storybook's colon-delimited globals links.
   const aspect = {landscape: '16:9', portrait: '9:16', square: '1:1'}[globals.aspect] ?? globals.aspect ?? '16:9';
   const brandbook = empty(globals.brandbook) ? DEFAULT_BRANDBOOK : globals.brandbook;
+  // A look the kit does not have (a stale link) is no choice: the preview stays in Glass.
+  const look = LOOKS.includes(globals.look) ? globals.look : DEFAULT_LOOK;
   // The toolbar's "example" keeps a material example on the material it is
   // named after (exampleMaterial); elsewhere it is plain glass.
   // A family the kit does not bundle (a stale link) is no choice: the brandbook's font stays.
@@ -165,7 +172,7 @@ export function makeFilm(entry, args = {}, globals = {}) {
   if (errors.length) throw new Error(errors.join('\n'));
   const values = {...defaultArgs(entry), ...args};
   return {
-    aspect, style: 'glass', ...(MATERIAL_COMPONENTS.includes(entry.type)?{material}:{}), pace: 'normal',
+    aspect, style: look, ...(MATERIAL_COMPONENTS.includes(entry.type)?{material}:{}), pace: 'normal',
     ...(glassTiming(entry) ? {music: {bpm: values.bpm}} : {}),
     // The validator requires sample identity, but no visual brand overrides.
     brand: {...(brandbook===DEFAULT_BRANDBOOK?{name:'Nook',url:'nook.app'}:clone(BRANDBOOKS[brandbook].brand)), ...(font===DEFAULT_FONT?{}:{font})},
