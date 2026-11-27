@@ -190,6 +190,8 @@ logo = played(logo_kind, 0, 1, end_sound.get("kit")) if end and logo_kind and no
 if logo:
     track.add(logo[0], at=end["start"], sync=logo[2], bus="fx", gain_db=logo[1] + 20 * math.log10(end_sound.get("gain", 1)))
 
+# How much lower the music sits all through a film with a voice-over, in dB.
+VOICE_BED_DB = -8
 # The voice-over: every take where its scene begins (`voice` of the plan: the kit has made each run of scenes as
 # long as its line), on a bus of its own. The music gives way under it and the sounds of the picture a little,
 # so no word is covered. A take is any sound file: ffmpeg reads it.
@@ -200,8 +202,12 @@ for line in plan.get("voice", []):
     ).stdout
     track.add(np.frombuffer(said, np.float32).reshape(-1, 2).T.copy(), at=line["at"], bus="voice")
 if plan.get("voice"):
+    # Under a narration the music is a bed: lower all through (between the lines too, or it comes within a few LU
+    # of the voice and the lines are hard to follow), and lower again while a line is said.
     for name in ("music", "drums", "bass", "keys", "drone", "hits"):
-        track.duck(name, by="voice", depth_db=-10, release=0.4)
+        if name in track.buses:
+            track.bus(name).gain(VOICE_BED_DB)
+        track.duck(name, by="voice", depth_db=-6, release=0.4)
     track.duck("fx", by="voice", depth_db=-4, release=0.25)
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
