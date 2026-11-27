@@ -72,14 +72,27 @@ test('a film with no voice is laid and marked as it was', () => {
   assert.notEqual(F.soundMark(other, F.planOf(other)), F.soundMark(made, F.planOf(made)));
 });
 
-test('a line no length of its scenes can hold is refused, and only that line is named', () => {
-  const found = F.problems(voiced({0: 2, 2: 4.5, 3: 1, 5: 2}));
+test('a scene that carries a line is held as long as the line needs, past its usual length', () => {
+  // A scatter is usually four to six beats (some 2.8 s here): a line of 4.5 s holds it longer, and no line is refused.
+  const made = voiced({0: 2, 2: 4.5, 3: 1, 5: 2});
+  assert.deepEqual(F.problems(made), []);
+  for (const line of heard(made)) assert.ok(line.end + 0.45 <= line.next, `a line runs ${line.at}-${line.end} s into ${line.next} s`);
+  const plan = F.planOf(made);
+  assert.ok(plan.scenes[2].dur >= 0.3 + 4.5 + 0.5 - 0.01);
+  // Written that long by hand, a scene with a line is no slow film; the same scene with no line still is.
+  const long = {...film, scenes: film.scenes.map((scene, i) => (i === 2 ? {...scene, beats: 14} : scene))};
+  assert.match(F.problems(long).join('\n'), /scenes\[2\] \(scatter\): 14 beats is too long for it/);
+  assert.deepEqual(F.problems({...long, scenes: long.scenes.map((scene, i) => (i === 2 ? {...scene, voice: take(4.5)} : i === 3 ? {...scene, voice: take(1)} : scene))}), []);
+});
+
+test('a line on a scene whose length is its own is refused in numbers, and only that line is named', () => {
+  // A scene with a speed of its own keeps the beats written: the kit cannot hold it for the line.
+  const own = {...film, scenes: film.scenes.map((scene, i) => (i === 2 ? {type: 'glass-call', beats: 6, name: 'Maya Chen', speed: 1, voice: take(6)}
+    : i === 3 ? {...scene, voice: take(1)} : i === 0 ? {...scene, voice: take(2)} : scene))};
+  const found = F.problems(own);
   assert.equal(found.length, 1);
-  assert.match(found[0], /^scenes\[2\]\.voice is 4\.5 s and would be heard over the line of scene 4: with the pause after it the line needs 5\.3 s, and scene 3 holds at most [\d.]+ s however its beats are written/);
-  // What to do, in numbers: the beats are the kit's, the scenes after the line or the line are the writer's.
-  assert.match(found[0], /changing "beats" does not help\)\. Add about \d+ beats? of scenes with no voice of their own right after scene 3: they carry the line on\. Or record the paragraph again shorter/);
-  // The same line over two scenes (the next scene with no voice of its own carries it on) is heard alone.
-  assert.deepEqual(F.problems(voiced({0: 2, 2: 4.5, 5: 2})), []);
+  assert.match(found[0], /^scenes\[2\]\.voice is 6\.0 s and would be heard over the line of scene 4: with the pause after it the line needs 6\.8 s, and scene 3 holds at most [\d.]+ s however its beats are written/);
+  assert.match(found[0], /Add about \d+ beats? of scenes with no voice of their own right after scene 3: they carry the line on\. Or record the paragraph again shorter/);
 });
 
 test('lengths kept as written are told how many beats a line still needs', () => {

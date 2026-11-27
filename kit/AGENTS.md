@@ -190,9 +190,10 @@ hand: the kit lays it.
    long paragraph runs over two or three scenes. A scene before the first
    line is silent. Leave `beats` as they are.
 4. Run the same one command. `fit` makes every scene as long as its line
-   and a breath after it, and stops with what to do when a line is too long
-   for its scenes or for the `seconds` asked; `harness audio` lays every
-   take where its scene begins and lowers the music under it.
+   and a breath after it, holding a scene past its usual length when the
+   line needs it, and stops only when the narration is longer than the
+   `seconds` asked; `harness audio` lays every take where its scene begins
+   and lowers the music under it.
 
 A recording of the user's own voice is written into its scene the same way.
 

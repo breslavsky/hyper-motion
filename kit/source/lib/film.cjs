@@ -155,13 +155,17 @@ const recipeOf = (film, track) => {
 	return { ...film, scenes, music: { ...music, track: "none", ...(track.bpm ? { bpm: track.bpm } : {}) } };
 };
 
-/** Whether a scene of a film takes a length: the film's own checks, on that scene alone at that length (its voice is the whole film's matter). */
-const takes = (film, i, beats) => {
+/**
+ * Whether a scene of a film takes a length: the film's own checks, on that scene alone at that length (its voice
+ * is the whole film's matter). A scene that carries a line of the voice-over (`carries`) may be held past its
+ * usual length: the picture rests while the voice ends.
+ */
+const takes = (film, i, beats, carries = false) => {
 	const { seconds: _seconds, music, ...rest } = film;
 	const { file: _file, from: _from, lay: _lay, ...plain } = music ?? {};
 	const { voice: _voice, ...scene } = film.scenes[i];
 	try {
-		return problems({ ...rest, ...(Object.keys(plain).length ? { music: plain } : {}), scenes: [{ ...scene, beats }] }).length === 0;
+		return problems({ ...rest, ...(Object.keys(plain).length ? { music: plain } : {}), scenes: [{ ...scene, beats }] }, { held: carries ? new Set([0]) : null }).length === 0;
 	} catch { return false; }
 };
 
@@ -272,11 +276,12 @@ const laid = (film, track) => {
 		if (scene.timing !== undefined || scene.speed !== undefined) return [wish[i]];
 		const usual = USUAL[scene.type] ?? [Math.max(1, wish[i] - LAY_REACH), wish[i] + LAY_REACH];
 		let low = Math.max(1, Math.min(wish[i], usual[0])), high = Math.max(wish[i], usual[1]);
-		if (runOf[i] >= 0) high = Math.max(wish[i], USUAL[scene.type] ? usual[1] + HELD : wish[i] + needs[runOf[i]]);
+		// A scene that carries a line may be held as long as the whole line needs: the voice leads, the picture rests.
+		if (runOf[i] >= 0) high = Math.min(32, Math.max(wish[i], usual[1] + HELD, needs[runOf[i]]));
 		if (asked === null) { low = Math.max(low, wish[i] - LAY_REACH); if (runOf[i] < 0) high = Math.min(high, wish[i] + LAY_REACH); }
 		// A scene has rules of its own about its length (a burst of two to four beats, a last hit a beat
 		// before the end): only the lengths it takes are chosen from. The one written always stands.
-		return Array.from({ length: high - low + 1 }, (_, n) => low + n).filter((beats) => beats === wish[i] || takes(film, i, beats));
+		return Array.from({ length: high - low + 1 }, (_, n) => low + n).filter((beats) => beats === wish[i] || takes(film, i, beats, runOf[i] >= 0));
 	});
 	const least = options.reduce((sum, choices) => sum + choices[0], 0), span = options.reduce((sum, choices) => sum + choices.at(-1), 0);
 	// The fewest beats the voice-over leaves the film: a length asked for under it cannot be met by sharing.
@@ -449,7 +454,7 @@ const USUAL = (() => {
 const HELD = 2;
 
 /** What stops a film from being played, in words the writer can act on. */
-const problems = (film) => {
+const problems = (film, { held = null } = {}) => {
 	const out = [];
 	if (!film || typeof film !== "object" || Array.isArray(film)) return ["film.json must be an object"];
 	for (const key of Object.keys(film)) if (!FILM_KEYS.includes(key)) out.push(`film.json has no field "${key}".${key === "bg" || key === "background" ? ' Set brand.tokens.background for the whole film or bg on each scene; preserve the requested colour.' : ` Its fields: ${FILM_KEYS.join(", ")}.`}`);
@@ -520,6 +525,8 @@ const problems = (film) => {
 	if (from !== undefined && own === undefined) out.push('"music.from" is where a film starts in its own track: it needs "music.file"');
 	else if (from !== undefined && !(typeof from === "number" && from >= 0 && from <= 3600)) out.push('"music.from" must be seconds from the start of the track, 0 or more');
 	if (!Array.isArray(film.scenes) || !film.scenes.length) return [...out, '"scenes" must list at least one scene'];
+	// The scenes that carry a line of the voice-over may be held as long as it needs (see `laid`).
+	const carried = held ?? new Set(voiceRuns(voicesOf(film)).flatMap((run) => Array.from({ length: run.last - run.first + 1 }, (_, n) => run.first + n)));
 	film.scenes.forEach((input, i) => {
 		const scene = canonicalScene(input);
 		const where = `scenes[${i}]`;
@@ -531,7 +538,7 @@ const problems = (film) => {
 		for (const key of Object.keys(scene)) if (!SCENE_KEYS.includes(key) && !Object.hasOwn(fields, key)) out.push(`${where} (${scene.type}) has no field "${key}". Its fields: ${Object.keys(fields).join(", ")}.`);
 		if (!(typeof scene.beats === "number" && scene.beats >= 1 && scene.beats <= 32)) out.push(`${where} (${scene.type}): "beats" must be a number from 1 to 32`);
 		// A scene held far past its usual length is a slow film: a longer film has more scenes.
-		else if (USUAL[scene.type] && scene.beats > USUAL[scene.type][1] + HELD && !authoredTiming && !(scene.type === "dial" && scene.timing?.slide)) out.push(`${where} (${scene.type}): ${scene.beats} beats is too long for it, its usual length is ${USUAL[scene.type][0]}-${USUAL[scene.type][1]}: give it at most ${USUAL[scene.type][1] + HELD} and add scenes for the rest of the time`);
+		else if (USUAL[scene.type] && scene.beats > USUAL[scene.type][1] + HELD && !authoredTiming && !carried.has(i) && !(scene.type === "dial" && scene.timing?.slide)) out.push(`${where} (${scene.type}): ${scene.beats} beats is too long for it, its usual length is ${USUAL[scene.type][0]}-${USUAL[scene.type][1]}: give it at most ${USUAL[scene.type][1] + HELD} and add scenes for the rest of the time`);
 		if (scene.in !== undefined && !Object.hasOwn(transitions, scene.in)) out.push(`${where}: "in" must be one of ${Object.keys(transitions).join(", ")}`);
 		if (input.voice !== undefined) {
 			const rel = input.voice;
