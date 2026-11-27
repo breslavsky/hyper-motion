@@ -83,10 +83,10 @@ export const factory = ({ p, cam, fg, accent, palette, K }) => {
 	});
 	const n = words.length;
 	const gather = s.gather !== false && n >= 3;
-	const step = Math.max(0.42, (p.dur * (gather ? 0.58 : 0.86)) / n);
-	const swapAt = words.map((_, k) => 0.15 + k * step);
-	const tFan = swapAt[n - 1] + Math.max(0.5, step * 0.9);
-	const tGather = tFan + 0.7;
+	// When the words change, the cards fan out and gather is the scene's moments (scene-moments.cjs).
+	const swapAt = p.at.swaps;
+	const tFan = p.at.fan;
+	const tGather = p.at.gather;
 	const fanW = Math.min(W * 0.5, n * cw * 0.62);
 	return (l, d) => {
 		const fan = gather ? E.snapSettle(prog(l, tFan, 0.5)) : 0;

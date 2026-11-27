@@ -32,7 +32,8 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 				D.surface(box, "card", { layout: "frame", purpose: "window" });
 				mockUI(box, palette, accent, i, ["dashboard", "inbox", "chat"][i % 3]);
 			} else media(K, inner, null, i + p.index * 3, palette, bg, null);
-			panels.push({ pn, inner, at: 0.04 + order.indexOf(i % 6) * 0.07, dir: i % 4 });
+			// A panel is a tenth of a second open on its moment (`p.at`).
+			panels.push({ pn, inner, at: p.at.first + order.indexOf(i % 6) * p.at.every - 0.1, dir: i % 4 });
 		}
 	const shade = el("div", "", cam);
 	set(shade, { position: "absolute", inset: "0", background: "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(0,0,0,0.38), transparent 75%)" });

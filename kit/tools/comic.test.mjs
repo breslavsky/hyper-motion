@@ -19,13 +19,14 @@ test('the sample is a film, and a paragraph too short, too long or too fast is r
   assert.match(problems({beats: 4, text: text(20)}).join(), /20 words need at least 7 beats/);
 });
 
-test('words enter on whole frames, evenly, and the last has settled before the scene ends', () => {
+test('words enter on fractions of a beat, each drawn on the frame nearest to it, and the last has settled before the scene ends', () => {
   for (const [words, beats, bpm] of [[14, 8, 120], [4, 4, 96], [28, 10, 140], [9, 6, 72]]) {
     const beat = 60 / bpm, len = beats * beat, t = scene.times({text: text(words)}, len, beat);
     assert.equal(t.tick, 1 / 24);
     assert.equal(t.enter.length, words);
-    assert.ok(Number.isInteger(t.stagger) && t.stagger >= 1 && t.stagger <= Math.round(beat / 2 * 24));
-    t.enter.slice(1).forEach((frame, i) => assert.equal(frame - t.enter[i], t.stagger));
+    assert.ok([2, 4, 8].some(part => Math.abs(t.step - beat / part) < 1e-9), `${words} words in ${beats} beats: a word every ${t.step / beat} of a beat`);
+    t.words.forEach((at, i) => assert.ok(Math.abs(at - i * t.step) < 1e-9));
+    t.enter.forEach((frame, i) => assert.ok(Number.isInteger(frame) && Math.abs(frame * t.tick - t.words[i]) <= t.tick / 2 + 1e-9));
     assert.ok((t.enter.at(-1) + 17) * t.tick <= len + 1e-9, `${words} words in ${beats} beats: the last word is still glitching at the end`);
     const cues = [];
     scene.sounds({text: text(words)}, len, (at, kind) => cues.push([at, kind]), beat);

@@ -65,17 +65,15 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const core = logoNode(plane, Math.min(W, H) * 0.12, accent);
 	const cs = Math.min(W, H) * 0.12;
 	set(core, { position: "absolute", left: px(W / 2 - cs / 2), top: px(H / 2 - cs / 2), boxShadow: `0 0 ${px(60 * S)} ${alpha(accent, 0.55)}` });
-	const step = Math.min(0.09, 1.1 / words.length);
-	const tKeys = 0.4 + words.length * step + 0.3;
-	const keyDur = Math.max(0.45, (d0 - tKeys - 0.6) / Math.max(1, keys.length));
+	const { words: tWords, stagger: step, keys: tKeys } = p.at;
 	return (l) => {
 		const ca = E.softLand(prog(l, 0, 0.5));
 		set(core, { transform: `scale(${(1.4 - 0.4 * ca).toFixed(4)})`, opacity: clamp(ca * 2).toFixed(3) });
 		let active = -1;
-		for (let k = 0; k < keys.length; k++) if (l >= tKeys + k * keyDur) active = k;
+		for (let k = 0; k < keys.length; k++) if (l >= tKeys[k]) active = k;
 		nodes.forEach((N, i) => {
 			const page = Math.floor(i / labelsPerPage);
-			const pageStart = .4 + page * pageDuration;
+			const pageStart = tWords + page * pageDuration;
 			const a = E.softLand(prog(l, pageStart + (i % labelsPerPage) * step, .5));
 			const pageOut = page < pageCount - 1 ? E.accelExit(prog(l, pageStart + pageDuration - .15, .15)) : 0;
 			const lit = N.isKey && N.keyIdx === active;

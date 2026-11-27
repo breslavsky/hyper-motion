@@ -8,7 +8,7 @@ const definition_connect={...metadata["connect"],build({ p, cam, fg, accent, pal
 			const S = unit(K);
 			const s = p.scene;
 			const light = orbs(K, cam, palette, accent, bg, p.index);
-			const t = this.times(s, p.dur);
+			const t = this.times(s, p.dur, p.beatLen);
 			const cubicOut = (u) => 1 - (1 - clamp(u)) ** 3;
 			const quadOut = (u) => 1 - (1 - clamp(u)) ** 2;
 			const quadInOut = (u) => ((u = clamp(u)) < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2);

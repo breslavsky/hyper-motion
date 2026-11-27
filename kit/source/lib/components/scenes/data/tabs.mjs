@@ -11,7 +11,7 @@ const definition_tabs={...metadata["tabs"],build({ p, cam, fg, accent, palette, 
 			const S = unit(K);
 			const s = p.scene;
 			const light = orbs(K, cam, palette, accent, bg, p.index);
-			const t = this.times(s, p.dur);
+			const t = this.times(s, p.dur, p.beatLen);
 			const wrap = el("div", "center", cam);
 			// The card stands in depth: it comes up tipped back and out of focus, and rests a little tipped.
 			set(wrap, { perspective: px(2200 * S) });

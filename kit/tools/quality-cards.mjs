@@ -51,7 +51,7 @@ try{
           const state=await read(id);
           assert.equal(state.sources,scene.sources.length);assert.equal(state.targets,1);
           assert.deepEqual(state.texts.map(t=>t.text).sort(),[...scene.sources,scene.target].sort(),'Every source and target label, including repeated copy, must be visible');
-          const expected=metadata.connect.times(scene,ps.ldur??ps.dur);
+          const expected=metadata.connect.times(scene,ps.ldur??ps.dur,plan.beat*(ps.speed??1));
           for(const event of expected)assert.ok(plan.audioEvents.some(c=>c.kind==='ping'&&Math.abs(c.t-(ps.start+event.lands/(ps.speed??1)))<1e-6),'Every connection arrival keeps its sound cue');
         }
         const at=ps.start+ps.dur*.72;

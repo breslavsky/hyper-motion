@@ -47,7 +47,8 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 		D.apply(n, "display", {step:textSpec.step});
 		return n;
 	});
-	const tS = Math.max(0.9, p.dur * 0.42);
+	// The flight begins so that it lands on its beat (scene-moments.cjs).
+	const tS = p.at.move;
 	return (l, d) => {
 		const u = clamp(l / d);
 		orbits.forEach((o, i) => set(o, { transform: `rotate(${(l * (8 + i * 5) * (i % 2 ? -1 : 1)).toFixed(3)}deg) scale(${(0.9 + 0.1 * smooth(l / 0.8) + u * 0.04).toFixed(4)})`, opacity: smooth(l / 0.6).toFixed(3) }));

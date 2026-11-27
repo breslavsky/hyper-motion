@@ -174,13 +174,12 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	});
 	const touch = makeTouch(world, K, 58 * S);
 
-	// Timing.
-	const step = Math.max(0.6, (d0 * 0.5) / Math.max(1, n));
-	const swapAt = words.map((_, k) => 0.95 + (k - 1) * step + (k ? 0 : -9));
-	const tTap = (n > 1 ? swapAt[n - 1] : 0.7) + Math.max(0.75, step * 0.9);
-	const tExit = Math.max(tTap + 1.0, d0 - 0.34);
+	// Timing: the taps, the burst and the exit stand on the film's beats (`p.at`); a screen answers
+	// its tap a moment after the press.
+	const { confirm: tTap, burst: tBurst, exit: tExit } = p.at;
+	const swapAt = words.map((_, k) => (k ? p.at.taps[k - 1] + 0.14 : -9));
 	const taps = [];
-	for (let k = 1; k < n; k++) taps.push({ t: swapAt[k] - 0.14, x: pLeft + inset + sw * (0.3 + 0.35 * (k % 2)), y: pTop + inset + sh * (0.42 + 0.12 * k) });
+	for (let k = 1; k < n; k++) taps.push({ t: p.at.taps[k - 1], x: pLeft + inset + sw * (0.3 + 0.35 * (k % 2)), y: pTop + inset + sh * (0.42 + 0.12 * k) });
 	taps.push({ t: tTap, x: bcx + bw * 0.12, y: bcy + bh * 0.1 });
 
 	return (l) => {
@@ -219,7 +218,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		set(btn, { width: px(w), left: px((sw - w) / 2), transform: `scale(${(1 - 0.06 * press).toFixed(4)})` });
 		set(btnTxt, { opacity: (1 - clamp(fold * 3)).toFixed(3) });
 		chk.setAttribute("stroke-dashoffset", (24 * (1 - E.softLand(prog(l, tTap + 0.22, 0.3)))).toFixed(2));
-		const bk = prog(l, tTap + 0.26, 0.5);
+		const bk = prog(l, tBurst, 0.5);
 		rays.forEach((r, i) => {
 			const a = (i / rays.length) * Math.PI * 2 - Math.PI / 2;
 			const dist = bh * (0.75 + E.whip(bk) * 0.7);

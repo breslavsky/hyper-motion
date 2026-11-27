@@ -112,13 +112,14 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	}
 	const cursor = makeCursor(cam, 64 * S);
 	const Z0 = vertical ? 2.4 : 3.4;
-	const t0 = 0.12;
-	const typeDur = Math.min(p.dur * 0.5, text.length * 0.05 + (m ? 0.35 : 0));
-	const charT = (k) => t0 + (k / text.length) * typeDur + (m && k > mStart ? 0.25 : 0) + (m && k >= mEnd ? 0.1 : 0);
+	// When each key falls, the camera pulls back and the cursor presses is the scene's moments
+	// (scene-moments.cjs).
+	const t0 = p.at.keys[0];
+	const charT = (k) => p.at.keys[k];
 	const tEnd = charT(text.length) + 0.1;
-	const tPull = tEnd + 0.25;
+	const tPull = p.at.pull;
 	const pullDur = 0.95;
-	const tClick = tPull + pullDur + 0.45;
+	const tClick = p.at.click;
 	const sendPos = { x: cardLeft + cw - pad - 28 * S, y: cardTop + ch - pad - 28 * S };
 	return (l, d) => {
 		// How many characters are typed (continuous, so the camera glides with the caret).

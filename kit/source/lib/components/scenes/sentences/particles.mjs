@@ -6,7 +6,6 @@ export const factory = ({ p, cam, fg, accent, bg, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, hash, alpha, ease: E } = K;
 	const D = K.design;
 	const s = p.scene;
-	const d0 = p.dur;
 	const vertical = H > W * 1.2;
 	const text = String(s.text || "Frontier-level intelligence");
 	const plainText = text.replace(/\*/g, "");
@@ -72,9 +71,10 @@ export const factory = ({ p, cam, fg, accent, bg, K }) => {
 	const ctx = canvas.getContext("2d");
 	ctx.setTransform(q, 0, 0, q, 0, 0);
 	const r0 = Math.max(1.2, 2.3 * S);
-	const tGather = Math.min(0.7, d0 * 0.18);
+	// The dots gather so that the line turns solid on its beat (scene-moments.cjs).
+	const tGather = p.at.gather;
 	const gDur = 1.1;
-	const tSolid = tGather + gDur + 0.5;
+	const tSolid = p.at.solid;
 	const lineN = Math.min(160, parts.length);
 	return (l) => {
 		ctx.clearRect(0, 0, W, H);

@@ -90,13 +90,13 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 	const centers = nodes.map((n) => n.offsetLeft + n.offsetWidth / 2);
 	const wheelC = () => (wheel ? wheel.offsetLeft : 0);
 	// Timing: words arrive one by one, the wheel rolls after them, then the camera pulls back.
-	const step = Math.min(0.3, (p.dur * 0.42) / Math.max(1, words.length));
-	// The first word is already arriving on frame 0, so the scene never opens on an empty frame.
-	const at = words.map((_, i) => -0.12 + i * step);
-	const wheelAt = at[at.length - 1] + 0.3;
-	const per = opts.length > 1 ? clamp((p.dur * 0.88 - wheelAt - 0.5) / (opts.length - 1), 0.32, 0.75) : 0;
-	const changes = opts.map((_, j) => wheelAt + 0.25 + (j - 1) * per).slice(1);
-	const wheelEnd = changes.length ? changes[changes.length - 1] + 0.35 : wheelAt + 0.3;
+	// When each word is there and when the wheel turns is the scene's moments (scene-moments.cjs).
+	// A word begins to arrive a moment before it is there, so the first is already arriving on frame 0
+	// and the scene never opens on an empty frame.
+	const at = p.at.words.map((t) => t - 0.12);
+	const wheelAt = p.at.wheel;
+	const changes = p.at.turns;
+	const wheelEnd = changes.length ? changes[changes.length - 1] + 0.15 : wheelAt + 0.3;
 	const pullAt = Math.min(p.dur - 0.5, wheelEnd + 0.15);
 	const fitZ = Math.min(1, (W * 0.88) / lineW);
 	// Camera keys: the newest word sits just right of centre; the wheel lands centred.
@@ -107,7 +107,7 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 	const blurId = K.uid('journey-blur');
 	const blur = blurFilter(K, cam, blurId);
 	line.style.filter = `url(#${blurId})`;
-	const pos = (t) => changes.reduce((a, c) => a + K.expoInOut(prog(t, c - 0.12, 0.42)), 0);
+	const pos = (t) => changes.reduce((a, c) => a + K.expoInOut(prog(t, c - 0.32, 0.42)), 0);
 	const frame = (l) => {
 		const pull = smooth(prog(l, pullAt, Math.max(0.3, p.dur - pullAt - 0.05)));
 		const z = lerp(1, fitZ, pull) * (1 + 0.04 * clamp(l / p.dur));
@@ -147,7 +147,7 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 				});
 			});
 			// Selection dots at the corners of the current word, kicking on each change.
-			const kick = changes.reduce((a, c) => Math.max(a, Math.exp(-Math.max(0, l - c - 0.2) * 7) * (l > c + 0.2 ? 1 : 0)), 0);
+			const kick = changes.reduce((a, c) => Math.max(a, Math.exp(-Math.max(0, l - c) * 7) * (l > c ? 1 : 0)), 0);
 			const pad = 0.12 + 0.05 * kick;
 			const corners = [[-pad, 0.05], [1, 0.05], [-pad, 0.95], [1, 0.95]];
 			dots.forEach((d, j) => {

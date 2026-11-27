@@ -8,9 +8,13 @@
 // music by itself, and one whose moments stand on seconds follows it only with its first frame. Each
 // scene's sample (the Storybook's) is planned as a film of one scene at 120 and at 150 BPM, and the
 // moments it sounds on (its own cues, the keystrokes of typing left out) are held against each other:
-// the same beat at both tempos, the same second, or the same share of the scene's length. A scene is
-// called by what seven in ten of its moments do, `mixed` when they do not agree, `none` when it sounds
-// on nothing between its first frame and its last.
+// on the film's beats at both tempos (the same beat, or an eighth of a beat at each: "the first half
+// beat after the cards are in" is another beat at another tempo and on the beat all the same), the
+// same second, or the same share of the scene's length. A scene is called by what seven in ten of its
+// moments do, `mixed` when they do not agree, `none` when it sounds on nothing between its first
+// frame and its last. A moment that is a move's own length before or after one on a beat (the dive
+// that lands on it, the sparkle a quarter second after a hit) keeps the beat too: it is counted
+// with the moment it belongs to (`led`).
 //
 // It reads sound cues, not pixels: a scene can move where it makes no sound. The record is kept in
 // scene-clocks.json and held by scene-clocks.test.mjs, so a scene that changes its clock says so.
@@ -20,6 +24,8 @@ const KIT = path.join(__dirname, '..');
 const RECORD = path.join(__dirname, 'scene-clocks.json');
 const TEMPOS = [120, 150];
 const SAME_BEAT = 0.04, SAME_SECOND = 0.025, SAME_SHARE = 0.012, MOST = 0.7;
+// A moment stands on the grid when it is this near an eighth of a beat, in beats.
+const GRID = 8, ON_GRID = 0.012;
 
 function samples() {
   const read = file => JSON.parse(fs.readFileSync(path.join(KIT, file), 'utf8'));
@@ -58,12 +64,18 @@ function measure() {
       const kinds = a.at.map((t, i) => {
         const u = b.at[i];
         if (Math.abs(t / a.beat - u / b.beat) < SAME_BEAT) return 'beats';
+        if ([t / a.beat, u / b.beat].every(at => Math.abs(at * GRID - Math.round(at * GRID)) < ON_GRID * GRID)) return 'beats';
         if (Math.abs(t - u) < SAME_SECOND) return 'seconds';
         if (Math.abs(t / a.dur - u / b.dur) < SAME_SHARE) return 'share';
         return 'other';
       });
-      const clock = ['beats', 'seconds', 'share'].find(kind => kinds.filter(k => k === kind).length >= kinds.length * MOST) ?? 'mixed';
-      out[type] = {clock, moments: kinds.length, onBeats: kinds.filter(k => k === 'beats').length};
+      // The same seconds from a moment on a beat, at both tempos: a move's own length before or after it.
+      const led = kinds.map((kind, i) => kind !== 'beats' && kinds.some((other, j) => other === 'beats' && Math.abs((a.at[i] - a.at[j]) - (b.at[i] - b.at[j])) < SAME_SECOND));
+      const onBeats = kinds.filter(k => k === 'beats').length, withBeats = onBeats + led.filter(Boolean).length;
+      // Half of a scene's moments on beats at the least: one that falls on the grid by chance leads nothing.
+      const clock = onBeats >= kinds.length / 2 && withBeats >= kinds.length * MOST ? 'beats'
+        : ['seconds', 'share'].find(kind => kinds.filter(k => k === kind).length >= kinds.length * MOST) ?? 'mixed';
+      out[type] = {clock, moments: kinds.length, onBeats, ...(withBeats > onBeats ? {led: withBeats - onBeats} : {})};
     }
     return out;
   } finally { process.chdir(home); }

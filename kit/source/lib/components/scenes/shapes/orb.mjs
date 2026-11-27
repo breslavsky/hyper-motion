@@ -46,8 +46,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	});
 	const lineSpec=D.fitGroup(lineNs,{role:"sceneTitle",w:K.safe.w*.96,h:H*.22,wrap:"normal"});
 	set(box, { height: px(Math.max(...lineNs.map(n => n.offsetHeight))) });
-	const step = Math.max(0.7, (d0 - 0.9) / lines.length);
-	const at = lines.map((_, k) => 0.55 + k * step);
+	const at = p.at.lines;
 	return (l) => {
 		const a = E.softLand(prog(l, 0, 0.9));
 		let pulse = 0;

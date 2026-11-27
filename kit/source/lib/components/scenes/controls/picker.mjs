@@ -38,8 +38,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const pick = typeof s.pick === "number" ? Math.min(n - 1, s.pick) : Math.min(n - 1, cols + 3);
 	const path = [0, 1, 2].map((k) => Math.floor(hash(k * 3.7 + 1) * n)).concat([pick]);
 	path[0] = Math.min(n - 1, cols + 1);
-	const hopT = (k) => 0.55 + k * Math.max(0.32, (d0 * 0.45) / path.length);
-	const tLand = hopT(path.length - 1) + 0.3;
+	// When the ring appears, lands on each tile and the pick lifts out: on the film's beats (`p.at`).
+	const hopT = (k) => (k ? p.at.hops[k - 1] : p.at.ring);
+	const tLand = p.at.land;
 	const nameN = label ? el("div", "display", cam, label) : null;
 	if (nameN) set(nameN, { position: "absolute", left: "0", width: px(W), top: px(H * (vertical ? 0.78 : 0.8)), textAlign: "center", color: fg, opacity: "0" });
 	if(nameN)D.apply(nameN,"sceneTitle");

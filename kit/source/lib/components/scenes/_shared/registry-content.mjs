@@ -75,7 +75,7 @@ function lineInkClearance(line,height,entries) {
 }
 
 function beforeAfter({p,cam,fg,accent,bg,K}) {
-  const s=p.scene,t=metadata['before-after-wipe'].times(s,p.dur),ui=kit(K,cam,'before-after-wipe');
+  const s=p.scene,t=metadata['before-after-wipe'].times(s,p.dur,p.beatLen),ui=kit(K,cam,'before-after-wipe');
   const {root,node,text,set,px,S,design:D,w,h}=ui;set(root,{color:fg});
   const panelW=w,x=0,gap=D.space(3),titleGap=D.space(4);
   const title=s.title?text('title',root,s.title,x,0,panelW,D.type('sceneTitle').lineHeight*3,'sceneTitle'):null;
@@ -117,7 +117,7 @@ function beforeAfter({p,cam,fg,accent,bg,K}) {
 }
 
 function testimonial({p,cam,fg,accent,bg,K}) {
-  const s=p.scene,t=metadata['testimonial-proof-card'].times(s,p.dur),ui=kit(K,cam,'testimonial-proof-card');
+  const s=p.scene,t=metadata['testimonial-proof-card'].times(s,p.dur,p.beatLen),ui=kit(K,cam,'testimonial-proof-card');
   const {root,node,text,set,px,S,design:D,w,h}=ui;set(root,{color:fg});
   const square=K.H===K.W,density=square?'compact':'normal',recipe=D.box('card',{density});
   const cardW=w,pad=recipe.paddingX,innerW=cardW-2*pad-4*S,sectionGap=recipe.gap;

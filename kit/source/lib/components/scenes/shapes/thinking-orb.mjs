@@ -40,7 +40,7 @@ export const sceneFactories = {
     for(const [key,value] of Object.entries(orb.options))canvas.dataset[key]=String(value);
     canvas.orbInstance=orb;
     K.onDispose(()=>orb.dispose());
-    const times=metadata['thinking-orb'].times(s,p.dur);
+    const times=metadata['thinking-orb'].times(s,p.dur,p.beatLen);
     // The parent native runtime supplies seekable local seconds; no second clock.
     return l=>{
       orb.draw(l);

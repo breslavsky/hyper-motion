@@ -8,7 +8,6 @@ export const factory = ({ p, cam, fg, accent, bg, K }) => {
 	const { W, H, S, el, set, px, clamp, prog, smooth, hash, alpha, mixHex, lum, ease: E } = K;
 	const D = K.design;
 	const s = p.scene;
-	const d0 = p.dur;
 	const vertical = H > W * 1.2;
 	const word = DOUBLE(s.word || "Launch");
 	const lead = DOUBLE(s.lead || "");
@@ -102,15 +101,17 @@ export const factory = ({ p, cam, fg, accent, bg, K }) => {
 	const cr = Math.min(W, H) * 0.034;
 	set(core, { position: "absolute", left: px(W / 2 - cr), top: px(H / 2 - cr), width: px(2 * cr), height: px(2 * cr), borderRadius: "50%", background: accent, opacity: "0" });
 
-	// Timing, scaled to the scene's length.
-	const tFall = 0.12;
-	const tBall = lead ? 0.62 : 0.4;
-	const g = 2 * (dotTarget.y + 2 * r) / 0.38 ** 2; // gravity so the drop takes 0.38 s
+	// Timing: the scene's moments, on the film's beats (scene-moments.cjs). The ball is dropped so that
+	// it lands on its beat, and its two bounces end on the moments after it.
+	const tFall = p.at.fall;
+	const tBall = p.at.ball;
+	const hits = p.at.hits;
+	const g = 2 * (dotTarget.y + 2 * r) / (hits[0] - tBall) ** 2; // gravity so the drop lands on its moment
 	const drop = dotTarget.y + 2 * r;
 	const bounces = [
-		[0.38, drop],
-		[0.24, drop * 0.16],
-		[0.12, drop * 0.04],
+		[hits[0] - tBall, drop],
+		[hits[1] - hits[0], drop * 0.16],
+		[hits[2] - hits[1], drop * 0.04],
 	];
 	const ballY = (e) => {
 		if (e < bounces[0][0]) return -2 * r + 0.5 * g * e * e;
@@ -125,19 +126,19 @@ export const factory = ({ p, cam, fg, accent, bg, K }) => {
 		}
 		return dotTarget.y;
 	};
-	const landT = bounces.reduce((a, b) => a + b[0], 0);
-	const impactAt = [bounces[0][0], bounces[0][0] + bounces[1][0], landT];
-	const tMove = Math.max(tBall + landT + 0.55, d0 * 0.34);
-	const tShapes = tMove + 0.85;
-	const tRing = Math.max(tShapes + 1.1, d0 * 0.7);
-	const hasShapes = tRing < d0 - 0.6;
+	const impactAt = hits.map((hit) => hit - tBall);
+	const tMove = p.at.move;
+	const tRing = p.at.ring;
+	// A scene too short for it has no shapes: it goes from the flood to the ring.
+	const hasShapes = p.at.shapes !== undefined;
+	const tShapes = p.at.shapes;
 	const shapes = [
 		{ r: 0.5, rot: 0, w: 1, h: 1 },
 		{ r: 0.3, rot: 90, w: 1, h: 1 },
 		{ r: 0.14, rot: 135, w: 0.9, h: 0.9 },
 		{ r: 0.5, rot: 180, w: 1.9, h: 0.62 },
 	];
-	const marks = shapes.map((_, k) => tShapes + 0.12 + ((tRing - 0.45 - tShapes) / shapes.length) * k);
+	const marks = hasShapes ? [tShapes, ...p.at.morphs] : [];
 	const cover = Math.hypot(W, H) / (2 * r) + 2;
 
 	return (l) => {
@@ -188,7 +189,7 @@ export const factory = ({ p, cam, fg, accent, bg, K }) => {
 		const mv = E.glide(prog(l, tMove, 0.38));
 		bx += (W / 2 - bx) * mv;
 		by += (H / 2 - by) * mv;
-		const grow = E.whip(prog(l, tMove + 0.32, 0.5));
+		const grow = E.whip(prog(l, p.at.grow, 0.5));
 		const scale = 1 + (cover - 1) * grow;
 		set(flood, { transform: `translate(${px(bx - r)}, ${px(by - r + (1 - sy) * r)}) scale(${(sx * scale).toFixed(4)}, ${(sy * scale).toFixed(4)})`, opacity: e < -0.02 ? "0" : "1" });
 

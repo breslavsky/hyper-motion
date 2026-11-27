@@ -89,7 +89,7 @@ test('palette-resolved tints reject alpha hex before building or mounting a canv
 test('caption cues follow the same scene-local schedule at every pace and tempo',()=>{
   for(const pace of ['chill','normal','hyper'])for(const bpm of [60,108,180]){
     const recipe=film(definition.sample,{pace,music:{bpm}}),plan=F.planOf(recipe),ps=plan.scenes[0],cues=[];
-    definition.sounds(definition.sample,ps.ldur,(at,kind)=>cues.push([ps.start+at/ps.speed,kind]));
+    definition.sounds(definition.sample,ps.ldur,(at,kind)=>cues.push([ps.start+at/ps.speed,kind]),plan.beat*ps.speed);
     for(const [at,kind] of cues)assert.ok(plan.cues.some(c=>c.kind===kind&&Math.abs(c.t-at)<1e-8),`${pace}/${bpm}/${kind}`);
     const muted=F.planOf(film({...definition.sample,sound:{mute:true}},{pace,music:{bpm}}));
     assert.deepEqual(muted.audioEvents,[]);

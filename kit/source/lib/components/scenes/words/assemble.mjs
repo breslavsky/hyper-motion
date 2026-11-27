@@ -77,10 +77,11 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	});
 
 	const n = letters.length;
-	const stag = Math.min(0.07, 0.6 / Math.max(1, n));
-	const tFlick = 0.25 + n * stag;
-	const tResolve = tFlick + 0.55;
-	const resDur = 0.6;
+	// When the letters stamp in, flicker and come clean is the scene's moments (scene-moments.cjs).
+	const stag = p.at.every;
+	const tFlick = p.at.flick;
+	const tResolve = p.at.resolve;
+	const resDur = p.at.clean - p.at.resolve;
 	// The sub line, under the word, rising through its own edge.
 	let subN = null;
 	let subInner = null;
@@ -96,7 +97,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		letters.forEach((L, k) => {
 			const slot = slots[k];
 			// Which face: arrive in one, flicker through two more, then the final brand face.
-			const tArr = 0.05 + k * stag;
+			const tArr = p.at.first + k * stag;
 			const fi = l < tFlick + hash(k * 4.1) * 0.15 ? 0 : l < tFlick + 0.22 + hash(k * 6.7) * 0.15 ? 1 : 2;
 			const resolved = l >= tResolve + k * 0.02;
 			const F = FACES[L.faces[fi]];

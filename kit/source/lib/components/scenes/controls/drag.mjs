@@ -231,24 +231,19 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const ring = el("div", "ring", world);
 	set(ring, { borderWidth: px(cS * 0.06), borderColor: accent });
 
-	// Timing: three drags, each quicker than the last.
-	// In a short scene the drags hurry, so the line that follows them is on screen long enough
-	// to be read: at their own pace they took 3.8 s, and the line landed as the scene ended.
-	const pace = clamp((d0 * 0.6) / 3.8, 0.45, 1);
-	const mv = [0.72, 0.52, 0.4].map((v) => v * pace);
-	const appr = [0.42, 0.3, 0.26].map((v) => v * pace);
-	const plan = [];
-	let t = 0.7 * pace;
-	names.forEach((_, k) => {
-		const a = t;
-		const g = a + appr[k];
-		const r = g + 0.1 * pace + mv[k];
-		plan.push({ a, g, r, mv: mv[k] });
-		t = r + 0.08 * pace;
+	// Timing: every grab, drop, check and the press of the button stand on the film's beats (`p.at`),
+	// the first drag a beat long and the others half a beat. The cursor travels to a file in its own
+	// time before the grab, or from when the file before leaves it free.
+	const { grabs, drops, checks, click: tClick } = p.at;
+	const appr = [0.42, 0.3, 0.26];
+	const plan = names.map((_, k) => {
+		const g = grabs[k], r = drops[k];
+		// The file lifts for a moment before it flies.
+		const hold = Math.min(0.1, (r - g) * 0.2);
+		return { a: Math.max(k ? drops[k - 1] + 0.08 : 0, g - appr[k]), g, r, hold, mv: r - g - hold, ok: checks[k] };
 	});
 	const lastR = plan[plan.length - 1].r;
-	const tBtnArrive = lastR + 0.5;
-	const tClick = tBtnArrive + 0.04;
+	const tBtnArrive = tClick - 0.04;
 	const tLine = lastR + 0.05;
 	const btnPos = { x: pX + pW - pad - 70 * S, y: pY + pH - pad - bH / 2 };
 	const center = (k) => ({ x: tiles[k].home[0] + tw / 2, y: tiles[k].home[1] + th / 2 });
@@ -270,7 +265,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 			const c0 = center(k);
 			const c1 = slotC(k);
 			const lift = E.snapSettle(prog(l, pl.g, 0.14));
-			const mp = E.softInOut(prog(l, pl.g + 0.1 * pace, pl.mv));
+			const mp = E.softInOut(prog(l, pl.g + pl.hold, pl.mv));
 			const settle = E.snapSettle(prog(l, pl.r, 0.3));
 			const arc = Math.sin(mp * Math.PI) * (vertical ? -H * 0.08 : -H * 0.07);
 			let x = c0.x + (c1.x - c0.x) * mp;
@@ -301,10 +296,10 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 				down = l < pl.r ? 1 : 0;
 			}
 			// Upload, then a check.
-			const up = E.softInOut(prog(l, pl.r + 0.08, 0.55));
-			set(bars[k].tr, { opacity: l > pl.r ? (clamp((l - pl.r) / 0.1) * (1 - clamp((l - pl.r - 0.8) / 0.2))).toFixed(3) : "0" });
+			const up = E.softInOut(prog(l, pl.r + 0.08, pl.ok - pl.r - 0.08));
+			set(bars[k].tr, { opacity: l > pl.r ? (clamp((l - pl.r) / 0.1) * (1 - clamp((l - pl.ok - 0.2) / 0.2))).toFixed(3) : "0" });
 			set(bars[k].fill, { transform: `scaleX(${up.toFixed(4)})` });
-			const bk = l > pl.r + 0.6 ? E.popOver(clamp((l - pl.r - 0.6) / 0.35)) : 0;
+			const bk = l > pl.ok ? E.popOver(clamp((l - pl.ok) / 0.35)) : 0;
 			set(bars[k].badge, { opacity: clamp(bk * 3).toFixed(3), transform: `scale(${bk.toFixed(4)})` });
 		});
 		const lastPl = plan[plan.length - 1];
@@ -322,7 +317,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		// The zone answers the file over it.
 		set(zone, { borderColor: hover > 0.01 ? alpha(accent, 0.25 + 0.75 * hover) : alpha(ink, 0.2), background: alpha(accent, 0.07 * hover), transform: `scale(${(1 + 0.015 * hover).toFixed(4)})` });
 		set(hint, { opacity: (1 - E.softLand(prog(l, plan[0].r - 0.1, 0.2))).toFixed(3) });
-		const done = names.filter((_, k) => l > plan[k].r + 0.6).length;
+		const done = names.filter((_, k) => l > plan[k].ok).length;
 		// How many are in, of how many: a count reads in every language.
 		meta.textContent = `${done} / ${names.length}`;
 		const bp = l > tClick ? E.popOver(clamp((l - tClick) / 0.4)) : 1;

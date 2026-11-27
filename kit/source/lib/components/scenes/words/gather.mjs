@@ -47,7 +47,7 @@ const definition_gather={...metadata["gather"],build({ p, cam, fg, accent, K }){
 						return { sx: hash(i * 1.3) * W, sy: hash(i * 2.9 + 4) * H, vx: (hash(i * 5.3 + 1) - 0.5) * 34 * S, vy: (hash(i * 7.7 + 2) - 0.5) * 34 * S, tx, ty, delay: hash(i * 9.1 + 3) * 0.1, phase: hash(i * 4.7 + 5) * 6.283, r: (1.6 + hash(i * 6.1 + 6) * 1.8) * S, burst: 0.6 + hash(i * 8.3 + 7) * 0.8, lit: hash(i * 2.3 + 8) < 0.25 };
 					})
 				: [];
-			const at = this.times(s, p.dur);
+			const at = this.times(s, p.dur, p.beatLen);
 			/** Where a dot is at the scene's moment `l`. */
 			const place = (d, l) => {
 				const [fx, fy] = [d.sx + d.vx * l, d.sy + d.vy * l];

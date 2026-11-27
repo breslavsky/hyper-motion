@@ -81,7 +81,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	}
 	// The roller keeps the width of whichever option is showing, so the line stays centred.
 	const optW = options.map((o) => o.offsetWidth);
-	const swapAt = options.map((_, k) => 0.7 + k * Math.max(0.6, (d0 * 0.6) / Math.max(1, options.length)));
+	const { rise: tRise, swaps: swapAt } = p.at;
 	const spacing = cw * 1.12;
 	const speed = cw * 0.55;
 	return (l) => {
@@ -92,7 +92,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 			x = ((((x + spacing) % span) + span) % span) - spacing;
 			const rel = (x + cw / 2 - W / 2) / (W / 2);
 			const ar = clamp(Math.abs(rel), 0, 1.4);
-			const rise = E.softLand(prog(l, 0.05 + clamp((rel + 1) / 2) * 0.35, 0.6));
+			const rise = E.softLand(prog(l, tRise + clamp((rel + 1) / 2) * 0.35, 0.6));
 			const sc = 1.18 - 0.5 * ar * ar;
 			const y = cy - chh / 2 + ar * ar * H * 0.15 + (1 - rise) * H * 0.5;
 			set(c, { transform: `translate(${px(x)}, ${px(y)}) rotateY(${(-rel * 30).toFixed(2)}deg) rotateZ(${(rel * 7).toFixed(2)}deg) scale(${sc.toFixed(4)})`, zIndex: String(100 - Math.round(ar * 50)), opacity: clamp(1.5 - ar).toFixed(3) });

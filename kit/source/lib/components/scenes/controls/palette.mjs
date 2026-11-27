@@ -97,20 +97,19 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		set(b, { height: px(fs * 0.36), width: `${w * 100}%`, borderRadius: px(99), background: alpha(textOn(accent), 0.22) });
 	}
 	detailH = detail.offsetHeight;
-	const t0 = 0.35;
-	const cps = Math.max(9, query.length / Math.max(0.6, d0 * 0.32));
-	const tTyped = t0 + query.length / cps;
-	const tEnter = tTyped + 0.55;
+	// When the typing starts, each letter appears, Enter is pressed and the row opens: on the film's
+	// beats (`p.at`).
+	const { type: t0, every, typed: tTyped, enter: tEnter, open: tOpen } = p.at;
 	const zoom0 = vertical ? 1.5 : 1.85;
 	return (l) => {
-		const panelOpen = E.softLand(prog(l, tEnter + 0.05, 0.5));
-		const n = Math.max(0, Math.min(query.length, Math.floor((l - t0) * cps)));
+		const panelOpen = E.softLand(prog(l, tOpen, 0.5));
+		const n = Math.max(0, Math.min(query.length, Math.floor((l - t0) / every + 1e-6)));
 		queryTyping.reveal(n);
 		set(caret, { opacity: l < tTyped ? "1" : K.blink(l - tTyped).toFixed(3) });
 		// Rows: matching ones keep their place in order, the rest fold away.
 		const m = matches(n);
 		const mPrev = matches(Math.max(0, n - 1));
-		const typeT = t0 + n / cps;
+		const typeT = t0 + n * every;
 		const k = E.softInOut(prog(l, typeT, 0.18));
 		let y = barH + panelBox.gap;
 		const ys = [];
@@ -128,7 +127,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		// Enter: the key flashes, the picked row opens into the detail card.
 		const press = l >= tEnter - 0.03 && l < tEnter + 0.1 ? 1 : 0;
 		set(enter, { background: press ? accent : "transparent", color: press ? textOn(accent) : mute, transform: `scale(${(1 - 0.08 * press).toFixed(3)})` });
-		const op = E.softLand(prog(l, tEnter + 0.05, 0.5));
+		const op = E.softLand(prog(l, tOpen, 0.5));
 		// The panel fits what it shows: the matching rows, then the opened card.
 		const rowsH = y - barH;
 		const openH = panelBox.paddingY * 2 + detailH;

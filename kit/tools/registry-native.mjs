@@ -236,14 +236,14 @@ function semanticProof(row,scene,snapshot){
  if(scene.images||scene.image){assert.ok(snapshot.images.length>0,'Supplied media was not mounted');assert.ok(snapshot.images.every(x=>x.complete&&x.width>0),'Supplied media did not decode');}
  row.semantic=true;
 }
-function checkpoints(scene,ps){
- const t=definitions[scene.type].times(scene,ps.ldur),checks=[];
+function checkpoints(scene,ps,plan){
+ const t=definitions[scene.type].times(scene,ps.ldur,plan.beat*ps.speed),checks=[];
  const at=(local,kind,detail={})=>checks.push({local,kind,...detail});
  if(scene.type==='before-after-wipe'){at(t.wipe+.005,'wipe-start');at(t.land+.015,'wipe-land');}
  if(scene.type==='screen-flow-carousel'){at(t.enter+.015,'screen-land',{index:0});t.starts.forEach((start,i)=>{at(start+.1*t.advance,'screen-advance',{index:i+1});at(start+t.advance+.015,'screen-land',{index:i+1});});}
- if(scene.type==='modal-morph'){at(t.expand-.015,'modal-card');at(t.expand+t.morph*.5,'modal-morph');at(t.expand+t.morph+.015,'modal-panel');}
- if(scene.type==='testimonial-proof-card'){at(t.byline+t.bylineDuration+.015,'byline-land');at(t.draw+t.drawDuration+.015,'underline-land');}
- if(scene.type==='chart-story'){t.items.forEach((item,i)=>at(item.end+.015,'datum-land',{index:i+1}));at(t.callout+t.rollDuration+.015,'callout-land');}
+ if(scene.type==='modal-morph'){at(t.expand-.015,'modal-card');at(t.expand+t.morph*.5,'modal-morph');at(t.ready+.015,'modal-panel');}
+ if(scene.type==='testimonial-proof-card'){at(t.landed+.015,'byline-land');at(t.draw+t.drawDuration+.015,'underline-land');}
+ if(scene.type==='chart-story'){t.items.forEach((item,i)=>at(item.end+.015,'datum-land',{index:i+1}));at(t.landed+.015,'callout-land');}
  return checks.filter(check=>check.local>0&&check.local<ps.ldur*.96);
 }
 function checkpointProof(scene,check,snapshot){
@@ -298,7 +298,7 @@ async function main(){
      row.audio=exactCues(plan,ps,scene);const fractions=[.12,.24,.36,.48,.6,.72,.84,.92];
      for(const fraction of fractions){await page.shoot(ps.start+ps.dur*fraction);const snapshot=await read(page,id),findings=strictFindings(snapshot.texts,bounds,snapshot.occlusion);row.samples.push({fraction,texts:snapshot.texts,component:snapshot.component,findings});assert.deepEqual(findings,[],JSON.stringify(findings));}
      row.checkpoints=[];
-     for(const check of checkpoints(scene,ps)){await page.shoot(ps.start+check.local/ps.speed);const snapshot=await read(page,id),findings=strictFindings(snapshot.texts,bounds,snapshot.occlusion);assert.deepEqual(findings,[],JSON.stringify({check,findings}));checkpointProof(scene,check,snapshot);row.checkpoints.push({...check,component:snapshot.component,texts:snapshot.texts,findings});}
+     for(const check of checkpoints(scene,ps,plan)){await page.shoot(ps.start+check.local/ps.speed);const snapshot=await read(page,id),findings=strictFindings(snapshot.texts,bounds,snapshot.occlusion);assert.deepEqual(findings,[],JSON.stringify({check,findings}));checkpointProof(scene,check,snapshot);row.checkpoints.push({...check,component:snapshot.component,texts:snapshot.texts,findings});}
      await page.shoot(ps.start+ps.dur*.88);const before=await read(page,id);assert.ok(before.texts.length,'No readable content at payoff');semanticProof(row,scene,before);
      if(scene.type==='testimonial-proof-card'&&!scene.image){row.avatarCenter=await avatarCenter(page,before);if(job.avatar)assert.equal(row.avatarCenter.text,job.avatar);if(!report.calibration.avatarShiftDetected){report.calibration.avatarShift=await avatarNegativeControl(page,id);report.calibration.avatarShiftDetected=true;}}
      row.design=await page.evaluate(({id,measure})=>(0,eval)(`(${measure})`)(window.__pkScenes[id].sceneRoot),{id,measure:measureDesign.toString()});

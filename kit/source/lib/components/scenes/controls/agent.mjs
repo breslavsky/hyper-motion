@@ -92,11 +92,10 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	set(head, { top: px(y0), height: px(headerHeight) });
 	rows.forEach((r, i) => set(r.r, { top: px(y0 + headerBlock + i * rowH), height: px(rowH - D.space(2)) }));
 	if (card) set(card, { top: px(y0 + headerBlock + D.space(3)) });
-	const tStart = 0.35;
-	const step = Math.max(0.5, Math.min(0.95, (d0 * 0.62) / steps.length));
-	const startT = (k) => tStart + k * step;
-	const doneT = (k) => startT(k) + step * 0.82;
-	const tAll = doneT(steps.length - 1) + 0.15;
+	// A step begins as the one before is ticked off, and each tick stands on the film's beats (`p.at`).
+	const startT = (k) => p.at.start[k];
+	const doneT = (k) => p.at.done[k];
+	const tAll = p.at.all;
 	return (l) => {
 		const resultReveal = card ? E.softInOut(prog(l, tAll + .2, .55)) : 0;
 		const ha = E.softLand(prog(l, 0, 0.45));

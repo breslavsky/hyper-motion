@@ -63,9 +63,10 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		o.textContent = ic;
 		return { o, x, y, rot: (hash(i * 2.9) - 0.5) * 36, after: gaps[i] };
 	});
-	const stag = Math.min(0.16, 1.6 / Math.max(1, n));
-	const tWord = (k) => 0.1 + k * stag;
-	const tGather = Math.max(tWord(n - 1) + 0.7, p.dur * 0.55);
+	// When the words land and the key word takes the frame is the scene's moments (scene-moments.cjs).
+	const stag = p.at.every;
+	const tWord = (k) => p.at.first + k * stag;
+	const tGather = p.at.gather;
 	const key = nodes[keyIdx];
 	const bigFs = Math.min((vertical ? 210 : 240) * S, (W * 0.8 * fs) / Math.max(1, key.w));
 	const kScale = bigFs / fs;
@@ -75,7 +76,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		nodes.forEach((nd, k) => {
 			const a = E.softLand(prog(l, tWord(k), 0.45));
 			if (nd.key) {
-				const g = E.softInOut(prog(l, tGather + 0.1, 0.7));
+				const g = E.softInOut(prog(l, tGather + 0.1, p.at.hit - tGather - 0.1));
 				const cx = nd.x + nd.w / 2;
 				const x = cx + (W / 2 - cx) * g;
 				const y = nd.y + fs / 2 + (H / 2 - nd.y - fs / 2) * g;

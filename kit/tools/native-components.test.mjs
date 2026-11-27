@@ -18,7 +18,8 @@ const serialize=value=>JSON.stringify(value,(_,v)=>typeof v==='function'?v.toStr
 test('Node compiler and browser share every field and action/sound schedule',()=>{
   assert.equal(serialize(nodeDefinitions),serialize(browserDefinitions));
   const cjs=fs.readFileSync(path.join(SOURCE,'metadata.cjs'),'utf8');
-  assert.equal(fs.readFileSync(path.join(SOURCE,'metadata.mjs'),'utf8'),cjs.replace('module.exports = definitions;','export {definitions};\nexport default definitions;'));
+  assert.equal(fs.readFileSync(path.join(SOURCE,'metadata.mjs'),'utf8'),cjs.replace('module.exports = definitions;','export {definitions};\nexport default definitions;')
+    .replace("const {onBeat, nearBeat, lastBeat} = require('./beat-grid.cjs');","import {onBeat, nearBeat, lastBeat} from './beat-grid.mjs';"));
   for(const name of Object.keys(nodeDefinitions))for(const duration of [1,3,8]){
     const a=nodeDefinitions[name],b=browserDefinitions[name],eventsA=[],eventsB=[];
     a.sounds?.(a.sample,duration,(...cue)=>eventsA.push(cue),.5);
@@ -55,15 +56,19 @@ test('DOM styles preserve explicit design roles without a second nearest-size sc
   assert.equal('useScale' in a,false);assert.equal('fit' in a,false);
 });
 
-test('dial preserves its default gesture and stretches explicit arrival to musical beats',()=>{
+test('dial puts its default gesture on the beats and stretches explicit arrival to musical beats',()=>{
   const definition=nodeDefinitions.dial;
-  for(const len of [1,3,8]){
-    const scene={...definition.sample};
-    assert.deepEqual(definition.times(scene,len),{from:.45,to:Math.max(1.1,len*.72)});
-    const sounds=[];definition.sounds(scene,len,(...cue)=>sounds.push(cue));
-    const end=Math.max(1.1,len*.72);
-    assert.deepEqual(sounds.at(-1),[.45+(end-.45)*.7,'chime',.9]);
+  for(const bpm of [100,120,150,170])for(const beats of [3,4,8]){
+    // By itself the knob is taken on the first beat and looks arrived (0.7 of its time, the chime) on a half beat.
+    const beat=60/bpm*1.25,len=beats*beat,scene={...definition.sample},times=definition.times(scene,len,beat);
+    assert.equal(times.bubble,beat/2);assert.equal(times.from,beat);
+    assert.ok(Math.abs(times.settle/(beat/2)-Math.round(times.settle/(beat/2)))<1e-9,'the chime stands on a half beat');
+    assert.ok(Math.abs(times.from+(times.to-times.from)*.7-times.settle)<1e-9&&times.to<len);
+    const sounds=[];definition.sounds(scene,len,(...cue)=>sounds.push(cue),beat);
+    assert.deepEqual(sounds[0],[times.bubble,'pop',.7]);
+    assert.deepEqual(sounds.at(-1),[times.settle,'chime',.9]);
   }
+  assert.throws(()=>definition.times({...definition.sample},3),/beat/);
   for(const bpm of [72,120,180])for(const speed of [1,1.25,1.6])for(const value of [1,37,100])for(const label of ['A','Longer control label']){
     const beat=60/bpm,logicalBeat=beat*speed;
     const scene={...definition.sample,label,value,timing:{slide:{startBeat:.5,endBeat:2.75}}};

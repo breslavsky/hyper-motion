@@ -165,47 +165,52 @@
   "moments": 0
  },
  "journey": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 1
+  "onBeats": 3
  },
  "faces": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 6,
-  "onBeats": 0
+  "onBeats": 6
  },
  "shuffle": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 1,
+  "led": 1
  },
  "overlay": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 2
  },
  "trail": {
   "clock": "none",
   "moments": 0
  },
  "between": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 6,
-  "onBeats": 1
+  "onBeats": 5,
+  "led": 1
  },
  "drag": {
-  "clock": "mixed",
-  "moments": 9
+  "clock": "beats",
+  "moments": 10,
+  "onBeats": 10
  },
  "knockout": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 1,
+  "led": 1
  },
  "assemble": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 10,
-  "onBeats": 1
+  "onBeats": 9,
+  "led": 1
  },
  "hive": {
   "clock": "beats",
@@ -213,44 +218,46 @@
   "onBeats": 8
  },
  "scatter": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 10,
-  "onBeats": 2
+  "onBeats": 9,
+  "led": 1
  },
  "arc": {
-  "clock": "mixed",
-  "moments": 3,
-  "onBeats": 1
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
  },
  "orb": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 1
+  "onBeats": 3
  },
  "particles": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 1
  },
  "wave": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 1
+  "onBeats": 2
  },
  "agent": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 4,
-  "onBeats": 0
+  "onBeats": 4
  },
  "palette": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 2
  },
  "picker": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 4,
-  "onBeats": 0
+  "onBeats": 4
  },
  "montage": {
   "clock": "beats",
@@ -258,9 +265,9 @@
   "onBeats": 5
  },
  "web": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 2
  },
  "split": {
   "clock": "beats",
@@ -273,24 +280,25 @@
   "onBeats": 6
  },
  "swarm": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 2
+  "onBeats": 2,
+  "led": 1
  },
  "inline": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 1
+  "onBeats": 3
  },
  "bubbles": {
-  "clock": "mixed",
-  "moments": 11,
-  "onBeats": 4
+  "clock": "beats",
+  "moments": 10,
+  "onBeats": 9
  },
  "retype": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 1,
-  "onBeats": 0
+  "onBeats": 1
  },
  "orbit": {
   "clock": "none",
@@ -299,7 +307,8 @@
  "checklist": {
   "clock": "beats",
   "moments": 4,
-  "onBeats": 3
+  "onBeats": 3,
+  "led": 1
  },
  "tiles": {
   "clock": "beats",
@@ -307,9 +316,9 @@
   "onBeats": 7
  },
  "mosaic": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 6,
-  "onBeats": 0
+  "onBeats": 6
  },
  "photo": {
   "clock": "none",
@@ -320,22 +329,23 @@
   "moments": 0
  },
  "roll": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 2
  },
  "dot": {
   "clock": "mixed",
   "moments": 9
  },
  "flip": {
-  "clock": "share",
+  "clock": "beats",
   "moments": 4,
-  "onBeats": 0
+  "onBeats": 4
  },
  "pullback": {
-  "clock": "mixed",
-  "moments": 2
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
  },
  "glass-island": {
   "clock": "seconds",
@@ -345,7 +355,8 @@
  "glass-widgets": {
   "clock": "mixed",
   "moments": 4,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 2
  },
  "glass-controls": {
   "clock": "mixed",
@@ -368,34 +379,40 @@
   "onBeats": 9
  },
  "glass-steps": {
-  "clock": "seconds",
+  "clock": "mixed",
   "moments": 5,
-  "onBeats": 1
+  "onBeats": 2,
+  "led": 3
  },
  "glass-stepper": {
   "clock": "mixed",
   "moments": 8,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 1
  },
  "glass-checklist": {
   "clock": "seconds",
   "moments": 6,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 5
  },
  "glass-like": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 2
+  "onBeats": 2,
+  "led": 1
  },
  "glass-rating": {
   "clock": "seconds",
   "moments": 7,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 6
  },
  "glass-message": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 1
  },
  "glass-follow": {
   "clock": "mixed",
@@ -405,7 +422,8 @@
  "glass-call": {
   "clock": "seconds",
   "moments": 5,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 4
  },
  "glass-send-prompt": {
   "clock": "beats",
@@ -438,34 +456,36 @@
   "onBeats": 4
  },
  "winner": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 7,
-  "onBeats": 4
+  "onBeats": 7
  },
  "connect": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 6,
-  "onBeats": 1
+  "onBeats": 3,
+  "led": 3
  },
  "chips": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 9,
-  "onBeats": 0
+  "onBeats": 9
  },
  "tabs": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 4,
-  "onBeats": 2
+  "onBeats": 4
  },
  "dial": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 7,
-  "onBeats": 0
+  "onBeats": 7
  },
  "gather": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 0
+  "onBeats": 2,
+  "led": 1
  },
  "impact": {
   "clock": "beats",
@@ -473,14 +493,14 @@
   "onBeats": 2
  },
  "cards3d": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 0
+  "onBeats": 3
  },
  "icon3d": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 2
  },
  "phone3d": {
   "clock": "beats",
@@ -518,9 +538,10 @@
   "onBeats": 20
  },
  "before-after-wipe": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 0
+  "onBeats": 1,
+  "led": 1
  },
  "screen-flow-carousel": {
   "clock": "beats",
@@ -528,24 +549,25 @@
   "onBeats": 4
  },
  "chart-story": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 6,
-  "onBeats": 0
+  "onBeats": 6
  },
  "testimonial-proof-card": {
-  "clock": "seconds",
+  "clock": "beats",
   "moments": 3,
-  "onBeats": 0
+  "onBeats": 3
  },
  "thinking-orb": {
-  "clock": "mixed",
-  "moments": 3,
-  "onBeats": 1
+  "clock": "beats",
+  "moments": 2,
+  "onBeats": 2
  },
  "modal-morph": {
-  "clock": "mixed",
+  "clock": "beats",
   "moments": 2,
-  "onBeats": 1
+  "onBeats": 1,
+  "led": 1
  },
  "ride": {
   "clock": "beats",
@@ -568,9 +590,9 @@
   "onBeats": 3
  },
  "comic": {
-  "clock": "mixed",
-  "moments": 15,
-  "onBeats": 0
+  "clock": "beats",
+  "moments": 14,
+  "onBeats": 13
  },
  "kinetic-swap-words": {
   "clock": "beats",

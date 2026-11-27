@@ -299,7 +299,8 @@ sceneFactories.cards3d = ({ p, cam, fg, accent, palette, bg, K }) => {
 			grp,
 			holder,
 			home: new THREE.Vector3(k * (portrait ? 0.42 : 0.82), -k * (portrait ? 0.62 : 0.5), i * 0.3),
-			at: 0.06 + i * Math.min(0.32, (p.dur * 0.5) / n),
+			// It begins to fall 0.15 s before the moment it lands on.
+			at: p.at.lands[i] - 0.15,
 			spin: (hash(i * 3.1 + p.index) - 0.5) * 0.6,
 		};
 	});
@@ -387,7 +388,7 @@ sceneFactories.icon3d = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const orbs = Array.from({ length: 7 }, (_, i) => {
 		const m = new THREE.Mesh(geos[i % geos.length], glossy(cols[i % cols.length] ?? accent, { roughness: 0.15 }));
 		scene.add(m);
-		return { m, a: (i / 7) * Math.PI * 2 + hash(i + p.index) * 0.6, r: 1.45 + hash(i * 3.3) * 0.5, tilt: (hash(i * 5.1) - 0.5) * 0.9, sp: 0.35 + hash(i * 2.7) * 0.3, at: 0.35 + i * 0.07 };
+		return { m, a: (i / 7) * Math.PI * 2 + hash(i + p.index) * 0.6, r: 1.45 + hash(i * 3.3) * 0.5, tilt: (hash(i * 5.1) - 0.5) * 0.9, sp: 0.35 + hash(i * 2.7) * 0.3, at: p.at.land + i * p.at.every };
 	});
 	const paint = output(K, cam, p.scene.halftone ? accent : null);
 	// The name under the icon, in the style's display type.
@@ -401,7 +402,8 @@ sceneFactories.icon3d = ({ p, cam, fg, accent, palette, bg, K }) => {
 	}
 	const lift = portrait ? 0.35 : 0.42;
 	return (l) => {
-		const k = spring(K, l - 0.05, 1.5, 0.55);
+		// The icon flies in for 0.3 s and lands on its moment.
+		const k = spring(K, l - (p.at.land - 0.3), 1.5, 0.55);
 		const kick = beatKick(p.start + l) * 0.025 * K.clamp((l - 0.8) / 0.3);
 		tile.position.set(0, lift + (1 - k) * -0.6 + Math.sin(l * 1.4) * 0.05, (1 - k) * -7);
 		tile.rotation.set(0.12 + Math.sin(l * 0.9) * 0.06, (1 - k) * -Math.PI * 3 - 0.32 + Math.sin(l * 0.6) * 0.18, (1 - k) * 0.4);

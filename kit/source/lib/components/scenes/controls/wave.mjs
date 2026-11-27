@@ -58,8 +58,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		if (em && K.plan?.look?.display?.accent === "serif") sp.style.fontStyle = "italic";
 		return sp;
 	});
-	const tTalk = 0.55;
-	const talkDur = Math.max(1.2, Math.min(d0 - 1.0, said.length * 0.28));
+	// The voice begins on the film's beat (`p.at`) and is done before the scene is.
+	const tTalk = p.at.talk;
+	const talkDur = Math.max(1.2, Math.min(d0 - tTalk - 0.45, said.length * 0.28));
 	const wordT = (i) => tTalk + (i / said.length) * talkDur;
 	return (l) => {
 		const a = E.softLand(prog(l, 0, 0.5));

@@ -43,19 +43,14 @@ export const factory = ({ p, cam, fg, accent, palette, K }) => {
 	const caret = el("div", "", big);
 	set(caret, { position: "absolute", top: "0.14em", width: "0.04em", height: "0.8em", background: blue, borderRadius: "0.02em" });
 	const fsPx = Number.parseFloat(big.style.fontSize) || 100;
-	const CH = 0.06;
 	// Plan the edits: type the first value, then for each next value select it all and type over.
+	// When each begins and how far apart the keys fall is the scene's moments (scene-moments.cjs).
+	const CH = p.at.key;
 	const steps = [];
-	let t = 0.08;
-	steps.push({ kind: "type", text: seq[0], index: 0, at: t, dur: seq[0].length * CH });
-	t += seq[0].length * CH;
-	const room = Math.max(0.6, p.dur * 0.96 - t);
-	const per = room / Math.max(1, s.to.length);
+	steps.push({ kind: "type", text: seq[0], index: 0, at: p.at.start, dur: seq[0].length * CH });
 	for (let i = 1; i < seq.length; i++) {
-		const at = t + per * 0.12;
-		steps.push({ kind: "select", from: seq[i - 1], index: i - 1, at, dur: 0.28 });
-		steps.push({ kind: "type", text: seq[i], index: i, at: at + 0.42, dur: seq[i].length * CH, n: i, prev: seq[i - 1] });
-		t += per;
+		steps.push({ kind: "select", from: seq[i - 1], index: i - 1, at: p.at.selects[i - 1], dur: 0.28 });
+		steps.push({ kind: "type", text: seq[i], index: i, at: p.at.types[i - 1], dur: seq[i].length * CH, n: i, prev: seq[i - 1] });
 	}
 	const txt = (n, v) => {
 		if (n.textContent !== v) n.textContent = v;

@@ -84,7 +84,7 @@ const definition_dial={...metadata["dial"],build({ p, cam, fg, accent, palette, 
 					old.textContent = had ? String(before % 10) : "";
 					set(old, { opacity: (1 - e).toFixed(3), transform: `translateY(${(-0.26 * e).toFixed(4)}em)` });
 				}
-				set(bubble, { transform: `translateX(${px(x * long - bubble.offsetWidth / 2)}) scale(${spring(l - 0.3, 3, 0.55).toFixed(4)})` });
+				set(bubble, { transform: `translateX(${px(x * long - bubble.offsetWidth / 2)}) scale(${spring(l - t.bubble, 3, 0.55).toFixed(4)})` });
 				set(label, { opacity: smooth((l - 0.15) / 0.3).toFixed(3) });
 			};
 		}};

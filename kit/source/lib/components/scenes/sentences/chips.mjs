@@ -9,9 +9,8 @@ const definition_chips={...metadata["chips"],build({ p, cam, fg, accent, palette
 			const s = p.scene;
 			const light = orbs(K, cam, palette, accent, bg, p.index);
 			const n = s.chips.length;
-			// The chips leave in the scene's last third of a second: a fly-through, not a drift away.
-			const leave = Math.max(p.dur - 0.3, p.dur * 0.6);
-			const step = Math.min(0.07, (p.dur * 0.4) / n);
+			// The chips leave in the scene's last third of a second or so: a fly-through, not a drift away.
+			const t = this.times(s, p.dur, p.beatLen);
 			// The chips stand in a box with depth, its vanishing point the middle of the frame: a chip
 			// pushed toward the viewer runs along its line from the centre and grows past the camera.
 			const space = el("div", "", cam);
@@ -33,10 +32,10 @@ const definition_chips={...metadata["chips"],build({ p, cam, fg, accent, palette
 				const chipBox=chipDesign.surface(node,'badge',{shape:'pill'});
 				set(label, { maxWidth: px(K.safe.w*.4-chipBox.paddingX*2) });
 				chipDesign.truncateLine(label);label.title = name;
-                return { node, x: K.safe.x + K.safe.w / 2 + Math.cos(a) * K.safe.w * far, y: K.safe.y + K.safe.h / 2 + Math.sin(a) * K.safe.h * (far - 0.05), a, depth, roll: (hash(i * 7.1) - 0.5) * 10, at: 0.15 + i * step,
+                return { node, x: K.safe.x + K.safe.w / 2 + Math.cos(a) * K.safe.w * far, y: K.safe.y + K.safe.h / 2 + Math.sin(a) * K.safe.h * (far - 0.05), a, depth, roll: (hash(i * 7.1) - 0.5) * 10, at: t.pops[i],
 					// A small tilt at rest; a hard one as it goes, a moment after the others or before.
 					tilt: [(hash(i * 2.9 + 4) - 0.5) * 12, (hash(i * 4.3 + 5) - 0.5) * 16], hard: [(hash(i * 6.7 + 6) - 0.5) * 120, (hash(i * 8.9 + 7) - 0.5) * 130],
-					goes: leave + hash(i * 9.7 + 8) * 0.04, z: (860 + hash(i * 1.9 + 9) * 100) * S };
+					goes: t.leave + hash(i * 9.7 + 8) * 0.04, z: (860 + hash(i * 1.9 + 9) * 100) * S };
 			});
 			const wrap = el("div", "center", cam);
 			const line = el("div", "display", wrap);

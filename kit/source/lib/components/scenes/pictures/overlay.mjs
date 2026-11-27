@@ -56,7 +56,7 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 		set(lab, { display: "block", maxWidth: px(cw-inset) });
 		D.fitLine(val, cw - inset, D.type("metric").lineHeight, "metric");
 		D.truncateLine(lab);lab.title = c.label ?? "";
-		return { box, lab, val, roll, v, at: 0.35 + i * 0.4, side: i % 2 ? 1 : -1 };
+		return { box, lab, val, roll, v, at: p.at.cards[i], settle: p.at.settle[i], side: i % 2 ? 1 : -1 };
 	});
 	// Keep measured glass surfaces clear of each other and of the full caption.
 	// A long caption can rise above the old fixed third-card position.
@@ -104,7 +104,8 @@ export const factory = ({ p, cam, fg, accent, K }) => {
 			const k = expoOut(prog(l, c.at, 0.8));
 			const bob = Math.sin(l * 1.3 + c.at * 5) * 6 * S;
 			set(c.box, { opacity: smooth((l - c.at) / 0.25).toFixed(3), filter: k > 0.995 ? "none" : `blur(${((1 - k) * 14 * S).toFixed(2)}px)`, transform: `perspective(${px(1600 * S)}) translateY(${px((1 - k) * 60 * S + bob)}) rotateY(${(c.side * (8 - 5 * k)).toFixed(3)}deg) scale(${(0.9 + 0.1 * k).toFixed(4)})` });
-			c.roll(c.v * expoOut(prog(l, c.at + 0.15, 1.2)));
+			// The number has all but come to rest on its moment, 1.05 s into its roll.
+			c.roll(c.v * expoOut(prog(l, c.settle - 1.05, 1.2)));
 		}
 		if (cap) {
 			const k = expoOut(prog(l, 0.15, 0.7));

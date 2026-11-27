@@ -49,7 +49,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		});
 	}
 	if (cap) D.fitSize(cap, K.safe.w * 0.92, K.safe.h * 0.7, "display");
-	const tOut = text ? Math.max(1.2, d0 * 0.58) : d0 + 1;
+	const tOut = text ? p.at.out : d0 + 1;
 	return (l) => {
 		const push = E.cruise(l / d0) * 900 * S;
 		const out = E.accelExit(prog(l, tOut, 0.55));
@@ -61,7 +61,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 			set(C.c, { opacity: clamp(a * 2).toFixed(3), transform: `translate3d(${px(C.x * spread)}, ${px(C.y * spread)}, ${(C.z - (1 - a) * 600 * S).toFixed(1)}px) rotateY(${(C.ry + spin).toFixed(2)}deg) rotateZ(${C.rz.toFixed(2)}deg)` });
 		});
 		capWords.forEach((w, j) => {
-			const k = E.softLand(prog(l, tOut + 0.25 + j * 0.06, 0.5));
+			const k = E.softLand(prog(l, p.at.hit - 0.05 + j * 0.06, 0.5));
 			set(w, { opacity: clamp(k * 2).toFixed(3), transform: `translateY(${px((1 - k) * 40 * S)}) scale(${(1.15 - 0.15 * k).toFixed(4)})` });
 		});
 	};

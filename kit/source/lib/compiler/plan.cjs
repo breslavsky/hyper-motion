@@ -190,36 +190,25 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			const n = [...s.text].length;
 			for (let i = 0; i < n; i++) cue(at.first + i * at.every, "pop", 0.6);
 		},
-		inline(s, len, cue) {
-			const n = Math.max(1, Math.min(6, count(s, "images") || count(s, "items") || 4));
-			const zooms = count(s, "images") > 0;
-			const step = Math.max(0.14, ((zooms ? len * 0.74 : len) - 0.45 - 0.18) / n);
-			for (let i = 0; i < n; i++) cue(0.26 + i * step, "pop", 0.8);
-			if (zooms) cue(len * 0.74, "whoosh", 1.2);
+		inline(s, len, cue, at) {
+			for (const pop of at.pops) cue(pop, "pop", 0.8);
+			if (count(s, "images") > 0) cue(at.zoom, "whoosh", 1.2);
 		},
-		bubbles(s, len, cue) {
-			const n = Math.max(8, Math.min(14, s.questions.length * 3));
-			const step = Math.min(0.16, (len * (s.answer ? 0.34 : 0.5)) / n);
-			for (let i = 0; i < n; i++) cue(0.05 + i * step, "pop", 0.45);
+		bubbles(s, len, cue, at) {
+			for (let i = 0; i < at.count; i++) cue(i * at.every, "pop", 0.45);
 			if (!s.answer) return;
-			const at = len * 0.58;
-			cue(at - 0.1, "whoosh", 0.8);
+			cue(at.away, "whoosh", 0.8);
 			const chars = s.answer.length;
-			for (let c = 0; c < chars; c += 2) cue(at + 0.2 + (c / chars) * 0.7, "type", 0.8);
-			cue(at + 1.05, "ping", 0.8);
+			for (let c = 0; c < chars; c += 2) cue(at.type + (c / chars) * (at.typed - at.type), "type", 0.8);
+			cue(at.sent, "ping", 0.8);
 		},
-		retype(s, len, cue) {
+		retype(s, len, cue, at) {
 			const texts = [s.from, ...s.to];
-			let t = 0.08;
-			for (let c = 0; c < texts[0].length; c++) cue(t + c * 0.06, "type");
-			t += texts[0].length * 0.06;
-			const step = Math.max(0.6, len * 0.96 - t) / Math.max(1, texts.length - 1);
-			for (let i = 1; i < texts.length; i++) {
-				const at = t + step * 0.12;
-				cue(at, "click", 0.7);
-				for (let c = 0; c < texts[i].length; c++) cue(at + 0.42 + c * 0.06, "type");
-				t += step;
-			}
+			for (let c = 0; c < texts[0].length; c++) cue(at.start + c * at.key, "type");
+			at.selects.forEach((select, i) => {
+				cue(select, "click", 0.7);
+				for (let c = 0; c < texts[i + 1].length; c++) cue(at.types[i] + c * at.key, "type");
+			});
 		},
 		checklist(s, len, cue) {
 			const n = s.items.length;
@@ -228,78 +217,60 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			for (let i = 0; i < n; i++) cue(first + i * step, "click");
 			cue(first + (n - 1) * step + 0.12, "chime", 0.7);
 		},
-		cards3d(s, len, cue) {
-			const n = Math.max(2, Math.min(5, count(s, "images") || count(s, "titles") || 3));
-			for (let i = 0; i < n; i++) cue(0.06 + i * Math.min(0.32, (len * 0.5) / n) + 0.15, "whoosh", 0.6);
+		cards3d(s, len, cue, at) {
+			for (const land of at.lands) cue(land, "whoosh", 0.6);
 		},
-		icon3d(s, len, cue) {
-			cue(0.35, "hit", 0.8);
-			cue(0.45, "sparkle");
+		icon3d(s, len, cue, at) {
+			cue(at.land, "hit", 0.8);
+			cue(at.sparkle, "sparkle");
 		},
-		roll(s, len, cue) {
-			const n = s.words.length;
-			const step = Math.max(0.3, (len * 0.9 - 0.45) / Math.max(1, n - 1));
-			for (let i = 1; i < n; i++) cue(0.45 + (i - 1) * step + step * 0.2, "tick", 0.85);
+		roll(s, len, cue, at) {
+			for (const turn of at.turns) cue(turn, "tick", 0.85);
 		},
-		journey(s, len, cue) {
-			const words = s.text.trim().split(/\s+/).length;
-			const step = Math.min(0.3, (len * 0.42) / Math.max(1, words));
-			for (let i = 0; i < words; i++) cue(0.12 + i * step, "type", 0.35);
-			const wheel = s.wheel?.length ?? 0;
-			const from = 0.12 + (words - 1) * step + 0.3;
-			const turn = wheel > 1 ? Math.min(0.75, Math.max(0.32, (len * 0.88 - from - 0.5) / (wheel - 1))) : 0;
-			for (let i = 1; i < wheel; i++) cue(from + 0.25 + (i - 1) * turn, "tick", 0.8);
+		journey(s, len, cue, at) {
+			for (const word of at.words) cue(word, "type", 0.35);
+			for (const turn of at.turns) cue(turn, "tick", 0.8);
 			cue(0.1, "whoosh", 0.5);
 		},
-		faces(s, len, cue) {
-			for (let i = 0; i < 6; i++) cue(0.08 + i * 0.07 + 0.1, "pop", 0.3);
+		faces(s, len, cue, at) {
+			for (let i = 0; i < 6; i++) cue(at.first + i * at.every, "pop", 0.3);
 		},
-		shuffle(s, len, cue) {
-			cue(Math.max(0.9, len * 0.42) + 0.2, "whoosh", 0.8);
-			cue(Math.max(0.9, len * 0.42) + 0.9, "hit", 0.5);
+		shuffle(s, len, cue, at) {
+			cue(at.move + 0.2, "whoosh", 0.8);
+			cue(at.land, "hit", 0.5);
 		},
-		dot(s, len, cue) {
-			const drop = s.lead ? 0.62 : 0.4;
-			if (s.lead) cue(0.12, "whoosh", 0.5);
-			cue(drop + 0.38, "pop", 0.9);
-			cue(drop + 0.62, "pop", 0.4);
-			cue(drop + 0.74, "tick", 0.3);
-			const grow = Math.max(drop + 1.29, len * 0.34);
-			cue(grow + 0.3, "whoosh", 0.9);
-			cue(grow + 0.7, "hit", 0.6);
-			const from = grow + 0.85;
-			const end = Math.max(from + 1.1, len * 0.7);
-			if (end < len - 0.6) for (let i = 1; i < 4; i++) cue(from + 0.12 + ((end - 0.45 - from) / 4) * i, "tick", 0.6);
-			cue(end, "sparkle", 0.8);
+		dot(s, len, cue, at) {
+			if (s.lead) cue(at.fall, "whoosh", 0.5);
+			cue(at.hits[0], "pop", 0.9);
+			cue(at.hits[1], "pop", 0.4);
+			cue(at.hits[2], "tick", 0.3);
+			cue(at.grow, "whoosh", 0.9);
+			cue(at.hit, "hit", 0.6);
+			for (const morph of at.morphs ?? []) cue(morph, "tick", 0.6);
+			cue(at.ring, "sparkle", 0.8);
 		},
-		flip(s, len, cue) {
-			const n = s.words.length;
-			const gathers = s.gather !== false && n >= 3;
-			const step = Math.max(0.42, (len * (gathers ? 0.58 : 0.86)) / n);
-			for (let i = 1; i < n; i++) cue(0.15 + i * step - 0.04, "tick", 0.8);
-			if (!gathers) return;
-			const at = 0.15 + (n - 1) * step + Math.max(0.5, step * 0.9);
-			cue(at, "whoosh", 0.6);
-			cue(at + 0.9, "sparkle", 0.8);
+		flip(s, len, cue, at) {
+			for (const swap of at.swaps.slice(1)) cue(swap, "tick", 0.8);
+			if (at.mark === undefined) return;
+			cue(at.fan, "whoosh", 0.6);
+			cue(at.mark, "sparkle", 0.8);
 		},
-		pullback(s, len, cue) {
-			const chars = s.text.length;
-			const typing = Math.min(len * 0.5, chars * 0.05 + 0.35);
-			for (let c = 0; c < Math.min(14, chars); c++) cue(0.12 + (c / Math.min(14, chars)) * typing, "type", 0.35);
-			const at = 0.12 + typing + 0.45;
-			cue(at, "whoosh", 0.7);
-			cue(at + 1.4, "click", 0.9);
+		pullback(s, len, cue, at) {
+			const chars = at.keys.length - 1, heard = Math.min(14, chars);
+			for (let c = 0; c < heard; c++) cue(at.keys[Math.floor((c * chars) / heard)], "type", 0.35);
+			cue(at.pull, "whoosh", 0.7);
+			cue(at.click, "click", 0.9);
 		},
 		pack(s, len, cue, at) {
 			cue(0.02, "pop", 0.8);
 			for (let i = 1; i < 6; i++) cue(at.first + (i - 1) * (at.spread / 4), "pop", 0.35);
 			cue(at.out, "whoosh", 0.7);
 		},
-		swarm(s, len, cue) {
+		swarm(s, len, cue, at) {
 			cue(0.05, "riser", 0.5);
 			if (!s.text) return;
-			cue(Math.max(1.2, len * 0.58), "whoosh", 0.9);
-			cue(Math.max(1.2, len * 0.58) + 0.3, "hit", 0.6);
+			cue(at.out, "whoosh", 0.9);
+			cue(at.hit, "hit", 0.6);
 		},
 		split(s, len, cue, at) {
 			cue(0.02, "whoosh", 0.5);
@@ -315,72 +286,57 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 				t += ((third ? 2.2 : 1) / total) * len;
 			}
 		},
-		web(s, len, cue) {
-			const n = s.words.length;
-			const step = Math.min(0.09, 1.1 / n);
-			const from = 0.4 + n * step + 0.3;
-			const keys = Math.max(1, s.keys?.length ?? 3);
-			const each = Math.max(0.45, (len - from - 0.6) / keys);
+		web(s, len, cue, at) {
 			cue(0.02, "pop", 0.6);
-			for (let i = 0; i < keys; i++) cue(from + i * each, "tick", 0.7);
+			for (const key of at.keys) cue(key, "tick", 0.7);
 		},
-		picker(s, len, cue) {
-			const step = Math.max(0.32, (len * 0.45) / 4);
-			for (let i = 1; i < 4; i++) cue(0.55 + i * step - 0.12, "tick", 0.5);
-			cue(0.55 + 3 * step + 0.3, "pop", 0.9);
+		picker(s, len, cue, at) {
+			for (const hop of at.hops) cue(hop, "tick", 0.5);
+			cue(at.land, "pop", 0.9);
 		},
-		palette(s, len, cue) {
-			const chars = s.query.length;
-			const rate = Math.max(9, chars / Math.max(0.6, len * 0.32));
-			for (let c = 0; c < Math.min(chars, 12); c++) cue(0.35 + (c / Math.min(chars, 12)) * (chars / rate), "type", 0.35);
-			cue(0.35 + chars / rate + 0.55, "click", 0.9);
-			cue(0.35 + chars / rate + 0.6, "whoosh", 0.5);
+		palette(s, len, cue, at) {
+			// A sound on each letter as it appears, on twelve of them in a longer query.
+			const chars = Math.round((at.typed - at.type) / at.every), heard = Math.min(chars, 12);
+			for (let c = 1; c <= heard; c++) cue(at.type + Math.round((c * chars) / heard) * at.every, "type", 0.35);
+			cue(at.enter, "click", 0.9);
+			cue(at.open, "whoosh", 0.5);
 		},
-		agent(s, len, cue) {
-			const n = s.steps.length;
-			const step = Math.max(0.5, Math.min(0.95, (len * 0.62) / n));
-			for (let i = 0; i < n; i++) cue(0.35 + i * step + step * 0.82, "tick", 0.6);
-			cue(0.35 + (n - 1) * step + step * 0.82 + 0.15, "chime", 0.8);
+		agent(s, len, cue, at) {
+			for (const done of at.done) cue(done, "tick", 0.6);
+			cue(at.all, "chime", 0.8);
 		},
-		particles(s, len, cue) {
-			cue(Math.min(0.7, len * 0.18), "riser", 0.6);
-			cue(Math.min(0.7, len * 0.18) + 1.6, "sparkle", 0.8);
+		particles(s, len, cue, at) {
+			cue(at.gather, "riser", 0.6);
+			cue(at.solid, "sparkle", 0.8);
 		},
-		wave(s, len, cue) {
+		wave(s, len, cue, at) {
 			cue(0.05, "pop", 0.5);
-			cue(0.55, "click", 0.5);
+			cue(at.talk, "click", 0.5);
 		},
-		arc(s, len, cue) {
-			const n = 1 + (s.words?.length ?? 0);
-			cue(0.05, "whoosh", 0.5);
-			for (let i = 1; i < n; i++) cue(0.7 + i * Math.max(0.6, (len * 0.6) / n), "tick", 0.6);
+		arc(s, len, cue, at) {
+			cue(at.rise, "whoosh", 0.5);
+			for (const swap of at.swaps.slice(1)) cue(swap, "tick", 0.6);
 		},
-		orb(s, len, cue) {
-			const n = Math.max(1, s.lines?.length ?? 1);
-			const step = Math.max(0.7, (len - 0.9) / n);
+		orb(s, len, cue, at) {
 			cue(0.02, "riser", 0.5);
-			for (let i = 0; i < n; i++) cue(0.55 + i * step, "chime", 0.5);
+			for (const line of at.lines) cue(line, "chime", 0.5);
 		},
-		scatter(s, len, cue) {
+		scatter(s, len, cue, at) {
 			const words = s.text.split(/\s+/).filter(Boolean).length;
-			const step = Math.min(0.16, 1.6 / Math.max(1, words));
-			for (let i = 0; i < words; i++) cue(0.1 + i * step, "tick", 0.35);
-			const at = Math.max(0.1 + (words - 1) * step + 0.7, len * 0.55);
-			cue(at, "whoosh", 0.8);
-			cue(at + 0.75, "hit", 0.6);
+			for (let i = 0; i < words; i++) cue(at.first + i * at.every, "tick", 0.35);
+			cue(at.gather, "whoosh", 0.8);
+			cue(at.hit, "hit", 0.6);
 		},
 		knockout(s, len, cue, at) {
 			cue(0.02, "hit", 0.6);
 			cue(at.zoom, "riser", 0.7);
 			cue(at.land, "whoosh", 0.9);
 		},
-		assemble(s, len, cue) {
+		assemble(s, len, cue, at) {
 			const n = [...s.word].length;
-			const step = Math.min(0.07, 0.6 / Math.max(1, n));
-			for (let i = 0; i < Math.min(n, 8); i++) cue(0.05 + i * step * (n / Math.min(n, 8)), "stamp", 0.4);
-			const at = 0.25 + n * step + 0.55;
-			cue(at, "whoosh", 0.6);
-			cue(at + 0.6, "chime", 0.7);
+			for (let i = 0; i < Math.min(n, 8); i++) cue(at.first + i * at.every * (n / Math.min(n, 8)), "stamp", 0.4);
+			cue(at.resolve, "whoosh", 0.6);
+			cue(at.clean, "chime", 0.7);
 		},
 		hive(s, len, cue, at) {
 			const n = Math.min(12, s.icons?.length || 8);
@@ -388,30 +344,20 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			cue(at.pull, "whoosh", 0.8);
 			cue(at.pop, "pop", 0.9);
 		},
-		between(s, len, cue) {
-			const n = s.words.length;
-			const step = Math.max(0.6, (len * 0.5) / Math.max(1, n));
+		between(s, len, cue, at) {
 			cue(0.05, "whoosh", 0.6);
-			for (let i = 1; i < n; i++) cue(0.95 + (i - 1) * step - 0.14, "click", 0.6);
-			const at = (n > 1 ? 0.95 + (n - 2) * step : 0.7) + Math.max(0.75, step * 0.9);
-			cue(at, "click", 0.9);
-			cue(at + 0.26, "sparkle", 0.8);
-			cue(Math.max(at + 1, len - 0.34), "whoosh", 0.7);
+			for (const tap of at.taps) cue(tap, "click", 0.6);
+			cue(at.confirm, "click", 0.9);
+			cue(at.burst, "sparkle", 0.8);
+			cue(at.exit, "whoosh", 0.7);
 		},
-		drag(s, len, cue) {
-			const fly = [0.72, 0.52, 0.4];
-			const wait = [0.42, 0.3, 0.26];
-			let t = 0.7;
-			const n = Math.min(3, s.files?.length || 3);
-			for (let i = 0; i < n; i++) {
-				const grab = t + wait[i];
-				const drop = grab + 0.1 + fly[i];
-				cue(grab, "click", 0.5);
+		drag(s, len, cue, at) {
+			at.drops.forEach((drop, i) => {
+				cue(at.grabs[i], "click", 0.5);
 				cue(drop, "pop", 0.6);
-				cue(drop + 0.6, "tick", 0.5);
-				t = drop + 0.08;
-			}
-			cue(t - 0.08 + 0.54, "click", 0.9);
+				cue(at.checks[i], "tick", 0.5);
+			});
+			cue(at.click, "click", 0.9);
 		},
 		field(s, len, cue) {
 			cue(0.1, "riser", 0.6);
@@ -421,10 +367,10 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 			cue(0, "whoosh", 1);
 			cue(0.35, "type", 0.5);
 		},
-		overlay(s, len, cue) {
-			s.cards.forEach((_, i) => {
-				cue(0.35 + i * 0.4, "pop", 0.6);
-				cue(0.35 + i * 0.4 + 1.2, "tick", 0.5);
+		overlay(s, len, cue, at) {
+			at.cards.forEach((card, i) => {
+				cue(card, "pop", 0.6);
+				cue(at.settle[i], "tick", 0.5);
 			});
 		},
 		props3d(s, len, cue) {
@@ -434,8 +380,8 @@ const {applyBrandPalette,resolveBrandStyle}=require('../components/brand-tokens.
 		phone3d(s, len, cue) {
 			cue(0.1, "whoosh", 0.9);
 		},
-		mosaic(s, len, cue) {
-			for (let i = 0; i < 6; i++) cue(0.14 + i * 0.07, "pop", 0.35);
+		mosaic(s, len, cue, at) {
+			for (let i = 0; i < 6; i++) cue(at.first + i * at.every, "pop", 0.35);
 		},
 	};
 

@@ -11,7 +11,7 @@ const definition_winner={...metadata["winner"],build({ p, cam, fg, accent, palet
 			const S = unit(K);
 			const s = p.scene;
 			const light = orbs(K, cam, palette, accent, bg, p.index);
-			const t = this.times(s, p.dur);
+			const t = this.times(s, p.dur, p.beatLen);
 			const pick = (s.pick ?? 3) - 1;
 			const quadOut = (u) => 1 - (1 - clamp(u)) ** 2;
 			const quadInOut = (u) => ((u = clamp(u)) < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2);
@@ -68,13 +68,13 @@ const definition_winner={...metadata["winner"],build({ p, cam, fg, accent, palet
 				const ink = wins ? accent : muted;
 				set(badge, { position: "absolute", right: px(-bd * 0.3), top: px(-bd * 0.3), width: px(bd), height: px(bd), borderRadius: "50%", background: ink, display: "flex", alignItems: "center", justifyContent: "center" });
 				badge.innerHTML = `<svg viewBox="0 0 24 24" width="62%" height="62%"><path d="${wins ? "M5 12.5l4.5 4.5L19 7.5" : "M7.5 7.5l9 9M16.5 7.5l-9 9"}" fill="none" stroke="${wins ? textOn(accent) : bg}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-				return { tile, badge, at: t.tiles + i * 0.065, wins, decided: wins ? t.pick : t.lose[losers++] };
+				return { tile, badge, at: t.tiles[i], wins, decided: wins ? t.pick : t.lose[losers++] };
 			});
 			return (l) => {
 				light(l);
 				// The card comes in from the right, turned a little, and straightens as it stops.
-				const e = quartOut(clamp((l - 0.05) / 0.36));
-				set(card, { opacity: clamp((l - 0.05) / 0.12).toFixed(3), transform: `translateX(${px((1 - e) * 420 * S)}) rotate(${((1 - e) * 5).toFixed(3)}deg)` });
+				const e = quartOut(clamp((l - t.card) / 0.36));
+				set(card, { opacity: clamp((l - t.card) / 0.12).toFixed(3), transform: `translateX(${px((1 - e) * 420 * S)}) rotate(${((1 - e) * 5).toFixed(3)}deg)` });
 				if (f) value.textContent = counted(f, quadOut((l - 0.12) / 0.55));
 				const drawn = quadInOut((l - 0.3) / 0.42);
 				curve.setAttribute("stroke-dashoffset", ((1 - drawn) * long).toFixed(2));

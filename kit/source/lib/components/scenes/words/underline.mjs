@@ -23,9 +23,10 @@ const definition_underline={...metadata["underline"],build({ p, cam, fg, accent,
 			const rule = el("div", "", box);
 			set(rule, { height: px(Math.max(8, 14 * S)), background: accent, width: "100%", transformOrigin: "0 50%", marginTop: px(K.design.space(1)), borderRadius: px(K.design.radius(1)) });
 			const cubicOut = (t) => 1 - (1 - t) ** 3;
+			const at = this.times(s, p.dur, p.beatLen);
 			return (l) => {
-				letters.forEach((node, i) => set(node, { transform: `translateY(${((1 - cubicOut(prog(l, 0.04 + i * 0.035, 0.24))) * 110).toFixed(3)}%)` }));
-				set(rule, { transform: `scaleX(${expoOut(prog(l, 0.16 + letters.length * 0.035, 0.5)).toFixed(4)})` });
+				letters.forEach((node, i) => set(node, { transform: `translateY(${((1 - cubicOut(prog(l, at.rise + i * at.step, 0.24))) * 110).toFixed(3)}%)` }));
+				set(rule, { transform: `scaleX(${expoOut(prog(l, at.rule, 0.5)).toFixed(4)})` });
 				if (tag) set(tag, { opacity: smooth((l - 0.1) / 0.25).toFixed(3) });
 			};
 		}};

@@ -46,8 +46,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const tOpen = 0.18;
 	// With real pictures the scene ends by zooming into the top one until it fills the frame.
 	const zoomOut = pics.length > 0;
-	const tZ = zoomOut ? p.dur * 0.74 : p.dur;
-	const gap = Math.max(0.14, (tZ - 0.45 - tOpen) / n);
+	const tZ = zoomOut ? p.at.zoom : p.dur;
+	// When each picture lands in the gap.
+	const pops = p.at.pops;
 	return (l, d) => {
 		riseGlyphs(ga.glyphs, l, { at: 0.02, stagger: 0.022, rot: -4 });
 		const ko = spring(l - tOpen, 2.2, 0.72);
@@ -56,7 +57,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		riseGlyphs(gb.glyphs, l, { at: tOpen + 0.12, stagger: 0.022, rot: -4 });
 		let top = -1;
 		cards.forEach((k, i) => {
-			const t0 = tOpen + 0.08 + i * gap;
+			const t0 = pops[i];
 			if (l >= t0) top = i;
 		});
 		const zk = zoomOut ? K.cubicInOut(prog(l, tZ, d - tZ)) : 0;
@@ -72,7 +73,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 			dy = H / 2 - (H / 2 - line.offsetHeight / 2 + slot.offsetTop + slot.offsetHeight / 2);
 		}
 		cards.forEach((k, i) => {
-			const t0 = tOpen + 0.08 + i * gap;
+			const t0 = pops[i];
 			const e = l - t0;
 			D.surfaceRadius(k.c, { from: "rounded", to: "square", progress: zk > 0 && i === top ? zk : 0 });
 			if (zk > 0 && i === top) {
@@ -87,7 +88,7 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 			// Cards above this one, counted smoothly: each new card pushes the fan open as it
 			// lands, instead of every card below snapping 5 degrees in one frame.
 			let depth = 0;
-			for (let j = i + 1; j < cards.length; j++) depth += K.smooth(prog(l, tOpen + 0.08 + j * gap, 0.3));
+			for (let j = i + 1; j < cards.length; j++) depth += K.smooth(prog(l, pops[j], 0.3));
 			const fan = clamp(depth, 0, 3);
 			const rot = k.r + (1 - sp) * 14 * k.side + fan * 5 * k.side;
 			const x = fan * 0.09 * k.side;

@@ -1,5 +1,9 @@
 // Canonical component metadata and action timing. Browser metadata.mjs is generated from this file.
 const spread=(n,from,to)=>Array.from({length:n},(_,i)=>n<2?from:from+(to-from)*i/(n-1));
+// A scene's sounding moments stand on the film's beats (`beat` is a beat in the scene's own clock):
+// each definition reckons them once, in its `times(scene, len, beat)`, for its picture and its sounds.
+// Where a moment stands on the beats is said with components/beat-grid.cjs.
+import {onBeat, nearBeat, lastBeat} from './beat-grid.mjs';
 // Media sources resolve against the project's source/ directory in both the
 // native composition and the preview.
 function projectPathProblems(path,field){
@@ -194,9 +198,10 @@ const definitions={
         `tint resolves to ${JSON.stringify(color)}; use an opaque #RGB/#RRGGBB in tint or its palette/brand.colors source`,
       ];
     },
-    times(s,len){return {title:Math.min(.14,len*.12),body:Math.min(.32,len*.25),arrival:Math.min(.4,len*.3)};},
-    sounds(s,len,cue){
-      const t=this.times(s,len);cue(Math.min(.03,len*.03),'pop',.35);
+    // The orb is there with the cut; the title arrives a quarter of a beat in and the body on the half beat.
+    times(s,len,beat){return {orb:0,title:beat/4,body:beat/2,arrival:Math.min(.4,len*.3)};},
+    sounds(s,len,cue,beat){
+      const t=this.times(s,len,beat);cue(t.orb,'pop',.35);
       if(s.title)cue(t.title,'tick',.3);
       if(s.body)cue(t.body,'tick',.22);
     },
@@ -1033,9 +1038,18 @@ validate(s){
   "text": "FULL",
   "tag": "every class"
 },
-"sounds":function sounds(s, len, cue) {
-			cue(0.05, "whoosh", 0.6);
-			cue(0.12 + [...s.text].length * 0.035 + 0.2, "hit", 0.8);
+// The word is whole on a half beat (`hit`): its last letter ends its rise there, the letters before
+// it begin a fraction of a beat apart (`step`) from `rise`, and the underline draws from `rule`.
+"times":function times(s, len, beat) {
+			const n = [...s.text].length;
+			const hit = onBeat(0.28 + (n - 1) * 0.02, beat / 2, len - 0.34);
+			const step = Math.min(beat / 8, (hit - 0.28) / Math.max(1, n - 1));
+			return { rise: hit - 0.24 - (n - 1) * step, step, rule: hit - 0.16, hit };
+		},
+"sounds":function sounds(s, len, cue, beat) {
+			const t = this.times(s, len, beat);
+			cue(t.rise, "whoosh", 0.6);
+			cue(t.hit, "hit", 0.8);
 		}
 },
 "rundown":{
@@ -1124,15 +1138,18 @@ validate(s){
   ],
   "pick": 2
 },
-"times":function times(s, len) {
-			const tiles = Math.max(0.6, len * 0.3);
-			const lose = Math.max(tiles + 0.43, Math.max(1.3, len * 0.66) - 0.39);
-			return { tiles, lose: [lose, lose + 0.13], pick: lose + 0.39 };
+// The card comes in an eighth of a beat after the cut; the options rise an eighth of a beat apart
+// from a half beat (`tiles`); the pick is made on a half beat, the two that lose a half and a quarter
+// of a beat before it.
+"times":function times(s, len, beat) {
+			const first = nearBeat(len * 0.3, beat);
+			const pick = Math.max(first + beat * 1.5, nearBeat(len * 0.66, beat));
+			return { card: beat / 8, tiles: [0, 1, 2].map((i) => first + (i * beat) / 8), lose: [pick - beat / 2, pick - beat / 4], pick };
 		},
-"sounds":function sounds(s, len, cue) {
-			const t = this.times(s, len);
-			cue(0.1, "pop", 0.8);
-			[0, 1, 2].forEach((i) => cue(t.tiles + i * 0.065, "tick", 0.9));
+"sounds":function sounds(s, len, cue, beat) {
+			const t = this.times(s, len, beat);
+			cue(t.card, "pop", 0.8);
+			t.tiles.forEach((at) => cue(at, "tick", 0.9));
 			t.lose.forEach((at) => cue(at, "click", 0.6));
 			cue(t.pick, "chime", 1);
 		}
@@ -1168,9 +1185,18 @@ validate(s){
   ],
   "target": "Nook"
 },
-"times":(s) => s.sources.map((_, i) => ({ pill: 0.1 + 0.25 * i, line: 0.22 + 0.25 * i, run: 0.27 + 0.25 * i, lands: 0.82 + 0.25 * i })),
-"sounds":function sounds(s, len, cue) {
-			for (const at of this.times(s, len)) {
+// A light reaches the tile on a half beat for each source, half a beat apart (a quarter when the
+// scene is short for it); its pill, its line and its run begin as long before as they take.
+"times":(s, len, beat) => {
+			const n = s.sources.length, first = onBeat(0.74, beat / 2);
+			const every = [beat / 2, beat / 4].find((step) => first + (n - 1) * step <= len * 0.85) ?? beat / 4;
+			return s.sources.map((_, i) => {
+				const lands = first + i * every;
+				return { pill: lands - 0.72, line: lands - 0.6, run: lands - 0.55, lands };
+			});
+		},
+"sounds":function sounds(s, len, cue, beat) {
+			for (const at of this.times(s, len, beat)) {
 				cue(at.pill, "pop", 0.7);
 				cue(at.lands, "ping", 0.6);
 			}
@@ -1213,9 +1239,16 @@ validate(s){
     "Messages"
   ]
 },
-"sounds":function sounds(s, len, cue) {
-			s.chips.forEach((_, i) => cue(0.15 + i * Math.min(0.07, (len * 0.4) / s.chips.length), "pop", 0.5));
-			cue(Math.max(len - 0.3, len * 0.6), "whoosh", 1);
+// The chips come into focus an eighth of a beat apart from a quarter in (all of them within a beat
+// and a quarter), and leave on the last half beat that leaves their flight its time.
+"times":function times(s, len, beat) {
+			const n = s.chips.length, every = Math.min(beat / 8, beat / n);
+			return { pops: s.chips.map((_, i) => beat / 4 + i * every), leave: lastBeat(len - 0.26, beat) };
+		},
+"sounds":function sounds(s, len, cue, beat) {
+			const t = this.times(s, len, beat);
+			t.pops.forEach((at) => cue(at, "pop", 0.5));
+			cue(t.leave, "whoosh", 1);
 		}
 },
 "tabs":{
@@ -1262,10 +1295,16 @@ validate(s){
     }
   ]
 },
-"times":(s, len) => spread(3, 0.35, Math.max(1.2, len * 0.68)),
-"sounds":function sounds(s, len, cue) {
-			cue(0.08, "pop", 0.8);
-			this.times(s, len).forEach((at, i) => cue(at, i ? "click" : "tick", 0.9));
+// The lit panel reaches the first figure half a beat in and hops to the next two a whole number of
+// half beats apart, the last about two thirds of the way through.
+"times":(s, len, beat) => {
+			const first = beat / 2, hop = Math.max(beat, nearBeat((len * 0.68 - first) / 2, beat));
+			return [first, first + hop, first + 2 * hop];
+		},
+"sounds":function sounds(s, len, cue, beat) {
+			// The card arrives with the cut.
+			cue(beat / 8, "pop", 0.8);
+			this.times(s, len, beat).forEach((at, i) => cue(at, i ? "click" : "tick", 0.9));
 		}
 },
 "dial":{
@@ -1295,19 +1334,26 @@ validate(s){
   "value": 92,
   "unit": "%"
 },
+// The bubble pops half a beat in and the knob is taken on the first beat. It goes off fast and slows
+// (quartOut), so it looks arrived 0.7 of the way through its time: that moment (`settle`, the chime)
+// stands on a half beat, and the slide ends as long after as that makes it. A slide a film gives in
+// beats (timing.slide) ends with its chime.
 "times":function times(s, len, beat) {
-			if (!s.timing?.slide) return { from: 0.45, to: Math.max(1.1, len * 0.72) };
+			if (!Number.isFinite(beat) || beat <= 0) throw new Error("dial needs a positive beat length");
+			if (!s.timing?.slide) {
+				const from = beat, settle = Math.max(from + beat / 2, nearBeat(from + (len * 0.72 - from) * 0.7, beat));
+				return { bubble: beat / 2, from, to: from + (settle - from) / 0.7, settle };
+			}
 			const { startBeat, endBeat } = s.timing.slide;
-			if (!Number.isFinite(beat) || beat <= 0 || !Number.isFinite(startBeat) || startBeat < 0 || !Number.isFinite(endBeat) || endBeat <= startBeat) throw new Error("dial timing.slide requires a positive beat length and 0 <= startBeat < endBeat");
-			return { from: startBeat * beat, to: endBeat * beat };
+			if (!Number.isFinite(startBeat) || startBeat < 0 || !Number.isFinite(endBeat) || endBeat <= startBeat) throw new Error("dial timing.slide requires a positive beat length and 0 <= startBeat < endBeat");
+			return { bubble: Math.min(beat / 2, startBeat * beat), from: startBeat * beat, to: endBeat * beat, settle: endBeat * beat };
 		},
 "sounds":function sounds(s, len, cue, beat) {
 			const t = this.times(s, len, beat);
-			cue(0.3, "pop", 0.7);
-			// The knob goes off fast and slows (quartOut): a tick as it passes each sixth of its way, the
-			// original chime follows the perceptual settle; an explicit beat span ends with its chime.
+			cue(t.bubble, "pop", 0.7);
+			// A tick as the knob passes each sixth of its way.
 			for (let i = 1; i <= 5; i++) cue(t.from + (t.to - t.from) * (1 - (1 - i / 6) ** 0.25), "tick", 0.5);
-			cue(s.timing?.slide ? t.to : t.from + (t.to - t.from) * 0.7, "chime", 0.9);
+			cue(t.settle, "chime", 0.9);
 		}
 },
 "gather":{
@@ -1327,9 +1373,14 @@ validate(s){
   "beats": 5,
   "word": "IDEAS"
 },
-"times":(s, len) => ({ gather: 0.12, word: 0.72, burst: Math.max(1.2, len - 0.36) }),
-"sounds":function sounds(s, len, cue) {
-			const at = this.times(s, len);
+// The dots have all landed and the word stands on a half beat (`word`), their flight begun as long
+// before as it takes; the word bursts on the last half beat that leaves the burst its time.
+"times":(s, len, beat) => {
+			const word = onBeat(0.62, beat / 2);
+			return { gather: word - 0.6, word, burst: Math.max(word + beat / 2, lastBeat(len - 0.3, beat)) };
+		},
+"sounds":function sounds(s, len, cue, beat) {
+			const at = this.times(s, len, beat);
 			cue(at.gather, "whoosh", 1);
 			cue(at.word, "hit", 1);
 			cue(at.burst, "whoosh", 1.2);
@@ -1602,7 +1653,9 @@ validate(s){
 "split":55},
 "validateMedia":function(s){return registryMediaProblems(s.images===undefined?[]:s.images);},
 "validate":function(s){return this.validateMedia(s);},
-"times":function(s,len){const scale=Math.min(1,len/1.3);return {enter:.32*scale,wipe:.25*scale,duration:1.05*scale,land:1.3*scale};},
+// The upstream schedule with its accent on the film's beat: the wipe lands on a half beat (`land`)
+// and begins its own length before; a scene shorter than the original runs it faster (`scale`).
+"times":function(s,len,beat){const scale=Math.min(1,len/1.3),duration=1.05*scale,land=onBeat(duration+.15*scale,beat/2,len);return {enter:.32*scale,wipe:land-duration,duration,land};},
 "sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.wipe,'whoosh',.55);cue(t.land,'pop',.7);}},
 "screen-flow-carousel":{"fields":{"screens":{"kind":"array",
 "of":{"kind":"object",
@@ -1670,31 +1723,40 @@ validate(s){
 "value":64}],
 "emphasize":4},
 "validate":function(s){const errors=[];if(s.emphasize!==undefined&&s.emphasize>s.items.length)errors.push('emphasize must refer to an existing item');if(s.chart==='donut'&&s.items.reduce((sum,item)=>sum+item.value,0)<=0)errors.push('donut values must have a positive total');return errors;},
+// The upstream schedule with its accents on the film's beats. The chart starts to build on a half
+// beat (`build`); the figure has settled on a half beat (`landed`), its roll begun as long before as it
+// takes. Bars and progress rows are parts in a row: each is full on a half beat or a fraction of
+// one after the one before. A line and a donut are one stroke, and a point sounds as the stroke
+// passes it, where the data puts it. A scene shorter than the original runs it faster (`scale`).
 "times":function chartStoryTimes(scene, len, beat) {
   const items = scene.items, n = items.length, mode = scene.chart ?? 'bars';
   const scale = Math.min(1, len / 3.3), max = Math.max(...items.map(item => item.value)) || 1;
+  const build = nearBeat(.55 * scale, beat), rollDuration = .7 * scale;
+  const landed = onBeat(build + 2.5 * scale, beat / 2, len - .05), callout = landed - rollDuration;
   let arrivals;
   if (mode === 'line') {
     const points = items.map((item, i) => [80 + 840 * i / (n - 1), 470 - 350 * item.value / max]);
     const lengths = [0];
     for (let i = 1; i < n; i++) lengths.push(lengths[i - 1] + Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]));
-    arrivals = lengths.map(length => ({at: .55 + 1.5 * length / lengths[n - 1], duration: .35}));
+    arrivals = lengths.map(length => ({at: build + 1.5 * scale * length / lengths[n - 1], duration: .35 * scale}));
   } else if (mode === 'donut') {
     const total = items.reduce((sum, item) => sum + item.value, 0);let cumulative = 0;
-    arrivals = items.map(item => {const share = item.value / total, at = .55 + 1.6 * cumulative;cumulative += share;return {at, duration: 1.6 * share};});
+    arrivals = items.map(item => {const share = item.value / total, at = build + 1.6 * scale * cumulative;cumulative += share;return {at, duration: 1.6 * scale * share};});
   } else {
-    const duration = mode === 'progress' ? .9 : .85, stagger = (1.6 - duration) / (n - 1);
-    arrivals = items.map((_, i) => ({at: .55 + stagger * i, duration}));
+    const duration = (mode === 'progress' ? .9 : .85) * scale, full = onBeat(build + duration, beat / 2), room = callout - .1 * scale - full;
+    const stagger = [beat, beat / 2, beat / 4].find(step => (n - 1) * step <= room) ?? Math.max(0, room) / (n - 1);
+    arrivals = items.map((_, i) => ({at: full + stagger * i - duration, duration}));
   }
+  const settled = landed + .25 * scale;
   return {scale, enter: 0, enterDuration: .5 * scale, axis: .15 * scale, axisDuration: .5 * scale,
-    build: .55 * scale, buildDuration: 1.6 * scale, lineDuration: 1.5 * scale,
-    labels: items.map((_, i) => (.85 + i * .12) * scale), labelDuration: .4 * scale,
-    items: arrivals.map(item => ({at: item.at * scale, duration: item.duration * scale, end: (item.at + item.duration) * scale})),
-    area: 2.1 * scale, areaDuration: .45 * scale,
-    callout: 2.35 * scale, calloutDuration: .45 * scale, rollDuration: .7 * scale,
-    settled: 3.3 * scale, driftEnd: Math.max(3.3 * scale, len - .3)};
+    build, buildDuration: 1.6 * scale, lineDuration: 1.5 * scale,
+    labels: items.map((_, i) => build + (.3 + i * .12) * scale), labelDuration: .4 * scale,
+    items: arrivals.map(item => ({at: item.at, duration: item.duration, end: item.at + item.duration})),
+    area: callout - .25 * scale, areaDuration: .45 * scale,
+    callout, calloutDuration: .45 * scale, rollDuration, landed,
+    settled, driftEnd: Math.max(settled, len - .3)};
 },
-"sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.build,'whoosh',.4);t.items.forEach(item=>cue(item.end,'tick',.45));cue(t.callout+t.rollDuration,'chime',.65);}},
+"sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.build,'whoosh',.4);t.items.forEach(item=>cue(item.end,'tick',.45));cue(t.landed,'chime',.65);}},
 "testimonial-proof-card":{"fields":{"quote":{"kind":"string",
 "min":1,
 "max":180},
@@ -1726,8 +1788,16 @@ validate(s){
 "emphasis":"message unmistakable"},
 "validateMedia":function(s){return registryMediaProblems(s.image===undefined?[]:[s.image]);},
 "validate":function(s){return [...this.validateMedia(s),...(s.emphasis&&!s.quote.includes(s.emphasis)?['emphasis must occur verbatim within quote']:[])];},
-"times":function(s,len){const scale=Math.min(1,len/2.2);return {enter:.5*scale,lines:.15*scale,lineDuration:.6*scale,lastLine:.87*scale,byline:1.32*scale,bylineDuration:.5*scale,draw:1.57*scale,drawDuration:.55*scale,settled:2.2*scale};},
-"sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.lines,'whoosh',.4);cue(t.byline+t.bylineDuration,'pop',.5);if(s.emphasis)cue(t.draw,'sparkle',.45);}},
+// The upstream schedule with its accents on the film's beats: the quote's lines start a quarter of a
+// beat in, the byline has landed on a half beat (`landed`, begun its own length before) and the
+// underline starts drawing half a beat before that; a scene shorter than the original runs it
+// faster (`scale`).
+"times":function(s,len,beat){
+  const scale=Math.min(1,len/2.2),lines=beat/4,bylineDuration=.5*scale,drawDuration=.55*scale;
+  const landed=onBeat(Math.max(1.8*scale,lines+1.65*scale),beat/2,len-.3*scale),draw=landed-beat/2;
+  return {enter:.5*scale,lines,lineDuration:.6*scale,lastLine:lines+.72*scale,byline:landed-bylineDuration,bylineDuration,landed,draw,drawDuration,settled:draw+drawDuration+.08*scale};
+},
+"sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.lines,'whoosh',.4);cue(t.landed,'pop',.5);if(s.emphasis)cue(t.draw,'sparkle',.45);}},
 "modal-morph":{"fields":{"title":{"kind":"string",
 "min":1,
 "max":48},
@@ -1752,8 +1822,10 @@ validate(s){
 "body":"Open a thought into a focused space, with context and the next step in view.",
 "cta":"Explore the idea",
 "register":"calm"},
-"times":function(s,len){return {enter:Math.min(.4,len*.1),expand:len*.24,morph:Math.min(s.register==='snappy'?.6:.9,len*.24)};},
-"sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.expand,'whoosh',.6);cue(t.expand+t.morph,'pop',.7);}}
+// The card has become the panel on a beat (`ready`), about half way through; it starts to open its
+// own length before.
+"times":function(s,len,beat){const morph=Math.min(s.register==='snappy'?.6:.9,len*.24),ready=onBeat(len*.24+morph,beat,len*.7);return {enter:Math.min(.4,len*.1),expand:ready-morph,morph,ready};},
+"sounds":function(s,len,cue,beat){const t=this.times(s,len,beat);cue(t.expand,'whoosh',.6);cue(t.ready,'pop',.7);}}
 ,"ride":{
 // One ball rides through a row of real controls under one camera, never a cut.
 // Grown from components/ui-world (switch, jump, slider):
@@ -1988,22 +2060,24 @@ validate(s){
       if(!errors.length&&Number.isFinite(s.beats)&&n>s.beats*3)errors.push(`beats: ${n} words need at least ${Math.ceil(n/3)} beats to be read`);
       return errors;
     },
-// Every time of the scene in frames of a 24th of a second, as the original
-// counts them. A word enters `stagger` frames after the one before (3 in the
-// original; here as many as bring the words on the half beat, when the scene
-// has room, and leave the last one time to settle); its glitch is 17 frames.
+// The picture moves in frames of a 24th of a second, as the original counts
+// them; when a word enters is said in beats. The first word enters with the cut
+// and each next one `step` after it (3 frames in the original): half a beat, or
+// the largest fraction of one (a quarter, an eighth) that leaves the last word
+// its glitch of 17 frames inside the scene. The paragraph is in (`in`) on the
+// first half beat after that glitch. A word's frame (`enter`) is the one nearest
+// to its moment, and `entered` the frame of `in`.
 "times":function times(s,len,beat){
-      const n=this.count(s),tick=1/24,first=Math.round(Math.min(.12,len*.03)/tick);
-      const room=Math.max(1,Math.floor((len/tick-first-17)*.9/Math.max(1,n-1)));
-      const half=Number.isFinite(beat)&&beat>0?Math.max(1,Math.round(beat/2/tick)):room;
-      const stagger=Math.min(half,room);
-      const enter=Array.from({length:n},(_,i)=>first+i*stagger);
-      return {tick,stagger,enter,words:enter.map(frame=>frame*tick),entered:first+n*stagger+16};
+      const n=this.count(s),tick=1/24,room=len-18*tick;
+      const step=[beat/2,beat/4,beat/8].find(every=>(n-1)*every<=room)??room/Math.max(1,n-1);
+      const words=Array.from({length:n},(_,i)=>i*step);
+      const settled=onBeat(words[n-1]+17*tick,beat/2,len*.96);
+      return {tick,step,words,enter:words.map(at=>Math.round(at/tick)),in:settled,entered:Math.round(settled/tick)};
     },
 "sounds":function sounds(s,len,cue,beat){
       const t=this.times(s,len,beat);
       t.words.forEach((at,i)=>cue(at,'tick',i%4===0?.5:.32));
-      cue(Math.min(len*.96,t.entered*t.tick),'pop',.6);
+      cue(t.in,'pop',.6);
     }}
 ,"kinetic-swap-words":{
 "opener":true,

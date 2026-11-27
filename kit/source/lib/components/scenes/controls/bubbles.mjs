@@ -35,7 +35,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 	const N = Math.max(qs.length, Math.min(14, qs.length * 3, rowCapacity * columns));
 	// Grid cells in a shuffled order, so pills arrive all over the frame.
 	const visibleSlots = Math.max(columns, Math.min(N, rowCapacity * columns));
-	const stagger = Math.min(0.16, (p.dur * (s.answer ? 0.34 : 0.5)) / N);
+	// How far apart the questions pop, and when the answer lands, is typed and sent: on the film's
+	// beats (`p.at`).
+	const stagger = p.at.every;
 	const SLOTS = Array.from({ length: visibleSlots }, (_, i) => i).sort((a, b) => hash(a * 3.7 + p.index) - hash(b * 3.7 + p.index));
 	const P = Array.from({ length: N }, (_, i) => {
 		const h = (k) => hash(i * 9.13 + k * 2.71 + p.index * 31.7);
@@ -47,9 +49,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		let x=K.safe.x+(cell%gc+.5)*(K.safe.w/gc)-W/2;
 		let y=K.safe.y+(Math.floor(cell/gc)+.5)*(K.safe.h/gr)-H/2;
 		const node = pill(world, qs[i % qs.length], "controlLabel", dark ? "#ffffff" : "#15171c");
-		return { ...node, x, y, replacedAt: i + visibleSlots < N ? .05 + (i + visibleSlots) * stagger : Infinity, z: -h(3) * 40 * S - 120 * S, ph: h(4) * 6.28, w: node.n.offsetWidth, hh: node.n.offsetHeight };
+		return { ...node, x, y, replacedAt: i + visibleSlots < N ? (i + visibleSlots) * stagger : Infinity, z: -h(3) * 40 * S - 120 * S, ph: h(4) * 6.28, w: node.n.offsetWidth, hh: node.n.offsetHeight };
 	});
-	const tA = s.answer ? p.dur * 0.58 : 1e9;
+	const tA = s.answer ? p.at.answer : 1e9;
 	let ans = null;
 	if (s.answer) {
 		ans = pill(cam, "", "caption", accent);
@@ -62,9 +64,9 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		ans.typing.measure();
 	}
 	return (l, d) => {
-		const away = s.answer ? expoIn(prog(l, tA - 0.1, 0.55)) : 0;
+		const away = s.answer ? expoIn(prog(l, p.at.away, 0.55)) : 0;
 		for (const [i, q] of P.entries()) {
-			const t0 = 0.05 + i * stagger;
+			const t0 = i * stagger;
 			const e = l - t0;
 			const k = spring(e, 2.4, 0.6);
 			const z = q.z + Math.min(l*12*S,60*S) + away*600*S;
@@ -79,11 +81,11 @@ export const factory = ({ p, cam, fg, accent, palette, bg, K }) => {
 		if (ans) {
 			const e = l - tA;
 			const k = spring(e, 2.5, 0.6);
-			const n = Math.floor(clamp((e - 0.2) / 0.7) * ans.full.length);
+			const n = Math.floor(clamp((l - p.at.type) / (p.at.typed - p.at.type)) * ans.full.length);
 			ans.typing.reveal(n);
-			const typing = e > 0.2 && n < ans.full.length;
+			const typing = l > p.at.type && n < ans.full.length;
 			set(ans.caret, { opacity: typing ? "1" : K.blink(l).toFixed(3) });
-			const sent = expoOut(prog(l, tA + 1.05, 0.3));
+			const sent = expoOut(prog(l, p.at.sent, 0.3));
 			set(ans.btn, { transform: `scale(${(1 + 0.25 * Math.sin(sent * Math.PI)).toFixed(3)})` });
 			// Once it is alone on screen it floats and keeps pushing in, so the hold never freezes.
 			const push = 1 + 0.14 * clamp((l - tA) / Math.max(0.5, d - tA));

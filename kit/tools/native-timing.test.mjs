@@ -64,5 +64,8 @@ test('typewriter erases astral characters as codepoints and shares their sound c
 test("the browser's module of scene moments is the canonical one, written by its tool",()=>{
   const fs=require('node:fs'),path=require('node:path'),dir=path.join(path.dirname(new URL(import.meta.url).pathname),'../source/lib/components');
   const source=fs.readFileSync(path.join(dir,'scene-moments.cjs'),'utf8'),browser=fs.readFileSync(path.join(dir,'scene-moments.mjs'),'utf8');
-  assert.equal(browser,source.replace('module.exports = {sceneMoments, onBeat, landings};','export {sceneMoments, onBeat, landings};'),'run node kit/tools/sync-scene-moments.cjs');
+  const grid=["const {onBeat, nearBeat, lastBeat} = require('./beat-grid.cjs');","import {onBeat, nearBeat, lastBeat} from './beat-grid.mjs';"];
+  assert.equal(browser,source.replace('module.exports = {sceneMoments};','export {sceneMoments};').replace(...grid),'run node kit/tools/sync-scene-moments.cjs');
+  const gridSource=fs.readFileSync(path.join(dir,'beat-grid.cjs'),'utf8');
+  assert.equal(fs.readFileSync(path.join(dir,'beat-grid.mjs'),'utf8'),gridSource.replace('module.exports = {onBeat, nearBeat, lastBeat};','export {onBeat, nearBeat, lastBeat};'),'run node kit/tools/sync-beat-grid.cjs');
 });

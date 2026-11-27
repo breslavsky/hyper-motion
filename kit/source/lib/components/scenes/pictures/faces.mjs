@@ -31,11 +31,12 @@ export const factory = ({ p, cam, fg, accent, palette, K }) => {
 			D.forSurface(size / (D.unit * 40)).apply(c, "initials");
 			c.textContent = String.fromCharCode(65 + ((i * 7) % 26));
 		}
-		// A ring round the line, wider than tall, each at its own angle and distance.
+		// A ring round the line, wider than tall, each at its own angle and distance. A face comes to
+		// rest on its moment (`p.at`), 0.43 s after it starts in.
 		const ang = (i / n) * Math.PI * 2 + (hash(i * 3.9) - 0.5) * 0.5 - Math.PI / 2;
 		const rx = W * (vertical ? 0.34 : 0.36) * (0.85 + hash(i * 5.1) * 0.3);
 		const ry = H * (vertical ? 0.3 : 0.34) * (0.85 + hash(i * 2.7) * 0.3);
-		return { c, size, depth, x: W / 2 + Math.cos(ang) * rx, y: H / 2 + Math.sin(ang) * ry, at: -0.25 + i * 0.07, ph: hash(i * 9.1) * 6.28 };
+		return { c, size, depth, x: W / 2 + Math.cos(ang) * rx, y: H / 2 + Math.sin(ang) * ry, at: p.at.first + i * p.at.every - 0.43, ph: hash(i * 9.1) * 6.28 };
 	});
 	const outAt = p.dur - 0.45;
 	return (l, d) => {

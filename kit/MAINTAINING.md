@@ -42,6 +42,31 @@ To check a change that must not change a frame, render the scene alone, lightly
 (`hyperframes render source -w 2 -q draft`), before and after: one scene on two workers is the same
 file twice, a film of many scenes on eight workers is not.
 
+## When the moments of a scene happen
+
+A scene says **when** its moments happen in beats of the film and **how long**
+a move takes in seconds. The moments it sounds on (a card lands, a word
+changes, a hit) are reckoned once, and both its picture and its sounds read
+them from there, so they cannot part:
+
+- a scene with a definition of its own (`components/metadata.cjs`): in its
+  `times(scene, len, beat)`, called by its `build` and its `sounds`;
+- any other scene: in `components/scene-moments.cjs` (`MOMENTS`, or `marks`
+  for parts that land in a row), read by the scene as `p.at` / `p.marks` and
+  by its sounds in `compiler/plan.cjs` (`SOUNDS`, fourth argument).
+
+`components/beat-grid.cjs` has the three ways to say a place on the beats
+(`onBeat`, `nearBeat`, `lastBeat`). The accent of a scene goes on a whole or
+half beat; a run of small things is a fraction of a beat apart; when the
+accent is the end of a move, the end is on the beat and the move begins its
+own length before. No number that says when something happens is written
+twice, and nothing bends a scene's clock after the fact. The three `.cjs`
+files have browser twins written by `tools/sync-*.cjs`; run them after a
+change (the tests say so when a twin is stale), then
+`node kit/tools/scene-clocks.cjs --write`, and rebuild the kit's own film
+(`node source/lib/film.cjs fit` in `kit/source`, and its soundtrack) when a
+scene it uses changed.
+
 ## Legacy
 
 What the kit carries from before it was laid on music, to be cleaned before
@@ -53,19 +78,19 @@ whose own moments stand on beats then follows the music all the way through;
 one whose moments stand on seconds follows it with its first frame only.
 `tools/scene-clocks.cjs` measures it from every scene's sample at two tempos
 (by the moments the scene sounds on, not by its pixels) and
-`tools/scene-clocks.json` is the record, held by `scene-clocks.test.mjs`:
+`tools/scene-clocks.json` is the record, held by `scene-clocks.test.mjs`.
+Fifty-one scenes were moved onto beats in one pass; what is left:
 
-- on beats (30): the standard. A new scene is written so.
-- on seconds (24): `notify`, `faces`, `overlay`, `knockout`, `assemble`, `hive`, `scatter`, `pack`, `tiles`, `mosaic`, `glass-island`, `glass-ask`, `glass-steps`, `glass-checklist`, `glass-rating`, `glass-call`, `connect`, `chips`, `cards3d`, `icon3d`, `before-after-wipe`, `chart-story`, `testimonial-proof-card`, `laptop3d`.
-- mixed (40), some moments on beats and some not: `steps`, `append`, `timeline`, `chat`, `callouts`, `journey`, `shuffle`, `between`, `drag`, `arc`, `orb`, `particles`, `wave`, `agent`, `palette`, `picker`, `web`, `split`, `swarm`, `inline`, `bubbles`, `retype`, `roll`, `dot`, `pullback`, `glass-widgets`, `glass-controls`, `glass-ride`, `glass-stepper`, `glass-like`, `glass-message`, `glass-follow`, `underline`, `winner`, `tabs`, `dial`, `gather`, `thinking-orb`, `modal-morph`, `comic`.
-- on a share of its length (1): `flip`.
+- the Glass scenes (11 of 16 measured off the beat): a film may say the beat of
+  each of their actions (`timing`), and without it they run in seconds. Their
+  default has not been decided.
+- `laptop3d`: its two sounds come from frames of the hand's clip, which starts
+  with the scene; putting the wake on a beat means starting the clip later.
+- `underline` and `dot` are on beats and the measure calls them mixed: the first
+  hits another half beat at another tempo, the second leaves a phase out in a
+  short scene, so its moments are not the same count at both tempos.
 - 29 scenes sound on nothing between their first frame and their last, and the
   measure says nothing of them.
-
-To clean one: give its moments in beats of the film (`p.beatLen`), as the
-scenes on beats do, run `node kit/tools/scene-clocks.cjs --write`, and commit
-the record with the scene. A moment that is physics (a ball's fall) stays in
-seconds and its landing is put on a beat.
 
 **Scenes that draw a frame by what was drawn before it.** A render's workers
 take frames in no order. `dot` kept the plate of its last phase over its word
