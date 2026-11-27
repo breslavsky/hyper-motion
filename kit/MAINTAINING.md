@@ -95,8 +95,17 @@ Fifty-one scenes were moved onto beats in one pass; what is left:
 **Scenes that draw a frame by what was drawn before it.** A render's workers
 take frames in no order. `dot` kept the plate of its last phase over its word
 when an early frame was drawn after a late one, a white rectangle nobody saw
-while the scene was shorter than that phase. It is fixed; no test draws a
-frame after a later one and holds it against the same frame drawn first, so
-other scenes may do the same. That test comes before any scene is changed.
-`drag` is one to look at: two renders of it from the same code differ in most
-of their frames, by a little.
+while frames were drawn in order, and only in a scene short in seconds, where
+`dot` leaves a phase out. `tools/frame-order.mjs` draws every scene alone
+forward, backward and after its last frame, at the kit's tempo and at a fast
+one, at its usual length and its longest, and holds each moment to itself;
+`tools/frame-order.json` is the record of the scenes known to differ, and it
+is empty: all 124 draw the same in every order. The run needs Chrome and
+takes an hour over every scene, so no test makes it: run it over a scene that
+was changed (`--scenes`), and over all before a release.
+
+`drag` is still one to look at: two renders of it from the same code differed
+in most of their frames, by a little, and the tool finds nothing (it holds a
+picture to itself within Chrome's own noise). Nothing in its code reads a
+clock, a chance or what an earlier frame left; what is left is layout measured
+when the scene is built and the compositing of its turned, shadowed tiles.

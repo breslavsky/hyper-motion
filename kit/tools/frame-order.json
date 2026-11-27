@@ -1,0 +1,6 @@
+{
+ "_": "Scenes known to draw a moment differently after other moments (tools/frame-order.mjs). A scene leaves this list when it is fixed; none is added.",
+ "look": "noir",
+ "aspect": "16:9",
+ "scenes": {}
+}

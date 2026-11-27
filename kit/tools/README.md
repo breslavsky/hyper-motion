@@ -18,6 +18,10 @@ scope; a later source edit does not make their results current again.
 - `audit.mjs`, `sheet.mjs` and the native probes use `native-browser.mjs`
   to compile and seek the pinned native HyperFrames project. See
   `native-README.md` for commands and receipt policy.
+- `frame-order.mjs` draws every scene forward, backward and after its last
+  frame and holds each moment to itself: a render takes frames in no order.
+  `scene-clocks.cjs` measures whether a scene's sounding moments stand on the
+  film's beats. Both keep a record beside them.
 - `technique.py` searches the public technique library, creates native stubs
   and records accepted provenance. Downloaded examples in `techniques/` are
   ignored research inputs, not source files to ship.
