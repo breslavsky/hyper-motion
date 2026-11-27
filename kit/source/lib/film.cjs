@@ -652,11 +652,16 @@ const voiceFit = (film) => {
 		const span = (final ? plan.duration : plan.scenes[runs[r + 1].first].start) - start, need = voiceNeed(run, final);
 		if (span + 0.01 >= need || (unheld && unheld.some(Boolean) && !unheld[r])) return;
 		const which = run.first === run.last ? `scene ${run.first + 1}` : `scenes ${run.first + 1}-${run.last + 1}`;
-		const more = Math.ceil((need - span) / plan.beat - 1e-6);
-		const fix = lay === null
-			? `Give ${which} about ${more} more beat${more > 1 ? "s" : ""} (the kit keeps the lengths written${film.music?.lay === false ? ' with "music.lay": false' : " at this pace"}).`
-			: `${which[0].toUpperCase()}${which.slice(1)} cannot be held that long: split the paragraph into two takes on two scenes, or put a scene with no voice of its own after scene ${run.last + 1}, which carries the line on.`;
-		out.push(`scenes[${run.first}].voice is ${run.voice.seconds.toFixed(1)} s and would be heard over ${final ? "the end of the film" : `the line of scene ${runs[r + 1].first + 1}`}: ${which} last ${span.toFixed(1)} s, and the line needs ${need.toFixed(1)} s with the pause after it. ${fix}`);
+		const Which = `${which[0].toUpperCase()}${which.slice(1)}`;
+		const what = `scenes[${run.first}].voice is ${run.voice.seconds.toFixed(1)} s and would be heard over ${final ? "the end of the film" : `the line of scene ${runs[r + 1].first + 1}`}: with the pause after it the line needs ${need.toFixed(1)} s`;
+		if (lay === null) {
+			const more = Math.ceil((need - span) / plan.beat - 1e-6);
+			out.push(`${what}, and ${which} last ${span.toFixed(1)} s. Give ${which} about ${more} more beat${more > 1 ? "s" : ""} (the kit keeps the lengths written${film.music?.lay === false ? ' with "music.lay": false' : " at this pace"}).`);
+			return;
+		}
+		// The kit sets the lengths: what the writer can change is the scenes the line runs over, or the line.
+		const room = lay.room?.[r], most = room ? room.most * plan.beat : span, add = room ? Math.max(1, room.need - room.most) : Math.ceil((need - span) / plan.beat - 1e-6);
+		out.push(`${what}, and ${which} ${run.first === run.last ? "holds" : "hold"} at most ${most.toFixed(1)} s however ${run.first === run.last ? "its beats are" : "their beats are"} written (the kit sets them: changing "beats" does not help). Add about ${add} beat${add > 1 ? "s" : ""} of scenes with no voice of their own right after scene ${run.last + 1}: they carry the line on. Or record the paragraph again shorter, or as two takes on two scenes.`);
 	});
 	return out;
 };

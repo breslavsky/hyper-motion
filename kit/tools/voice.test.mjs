@@ -75,8 +75,9 @@ test('a film with no voice is laid and marked as it was', () => {
 test('a line no length of its scenes can hold is refused, and only that line is named', () => {
   const found = F.problems(voiced({0: 2, 2: 4.5, 3: 1, 5: 2}));
   assert.equal(found.length, 1);
-  assert.match(found[0], /^scenes\[2\]\.voice is 4\.5 s and would be heard over the line of scene 4: scene 3 last [\d.]+ s/);
-  assert.match(found[0], /split the paragraph into two takes on two scenes, or put a scene with no voice of its own after scene 3/);
+  assert.match(found[0], /^scenes\[2\]\.voice is 4\.5 s and would be heard over the line of scene 4: with the pause after it the line needs 5\.3 s, and scene 3 holds at most [\d.]+ s however its beats are written/);
+  // What to do, in numbers: the beats are the kit's, the scenes after the line or the line are the writer's.
+  assert.match(found[0], /changing "beats" does not help\)\. Add about \d+ beats? of scenes with no voice of their own right after scene 3: they carry the line on\. Or record the paragraph again shorter/);
   // The same line over two scenes (the next scene with no voice of its own carries it on) is heard alone.
   assert.deepEqual(F.problems(voiced({0: 2, 2: 4.5, 5: 2})), []);
 });
