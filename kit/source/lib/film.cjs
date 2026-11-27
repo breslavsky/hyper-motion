@@ -143,21 +143,93 @@ const LAY_REACH = 2, LAY_COST = 0.35;
 /** On a track a film may end this many beats from the length asked for, each costing LAY_OFF of a place's worth. */
 const LAY_SLACK = 2, LAY_OFF = 0.5;
 
-/** The film as the recipe compiler takes it: on a track of its own it plays no kit track, at that track's tempo. */
+/**
+ * The film as the recipe compiler takes it: on a track of its own it plays no kit track, at that track's
+ * tempo; a scene's voice is the soundtrack's (`summary`), not the picture's, and stays out of it.
+ */
 const recipeOf = (film, track) => {
-	if (!track) return film;
+	const scenes = Array.isArray(film.scenes) && film.scenes.some((scene) => scene && scene.voice !== undefined)
+		? film.scenes.map(({ voice: _voice, ...scene }) => scene) : film.scenes;
+	if (!track) return scenes === film.scenes ? film : { ...film, scenes };
 	const { file: _file, from: _from, lay: _lay, ...music } = film.music;
-	return { ...film, music: { ...music, track: "none", ...(track.bpm ? { bpm: track.bpm } : {}) } };
+	return { ...film, scenes, music: { ...music, track: "none", ...(track.bpm ? { bpm: track.bpm } : {}) } };
 };
 
-/** Whether a scene of a film takes a length: the film's own checks, on that scene alone at that length. */
+/** Whether a scene of a film takes a length: the film's own checks, on that scene alone at that length (its voice is the whole film's matter). */
 const takes = (film, i, beats) => {
 	const { seconds: _seconds, music, ...rest } = film;
 	const { file: _file, from: _from, lay: _lay, ...plain } = music ?? {};
+	const { voice: _voice, ...scene } = film.scenes[i];
 	try {
-		return problems({ ...rest, ...(Object.keys(plain).length ? { music: plain } : {}), scenes: [{ ...film.scenes[i], beats }] }).length === 0;
+		return problems({ ...rest, ...(Object.keys(plain).length ? { music: plain } : {}), scenes: [{ ...scene, beats }] }).length === 0;
 	} catch { return false; }
 };
+
+/*
+ * A voice-over. A scene names its take, "voice": a recording of the project by its path (generate_speech's,
+ * or the user's own), said from the moment the scene begins. The scenes after it with no voice of their own
+ * carry the same line on, so one paragraph may run over two or three scenes. The takes lead the timing: the
+ * kit makes every run of scenes as long as its line and a breath after it (`laid`), the soundtrack script lays
+ * each take where its run begins and lets the music give way (`summary`, music.py), and a film whose lines
+ * would be heard over one another is refused with what to do (`voiceFit`). Nobody cuts or mixes a voice by hand.
+ */
+/** From a run's first moment to its first word; the pause after its last word before the next line; the hold after the film's last word. */
+const VOICE_LEAD = 0.3, VOICE_BREATH = 0.5, VOICE_END = 1.0;
+const VOICE_FILE = /^(inputs|assets|media|derived)\/[\w./-]+\.(mp3|wav|m4a|aac|flac|ogg|opus)$/i;
+const soundLengths = new Map();
+/** A WAV file's length from its header, or null: read without ffprobe. */
+const wavSeconds = (file) => {
+	let head;
+	try {
+		const fd = fs.openSync(file, "r");
+		head = Buffer.alloc(65536);
+		head = head.subarray(0, fs.readSync(fd, head, 0, head.length, 0));
+		fs.closeSync(fd);
+	} catch { return null; }
+	if (head.length < 12 || head.toString("ascii", 0, 4) !== "RIFF" || head.toString("ascii", 8, 12) !== "WAVE") return null;
+	let rate = null;
+	for (let at = 12; at + 8 <= head.length;) {
+		const id = head.toString("ascii", at, at + 4), size = head.readUInt32LE(at + 4);
+		if (id === "fmt " && at + 16 <= head.length) rate = head.readUInt32LE(at + 16);
+		if (id === "data") return rate ? Math.min(size, fs.statSync(file).size - at - 8) / rate : null;
+		at += 8 + size + (size % 2);
+	}
+	return null;
+};
+/** A sound file's length in seconds, or null when it holds no sound that can be read. */
+const soundSeconds = (file) => {
+	let stat;
+	try { stat = fs.statSync(file); } catch { return null; }
+	const key = `${file}:${stat.size}:${stat.mtimeMs}`;
+	if (!soundLengths.has(key)) {
+		let seconds = wavSeconds(file);
+		if (seconds === null) {
+			try {
+				seconds = Number(require("child_process").execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", file], { encoding: "utf8", timeout: 20000, stdio: ["ignore", "pipe", "ignore"] }).trim());
+			} catch { seconds = null; }
+		}
+		soundLengths.set(key, Number.isFinite(seconds) && seconds > 0.05 ? Number(seconds.toFixed(3)) : null);
+	}
+	return soundLengths.get(key);
+};
+/** Every scene's take as {file, path, seconds}, or null: a scene with none, or with one that is not there. */
+const voicesOf = (film) => (Array.isArray(film?.scenes) ? film.scenes : []).map((scene) => {
+	const rel = scene?.voice;
+	if (typeof rel !== "string" || !VOICE_FILE.test(rel) || rel.split("/").includes("..")) return null;
+	const file = trackPath(rel), seconds = file ? soundSeconds(file) : null;
+	return seconds ? { file: rel, path: file, seconds } : null;
+});
+/** The lines as runs of scenes: a scene with a take and the scenes after it without one, which carry its line on. */
+const voiceRuns = (voices) => {
+	const runs = [];
+	voices.forEach((voice, i) => {
+		if (voice) runs.push({ first: i, last: i, voice });
+		else if (runs.length) runs.at(-1).last = i;
+	});
+	return runs;
+};
+/** How long a run must last, in seconds: its take said a little after the run begins, and a breath after it (a longer hold at the end of the film). */
+const voiceNeed = (run, final) => VOICE_LEAD + run.voice.seconds + (final ? VOICE_END : VOICE_BREATH);
 
 /**
  * The length of every scene in beats, settled by the kit: what a writer used to work out by hand,
@@ -179,7 +251,8 @@ const laid = (film, track) => {
 	if (film.music?.lay === false || (film.pace ?? "normal") !== "normal" || !Array.isArray(film.scenes) || !film.scenes.length) return null;
 	const asked = typeof film.seconds === "number" && film.seconds >= 5 && film.seconds <= 120 ? film.seconds : null;
 	const map = track?.map?.grid && track.bpm ? track.map : null;
-	if (!map && asked === null) return null;
+	const runs = voiceRuns(voicesOf(film));
+	if (!map && asked === null && !runs.length) return null;
 	const scenes = film.scenes.map(canonicalScene), wish = scenes.map((scene) => scene.beats);
 	if (!wish.every((beats) => Number.isInteger(beats) && beats >= 1)) return null;
 	const total = wish.reduce((sum, beats) => sum + beats, 0);
@@ -190,18 +263,29 @@ const laid = (film, track) => {
 		beat = plan.beat; tail = plan.duration - total * plan.beat;
 	} catch { return null; }
 	const target = asked === null ? null : Math.max(scenes.length, Math.round((asked - tail) / beat));
+	// The run of a voice-over each scene is in (-1 before the first line), and how many beats each run needs.
+	const runOf = scenes.map((_, i) => runs.findIndex((run) => run.first <= i && i <= run.last));
+	const needs = runs.map((run, r) => Math.max(1, Math.ceil((voiceNeed(run, r === runs.length - 1) - (r === runs.length - 1 ? Math.max(0, tail) : 0)) / beat - 1e-6)));
 	// A scene's lengths to choose from: its usual ones and the one written; without a length asked for, within reach of it.
+	// A scene that carries a line may grow as far as a scene may be held, as long as the line needs it.
 	const options = scenes.map((scene, i) => {
 		if (scene.timing !== undefined || scene.speed !== undefined) return [wish[i]];
 		const usual = USUAL[scene.type] ?? [Math.max(1, wish[i] - LAY_REACH), wish[i] + LAY_REACH];
 		let low = Math.max(1, Math.min(wish[i], usual[0])), high = Math.max(wish[i], usual[1]);
-		if (asked === null) { low = Math.max(low, wish[i] - LAY_REACH); high = Math.min(high, wish[i] + LAY_REACH); }
+		if (runOf[i] >= 0) high = Math.max(wish[i], USUAL[scene.type] ? usual[1] + HELD : wish[i] + needs[runOf[i]]);
+		if (asked === null) { low = Math.max(low, wish[i] - LAY_REACH); if (runOf[i] < 0) high = Math.min(high, wish[i] + LAY_REACH); }
 		// A scene has rules of its own about its length (a burst of two to four beats, a last hit a beat
 		// before the end): only the lengths it takes are chosen from. The one written always stands.
 		return Array.from({ length: high - low + 1 }, (_, n) => low + n).filter((beats) => beats === wish[i] || takes(film, i, beats));
 	});
 	const least = options.reduce((sum, choices) => sum + choices[0], 0), span = options.reduce((sum, choices) => sum + choices.at(-1), 0);
-	if (target !== null && (target < least || target > span)) return { beats: null, wish, asked, low: least, high: span, target, beat, tail };
+	// The fewest beats the voice-over leaves the film: a length asked for under it cannot be met by sharing.
+	const voiced = runs.length ? options.reduce((sum, choices, i) => sum + (runOf[i] < 0 ? choices[0] : 0), 0)
+		+ runs.reduce((sum, run, r) => sum + Math.max(needs[r], options.slice(run.first, run.last + 1).reduce((s, choices) => s + choices[0], 0)), 0) : least;
+	// What each line needs and the most its scenes can give it, in beats: a line no lengths can hold is the writer's to split.
+	const room = runs.map((run, r) => ({ need: needs[r], most: options.slice(run.first, run.last + 1).reduce((sum, choices) => sum + choices.at(-1), 0) }));
+	if (target !== null && runs.length && voiced > target + (map ? LAY_SLACK : 0)) return { beats: null, wish, asked, low: least, high: span, target, beat, tail, room, voice: Number((voiced * beat + tail).toFixed(1)) };
+	if (target !== null && (target < least || target > span)) return { beats: null, wish, asked, low: least, high: span, target, beat, tail, room };
 	// What each beat of the film is worth as the place a scene begins, and why: the strongest thing the track does there.
 	const worth = new Array(span + 1).fill(0), why = new Array(span + 1).fill(null);
 	const put = (t, value, label, after = false) => {
@@ -217,14 +301,22 @@ const laid = (film, track) => {
 		for (const hit of map.accents ?? []) if (hit.key) put(hit.t, 1 + Math.min(1, hit.strength ?? 0), "a key hit");
 		for (const [label, value, times, after] of PLACES) for (const t of times(map)) put(t, value, label, after);
 	}
-	// The best lengths: the most worth under the scenes' beginnings, less what moving them costs.
-	let best = new Map([[0, { score: 0, picks: [] }]]);
+	// The best lengths: the most worth under the scenes' beginnings, less what moving them costs. With a voice-over a
+	// state also knows how many beats its line has had so far (`since`, counted up to what the line needs): a line
+	// that has not had them may not give way to the next one, nor end the film.
+	let best = new Map([["0|0", { at: 0, since: 0, score: 0, picks: [] }]]);
 	options.forEach((choices, i) => {
-		const next = new Map();
-		for (const [at, state] of best) for (const length of choices) {
-			const end = at + length, last = i === scenes.length - 1;
-			const score = state.score - LAY_COST * Math.abs(length - wish[i]) + (last ? 0 : worth[end]);
-			if (!next.has(end) || next.get(end).score < score) next.set(end, { score, picks: [...state.picks, length] });
+		const next = new Map(), r = runOf[i], opens = r >= 0 && runs[r].first === i;
+		for (const state of best.values()) {
+			if (opens && r > 0 && state.since < needs[r - 1]) continue;
+			for (const length of choices) {
+				const end = state.at + length, last = i === scenes.length - 1;
+				const since = r < 0 ? 0 : Math.min(needs[r], (opens ? 0 : state.since) + length);
+				if (last && r >= 0 && since < needs[r]) continue;
+				const score = state.score - LAY_COST * Math.abs(length - wish[i]) + (last ? 0 : worth[end]);
+				const key = `${end}|${since}`;
+				if (!next.has(key) || next.get(key).score < score) next.set(key, { at: end, since, score, picks: [...state.picks, length] });
+			}
 		}
 		best = next;
 	});
@@ -232,9 +324,9 @@ const laid = (film, track) => {
 	// music does: a film a second longer that cuts on the drums' entry follows its music, one of the exact length
 	// that cuts beside it does not.
 	const slack = target !== null && map ? LAY_SLACK : 0;
-	const ends = [...best.entries()].filter(([end]) => target === null || Math.abs(end - target) <= slack)
+	const ends = [...best.values()].map((state) => [state.at, state]).filter(([end]) => target === null || Math.abs(end - target) <= slack)
 		.map(([end, state]) => [end, { ...state, score: state.score - (target === null ? 0 : LAY_OFF * Math.abs(end - target)) }]);
-	if (!ends.length) return { beats: null, wish, asked, low: least, high: span, target, beat, tail };
+	if (!ends.length) return { beats: null, wish, asked, low: least, high: span, target, beat, tail, room };
 	const [, found] = ends.reduce((a, b) => (b[1].score > a[1].score ? b : a));
 	const said = [];
 	let at = 0;
@@ -242,7 +334,7 @@ const laid = (film, track) => {
 		if (i && why[at]) said.push({ scene: i + 1, type: scenes[i].type, at: Number((track.from + at * beat).toFixed(2)), why: why[at] });
 		at += beats;
 	});
-	return { beats: found.picks, wish, said, asked };
+	return { beats: found.picks, wish, said, asked, room };
 };
 const compile = (film) => {
 	const track = trackOf(film), lay = laid(film, track);
@@ -256,6 +348,7 @@ const layOf = (film) => {
 	return {
 		from: track ? track.from : null,
 		asked: lay.asked,
+		voiced: voiceRuns(voicesOf(film)).length > 0,
 		changed: lay.beats.map((beats, i) => (beats === lay.wish[i] ? null : { scene: i + 1, type: canonicalScene(film.scenes[i]).type, from: lay.wish[i], to: beats })).filter(Boolean),
 		on: lay.said,
 	};
@@ -267,7 +360,7 @@ const read = (file) => JSON.parse(fs.readFileSync(file === "-" ? 0 : file, "utf8
 
 const HEX = /^#[0-9a-fA-F]{3,8}$/;
 /** What every scene may carry besides its own fields, and what a film may carry. */
-const SCENE_KEYS = ["type", "beats", "bg", "fg", "in", "look", "metalVariant", "plain", "id", "halftone", "sound", "timing"];
+const SCENE_KEYS = ["type", "beats", "bg", "fg", "in", "look", "metalVariant", "plain", "id", "halftone", "sound", "timing", "voice"];
 // The components' own four families, then the font library's (fonts/library.json, tools/font-library.mjs).
 const BUNDLED_FONTS = ["Geist", "Archivo", "Geist Mono", "Instrument Serif", ...require("./fonts/library.json").families.map((family) => family.family)];
 const SOUND_KINDS = [...new Set([...Object.values(SOUNDS.kits).flatMap(Object.keys), "hit", "whoosh", "riser"])];
@@ -440,6 +533,12 @@ const problems = (film) => {
 		// A scene held far past its usual length is a slow film: a longer film has more scenes.
 		else if (USUAL[scene.type] && scene.beats > USUAL[scene.type][1] + HELD && !authoredTiming && !(scene.type === "dial" && scene.timing?.slide)) out.push(`${where} (${scene.type}): ${scene.beats} beats is too long for it, its usual length is ${USUAL[scene.type][0]}-${USUAL[scene.type][1]}: give it at most ${USUAL[scene.type][1] + HELD} and add scenes for the rest of the time`);
 		if (scene.in !== undefined && !Object.hasOwn(transitions, scene.in)) out.push(`${where}: "in" must be one of ${Object.keys(transitions).join(", ")}`);
+		if (input.voice !== undefined) {
+			const rel = input.voice;
+			if (typeof rel !== "string" || !VOICE_FILE.test(rel) || rel.split("/").includes("..")) out.push(`${where}.voice must be a recording of the project by its path, as seen from source/: derived/generated/speech/..., inputs/..., media/... or assets/...`);
+			else if (!trackPath(rel)) out.push(`${where}.voice: there is no ${rel} in the project`);
+			else if (!soundSeconds(trackPath(rel))) out.push(`${where}.voice: ${rel} holds no sound that can be read`);
+		}
 		if (scene.look !== undefined && !Object.hasOwn(looks, scene.look)) out.push(`${where}: "look" must be one of the styles`);
 		if (scene.metalVariant !== undefined) {
 			if (!metalVariants.includes(scene.metalVariant)) out.push(`${where}.metalVariant must be one of ${metalVariants.join(', ')}`);
@@ -504,6 +603,15 @@ const problems = (film) => {
 			// The kit shares the film's beats out among its scenes itself (`laid`): only scenes that cannot be
 			// that long, however they are shared, are the writer's to change.
 			const lay = laid(film, trackOf(film));
+			if (lay && !lay.beats && lay.voice) {
+				const words = Math.max(1, Math.round((lay.voice - film.seconds) * 2.5));
+				out.push(`the voice-over needs about ${lay.voice} s and "seconds" asks for ${film.seconds}: the lines lead the timing, so shorten the narration (about ${words} words fewer, at some 2.5 words a second) and record it again, or leave "seconds" out and let the voice set the length`);
+				return out;
+			}
+			if (lay && !lay.beats && voiceRuns(voicesOf(film)).length) {
+				const heard = voiceFit(film);
+				if (heard.length) return [...out, ...heard];
+			}
 			if (lay && !lay.beats) {
 				const few = lay.target < lay.low, by = Math.max(1, Math.round(Math.abs(lay.target - (few ? lay.low : lay.high)) / 5));
 				out.push(`"seconds" asks for ${film.seconds} and these ${film.scenes.length} scenes run ${(lay.low * lay.beat + lay.tail).toFixed(1)} to ${(lay.high * lay.beat + lay.tail).toFixed(1)} s at their usual lengths: ${few ? `take out about ${by} scene${by > 1 ? "s" : ""}` : `add about ${by} scene${by > 1 ? "s" : ""}`}. Leave the beats as they are: the kit shares them out.`);
@@ -524,6 +632,32 @@ const problems = (film) => {
 		const { beats: _a, ...one } = film.scenes[n - 1] ?? {}, { beats: _b, ...other } = scene ?? {};
 		if (n && JSON.stringify(one) === JSON.stringify(other)) out.push(`scenes[${n - 1}] and scenes[${n}] (${scene.type}) are the same scene written twice: take one out, or say something else in it`);
 	});
+	if (!out.length) out.push(...voiceFit(film));
+	return out;
+};
+
+/**
+ * Whether every line of the voice-over is heard alone: from the moment its run of scenes begins, it has its take
+ * and a breath before the next line (and a hold before the end of the film). What is wrong is said with what to do.
+ */
+const voiceFit = (film) => {
+	const runs = voiceRuns(voicesOf(film));
+	if (!runs.length) return [];
+	const plan = compile(film), lay = laid(film, trackOf(film)), out = [];
+	// When the kit could not lay the film, only the lines its scenes cannot hold at any length are named.
+	const unheld = lay && !lay.beats && lay.room ? lay.room.map((room) => room.most < room.need) : null;
+	runs.forEach((run, r) => {
+		const final = r === runs.length - 1;
+		const start = plan.scenes[run.first].start;
+		const span = (final ? plan.duration : plan.scenes[runs[r + 1].first].start) - start, need = voiceNeed(run, final);
+		if (span + 0.01 >= need || (unheld && unheld.some(Boolean) && !unheld[r])) return;
+		const which = run.first === run.last ? `scene ${run.first + 1}` : `scenes ${run.first + 1}-${run.last + 1}`;
+		const more = Math.ceil((need - span) / plan.beat - 1e-6);
+		const fix = lay === null
+			? `Give ${which} about ${more} more beat${more > 1 ? "s" : ""} (the kit keeps the lengths written${film.music?.lay === false ? ' with "music.lay": false' : " at this pace"}).`
+			: `${which[0].toUpperCase()}${which.slice(1)} cannot be held that long: split the paragraph into two takes on two scenes, or put a scene with no voice of its own after scene ${run.last + 1}, which carries the line on.`;
+		out.push(`scenes[${run.first}].voice is ${run.voice.seconds.toFixed(1)} s and would be heard over ${final ? "the end of the film" : `the line of scene ${runs[r + 1].first + 1}`}: ${which} last ${span.toFixed(1)} s, and the line needs ${need.toFixed(1)} s with the pause after it. ${fix}`);
+	});
 	return out;
 };
 
@@ -541,7 +675,7 @@ for (const [type, def] of Object.entries(OWN)) {
 	if (def.typeOnly) TYPE_ONLY.add(type);
 }
 const BUZZWORD = /\b(revolutionary|seamless(ly)?|leverage|unlock|supercharge|game[- ]?changer|cutting[- ]edge|next[- ]level|synerg\w*|empower\w*|world[- ]class|best[- ]in[- ]class|robust)\b/i;
-const NOT_WORDS = /^(type|bg|fg|in|look|place|metalVariant|image|images|video|videos|path|tiles|mark|pill|kind|variant|shapes|axis|id|ease|sel|html|css)$/;
+const NOT_WORDS = /^(type|bg|fg|in|look|place|metalVariant|image|images|video|videos|path|tiles|mark|pill|kind|variant|shapes|axis|id|ease|sel|html|css|voice)$/;
 
 /** Every text of a scene a viewer reads. */
 const wordsOf = (scene) => {
@@ -604,8 +738,8 @@ const review = (film, plan) => ({
 	requestedSeconds: film.seconds ?? null,
 	bpm: plan.bpm,
 	font: film.brand?.font ?? "look default",
-	scenes: plan.scenes.map(p => {
-		const palette = p.palette ?? plan.palette;
+	scenes: plan.scenes.map((p, i) => {
+		const palette = p.palette ?? plan.palette, voice = voicesOf(film)[i];
 		const explicit = p.scene.fg !== undefined || film.brand?.tokens?.foreground !== undefined;
 		const foreground = surfaceForeground("sky", p.bg, palette, p.fg, { explicit });
 		const surface = CATALOG[p.scene.type]?.surface ?? (p.bg === "sky" ? "sky" : null);
@@ -619,6 +753,7 @@ const review = (film, plan) => ({
 			...(p.scene.type === "endcard" ? { settledHoldSeconds: Number(Math.max(0, p.dur - 1.25 / p.speed).toFixed(3)) } : {}),
 			...(p.scene.timing ? { timing: p.scene.timing } : {}),
 			...(p.scene.speed !== undefined ? { speed: p.scene.speed } : {}),
+			...(voice ? { voice: voice.file, voiceSeconds: voice.seconds } : {}),
 		};
 	}),
 	notes: notes(film),
@@ -686,9 +821,16 @@ const soundMark = (film, plan) => {
 		...trackMark(film),
 		cues: events.map(c => [Number(c.t.toFixed(6)), c.kind, c.strength ?? 1, c.gain ?? 1, c.kit ?? kitOf(film), c.scene ?? null]),
 		endcard: end ? { start: end.start, sound: end.scene.sound ?? {} } : null,
+		// A voice-over: every take as it is now and where it is said; a film with none keeps the mark it had.
+		...(voiceLines(film, plan).length ? { voice: voiceLines(film, plan).map((line) => [line.file, fileSize(line.path), line.seconds, line.at]) } : {}),
 	};
 	return crypto.createHash("sha1").update(JSON.stringify(made)).digest("hex").slice(0, 16);
 };
+
+/** The lines of a voice-over as the soundtrack lays them: {scene, file, path, seconds, at}, `at` the moment its first word may come. */
+const voiceLines = (film, plan) => voicesOf(film).flatMap((voice, i) => (voice && plan.scenes[i]
+	? [{ scene: i, file: voice.file, path: voice.path, seconds: voice.seconds, at: Number((plan.scenes[i].start + VOICE_LEAD).toFixed(3)) }] : []));
+const fileSize = (file) => { try { return fs.statSync(file).size; } catch { return null; } };
 
 /** What the music script needs of a plan. */
 const summary = (film, plan) => ({
@@ -705,6 +847,8 @@ const summary = (film, plan) => ({
 	volume: film.music?.volume ?? 0.9,
 	scenes: plan.scenes.map((s) => ({ type: s.scene.type, start: s.start, dur: s.dur, ...(s.scene.sound ? { sound: s.scene.sound } : {}) })),
 	cues: plan.audioEvents ?? plan.cues,
+	// The takes of a voice-over, each where its scene begins: music.py lays them on a bus of their own.
+	voice: voiceLines(film, plan).map(({ scene, path: file, seconds, at }) => ({ scene, file, seconds, at })),
 });
 
 const cut = (text, max) => {
@@ -1040,9 +1184,11 @@ if (require.main === module) {
 			// Said so that nobody wonders why a scene is not the length written, and nobody shares beats out by hand.
 			const moved = lay.changed.map((c) => `scene ${c.scene} (${c.type}) ${c.from} -> ${c.to} beats`).join(", ");
 			const on = lay.on.map((o) => `scene ${o.scene} (${o.type}) at ${o.at} s: ${o.why}`).join("; ");
-			const what = [lay.asked !== null ? `fitted to ${lay.asked} s` : null, lay.from !== null ? `laid on the track from ${lay.from} s` : null].filter(Boolean).join(" and ");
+			const what = [lay.voiced ? "each line of the voice-over heard alone" : null, lay.asked !== null ? `fitted to ${lay.asked} s` : null, lay.from !== null ? `laid on the track from ${lay.from} s` : null].filter(Boolean).join(" and ");
 			console.log(`The kit set the scenes' lengths (${what}): ${moved || "every scene keeps the length written"}.${on ? ` Scenes begin where the track does something: ${on}.` : ""} Write the beats a scene needs and leave the sharing out to it; "music.lay": false keeps the lengths as written.`);
 		}
+		const lines = voiceLines(film, plan);
+		if (lines.length) console.log(`The voice-over: ${lines.length} line${lines.length > 1 ? "s" : ""}, each said where its scene begins, the last heard to ${(lines.at(-1).at + lines.at(-1).seconds).toFixed(1)} s of ${plan.duration.toFixed(1)} s. Now run harness audio source/music.py: it lays every take and lets the music give way.`);
 		console.log(`Review against the request (resolved recipe, not a visual inspection):\n${JSON.stringify(review(film, plan))}`);
 	} else {
 		console.error("usage: node lib/film.cjs fit | plan | check | review | book [film.json], or palette <picture>");

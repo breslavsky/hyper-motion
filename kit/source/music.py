@@ -11,9 +11,11 @@ harness audio source/music.py
 Tracks: `pulse` four on the floor with bright chords, `bounce` half-time with an 808, `drive`
 fast with an arpeggio, `air` calm plucks, `space` a drone with a ticking clock, `none` the sounds
 of the picture alone. A film that names a file of its own (`music.file`: the user's track, or one a
-tool made) plays that instead, from the beat its plan starts on.
+tool made) plays that instead, from the beat its plan starts on. A film with a voice-over (scenes with
+"voice") has every take laid where its scene begins, the music lowered under it.
 """
 
+import hashlib
 import json
 import math
 import subprocess
@@ -188,8 +190,25 @@ logo = played(logo_kind, 0, 1, end_sound.get("kit")) if end and logo_kind and no
 if logo:
     track.add(logo[0], at=end["start"], sync=logo[2], bus="fx", gain_db=logo[1] + 20 * math.log10(end_sound.get("gain", 1)))
 
+# The voice-over: every take where its scene begins (`voice` of the plan: the kit has made each run of scenes as
+# long as its line), on a bus of its own. The music gives way under it and the sounds of the picture a little,
+# so no word is covered. A take is any sound file: ffmpeg reads it.
+for line in plan.get("voice", []):
+    said = subprocess.run(
+        ["ffmpeg", "-v", "error", "-i", line["file"], "-vn", "-ac", "2", "-ar", "48000", "-f", "f32le", "-"],
+        capture_output=True, check=True,
+    ).stdout
+    track.add(np.frombuffer(said, np.float32).reshape(-1, 2).T.copy(), at=line["at"], bus="voice")
+if plan.get("voice"):
+    for name in ("music", "drums", "bass", "keys", "drone", "hits"):
+        track.duck(name, by="voice", depth_db=-10, release=0.4)
+    track.duck("fx", by="voice", depth_db=-4, release=0.25)
+
 OUT.parent.mkdir(parents=True, exist_ok=True)
 # The sounds of the picture alone keep their own level: brought up to -14 LUFS they would be loud clicks.
-track.mix(str(OUT), lufs=-14 if music else None, fade_out=0.25)
-# Which film this soundtrack was made for: the template's checks hold the film to it.
-OUT.with_suffix(".json").write_text(json.dumps({"film": plan["mark"]}) + "\n", encoding="utf-8")
+# A voice-over is brought to it, as every voice of the platform is.
+track.mix(str(OUT), lufs=-14 if music or plan.get("voice") else None, fade_out=0.25)
+# Which film this soundtrack was made for, and the file as it was made: the template's checks hold the film to
+# the one and the track to the other (a voice mixed into it by hand is not this script's soundtrack).
+made = {"film": plan["mark"], "sha256": hashlib.sha256(OUT.read_bytes()).hexdigest()}
+OUT.with_suffix(".json").write_text(json.dumps(made) + "\n", encoding="utf-8")

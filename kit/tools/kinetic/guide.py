@@ -197,6 +197,33 @@ files. Ask a question only when the message gives nothing to make a film
 about. A successful publish proves the film runs; the review above checks
 that it is the film the user requested.
 
+### Voice-over
+
+When the user asks for a voice, a narration or a film said aloud, the film
+gets one. The voice is made only with `generate_speech`, never with a
+program of the machine (`say`, `espeak`), and never mixed into the track by
+hand: the kit lays it.
+
+1. Publish the film without the voice first (the whole job above). Then
+   write the narration in the language the user asked for: one short
+   paragraph for a scene, about 2.5 words for each second the scene should
+   last, said aloud and not the words on screen read again. A film of a
+   minute holds about 150 words. The price of the takes goes by harness
+   rule 9.
+2. Record it by the `speech-recording` skill: one take a paragraph, one
+   voice for the whole film.
+3. Write each take into its scene, by its path as `generate_speech` saved it,
+   seen from `source/`: `"voice": "derived/generated/speech/<file>.m4a"`.
+   A scene with no `voice` after one with a voice carries that line on, so a
+   long paragraph runs over two or three scenes. A scene before the first
+   line is silent. Leave `beats` as they are.
+4. Run the same one command. `fit` makes every scene as long as its line
+   and a breath after it, and stops with what to do when a line is too long
+   for its scenes or for the `seconds` asked; `harness audio` lays every
+   take where its scene begins and lowers the music under it.
+
+A recording of the user's own voice is written into its scene the same way.
+
 ### Workspace workflow
 
 - Do not run `hyperframes preview`, `play`, `present`, `publish`, `cloud`,
@@ -400,6 +427,8 @@ Edit `film.json` and run the same one command again:
 - **Language**: write every text in the user's language.
 - **Music**: `music.track`, `music.file` for a track of their own, or `"none"` for the sounds of the picture alone;
   `music.kit` for other sounds on the picture.
+- **Voice-over**: a paragraph changed is recorded again and its scene's `voice` names the new take; a line
+  taken out is a `voice` taken out (see "Voice-over").
 - **Export**: `harness export`; `--quality draft` for a quick look,
   `--resolution 4k` for 4K.
 '''
