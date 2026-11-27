@@ -24,7 +24,8 @@ const themes = readThemePreviews(catalog, settings);
 fs.rmSync(generated, {recursive: true, force: true});
 fs.mkdirSync(generated, {recursive: true}); fs.mkdirSync(output, {recursive: true});
 // The Controls validator and preview runtime must use the same selected kit.
-fs.copyFileSync(path.join(source, 'lib/components/metadata.mjs'), path.join(generated, 'metadata.mjs'));
+// The definitions, and the one module they take a thing from: where a moment stands on the beats.
+for (const name of ['metadata.mjs', 'beat-grid.mjs']) fs.copyFileSync(path.join(source, 'lib/components', name), path.join(generated, name));
 // The library's own icon: the browser tab's and the sidebar's.
 for (const name of ['favicon.svg', 'icon.svg']) fs.copyFileSync(path.join(here, 'src/icon.svg'), path.join(here, 'public', name));
 fs.rmSync(path.join(output, 'lib'), {recursive: true, force: true});
